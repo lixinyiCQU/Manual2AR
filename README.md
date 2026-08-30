@@ -114,8 +114,9 @@ validation must be recorded separately.
 ## Data and credentials
 
 API keys, virtual environments, model checkpoints, Unity caches, raw runtime
-captures, and generated outputs are excluded from Git. Data collection and
-evaluation-split rules are documented in `data/README.md`.
+captures, and generated outputs are excluded from Git. Reviewed task-profile
+reference images required at runtime remain under `examples/`. Data collection
+and evaluation-split rules are documented in `data/README.md`.
 
 ## Third-party software
 

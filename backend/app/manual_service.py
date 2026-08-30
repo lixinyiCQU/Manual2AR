@@ -59,11 +59,11 @@ from .vision_client import VisionClient
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OVERVIEW_HOLDER_EXEMPLAR_PATH = (
-    BACKEND_ROOT
-    / "output"
-    / "latest_slot4_raw_verification_after_fix"
-    / "67f2911e5d3e7b16c007d7e5d47240a5_raw_raw_20260826T134133Z"
-    / "67f2911e5d3e7b16c007d7e5d47240a5_raw_raw_raw.jpg"
+    PROJECT_ROOT
+    / "examples"
+    / "bambu_a1_mini_ams_lite_v1"
+    / "reference"
+    / "ams_lite_slot4_holder_exemplar.jpg"
 )
 # Manual task-profile annotations in the exemplar image.  They are reference
 # coordinates, never screen ROIs in a live frame.  RANSAC must prove their
