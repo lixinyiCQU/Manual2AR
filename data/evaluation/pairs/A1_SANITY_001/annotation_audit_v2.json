@@ -1,0 +1,12 @@
+{
+  "sample_id": "A1_SANITY_001",
+  "audit_type": "post_result_annotation_quality_review",
+  "formal_task_dataset": false,
+  "original_coarse_bbox_after_0_1000": [190, 640, 315, 770],
+  "refined_target_bbox_after_0_1000": [226, 657, 299, 737],
+  "model_bbox_after_0_1000": [228, 655, 303, 733],
+  "original_reported_iou": 0.36,
+  "audited_iou": 0.8573244359707658,
+  "audit_method": "Restricted the AFTER image to the predefined build-plate target region, thresholded saturated orange pixels in HSV, and selected the largest connected component; the resulting component was visually checked against the intended orange printed part.",
+  "integrity_note": "This refinement was performed after inspecting the model result. The original coarse annotation and original IoU remain preserved. The audited IoU is diagnostic only and must not be reported as a preregistered or blinded test result."
+}

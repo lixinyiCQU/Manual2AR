@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manual2AR · Empty Spool Holder Grounding</title>
+  <style>
+    :root { --navy:#102b4b; --cyan:#16d7e9; --green:#29b777; --yellow:#e7a31a; --red:#c84646; --ink:#16314b; --paper:#f3f8fb; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    header { background:var(--navy); color:#fff; padding:22px clamp(20px,4vw,52px); }
+    h1 { font-size:clamp(22px,3vw,34px); margin:0 0 6px; font-weight:700; }
+    header p { margin:0; color:#bfeeff; }
+    main { max-width:1100px; margin:0 auto; padding:22px; display:grid; gap:16px; }
+    .panel { background:#fff; border-radius:16px; box-shadow:0 5px 18px #18334a18; padding:18px; }
+    .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:end; }
+    label { display:grid; gap:6px; font-weight:650; font-size:14px; }
+    select, button { border-radius:10px; border:0; font:inherit; padding:12px 14px; min-height:44px; }
+    select { border:1px solid #cbd8e2; background:#fff; color:var(--ink); }
+    button { color:#fff; background:#1676b7; font-weight:700; cursor:pointer; }
+    button:hover:not(:disabled) { filter:brightness(1.05); }
+    button.secondary { background:#597083; }
+    button.green { background:#1c936d; }
+    button.warning { background:#bd7d16; }
+    button:disabled { opacity:.46; cursor:not-allowed; }
+    .help { margin:12px 0 0; line-height:1.5; color:#52687a; }
+    #stage { position:relative; width:min(100%, 760px); margin:auto; background:#08121c; overflow:hidden; border-radius:16px; aspect-ratio:3 / 4; }
+    #camera, #overlay { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+    #camera { background:#08121c; }
+    #overlay { pointer-events:none; }
+    .status { min-height:49px; border-radius:10px; padding:13px 15px; background:#e8f4fb; color:#15577b; line-height:1.4; }
+    .status.good { background:#e7f8ef; color:#15714f; }
+    .status.warn { background:#fff5df; color:#90600a; }
+    .status.bad { background:#feebeb; color:#9a2c2c; }
+    .legend { display:flex; flex-wrap:wrap; gap:14px; margin:0; padding:0; list-style:none; color:#52687a; font-size:13px; }
+    .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; }
+    .cyan { background:var(--cyan); }.green { background:var(--green);}.yellow { background:var(--yellow);}
+    code { background:#edf3f7; padding:2px 5px; border-radius:4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Empty Spool Holder · Automatic Grounding</h1>
+    <p>Qwen semantic grounding → SAM2 visible-surface mask → SAM2/LK tracking → paper-style arrow and label.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <div class="controls">
+        <label>Target slot
+          <select id="slot"><option value="4" selected>Slot 4 · upper right</option><option value="3">Slot 3 · lower right</option><option value="1">Slot 1 · upper left</option><option value="2">Slot 2 · lower left</option></select>
+        </label>
+        <button id="startCamera">Start camera and auto-ground</button>
+        <button id="autoLocate" class="green" disabled>Retry current-frame grounding</button>
+        <button id="stopGrounding" class="secondary" disabled>Stop</button>
+        <button id="saveFrame" class="secondary" disabled>Save screenshot</button>
+      </div>
+      <p class="help"><strong>Automatic route:</strong> choose the empty slot and start the camera. Qwen + SAM2 locks the empty holder once, then the mask is tracked frame-by-frame. If tracking fails, the overlay is cleared and the page re-runs grounding.</p>
+    </section>
+
+    <section id="stage" aria-label="live camera and automatic grounding overlay">
+      <video id="camera" autoplay muted playsinline></video>
+      <canvas id="overlay"></canvas>
+    </section>
+
+    <section class="panel">
+      <div id="status" class="status">Choose an empty slot, then start the camera. The system will lock the holder automatically.</div>
+      <p class="help">Shown on a valid frame: <strong>SLOT N · EMPTY HOLDER LOCKED</strong> · <strong>MOUNT SPOOL</strong> · <strong>RIGHT TO LEFT</strong>. This is visible-surface grounding for screenshots, not hidden-surface 3D reconstruction.</p>
+      <ul class="legend"><li><span class="dot cyan"></span>current operation target</li><li><span class="dot green"></span>mask quality passed</li><li><span class="dot yellow"></span>no valid current-frame mask</li></ul>
+    </section>
+  </main>
+
+<script>
+(() => {
+  const stage = document.querySelector('#stage');
+  const video = document.querySelector('#camera');
+  const canvas = document.querySelector('#overlay');
+  const ctx = canvas.getContext('2d');
+  const frameCanvas = document.createElement('canvas');
+  const slotSelect = document.querySelector('#slot');
+  const startCameraButton = document.querySelector('#startCamera');
+  const autoLocateButton = document.querySelector('#autoLocate');
+  const stopButton = document.querySelector('#stopGrounding');
+  const saveButton = document.querySelector('#saveFrame');
+  const statusBox = document.querySelector('#status');
+  // This page is for paper/demo capture. Qwen+SAM2 initializes the mask once;
+  // the cheaper tracking endpoint then updates it continuously.
+  const trackingIntervalMs = 420;
+  const relocalizeDelayMs = 900;
+  let stream = null, running = false, requestInFlight = false;
+  let latestTracked = null, loopTimer = null, sessionId = null;
+
+  function setStatus(message, kind = '') { statusBox.textContent = message; statusBox.className = `status ${kind}`; }
+  function fitCanvas() {
+    if (!video.videoWidth || !video.videoHeight) return;
+    if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) { canvas.width = video.videoWidth; canvas.height = video.videoHeight; }
+    // Keep browser pointer coordinates and tracker coordinates on the same
+    // camera image plane, with no letterboxing between video and canvas.
+    stage.style.aspectRatio = `${video.videoWidth} / ${video.videoHeight}`;
+  }
+  function boxPixels(box) { return { x:box[0] * canvas.width / 1000, y:box[1] * canvas.height / 1000, w:(box[2]-box[0]) * canvas.width / 1000, h:(box[3]-box[1]) * canvas.height / 1000 }; }
+  function captureFrame() {
+    frameCanvas.width = video.videoWidth; frameCanvas.height = video.videoHeight;
+    frameCanvas.getContext('2d').drawImage(video, 0, 0, frameCanvas.width, frameCanvas.height);
+    return frameCanvas.toDataURL('image/jpeg', .86).split(',')[1];
+  }
+  function drawLabel(text, x, y, color = '#16d7e9') {
+    ctx.save(); ctx.font = `600 ${Math.max(18, canvas.width * .027)}px -apple-system, BlinkMacSystemFont, sans-serif`; ctx.textAlign = 'center';
+    const padding=10, width=ctx.measureText(text).width + padding*2, height=36;
+    ctx.fillStyle = '#071d30cc'; ctx.fillRect(x-width/2,y-height/2,width,height); ctx.fillStyle=color; ctx.fillText(text,x,y+7); ctx.restore();
+  }
+  function drawArrowAndInstruction(tracked) {
+    const box = boxPixels(tracked.bbox_0_1000);
+    const targetX = box.x + box.w * .55, targetY = box.y + box.h * .5;
+    const fromX = Math.min(canvas.width - 36, targetX + Math.max(box.w, canvas.width*.18));
+    const fromY = targetY;
+    ctx.save(); ctx.strokeStyle='#16d7e9'; ctx.fillStyle='#16d7e9'; ctx.lineWidth=Math.max(12,canvas.width*.018); ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(fromX,fromY);ctx.lineTo(targetX, targetY);ctx.stroke();
+    const head=Math.max(28, canvas.width*.035);
+    const angle=Math.atan2(targetY-fromY,targetX-fromX); ctx.beginPath();ctx.moveTo(targetX,targetY);ctx.lineTo(targetX-head*Math.cos(angle-.55),targetY-head*Math.sin(angle-.55));ctx.lineTo(targetX-head*Math.cos(angle+.55),targetY-head*Math.sin(angle+.55));ctx.closePath();ctx.fill();ctx.restore();
+    drawLabel('MOUNT SPOOL  ←  RIGHT TO LEFT', canvas.width*.5, canvas.height*.76);
+    drawLabel(`SLOT ${slotSelect.value} · EMPTY HOLDER LOCKED`, canvas.width*.5, canvas.height*.83, '#eaffff');
+  }
+  async function drawTrackedOverlay(tracked) {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if (!tracked || tracked.status !== 'tracking' || !tracked.mask_quality_passed || tracked.quality < .45 || !tracked.overlay_png_base64) return;
+    const image = new Image();
+    await new Promise((resolve,reject) => { image.onload=resolve; image.onerror=reject; image.src=`data:image/png;base64,${tracked.overlay_png_base64}`; });
+    // The tracker PNG is an opaque cyan mask.  Render it translucently so the
+    // physical holder remains visible underneath, as required for guidance.
+    ctx.save(); ctx.globalAlpha=.72; ctx.drawImage(image,0,0,canvas.width,canvas.height); ctx.restore();
+    drawArrowAndInstruction(tracked);
+  }
+  function drawNoCurrentMask(reason = 'NO VALID CURRENT MASK') {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawLabel(reason, canvas.width*.5, canvas.height*.52, '#e7a31a');
+    drawLabel('RE-ALIGN EMPTY HOLDER AND WAIT', canvas.width*.5, canvas.height*.59, '#e7a31a');
+  }
+
+  function trackedIsUsable(tracked, minQuality = .45) {
+    return Boolean(
+      tracked &&
+      tracked.status === 'tracking' &&
+      tracked.mask_quality_passed &&
+      tracked.quality >= minQuality &&
+      tracked.overlay_png_base64
+    );
+  }
+
+  async function closeSession() {
+    if (!sessionId) return;
+    const oldSessionId = sessionId;
+    sessionId = null;
+    try { await fetch(`/api/tracking/sessions/${oldSessionId}`, { method:'DELETE' }); } catch (_) {}
+  }
+
+  async function locateCurrentFrame() {
+    if (!video.videoWidth) return;
+    if (requestInFlight) return;
+    requestInFlight = true;
+    autoLocateButton.disabled = true;
+    await closeSession();
+    setStatus(`Initializing Qwen + SAM2 mask for Slot ${slotSelect.value}…`);
+    const payload = { image_base64:captureFrame(), preferred_slot_id:Number(slotSelect.value) };
+    try {
+      const response = await fetch('/api/ams-lite/empty-spool-axle/locate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      const data=await response.json(); if (!response.ok) throw new Error(data.detail || 'could not run current-frame grounding');
+      const tracked = data.tracked || data;
+      const safe = data.tracking_ready && data.session_id && trackedIsUsable(tracked, .58);
+      if (!safe) {
+        if (data.session_id) {
+          try { await fetch(`/api/tracking/sessions/${data.session_id}`,{method:'DELETE'}); } catch (_) {}
+        }
+        latestTracked = null;
+        drawNoCurrentMask(data.error || 'NO VALID CURRENT MASK');
+        saveButton.disabled = true;
+        setStatus(`No current-frame mask: ${data.error || 'quality gate failed'}. Move closer to the selected empty white holder and keep the slot number visible.`, 'warn');
+        return;
+      }
+      sessionId = data.session_id;
+      latestTracked=data.tracked; await drawTrackedOverlay(latestTracked);
+      stopButton.disabled=false; saveButton.disabled=false;
+      slotSelect.disabled=true;
+      setStatus(`Slot ${slotSelect.value} locked · tracking active · quality ${(latestTracked.quality*100).toFixed(0)}%. Move the camera slowly; the mask should follow the same holder.`, 'good');
+    } catch (error) {
+      latestTracked = null;
+      drawNoCurrentMask('NO VALID CURRENT MASK');
+      saveButton.disabled = true;
+      setStatus(`Qwen + SAM2 initialization failed: ${error.message}. The overlay was cleared; keep Slot ${slotSelect.value} visible and wait for relocalization.`, 'bad');
+    } finally {
+      requestInFlight = false;
+      autoLocateButton.disabled = !stream || !running;
+      if (running) scheduleTrackingFrame();
+    }
+  }
+
+  async function updateTrackingFrame() {
+    if (!video.videoWidth || !running) return;
+    if (!sessionId) {
+      await locateCurrentFrame();
+      return;
+    }
+    if (requestInFlight) return;
+    requestInFlight = true;
+    try {
+      const response = await fetch(`/api/tracking/sessions/${sessionId}/frames`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ image_base64:captureFrame() })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.detail || 'tracking update failed');
+      const tracked = data.tracked || data;
+      if (!trackedIsUsable(tracked, .45) || tracked.requires_redetection) {
+        latestTracked = null;
+        drawNoCurrentMask('TRACKING LOST');
+        saveButton.disabled = true;
+        await closeSession();
+        setStatus(`Tracking lost or failed quality gate. Re-running Qwen + SAM2 on the current view…`, 'warn');
+        if (running) loopTimer = setTimeout(locateCurrentFrame, relocalizeDelayMs);
+        return;
+      }
+      latestTracked = tracked;
+      await drawTrackedOverlay(latestTracked);
+      saveButton.disabled = false;
+      setStatus(`Tracking Slot ${slotSelect.value} · quality ${(latestTracked.quality*100).toFixed(0)}% · drift ${(latestTracked.drift_ratio*100).toFixed(1)}%.`, 'good');
+    } catch (error) {
+      latestTracked = null;
+      drawNoCurrentMask('TRACKING ERROR');
+      saveButton.disabled = true;
+      await closeSession();
+      setStatus(`Tracking update failed: ${error.message}. Re-running Qwen + SAM2…`, 'warn');
+      if (running) loopTimer = setTimeout(locateCurrentFrame, relocalizeDelayMs);
+      return;
+    } finally {
+      requestInFlight = false;
+      if (running && sessionId) scheduleTrackingFrame();
+    }
+  }
+
+  function scheduleTrackingFrame() { clearTimeout(loopTimer); loopTimer=setTimeout(updateTrackingFrame,trackingIntervalMs); }
+  async function stopGrounding() { clearTimeout(loopTimer); running=false; await closeSession(); latestTracked=null; ctx.clearRect(0,0,canvas.width,canvas.height); stopButton.disabled=true; saveButton.disabled=true; autoLocateButton.disabled=!stream; slotSelect.disabled=false; setStatus('Automatic grounding stopped. Choose an empty slot and restart when ready.'); }
+  startCameraButton.addEventListener('click', async () => { try { stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:960}},audio:false}); video.srcObject=stream; await video.play(); fitCanvas(); autoLocateButton.disabled=false; startCameraButton.disabled=true; stopButton.disabled=false; running=true; await new Promise(resolve => requestAnimationFrame(resolve)); await locateCurrentFrame(); } catch(error) { setStatus(`Camera permission failed: ${error.message}`, 'bad'); } });
+  autoLocateButton.addEventListener('click',()=>locateCurrentFrame());
+  stopButton.addEventListener('click',stopGrounding);
+  saveButton.addEventListener('click',()=>{ if(!video.videoWidth) return; const out=document.createElement('canvas');out.width=video.videoWidth;out.height=video.videoHeight; const o=out.getContext('2d');o.drawImage(video,0,0);o.drawImage(canvas,0,0);const link=document.createElement('a');link.download=`manual2ar-slot-${slotSelect.value}-auto-grounding.png`;link.href=out.toDataURL('image/png');link.click(); });
+  window.addEventListener('resize',fitCanvas);
+})();
+</script>
+</body>
+</html>

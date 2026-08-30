@@ -1,0 +1,133 @@
+{
+  "schema_version": "0.9",
+  "device": {
+    "device_id": "bambu_a1_mini_ams_lite",
+    "name": "Bambu Lab A1 mini + AMS Lite",
+    "role": "manual_defined_equipment",
+    "future_target_device": null
+  },
+  "task": {
+    "task_id": "ams_lite_load_spool_slot1_v1",
+    "manual_id": "bambu_wiki_a1_mini_first_print_ams_lite_2026",
+    "initial_state": "S0",
+    "terminal_states": ["S3"],
+    "task_type": "load_spool",
+    "parameters": {"selected_slot_id": 1, "required_material": null}
+  },
+  "states": [
+    {
+      "state_id": "S0",
+      "step_index": 0,
+      "state_type": "initial_state",
+      "instruction": "先不要操作；让AMS Lite的数字1、1号空料盘轴和1号送料口清晰入镜，并确认设备空闲",
+      "preconditions": ["打印机未在打印、加热或自动运动"],
+      "postconditions": ["AMS Lite 1号槽料盘轴为空，1号送料口没有耗材，数字1与空轴清晰可见"],
+      "wrong_states": [
+        "打印机正在打印、加热或自动运动",
+        "1号槽已有料盘、已被占用或是否可用无法确认",
+        "实验室尚未授权操作"
+      ],
+      "target_components": ["target:AMS Lite 1号槽空料盘轴", "target:AMS Lite 1号送料口"],
+      "warnings": ["任何一项无法确认都停止；不要拔PTFE管，也不要直接拉出现有耗材"],
+      "manual_provenance": {
+        "page": 1,
+        "section": "A1 mini初次打印指南（使用AMS Lite）- 打印准备",
+        "source_text": "根据耗材绕线方向安装料盘；耗材应从下方插入上下料嘴。"
+      },
+      "verification": "1号槽空轴和空送料口清晰可见，设备空闲且获准使用",
+      "next_on_success": "S1",
+      "observation_nodes": [
+        {
+          "inspection_id": "S0-C1",
+          "condition": "AMS Lite 1号槽料盘轴为空，1号送料口没有耗材，数字1与空轴清晰可见",
+          "component_ids": ["target:AMS Lite 1号槽空料盘轴", "target:AMS Lite 1号送料口"],
+          "viewpoint": "left",
+          "capture_instruction": "从1号槽侧前方拍摄数字1、空料盘轴和空送料口；不要求A1 mini整机入镜",
+          "evidence_type": "presence",
+          "visualization": "box",
+          "verification_channel": "vision",
+          "manual_provenance": {"page": 18, "section": "安装料盘"},
+          "requires_same_frame": true
+        }
+      ]
+    },
+    {
+      "state_id": "S1",
+      "step_index": 1,
+      "state_type": "action",
+      "instruction": "把料盘推上1号空轴并压紧；先不要插料",
+      "preconditions": ["设备空闲且1号槽经现场确认允许使用"],
+      "postconditions": ["对比前后画面：1号轴由空轴变为料盘稳定安装，中心压到位且没有明显倾斜"],
+      "wrong_states": ["料盘装在2号、3号或4号槽", "料盘未卡紧或明显倾斜", "耗材从错误方向展开", "耗材已插入其他送料口"],
+      "target_components": ["target:AMS Lite 1号槽料盘轴总成", "source:兼容料盘"],
+      "warnings": ["只使用现场确认兼容的PLA；不要拆卸或移动其他槽位的料盘"],
+      "manual_provenance": {"page": 20, "section": "上料（并参照第18页安装料盘方向图）", "source_text": "将料卷推上料盘轴直至卡紧；通过进料口上料。"},
+      "verification": "对比前后画面：1号轴由空轴变为料盘稳定安装，中心压到位且没有明显倾斜",
+      "next_on_success": "S2",
+      "observation_nodes": [{
+          "inspection_id": "S1-C1",
+          "condition": "对比前后画面：1号轴由空轴变为料盘稳定安装，中心压到位且没有明显倾斜",
+          "component_ids": ["target:AMS Lite 1号槽料盘轴总成", "source:兼容料盘"],
+          "viewpoint": "left",
+          "capture_instruction": "从1号槽侧前方斜拍，让数字1、料盘中心和整根料盘轴总成入镜；此时不要插料",
+          "evidence_type": "relation",
+          "visualization": "mask",
+          "verification_channel": "vision",
+          "manual_provenance": {"page": 18, "section": "安装料盘"},
+          "requires_same_frame": true
+        }]
+    },
+    {
+      "state_id": "S2",
+      "step_index": 2,
+      "state_type": "action",
+      "instruction": "把料头从1号送料器底部向上送入；松手等待自动拉料，不要按黄色按钮",
+      "preconditions": ["料盘稳定安装在1号料盘轴且耗材从下方朝送料口展开"],
+      "postconditions": ["对比前后画面：料头原先悬空，操作后从下方向上进入1号送料器底部区域并保持在同槽；黄色按钮未被按下"],
+      "wrong_states": ["耗材插入了2号、3号或4号送料口", "耗材没有进入1号送料口", "耗材末端只是靠近或遮挡送料口"],
+      "target_components": ["target:AMS Lite 1号送料器模块", "source:1号槽耗材头", "forbidden:AMS Lite 1号黄色释放按钮"],
+      "warnings": ["正常上料只需将耗材送入对应进料口，不要求按住橙黄色释放按钮", "官方说明仅在耗材卡住时要求按下释放按钮以分离驱动电机；该情况进入异常恢复，不得强拉耗材", "只判断外部可见状态；无法据照片确认内部送料时返回不确定"],
+      "manual_provenance": {"page": 20, "section": "上料", "source_text": "通过进料口上料。注意：如果耗材卡住，按下释放按钮可分离驱动电机。"},
+      "verification": "操作前料头未进入送料器；操作后料头从下方向上进入同槽送料器且不再悬空",
+      "next_on_success": "S3",
+      "observation_nodes": [{
+          "inspection_id": "S2-C1",
+          "condition": "对比前后画面：料头原先悬空，操作后从下方向上进入1号送料器底部区域并保持在同槽；黄色按钮未被按下",
+          "component_ids": ["target:AMS Lite 1号送料器模块", "source:1号槽耗材头", "forbidden:AMS Lite 1号黄色释放按钮"],
+          "viewpoint": "left",
+          "capture_instruction": "从1号槽侧下方约45度近拍整个送料器模块、黄色按钮和料头路径；不必钻到机器底下拍隐藏孔",
+          "evidence_type": "connection",
+          "visualization": "mask",
+          "verification_channel": "vision",
+          "manual_provenance": {"page": 20, "section": "上料"},
+          "requires_same_frame": true
+        }]
+    },
+    {
+      "state_id": "S3",
+      "step_index": 3,
+      "state_type": "action",
+      "instruction": "等待自动拉料；不要再推料或按按钮，然后检查1号PTFE管",
+      "preconditions": ["耗材已经从下方实际进入1号送料口"],
+      "postconditions": ["上方斜视可见1号PTFE管内出现连续耗材证据，外部路径从1号料盘通向1号送料单元且无明显折弯或缠绕"],
+      "wrong_states": ["重复向已经加载的送料口强行插料", "PTFE管内没有可辨认的线材", "外部路径明显折弯、跨槽或缠绕"],
+      "target_components": ["target:1号PTFE管可见段", "source:1号槽PTFE管内耗材", "source:1号槽外部送料路径"],
+      "warnings": ["本步骤是机器自动送料后的结果检查，不执行第二次插料", "任一关键局部被遮挡时返回不确定，不能凭模型猜测推进"],
+      "manual_provenance": {"page": 20, "section": "上料完成复核", "source_text": "通过进料口上料；送料器自动拉料后，以可见连接和PTFE管内耗材作为复核证据。"},
+      "verification": "1号PTFE管内可见连续线材证据且外部路径连续",
+      "next_on_success": null,
+      "observation_nodes": [{
+          "inspection_id": "S3-C1",
+          "condition": "上方斜视可见1号PTFE管内出现连续耗材证据，外部路径从1号料盘通向1号送料单元且无明显折弯或缠绕",
+          "component_ids": ["target:1号PTFE管可见段", "source:1号槽PTFE管内耗材", "source:1号槽外部送料路径"],
+          "viewpoint": "top",
+          "capture_instruction": "从1号槽上方约45度斜拍对应PTFE管可见段和料盘到送料器的路径；管内颜色看不清时靠近补拍，不要再次插料",
+          "evidence_type": "relation",
+          "visualization": "polyline",
+          "verification_channel": "vision",
+          "manual_provenance": {"page": 20, "section": "上料完成复核"},
+          "requires_same_frame": true
+        }]
+    }
+  ]
+}

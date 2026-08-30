@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Manual2AR 现场采集</title>
+  <style>
+    :root { color-scheme: light; --navy:#173251; --blue:#168ac5; --green:#15845d; --line:#d7e1e8; --bg:#f3f7fa; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:#21313d; font:16px/1.45 -apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif; }
+    header { padding:calc(18px + env(safe-area-inset-top)) 20px 18px; background:var(--navy); color:white; }
+    header h1 { margin:0; font-size:23px; } header p { margin:6px 0 0; opacity:.82; font-size:14px; }
+    main { max-width:720px; margin:auto; padding:16px 14px 40px; }
+    .card { background:white; border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:14px; box-shadow:0 4px 16px #1732510b; }
+    .case-row { display:flex; gap:8px; align-items:center; }
+    .case-row code { flex:1; overflow:auto; padding:10px; border-radius:10px; background:#eef4f7; color:var(--navy); }
+    label { display:block; margin:12px 0 5px; font-weight:600; }
+    select,input[type=text],textarea { width:100%; padding:11px; border:1px solid #b9c8d2; border-radius:10px; background:white; font-size:16px; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:0 12px; }
+    .phase { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0; }
+    .phase label { margin:0; padding:12px; border:2px solid var(--line); border-radius:12px; text-align:center; }
+    .phase input { margin-right:7px; }
+    .direction { margin-top:10px; padding:10px 12px; background:#fff6dc; border-radius:10px; color:#715400; }
+    .paper { border-color:#9fd0e8; background:#f7fcff; }
+    .paper h2 { margin:0 0 4px; color:var(--navy); font-size:19px; }
+    .paper small { color:#58707f; }
+    input[type=file] { width:100%; padding:14px; border:2px dashed #9ab7c8; border-radius:12px; background:#f8fbfc; }
+    #preview { display:none; width:100%; margin-top:12px; border-radius:12px; }
+    .privacy { padding:12px; border-radius:10px; background:#eef8f3; font-size:14px; }
+    button { border:0; border-radius:11px; padding:12px 15px; color:white; background:var(--blue); font-size:16px; font-weight:650; }
+    button.secondary { background:#617785; } button.submit { width:100%; margin-top:14px; padding:15px; background:var(--green); }
+    button:disabled { opacity:.5; }
+    #status { display:none; margin-top:12px; padding:12px; border-radius:10px; white-space:pre-wrap; }
+    #status.ok { display:block; background:#e7f7ef; color:#09623f; }
+    #status.error { display:block; background:#fff0f0; color:#a42626; }
+    @media (max-width:520px) { .grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header><h1>Manual2AR 现场采集</h1><p>照片直接保存到 Mac，不经过微信，不在手机存放 API Key</p></header>
+  <main>
+    <section class="card">
+      <div class="case-row"><code id="caseId"></code><button class="secondary" id="newCase" type="button">新样本</button></div>
+      <div class="phase">
+        <label><input type="radio" name="phase" value="before" checked>操作前</label>
+        <label><input type="radio" name="phase" value="after">操作后</label>
+      </div>
+    </section>
+
+    <form id="captureForm" class="card">
+      <section class="paper card">
+        <h2>论文证据记录</h2>
+        <small>每张图必须能追溯到原图、模型、任务、版本和窄范围 claim。</small>
+        <div class="grid">
+          <div><label for="figureId">论文图</label><select id="figureId"><option value="a">(a) 部件识别</option><option value="b">(b) 料盘放置</option><option value="c">(c) 线材插入</option><option value="d">(d) 上料验证</option><option value="e">(e) 平台检查</option><option value="f">(f) 错误纠正</option></select></div>
+          <div><label for="runId">运行编号</label><input id="runId" type="text" required></div>
+          <div><label for="taskId">任务编号</label><input id="taskId" type="text" value="load_spool"></div>
+          <div><label for="modelVersion">视觉模型</label><input id="modelVersion" type="text" value="qwen3-vl-flash + sam2.1-hiera-tiny-mps"></div>
+          <div><label for="promptVersion">Prompt 版本</label><input id="promptVersion" type="text" value="guidance-target-v1-20260819"></div>
+          <div><label for="manualVersion">说明书版本</label><input id="manualVersion" type="text" value="ams-lite-official-reviewed-20260818"></div>
+          <div><label for="compileVersion">编译版本</label><input id="compileVersion" type="text" value="manual-task-bundle-1.0"></div>
+        </div>
+        <label for="paperClaim">该图支撑的窄范围 claim</label>
+        <textarea id="paperClaim" rows="2" maxlength="500" required></textarea>
+        <p class="privacy"><label><input id="paperUseAllowed" type="checkbox"> 当前运行已经人工复核，可进入论文候选集（失败案例也可勾选，但必须如实标记）。</label></p>
+      </section>
+      <div class="grid">
+        <div><label for="operation">动作</label><select id="operation" name="operation"><option value="spool_mount">安装料卷</option><option value="filament_load">上料</option><option value="filament_unload">退料</option><option value="color_mapping">颜色槽位映射</option><option value="winding_check">卷绕方向检查</option></select></div>
+        <div><label for="viewpoint">拍摄视角</label><select id="viewpoint"><option value="ams_full">AMS Lite 整体</option><option value="slot_closeup">目标槽位近景</option><option value="feeder_closeup">进料口近景</option><option value="wide_device">设备全景</option><option value="screen">设备屏幕</option></select></div>
+        <div><label for="slot">AMS Lite 槽位</label><select id="slot" name="slot"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+        <div><label for="expectedColor">要求颜色</label><select id="expectedColor"><option value="orange">橙色</option><option value="gray">灰色</option><option value="any">任意</option></select></div>
+        <div><label for="actualColor">实际颜色</label><select id="actualColor"><option value="orange">橙色</option><option value="gray">灰色</option><option value="none">空槽</option></select></div>
+        <div><label for="direction">实际卷绕方向</label><select id="direction"><option value="counterclockwise">逆时针</option><option value="clockwise">顺时针</option><option value="not_visible">不可见或不适用</option></select></div>
+        <div><label for="filamentState">耗材状态</label><select id="filamentState"><option value="unloaded">未上料</option><option value="inserted">已插入进料口</option><option value="loaded">已完成上料</option><option value="unknown">不可确认</option></select></div>
+        <div><label for="expectedStatus">人工真值</label><select id="expectedStatus"><option value="completed">正确完成</option><option value="wrong_operation">错误操作</option><option value="uncertain">画面不足</option></select></div>
+      </div>
+      <div id="requiredDirection" class="direction"></div>
+      <label for="notes">备注（可空）</label><textarea id="notes" rows="2" maxlength="500" placeholder="例如：橙色在 1 号位，灰色在 4 号位"></textarea>
+      <label for="photo">现场照片</label>
+      <input id="photo" type="file" accept="image/*" capture="environment" required>
+      <img id="preview" alt="待上传照片预览">
+      <p class="privacy"><label><input id="consent" type="checkbox" required> 我确认这是获准的设备研究采集，已尽量避开同学面部、姓名、聊天窗口和其他敏感信息。</label></p>
+      <button class="submit" id="upload" type="submit">保存到 Mac</button>
+      <div id="status"></div>
+    </form>
+  </main>
+  <script>
+    const caseIdEl=document.querySelector('#caseId'), form=document.querySelector('#captureForm');
+    const photo=document.querySelector('#photo'), preview=document.querySelector('#preview'), statusEl=document.querySelector('#status');
+    const claimMap={a:'Manual-derived component terms are grounded to visible physical components.',b:'A manual-derived placement step is converted into world-anchored spatial guidance for the selected empty AMS Lite spindle.',c:'The target feeder module and visible insertion direction are grounded without inventing an occluded inlet.',d:'Necessary visible predicates and a deterministic gate verify successful filament loading.',e:'Visible build-plate presence, alignment, surface clearance, and residue state are inspected before printing.',f:'Visible setup errors block progression and trigger grounded corrective guidance.'};
+    const taskMap={a:'component_grounding',b:'load_spool',c:'load_spool',d:'load_spool',e:'preprint_plate_inspection',f:'error_recovery'};
+    function stamp(){return new Date().toISOString().replace(/[-:TZ.]/g,'').slice(0,14);}
+    function newId(){return 'AMS_'+stamp()+'_'+Math.random().toString(36).slice(2,6).toUpperCase();}
+    function refreshPaperRun(){const f=document.querySelector('#figureId').value;document.querySelector('#runId').value=f.toUpperCase()+'_RUN_'+stamp();document.querySelector('#paperClaim').value=claimMap[f];document.querySelector('#taskId').value=taskMap[f];}
+    function setCase(id){localStorage.setItem('manual2ar_case_id',id);caseIdEl.textContent=id;}
+    setCase(localStorage.getItem('manual2ar_case_id')||newId()); refreshPaperRun();
+    document.querySelector('#figureId').onchange=refreshPaperRun;
+    document.querySelector('#newCase').onclick=()=>{setCase(newId());refreshPaperRun();document.querySelector('input[value=before]').checked=true;statusEl.className='';statusEl.textContent='';};
+    function updateDirection(){const s=Number(document.querySelector('#slot').value);document.querySelector('#requiredDirection').textContent=(s===1||s===3)?`官方方向组：槽位 ${s} 应逆时针供料`:`官方方向组：槽位 ${s} 应顺时针供料`;}
+    document.querySelector('#slot').onchange=updateDirection; updateDirection();
+    photo.onchange=()=>{const f=photo.files[0];if(!f)return;preview.src=URL.createObjectURL(f);preview.style.display='block';};
+    async function jpegBlob(file){const url=URL.createObjectURL(file);try{const img=new Image();img.src=url;await img.decode();const scale=Math.min(1,2048/Math.max(img.naturalWidth,img.naturalHeight));const c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*scale);c.height=Math.round(img.naturalHeight*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(r,'image/jpeg',.9));}finally{URL.revokeObjectURL(url);}}
+    form.onsubmit=async(e)=>{e.preventDefault();const button=document.querySelector('#upload');button.disabled=true;statusEl.className='';statusEl.textContent='正在压缩并保存…';try{const phase=document.querySelector('input[name=phase]:checked').value;const blob=await jpegBlob(photo.files[0]);const data=new FormData();data.append('image',blob,`${caseIdEl.textContent}_${phase}.jpg`);data.append('case_id',caseIdEl.textContent);data.append('phase',phase);data.append('operation',document.querySelector('#operation').value);data.append('viewpoint',document.querySelector('#viewpoint').value);data.append('slot',document.querySelector('#slot').value);data.append('expected_color',document.querySelector('#expectedColor').value);data.append('actual_color',document.querySelector('#actualColor').value);data.append('winding_direction',document.querySelector('#direction').value);data.append('filament_state',document.querySelector('#filamentState').value);data.append('expected_status',document.querySelector('#expectedStatus').value);data.append('notes',document.querySelector('#notes').value);data.append('figure_id',document.querySelector('#figureId').value);data.append('run_id',document.querySelector('#runId').value);data.append('device_id','ams_lite');data.append('task_id',document.querySelector('#taskId').value);data.append('model_version',document.querySelector('#modelVersion').value);data.append('prompt_version',document.querySelector('#promptVersion').value);data.append('manual_version',document.querySelector('#manualVersion').value);data.append('compile_version',document.querySelector('#compileVersion').value);data.append('paper_claim',document.querySelector('#paperClaim').value);data.append('paper_use_allowed',document.querySelector('#paperUseAllowed').checked?'true':'false');data.append('consent',document.querySelector('#consent').checked?'true':'false');const response=await fetch('/api/evaluation/captures',{method:'POST',body:data});const body=await response.json();if(!response.ok)throw new Error(body.detail||JSON.stringify(body));statusEl.className='ok';statusEl.textContent=`已保存图 ${document.querySelector('#figureId').value} · ${body.phase} · 第 ${body.revision} 版\n${body.pair_complete?'前后图片已配对，可以开始评估。':'请保持同一案例编号与运行编号，继续拍另一阶段。'}`;if(phase==='before')document.querySelector('input[value=after]').checked=true;photo.value='';preview.style.display='none';}catch(err){statusEl.className='error';statusEl.textContent=`保存失败：${err.message}`;}finally{button.disabled=false;}};
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+{
+  "profile_id": "bambu_a1_mini",
+  "device_id": "bambu_a1_mini",
+  "display_name": "Bambu Lab A1 mini",
+  "supported_variant": "A1 mini 主机识别允许旁边出现 AMS Lite；当前操作流程仅适用于外置单料卷路径",
+  "task_scope": "冷机/静止状态下，检查料盘支架并建立外置料卷到工具头的 PTFE 进料路径",
+  "manual_path": "manual/A1_mini_quick_start_zh.pdf",
+  "procedure_path": "procedure.json",
+  "component_lexicon": {
+    "A1 mini整机": {
+      "aliases": ["Bambu Lab A1 mini", "A1 mini 3D printer"],
+      "visual_description": "开放式小型龙门3D打印机，左侧白色Z轴立柱、水平X轴、中央工具头、下方方形热床和右前方触控屏"
+    },
+    "料盘支架底座": {
+      "aliases": ["spool holder base plate", "spool holder base"],
+      "visual_description": "固定在Z轴立柱右侧的小型浅色矩形底座，正面可见两颗固定螺丝"
+    },
+    "Z轴立柱右侧安装位": {
+      "aliases": ["right side mounting position on Z-axis column", "Z-axis column mount"],
+      "visual_description": "打印机左侧白色竖直Z轴立柱的右侧面，靠近中下部的两孔安装区域"
+    },
+    "料盘支架": {
+      "aliases": ["spool holder", "external spool holder"],
+      "visual_description": "从Z轴立柱向右水平伸出的浅色长臂，末端为圆形挡片，用于承托料卷"
+    },
+    "料盘支架底座插槽": {
+      "aliases": ["spool holder base slot", "spool holder mounting slot"],
+      "visual_description": "Z轴立柱右侧料盘支架底座上的竖向滑入插槽"
+    },
+    "最短PTFE管": {
+      "aliases": ["shortest PTFE tube", "shortest Teflon tube", "filament guide tube"],
+      "visual_description": "半透明或白色细管，从工具头顶部弯向右侧外置料卷区域"
+    },
+    "工具头进料口": {
+      "aliases": ["toolhead filament inlet", "toolhead feed port", "filament hub port"],
+      "visual_description": "中央工具头顶部的圆形进料接口，位于白色工具头外壳上方"
+    },
+    "外置料卷": {
+      "aliases": ["external filament spool", "filament spool", "spool"],
+      "visual_description": "位于打印机右侧料盘支架上的圆盘状耗材料卷，可见中心孔和缠绕耗材"
+    },
+    "耗材头": {
+      "aliases": ["filament end", "filament tip"],
+      "visual_description": "从外置料卷引出的细长耗材末端，靠近PTFE管自由端"
+    },
+    "PTFE管自由端": {
+      "aliases": ["free end of PTFE tube", "PTFE tube entrance"],
+      "visual_description": "靠近外置料卷一侧、尚未接入其他部件的PTFE管开口"
+    },
+    "完整外置进料路径": {
+      "aliases": ["complete external spool filament path", "external filament routing"],
+      "visual_description": "右侧料卷安装在支架上，耗材进入PTFE管，PTFE管平滑弯曲并连接工具头顶部进料口"
+    }
+  },
+  "state_reference_images": {
+    "S0": ["references/page_08_spool_holder.png", "references/page_12_external_spool.png"],
+    "S1": ["references/page_08_spool_holder.png"],
+    "S2": ["references/page_08_spool_holder.png"],
+    "S3": ["references/page_12_external_spool.png"],
+    "S4": ["references/page_12_external_spool.png"],
+    "S5": ["references/page_12_external_spool.png"],
+    "S6": ["references/page_12_external_spool.png"]
+  },
+  "instruction_translations": {
+    "en": {
+      "S0": "Confirm that the device is a Bambu Lab A1 mini and keep the whole printer, toolhead, and Z-axis column in view",
+      "S1": "Secure the spool-holder base to the right side of the Z-axis column with two M3-8 screws",
+      "S2": "Slide the spool holder fully into the base slot in the indicated direction",
+      "S3": "Insert one end of the shortest PTFE tube into any filament inlet on top of the toolhead",
+      "S4": "Mount the external filament spool on the right-side spool holder",
+      "S5": "Insert the filament tip into the free end of the PTFE tube near the spool",
+      "S6": "Check that the external spool, PTFE tube, and toolhead inlet form the same continuous path shown in the manual"
+    }
+  }
+}

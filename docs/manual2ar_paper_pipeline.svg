@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6fbff"/><stop offset="1" stop-color="#eef4f8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#173251" flood-opacity=".12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#268fbd"/>
+    </marker>
+    <style>
+      .title{font:700 38px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#173251}
+      .sub{font:500 18px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#58707f}
+      .stage{font:700 20px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:white;letter-spacing:1px}
+      .head{font:700 24px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#173251}
+      .body{font:500 17px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#36505f}
+      .tiny{font:600 15px -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;fill:#58707f}
+      .line{stroke:#268fbd;stroke-width:4;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#91a9b6;stroke-width:3;stroke-dasharray:8 8;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <text x="70" y="72" class="title">Manual2AR: evidence-grounded closed-loop guidance</text>
+  <text x="70" y="108" class="sub">Every rendered cue and every progression decision is traceable to saved evidence.</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="155" rx="22" width="350" height="255" fill="white"/>
+    <rect x="70" y="155" rx="22" width="350" height="54" fill="#385d83"/>
+    <text x="95" y="190" class="stage">RQ1 · MANUAL COMPILATION</text>
+    <text x="96" y="248" class="head">Official manual</text>
+    <text x="96" y="282" class="body">OCR and layout extraction</text>
+    <text x="96" y="313" class="body">Qwen task candidates</text>
+    <text x="96" y="344" class="body">Atomic steps and predicates</text>
+    <rect x="95" y="365" rx="11" width="290" height="28" fill="#eaf2f7"/>
+    <text x="111" y="385" class="tiny">Human-reviewed task bundle</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="495" y="155" rx="22" width="480" height="255" fill="white"/>
+    <rect x="495" y="155" rx="22" width="480" height="54" fill="#168ac5"/>
+    <text x="520" y="190" class="stage">RQ2 · TARGET GROUNDING</text>
+    <text x="521" y="248" class="head">Explicit GuidanceTarget</text>
+    <text x="521" y="282" class="body">Qwen semantic target and selected slot</text>
+    <text x="521" y="313" class="body">SAM2 visible-surface segmentation</text>
+    <text x="521" y="344" class="body">Target, area, topology, stability quality gate</text>
+    <rect x="520" y="365" rx="11" width="420" height="28" fill="#e7f6fc"/>
+    <text x="536" y="385" class="tiny">LK flow · RANSAC · adaptive resegmentation</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1050" y="155" rx="22" width="480" height="255" fill="white"/>
+    <rect x="1050" y="155" rx="22" width="480" height="54" fill="#1a9b78"/>
+    <text x="1075" y="190" class="stage">WORLD-ANCHORED GUIDANCE</text>
+    <text x="1076" y="248" class="head">ARKit world anchor</text>
+    <text x="1076" y="282" class="body">Visible mask follows image tracking</text>
+    <text x="1076" y="313" class="body">Virtual spool and arrow bind to world point</text>
+    <text x="1076" y="344" class="body">Drift above 5% pauses and relocalizes</text>
+    <rect x="1075" y="365" rx="11" width="420" height="28" fill="#e7f7f2"/>
+    <text x="1091" y="385" class="tiny">No screen-fixed debug rectangles in paper mode</text>
+  </g>
+
+  <path d="M420 282 H495" class="line"/><path d="M975 282 H1050" class="line"/>
+
+  <g filter="url(#shadow)">
+    <rect x="220" y="520" rx="22" width="500" height="245" fill="white"/>
+    <rect x="220" y="520" rx="22" width="500" height="54" fill="#e29a22"/>
+    <text x="245" y="555" class="stage">RQ3 · BEFORE AND AFTER VERIFICATION</text>
+    <text x="246" y="612" class="head">Predicate evidence</text>
+    <text x="246" y="646" class="body">Same slot and installed spool</text>
+    <text x="246" y="677" class="body">Correct feeder and visible PTFE evidence</text>
+    <text x="246" y="708" class="body">No cross-slot path, bend, or tangle</text>
+    <rect x="245" y="729" rx="11" width="442" height="28" fill="#fff4df"/>
+    <text x="261" y="749" class="tiny">Necessary predicates drive deterministic gate</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="880" y="520" rx="22" width="500" height="245" fill="white"/>
+    <rect x="880" y="520" rx="22" width="500" height="54" fill="#c85656"/>
+    <text x="905" y="555" class="stage">CORRECTION AND EVIDENCE EXPORT</text>
+    <text x="906" y="612" class="head">Safe progression</text>
+    <text x="906" y="646" class="body">Pass: advance and preserve passing evidence</text>
+    <text x="906" y="677" class="body">Fail: hold step and ground correction cue</text>
+    <text x="906" y="708" class="body">Uncertain: request a new viewpoint</text>
+    <rect x="905" y="729" rx="11" width="442" height="28" fill="#faeaea"/>
+    <text x="921" y="749" class="tiny">Raw · overlay · result · tracking log · manifest</text>
+  </g>
+
+  <path d="M1290 410 C1290 470 1180 485 1130 520" class="line"/>
+  <path d="M720 643 H880" class="line"/>
+  <path d="M880 700 C790 840 480 830 470 765" class="dash"/>
+  <text x="626" y="836" class="tiny">correction loop keeps the current task state</text>
+
+  <g transform="translate(70,816)">
+    <rect width="26" height="18" rx="5" fill="#29c7dd"/><text x="38" y="15" class="tiny">next action</text>
+    <rect x="200" width="26" height="18" rx="5" fill="#32aa7d"/><text x="238" y="15" class="tiny">verified</text>
+    <rect x="370" width="26" height="18" rx="5" fill="#e5b84d"/><text x="408" y="15" class="tiny">insufficient evidence</text>
+    <rect x="635" width="26" height="18" rx="5" fill="#d65b5b"/><text x="673" y="15" class="tiny">explicit error</text>
+  </g>
+</svg>

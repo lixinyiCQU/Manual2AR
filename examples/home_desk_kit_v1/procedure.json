@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.3",
+  "device": {
+    "device_id": "HOME-DESK-KIT-01",
+    "name": "家庭桌面代理设备：书本、双色便签与笔",
+    "role": "manual_defined_equipment",
+    "future_target_device": "Bambu Lab 3D printer"
+  },
+  "task": {
+    "task_id": "home_desk_visual_assembly",
+    "manual_id": "HOME_DESK_KIT_01_manual_v1",
+    "initial_state": "S0",
+    "terminal_states": ["S4"]
+  },
+  "states": [
+    {
+      "state_id": "S0",
+      "step_index": 0,
+      "instruction": "确认开始状态：书合上居中，黄便签在左，蓝便签在右，笔在下方且笔尖向右。",
+      "preconditions": ["书、黄便签、蓝便签和笔全部入镜"],
+      "postconditions": ["书合上并位于中央", "黄便签在书左侧", "蓝便签在书右侧", "笔在书下方且笔尖向右"],
+      "wrong_states": ["任一物品缺失或被遮挡", "笔尖方向不可见"],
+      "target_components": ["书", "黄便签", "蓝便签", "笔"],
+      "warnings": ["识别前移开双手并保持画面稳定"],
+      "manual_provenance": {"page": 1, "section": "开始前状态 S0", "source_text": "四种物品互不遮挡。"},
+      "verification": "single_frame_visible_state",
+      "next_on_success": "S1"
+    },
+    {
+      "state_id": "S1",
+      "step_index": 1,
+      "instruction": "打开书，使左页和右页都完整可见。",
+      "preconditions": ["书合上并位于中央"],
+      "postconditions": ["书保持打开", "中缝可见", "左右两页均未被手遮挡"],
+      "wrong_states": ["书仍合上", "只打开一小部分", "页面大面积离开画面"],
+      "target_components": ["书", "左页", "右页", "中缝"],
+      "warnings": ["不要用手遮住页面"],
+      "manual_provenance": {"page": 2, "section": "步骤 1", "source_text": "打开书，使左页和右页都完整可见。"},
+      "verification": "single_frame_visible_state",
+      "next_on_success": "S2"
+    },
+    {
+      "state_id": "S2",
+      "step_index": 2,
+      "instruction": "把黄便签放到左页的左上区域。",
+      "preconditions": ["书保持打开", "蓝便签仍在书外"],
+      "postconditions": ["黄便签完整位于左页左上区域", "蓝便签仍在书外"],
+      "wrong_states": ["黄便签在右页", "黄便签跨过中缝", "黄便签被遮挡"],
+      "target_components": ["黄便签", "左页"],
+      "warnings": ["便签颜色必须可辨认"],
+      "manual_provenance": {"page": 2, "section": "步骤 2", "source_text": "把黄便签放到左页的左上区域。"},
+      "verification": "single_frame_visible_state",
+      "next_on_success": "S3"
+    },
+    {
+      "state_id": "S3",
+      "step_index": 3,
+      "instruction": "把蓝便签放到右页的右上区域。",
+      "preconditions": ["黄便签位于左页左上区域"],
+      "postconditions": ["蓝便签完整位于右页右上区域", "黄便签仍位于左页左上区域"],
+      "wrong_states": ["蓝便签在左页", "蓝便签跨过中缝", "黄便签已经移位"],
+      "target_components": ["蓝便签", "右页", "黄便签"],
+      "warnings": ["两张便签不得互相遮挡"],
+      "manual_provenance": {"page": 3, "section": "步骤 3", "source_text": "把蓝便签放到右页的右上区域。"},
+      "verification": "single_frame_visible_state",
+      "next_on_success": "S4"
+    },
+    {
+      "state_id": "S4",
+      "step_index": 4,
+      "instruction": "把笔水平放在打开书页的下半部，笔尖朝右。",
+      "preconditions": ["黄便签在左上", "蓝便签在右上"],
+      "postconditions": ["笔横跨书页下半部", "笔尖向右", "两张便签仍在正确位置", "三者互不遮挡"],
+      "wrong_states": ["笔尖向左", "笔竖直", "笔遮住便签", "任一便签位于错误页面"],
+      "target_components": ["笔", "书页", "黄便签", "蓝便签"],
+      "warnings": ["任务完成前确认全部四项可见条件"],
+      "manual_provenance": {"page": 3, "section": "步骤 4", "source_text": "把笔水平放在打开书页的下半部，笔尖朝右。"},
+      "verification": "single_frame_visible_state",
+      "next_on_success": null
+    }
+  ]
+}
