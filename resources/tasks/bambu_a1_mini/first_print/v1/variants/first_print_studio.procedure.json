@@ -1,0 +1,357 @@
+{
+  "schema_version": "0.9",
+  "device": {
+    "device_id": "bambu_a1_mini",
+    "name": "Bambu Lab A1 mini 单机／外挂料盘",
+    "role": "manual_defined_equipment",
+    "future_target_device": null
+  },
+  "task": {
+    "task_id": "a1_mini_first_print_external_v1",
+    "manual_id": "bambu_wiki_first_print_external_20261024T145623Z_e2655a",
+    "initial_state": "P3",
+    "terminal_states": [
+      "P6"
+    ],
+    "task_type": "legacy",
+    "parameters": {
+      "kind": "first_print",
+      "variant_id": "first_print_studio",
+      "title": "首次打印",
+      "review_status": "implemented_reviewed_plan_pending_physical_validation",
+      "runtime_status": "implemented_in_guidance_service",
+      "completion_scope": "用户确认已通过Studio发起打印并观察到本机反馈；不代表打印成品完成。",
+      "presentation": {
+        "P3": {
+          "title": "准备耗材",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/3bbe0cc2a2bea859.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "P3-C1": "当前设备已完成耗材准备，可以继续首次打印。"
+          },
+          "display_warnings": [
+            "首次打印不必先退料；只有需要退出旧料或换料时才进入退料。",
+            "确认前，请完成当前设备的实际耗材准备。"
+          ]
+        },
+        "P4": {
+          "title": "在Bambu Studio准备模型",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/1037f6317141b54d.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "P4-C1": "已选择本次要打印的模型。"
+          },
+          "display_warnings": []
+        },
+        "P5": {
+          "title": "核对目标设备与打印准备",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/9835557e83d5b573.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "P5-C1": "已核对当前设备、耗材、打印板及本次打印选项。"
+          },
+          "display_warnings": [
+            "按本次打印和实际设备界面核对各项设置。"
+          ]
+        },
+        "P6": {
+          "title": "发送打印并确认设备反馈",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/9835557e83d5b573.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "P6-C1": "已在设备或Studio发起打印，并观察到设备接收或执行的反馈。"
+          },
+          "display_warnings": [
+            "本指导到发起打印为止；之后仍需观察打印状态及质量。"
+          ]
+        }
+      },
+      "inspection_prompts": {},
+      "evidence_file": "evidence.json",
+      "reference_assets_materialized": true,
+      "printer_control": "user_operates_device_only",
+      "telemetry_integration": false,
+      "decomposition_basis": "project editorial decomposition of cited official sources",
+      "description": "按官方外挂料盘初次打印指南，完成耗材准备、选择打印文件、打印前复核并在设备上发起打印。基础安装与初始化属于开箱任务。",
+      "estimated_steps": 4,
+      "entry_requirements": [
+        "已按开箱指南完成设备安装、初始化和校准。"
+      ],
+      "prerequisite_tasks": [
+        "a1_mini_standalone_unboxing_v1"
+      ],
+      "overview_source_policy": "步骤为官方快照的教学拆分；下面保留官方章节与逐字引用。附录进料独立为子任务，排除AMS Lite。"
+    }
+  },
+  "states": [
+    {
+      "state_id": "P3",
+      "step_index": 0,
+      "state_type": "initial_state",
+      "instruction": "如果已装载好合适耗材，可以直接确认；需要指导时进入进料；需要换料时先退料，再进料。",
+      "preconditions": [
+        "当前设备已按开箱指南完成安装、初始化和校准。"
+      ],
+      "postconditions": [
+        "用户确认本机当前已完成所需耗材准备，可以继续首次打印；记录其为人工声明或关联子任务后的人工复核。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "context:当前耗材准备"
+      ],
+      "warnings": [
+        "首次打印不必先退料；只有需要退出旧料或换料时才进入退料。",
+        "直接确认不伪造进料／退料子任务已完成。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "开始打印",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "在确保装载好线材和放置打印板后，即可以开始打印。\n如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。\n完成退料操作后，按照上述的\"打印准备\"操作进料。",
+        "citation_ids": [
+          "a38a83f538aecdc3482321b3",
+          "3834865f5ea11d14505a75d8",
+          "d9eeab1c5b11e59e35836272"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "P4",
+      "observation_nodes": [
+        {
+          "inspection_id": "P3-C1",
+          "condition": "用户确认本机当前已完成所需耗材准备，可以继续首次打印；记录其为人工声明或关联子任务后的人工复核。",
+          "component_ids": [
+            "context:当前耗材准备"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "开始打印",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "在确保装载好线材和放置打印板后，即可以开始打印。\n如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。\n完成退料操作后，按照上述的\"打印准备\"操作进料。",
+            "citation_ids": [
+              "a38a83f538aecdc3482321b3",
+              "3834865f5ea11d14505a75d8",
+              "d9eeab1c5b11e59e35836272"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "P4",
+      "step_index": 1,
+      "state_type": "action",
+      "instruction": "打开Bambu Studio，按官方说明选择模型并切片。",
+      "preconditions": [
+        "P3 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认已在Bambu Studio选择并切片本次模型。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "target:Bambu Studio模型与切片界面"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "开始打印 / 使用 Bambu Studio 发起打印任务",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "使用 Bambu Studio 发起打印任务\n点击此处下载Bambu Studio。\n打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+        "citation_ids": [
+          "c2dd846ec25484e22e5134d0",
+          "3b3de939ebc19458a73de052",
+          "6e71a2fded983aafbca8a20c"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "P5",
+      "observation_nodes": [
+        {
+          "inspection_id": "P4-C1",
+          "condition": "用户确认已在Bambu Studio选择并切片本次模型。",
+          "component_ids": [
+            "target:Bambu Studio模型与切片界面"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "开始打印 / 使用 Bambu Studio 发起打印任务",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "使用 Bambu Studio 发起打印任务\n点击此处下载Bambu Studio。\n打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+            "citation_ids": [
+              "c2dd846ec25484e22e5134d0",
+              "3b3de939ebc19458a73de052",
+              "6e71a2fded983aafbca8a20c"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "P5",
+      "step_index": 2,
+      "state_type": "action",
+      "instruction": "发送前确认选择的是本机，且本机耗材已装载、打印板已放置；核对实际软件界面中的打印设置。",
+      "preconditions": [
+        "P4 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认发送目标是当前设备，且本次模型、耗材与打印板准备已核对。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "context:发送前复核"
+      ],
+      "warnings": [
+        "此项的目标设备复核是项目编排；不从旧截图推断当前软件版本的全部参数名称。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "开始打印",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "在确保装载好线材和放置打印板后，即可以开始打印。\n打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+        "citation_ids": [
+          "a38a83f538aecdc3482321b3",
+          "6e71a2fded983aafbca8a20c"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "P6",
+      "observation_nodes": [
+        {
+          "inspection_id": "P5-C1",
+          "condition": "用户确认发送目标是当前设备，且本次模型、耗材与打印板准备已核对。",
+          "component_ids": [
+            "context:发送前复核"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "开始打印",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "在确保装载好线材和放置打印板后，即可以开始打印。\n打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+            "citation_ids": [
+              "a38a83f538aecdc3482321b3",
+              "6e71a2fded983aafbca8a20c"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "P6",
+      "step_index": 3,
+      "state_type": "action",
+      "instruction": "通过Bambu Studio发送打印任务，在设备上观察并确认接收／执行反馈。",
+      "preconditions": [
+        "P5 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认已发送打印，且当前设备已接收／开始执行。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "target:打印任务反馈"
+      ],
+      "warnings": [
+        "发送成功与成品打印成功分别记录；本任务不评估首层或成品。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "开始打印 / 使用 Bambu Studio 发起打印任务",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+        "citation_ids": [
+          "6e71a2fded983aafbca8a20c"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": null,
+      "observation_nodes": [
+        {
+          "inspection_id": "P6-C1",
+          "condition": "用户确认已发送打印，且当前设备已接收／开始执行。",
+          "component_ids": [
+            "target:打印任务反馈"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "开始打印 / 使用 Bambu Studio 发起打印任务",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+            "citation_ids": [
+              "6e71a2fded983aafbca8a20c"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    }
+  ]
+}

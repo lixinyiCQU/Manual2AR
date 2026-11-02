@@ -1,0 +1,166 @@
+{
+  "folders": [
+    {
+      "name": "Manual2AR",
+      "path": "."
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "google.colab",
+      "ms-toolsai.jupyter"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Colab: 初始化工具",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-setup"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 登录 Google",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-login"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 启动 GPU",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-start"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 查看状态",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-status"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 查看日志",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-logs"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 仅停止推理服务",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-stop-service"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 停止并释放本项目运行时",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-release"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      }
+    ]
+  }
+}

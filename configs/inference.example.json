@@ -1,0 +1,24 @@
+{
+  "host": "0.0.0.0",
+  "port": 8021,
+  "api_token": "",
+  "precision": "auto",
+  "cutie_checkpoint": "weights/cutie-base-mega.pth",
+  "maximum_sessions": 1,
+  "session_idle_seconds": 300,
+  "log_root": "gpu_data/learning_cutie",
+  "revisions": {
+    "cutie": "ec5cdd4cf16f75c73ad785a2f96fb97dbad4125a",
+    "ultralytics": "2004cba021c68a46429be460e26954ab171b2862"
+  },
+  "sam3_checkpoint": "weights/sam3.1_multiplex.pt",
+  "cutie": {
+    "max_internal_size": -1,
+    "mem_every": 5,
+    "use_long_term": false,
+    "channels_last": false,
+    "compile_encoder": false
+  },
+  "initialization_timeout_seconds": 300,
+  "retain_initial_images": false
+}

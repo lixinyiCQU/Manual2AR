@@ -1,0 +1,180 @@
+{
+  "intro_url": "https://wiki.bambulab.com/zh/a1-mini/manual/intro-a1-mini",
+  "device_ordinals": [
+    3,
+    13
+  ],
+  "cards": [
+    {
+      "id": "build_plate",
+      "name": "打印板",
+      "english": "Build plate",
+      "ordinals": [
+        48
+      ],
+      "anchor": "打印面板",
+      "topics": [
+        "纹理 PEI 板清洁",
+        "打印板位置检测"
+      ],
+      "reference_images": [
+        {
+          "sha256": "ad60bb5d6dcf7f7f4aa1edc9dc2ce01a63f87d50d5b53939b7cc65d3f7a372e5",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/intro-a1-mini"
+        }
+      ]
+    },
+    {
+      "id": "heated_bed",
+      "name": "热床组件",
+      "english": "Heated bed",
+      "ordinals": [
+        40,
+        41
+      ],
+      "anchor": "热床组件",
+      "topics": [
+        "热床手动调平",
+        "热床更换",
+        "热床温度异常",
+        "热床异响"
+      ],
+      "reference_images": [
+        {
+          "sha256": "e3e412f8c1df00134a16de5df9d1b4c084967965034746a1ea7660e0cf9ba7a8",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/intro-a1-mini"
+        }
+      ]
+    },
+    {
+      "id": "toolhead",
+      "name": "工具头模块",
+      "english": "Toolhead",
+      "ordinals": [
+        22
+      ],
+      "anchor": "工具头模块",
+      "topics": [
+        "工具头拆装",
+        "挤出异常",
+        "热端堵塞",
+        "挤出机清理",
+        "挤出模块组件拆装"
+      ],
+      "reference_images": [
+        {
+          "sha256": "1c661d0a6a9056553d69156be0943c7448d564ec3c0d6257e43ca08e0d555fc2",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/intro-a1-mini"
+        }
+      ]
+    },
+    {
+      "id": "x_axis",
+      "name": "X 轴运动系统",
+      "english": "X axis",
+      "ordinals": [
+        15
+      ],
+      "anchor": "x轴运动",
+      "topics": [
+        "X轴组件",
+        "X 轴皮带",
+        "同步带张紧"
+      ],
+      "reference_images": [
+        {
+          "sha256": "b775874398394f910766832d817e310eb6d693ff31ce06460ecd1f63e21d5cad",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/intro-a1-mini"
+        }
+      ]
+    },
+    {
+      "id": "z_axis",
+      "name": "Z 轴运动系统",
+      "english": "Z axis",
+      "ordinals": [
+        19
+      ],
+      "anchor": "z轴运动",
+      "topics": [
+        "Y轴&Z轴",
+        "Z 轴电机"
+      ],
+      "reference_images": [
+        {
+          "sha256": "b775874398394f910766832d817e310eb6d693ff31ce06460ecd1f63e21d5cad",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/intro-a1-mini"
+        }
+      ]
+    },
+    {
+      "id": "filament_spool",
+      "name": "耗材卷／料盘",
+      "english": "Filament spool",
+      "url": "https://wiki.bambulab.com/zh/ams-lite/manual/filament-tangle-monitoring-intro",
+      "ordinals": [
+        21
+      ],
+      "verbatim_quote": "料线通过料管送到挤出机中",
+      "anchor": "",
+      "topics": [
+        "初次打印指南",
+        "缠料检测",
+        "产品料管更换"
+      ],
+      "reference_images": [
+        {
+          "sha256": "3bbe0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool"
+        }
+      ]
+    },
+    {
+      "id": "control_screen",
+      "name": "触摸屏／控制面板",
+      "english": "Touchscreen",
+      "url": "https://wiki.bambulab.com/zh/a1/screen-operation",
+      "ordinals": [
+        4
+      ],
+      "anchor": "主页",
+      "topics": [
+        "屏幕操作指南",
+        "触摸屏",
+        "显示屏异常"
+      ],
+      "reference_images": [
+        {
+          "sha256": "02719cf005fc9c7f0c2cdf2ca9430141710d1415f56f70ed5d0b5c9f00ab4210",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/maintenance/touchscreen-replacement-guide"
+        },
+        {
+          "sha256": "09ca936f77a50caa44e1b31ceb0adc608946fe98a095ddef807836d01684a3c8",
+          "source_page": "https://wiki.bambulab.com/zh/a1/screen-operation"
+        }
+      ]
+    },
+    {
+      "id": "power_switch",
+      "name": "电源开关",
+      "english": "Power switch",
+      "url": "https://wiki.bambulab.com/zh/a1-mini/maintenance/power-supply-replacement-guide",
+      "ordinals": [
+        44
+      ],
+      "verbatim_quote": "打印机可正常开机并点亮显示屏",
+      "anchor": "",
+      "topics": [
+        "电源线/电源开关",
+        "电源更换",
+        "电路故障"
+      ],
+      "reference_images": [
+        {
+          "sha256": "32af5758897d79eab7177f94a597d7e29de20c20355d79c4077ca3161fad3b8a",
+          "source_page": "https://wiki.bambulab.com/zh/a1-mini/maintenance/power-cable-replacement-guide"
+        }
+      ]
+    }
+  ]
+}

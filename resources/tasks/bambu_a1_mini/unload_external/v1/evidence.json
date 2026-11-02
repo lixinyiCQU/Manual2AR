@@ -1,0 +1,190 @@
+{
+  "format": "guidance-evidence-v1",
+  "snapshot_id": "20261024T145623Z_e2655a",
+  "source_pages": {
+    "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool": {
+      "url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "title": "A1 mini 初次打印指南（使用外挂料盘） | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "artifact_dir": "runs/20261024T145623Z_e2655a/pages/a72066c9146236e95cc7",
+      "applicability": "A1 mini specific"
+    }
+  },
+  "evidence": {
+    "3834865f5ea11d14505a75d8": {
+      "ordinal": 35,
+      "kind": "p",
+      "text": "如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。",
+      "text_sha256": "4a804bec1cc4188b3653c7d93752c1f860418e083c4b32c5e61e6c15c8f9ef83",
+      "heading_path": [
+        "如何换料"
+      ],
+      "anchor": "如何换料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(22)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "3834865f5ea11d14505a75d8",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "393510ff2cb1d85389db05d8": {
+      "ordinal": 37,
+      "kind": "p",
+      "text": "在屏幕上选择 退料/Unload，打印机将开始自动加热热端，并切断耗材。",
+      "text_sha256": "9a6cc20633b883ebb6ad65b7e88620403116475cc194f894f427c7b34fd599bd",
+      "heading_path": [
+        "如何换料",
+        "1. 退料"
+      ],
+      "anchor": "h-1-退料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(23)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "393510ff2cb1d85389db05d8",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "1ea3e50908d655fa89409b8d": {
+      "ordinal": 39,
+      "kind": "p",
+      "text": "完成上一步后，需要手动抽出耗材才能完成退料流程。",
+      "text_sha256": "b3b5dc668a706410789537e4542b7b77bd5b3481559ee7fe71c6e5f96ac10047",
+      "heading_path": [
+        "如何换料",
+        "2. 抽出耗材"
+      ],
+      "anchor": "h-2-抽出耗材",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(24)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "1ea3e50908d655fa89409b8d",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "0f84d44d0ea1e09f7a0cc5a9": {
+      "ordinal": 40,
+      "kind": "p",
+      "text": "请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。",
+      "text_sha256": "ed07a29207da60581b9ca9dbad126a539cb01b007332f8df4b200332892691f2",
+      "heading_path": [
+        "如何换料",
+        "2. 抽出耗材"
+      ],
+      "anchor": "h-2-抽出耗材",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(25)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "0f84d44d0ea1e09f7a0cc5a9",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "2b4726570c121d109d1add22": {
+      "ordinal": 41,
+      "kind": "p",
+      "text": "如果没有及时抽出耗材，请在屏幕上选择 重试/Retry并重新抽出。",
+      "text_sha256": "edb55d502eabd9a0c192eaeaa5b3275855f6695db9875a6a8c33ea943fb2729b",
+      "heading_path": [
+        "如何换料",
+        "2. 抽出耗材"
+      ],
+      "anchor": "h-2-抽出耗材",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(26)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "2b4726570c121d109d1add22",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "d9eeab1c5b11e59e35836272": {
+      "ordinal": 43,
+      "kind": "p",
+      "text": "完成退料操作后，按照上述的\"打印准备\"操作进料。",
+      "text_sha256": "6ef13994c8fa7e0ae92ee8443ef0dfec11e8c71999732a98f2ccb137c5accf1f",
+      "heading_path": [
+        "如何换料",
+        "3. 进料"
+      ],
+      "anchor": "h-3-进料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(27)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "d9eeab1c5b11e59e35836272",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    }
+  },
+  "images": {
+    "references/dba0a5bc45f912d8.png": {
+      "path": "references/dba0a5bc45f912d8.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/appen1-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "dba0a5bc45f912d8c5d94a7cd2f178a582c4eeed767b2993dbb927a60d4cf471",
+      "heading_path": [
+        "如何换料",
+        "1. 退料"
+      ],
+      "archive_object_path": "objects/db/a0a5bc45f912d8c5d94a7cd2f178a582c4eeed767b2993dbb927a60d4cf471.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/91571fa6b86df5dc.png": {
+      "path": "references/91571fa6b86df5dc.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/appen2-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "91571fa6b86df5dcf807da737fb4aa2bb877bc93dfbc5a440b676a9928a1d6b6",
+      "heading_path": [
+        "如何换料",
+        "1. 退料"
+      ],
+      "archive_object_path": "objects/91/571fa6b86df5dcf807da737fb4aa2bb877bc93dfbc5a440b676a9928a1d6b6.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/7ecabcd180bb4ac2.png": {
+      "path": "references/7ecabcd180bb4ac2.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/appen3-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "7ecabcd180bb4ac228961eb6d1e6f680ed8c7c1469e9076513ccd4e625810839",
+      "heading_path": [
+        "如何换料",
+        "2. 抽出耗材"
+      ],
+      "archive_object_path": "objects/7e/cabcd180bb4ac228961eb6d1e6f680ed8c7c1469e9076513ccd4e625810839.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/3294dd4433772e86.png": {
+      "path": "references/3294dd4433772e86.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/appen4-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "3294dd4433772e86aaf744874761811f1984bc7bb1c278b062099ab7e846315d",
+      "heading_path": [
+        "如何换料",
+        "2. 抽出耗材"
+      ],
+      "archive_object_path": "objects/32/94dd4433772e86aaf744874761811f1984bc7bb1c278b062099ab7e846315d.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    }
+  }
+}

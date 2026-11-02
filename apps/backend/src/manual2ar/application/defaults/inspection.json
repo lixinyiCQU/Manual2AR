@@ -1,0 +1,80 @@
+{
+  "vlm": {
+    "base_url": "https://maas.qianwenaiapi.com/compatible-mode/v1",
+    "model": "qwen3.8-max-0902",
+    "api_key": "",
+    "timeout_seconds": 120,
+    "temperature": 0,
+    "enable_thinking": false
+  },
+  "backend": {
+    "host": "0.0.0.0",
+    "port": 8010,
+    "public_url": "http://127.0.0.1:8010"
+  },
+  "cpu_tracking": {
+    "target_fps": 10,
+    "capture_max_side": 640,
+    "jpeg_quality": 78,
+    "request_timeout_seconds": 3,
+    "recovery_seconds": 2.5,
+    "recovery_max_frames": 20,
+    "max_corners": 100,
+    "minimum_points": 8,
+    "forward_backward_error": 1.5,
+    "minimum_inlier_ratio": 0.65,
+    "maximum_residual": 2.5,
+    "minimum_appearance_correlation": 0.55,
+    "maximum_motion_ratio": 0.18,
+    "minimum_scale": 0.85,
+    "maximum_scale": 1.18,
+    "png_compression": 1
+  },
+  "segmentation": {
+    "default_provider": "sam31_cutie",
+    "timeout_seconds": 120
+  },
+  "cutie_tracking": {
+    "connection_file": "configs/inference.connection.local.json",
+    "initialization_timeout_seconds": 300,
+    "request_timeout_seconds": 30,
+    "target_fps": 8,
+    "recovery_seconds": 3,
+    "recovery_max_frames": 20
+  },
+  "camera": {
+    "name": "",
+    "width": 960,
+    "height": 720,
+    "fps": 15
+  },
+  "static_images": {
+    "folder": "resources/samples",
+    "max_count": 100
+  },
+  "performance": {
+    "max_overlay_age_ms": 1500,
+    "compact_masks": true,
+    "telemetry_seconds": 5,
+    "target_render_fps": 60,
+    "live_preview_inset": true
+  },
+  "inspection": {
+    "rescan_seconds": 15,
+    "tracking_fps": 8,
+    "max_runs": 8,
+    "idle_minutes": 30,
+    "tracking_sample_seconds": 2,
+    "max_tracking_samples": 100,
+    "clear_plate_confidence_min": 0.75,
+    "clear_scene_confidence_min": 0.8,
+    "minimum_tracking_quality": 0.5,
+    "mask_prompt_containment_min": 0.6,
+    "mask_point_support_radius_ratio": 0.08,
+    "continuous_monitoring": false,
+    "scene_watch_enabled": true,
+    "scene_candidate_min_pixels": 32,
+    "scene_candidate_min_frame_ratio": 0.0002,
+    "scene_candidate_confirm_frames": 2
+  }
+}

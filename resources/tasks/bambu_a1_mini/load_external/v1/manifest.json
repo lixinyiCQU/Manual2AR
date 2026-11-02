@@ -1,0 +1,53 @@
+{
+  "format": "guidance-task-files-v1",
+  "files": {
+    "README_ZH.md": {
+      "bytes": 720,
+      "sha256": "1ee04f01273b5be4197f35af0770bc720c981c4d657083cde384a1d71eb4ee70"
+    },
+    "evidence.json": {
+      "bytes": 19448,
+      "sha256": "5954e00345b1c03637c5ad313ba97c7d58333fed28285e17962ccad4894a6a34"
+    },
+    "procedure.json": {
+      "bytes": 22086,
+      "sha256": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2"
+    },
+    "prompts/load_external_spool-L2-C1.txt": {
+      "bytes": 1114,
+      "sha256": "0ac7e5833a601a873f11222d96696d7faacb962137283208a1fe05dd3ba9590d"
+    },
+    "references/028886162a802c69.png": {
+      "bytes": 1014720,
+      "sha256": "028886162a802c69921d63155dd636866962aee13bef25c4fd233f500c0649fb"
+    },
+    "references/3bbe0cc2a2bea859.png": {
+      "bytes": 1050229,
+      "sha256": "3bbe0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973"
+    },
+    "references/4397e9f4bfde43f1.png": {
+      "bytes": 909231,
+      "sha256": "4397e9f4bfde43f141b795967e9f4a41c35dfa1332e08ac71bd58f97432d6a5e"
+    },
+    "references/69a5f024afe85627.png": {
+      "bytes": 999859,
+      "sha256": "69a5f024afe85627874bc7ab24d0d274c913359ce604822706f9b12fa2e8a0f8"
+    },
+    "references/6fe8a29de7068b9f.png": {
+      "bytes": 886004,
+      "sha256": "6fe8a29de7068b9f7abc22ecced4155ff935c48fe24389597ea9149e03ea1245"
+    },
+    "references/7602114cd0147626.png": {
+      "bytes": 863837,
+      "sha256": "7602114cd01476260fac3e74bf4f81b952c802550a58b82c1112a27ca8bd80af"
+    },
+    "references/eb1b99fa2c479a52.png": {
+      "bytes": 892757,
+      "sha256": "eb1b99fa2c479a5249d63c674b25611e3c44fb9c23642ed1a5f99435735eabdf"
+    },
+    "references/f7b24cc60ad2ddf2.png": {
+      "bytes": 881869,
+      "sha256": "f7b24cc60ad2ddf23b7a252d24fda2b523912e74f51031aecad0213f9e85ef83"
+    }
+  }
+}

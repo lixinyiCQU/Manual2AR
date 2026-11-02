@@ -1,0 +1,318 @@
+{
+  "format": "guidance-evidence-v1",
+  "snapshot_id": "20261024T145623Z_e2655a",
+  "source_pages": {
+    "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool": {
+      "url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "title": "A1 mini 初次打印指南（使用外挂料盘） | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "artifact_dir": "runs/20261024T145623Z_e2655a/pages/a72066c9146236e95cc7",
+      "applicability": "A1 mini specific"
+    },
+    "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo": {
+      "url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "title": "开箱 A1 mini 套装/单机 | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T14:57:17.569645+00:00",
+      "body_sha256": "1fd01d4e77a7bd51e4021837f25ac73b4939df562f091637e09fd9b8eb3d1613",
+      "extraction_input_sha256": "e6d4a12688e8ad9fa90738e233cf97165c481cd035cdcff5a36a4872c2c530ea",
+      "artifact_dir": "runs/20261024T145623Z_e2655a/pages/cfd82f1aae60a44570e0",
+      "applicability": "A1 mini specific"
+    }
+  },
+  "evidence": {
+    "a38a83f538aecdc3482321b3": {
+      "ordinal": 23,
+      "kind": "p",
+      "text": "在确保装载好线材和放置打印板后，即可以开始打印。",
+      "text_sha256": "37ce5e6eab136158b245d9f2144a78083032f67cd79234508c1821bd61aed7a1",
+      "heading_path": [
+        "开始打印"
+      ],
+      "anchor": "开始打印",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(14)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "a38a83f538aecdc3482321b3",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "3834865f5ea11d14505a75d8": {
+      "ordinal": 35,
+      "kind": "p",
+      "text": "如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。",
+      "text_sha256": "4a804bec1cc4188b3653c7d93752c1f860418e083c4b32c5e61e6c15c8f9ef83",
+      "heading_path": [
+        "如何换料"
+      ],
+      "anchor": "如何换料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(22)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "3834865f5ea11d14505a75d8",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "d9eeab1c5b11e59e35836272": {
+      "ordinal": 43,
+      "kind": "p",
+      "text": "完成退料操作后，按照上述的\"打印准备\"操作进料。",
+      "text_sha256": "6ef13994c8fa7e0ae92ee8443ef0dfec11e8c71999732a98f2ccb137c5accf1f",
+      "heading_path": [
+        "如何换料",
+        "3. 进料"
+      ],
+      "anchor": "h-3-进料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(27)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "d9eeab1c5b11e59e35836272",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "06c1f617fbb9a57ea6e246be": {
+      "ordinal": 28,
+      "kind": "p",
+      "text": "在打印机屏幕上点击 打印文件/Print Files，访问 MicroSD 卡的内置文件。",
+      "text_sha256": "41e375b708407dcf4b4d12e4992e7000f07f819b5d606629e0846a706d88ebe8",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "anchor": "使用内置文件发起打印",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(17)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "06c1f617fbb9a57ea6e246be",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "7b2963bce4e77c0ef9cb0c3e": {
+      "ordinal": 29,
+      "kind": "p",
+      "text": "选择想要打印的模型。",
+      "text_sha256": "cff80a07e607dd571ea9674ff786d4e1a29c6873cc9b8980310dd332e63964b9",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "anchor": "使用内置文件发起打印",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(18)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "7b2963bce4e77c0ef9cb0c3e",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "4f4fb4fed400a5f2b2823c78": {
+      "ordinal": 30,
+      "kind": "p",
+      "text": "推荐启用热床调平和动态流量校准功能。",
+      "text_sha256": "3b9b38380f1a013ea51cd4419aba8f681c3b0f8958272c47b621449958cb15fe",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "anchor": "使用内置文件发起打印",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(19)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "4f4fb4fed400a5f2b2823c78",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "79fc32a675af9bd839b6a558": {
+      "ordinal": 31,
+      "kind": "p",
+      "text": "开始“打印”。",
+      "text_sha256": "4bc5c69352314038833b42d91361f02e588f25574bebb2ad1254d54a253cc892",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "anchor": "使用内置文件发起打印",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(20)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "79fc32a675af9bd839b6a558",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "c2dd846ec25484e22e5134d0": {
+      "ordinal": 24,
+      "kind": "h3",
+      "text": "使用 Bambu Studio 发起打印任务",
+      "text_sha256": "25c291a22c0d028dc0086109ea22a3718560ff4fb24f17617849f855d3c2ef23",
+      "heading_path": [
+        "开始打印",
+        "使用 Bambu Studio 发起打印任务"
+      ],
+      "anchor": "使用-bambu-studio-发起打印任务",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > h3:nth-of-type(3)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "c2dd846ec25484e22e5134d0",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "3b3de939ebc19458a73de052": {
+      "ordinal": 25,
+      "kind": "p",
+      "text": "点击此处下载Bambu Studio。",
+      "text_sha256": "c9be0dcbbb9c0af8961ac000782d26a91175ec27fde9457edbeacbbf6f45d090",
+      "heading_path": [
+        "开始打印",
+        "使用 Bambu Studio 发起打印任务"
+      ],
+      "anchor": "使用-bambu-studio-发起打印任务",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(15)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "3b3de939ebc19458a73de052",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "6e71a2fded983aafbca8a20c": {
+      "ordinal": 26,
+      "kind": "p",
+      "text": "打开 Bambu Studio，可右键选择模型并切片，然后发送打印任务。",
+      "text_sha256": "8438aa426c728c94818339a506333ec8f0f952fdbc86afc94dbd4ec3810dc17e",
+      "heading_path": [
+        "开始打印",
+        "使用 Bambu Studio 发起打印任务"
+      ],
+      "anchor": "使用-bambu-studio-发起打印任务",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(16)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "6e71a2fded983aafbca8a20c",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    }
+  },
+  "images": {
+    "references/3bbe0cc2a2bea859.png": {
+      "path": "references/3bbe0cc2a2bea859.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare1-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "3bbe0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "1. 安装料盘"
+      ],
+      "archive_object_path": "objects/3b/be0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/793884d441b0ec4e.png": {
+      "path": "references/793884d441b0ec4e.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/start-print3-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "793884d441b0ec4ed19c08e4a067449c292e13527f34cc6feb871b70a6c41a00",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "archive_object_path": "objects/79/3884d441b0ec4ed19c08e4a067449c292e13527f34cc6feb871b70a6c41a00.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/e5f0fd808fe66259.png": {
+      "path": "references/e5f0fd808fe66259.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/start-print4-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "e5f0fd808fe66259947a5968d53ccb601728283cbe156c6fdce67bdf686f51fe",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "archive_object_path": "objects/e5/f0fd808fe66259947a5968d53ccb601728283cbe156c6fdce67bdf686f51fe.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/e287a09fdbe6b398.png": {
+      "path": "references/e287a09fdbe6b398.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/start-print5-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "e287a09fdbe6b3987c6e4abc0ee7c7bba1b6858d670366d1109709f442de884e",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "archive_object_path": "objects/e2/87a09fdbe6b3987c6e4abc0ee7c7bba1b6858d670366d1109709f442de884e.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/27e3a50aa6ab5883.png": {
+      "path": "references/27e3a50aa6ab5883.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/start-print6-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "27e3a50aa6ab58832803a5022150bcbbca752116a4a4a167bfb1c8c1cd857ce1",
+      "heading_path": [
+        "开始打印",
+        "使用内置文件发起打印"
+      ],
+      "archive_object_path": "objects/27/e3a50aa6ab58832803a5022150bcbbca752116a4a4a167bfb1c8c1cd857ce1.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/1037f6317141b54d.png": {
+      "path": "references/1037f6317141b54d.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/start-print1-external-cn.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "1037f6317141b54d9c378124437b79d41c3015a059467c9c4f1f65fa1eb96447",
+      "heading_path": [
+        "开始打印",
+        "使用 Bambu Studio 发起打印任务"
+      ],
+      "archive_object_path": "objects/10/37f6317141b54d9c378124437b79d41c3015a059467c9c4f1f65fa1eb96447.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/9835557e83d5b573.png": {
+      "path": "references/9835557e83d5b573.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/start-print2-external-cn.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "9835557e83d5b573c14f398a6bf27e4270954885893d4e31a9b26659ec5643ef",
+      "heading_path": [
+        "开始打印",
+        "使用 Bambu Studio 发起打印任务"
+      ],
+      "archive_object_path": "objects/98/35557e83d5b573c14f398a6bf27e4270954885893d4e31a9b26659ec5643ef.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    }
+  }
+}

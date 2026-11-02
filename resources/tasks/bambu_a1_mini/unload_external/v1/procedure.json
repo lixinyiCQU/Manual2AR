@@ -1,0 +1,428 @@
+{
+  "schema_version": "0.9",
+  "device": {
+    "device_id": "bambu_a1_mini",
+    "name": "Bambu Lab A1 mini 单机／外挂料盘",
+    "role": "manual_defined_equipment",
+    "future_target_device": null
+  },
+  "task": {
+    "task_id": "a1_mini_unload_external_v1",
+    "manual_id": "bambu_wiki_first_print_external_20261024T145623Z_e2655a",
+    "initial_state": "D1",
+    "terminal_states": [
+      "D5"
+    ],
+    "task_type": "legacy",
+    "parameters": {
+      "kind": "unload_filament",
+      "variant_id": "unload_external",
+      "title": "退料",
+      "review_status": "implemented_reviewed_plan_pending_physical_validation",
+      "runtime_status": "implemented_in_guidance_service",
+      "completion_scope": "用户确认按设备提示完成退料；不声称应用已测得内部送料或温度状态。",
+      "presentation": {
+        "D1": {
+          "title": "确认退料条件",
+          "display_mode": "text_and_images",
+          "reference_images": [],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "D1-C1": "确实需要退料；当前未在打印，或已按设备提示暂停。"
+          },
+          "display_warnings": [
+            "新机首次进料不必先退料。"
+          ]
+        },
+        "D2": {
+          "title": "在设备上选择退料",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/dba0a5bc45f912d8.png",
+            "references/91571fa6b86df5dc.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "D2-C1": "已在设备屏幕选择退料，并进入退料流程。"
+          },
+          "display_warnings": [
+            "加热与切料由设备执行，请等待相应提示。"
+          ]
+        },
+        "D3": {
+          "title": "等待设备要求的阶段",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/7ecabcd180bb4ac2.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "D3-C1": "已看到设备或APP／Studio允许手动抽出耗材的提示。"
+          },
+          "display_warnings": [
+            "根据设备提示操作，不只按固定等待时间抽出。"
+          ]
+        },
+        "D4": {
+          "title": "按提示手动抽出耗材",
+          "display_mode": "text_and_images",
+          "reference_images": [
+            "references/7ecabcd180bb4ac2.png",
+            "references/3294dd4433772e86.png"
+          ],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "D4-C1": "已在设备要求的阶段实际抽出耗材。"
+          },
+          "display_warnings": [
+            "设备仍要求抽出耗材或重试时，请先处理提示再确认。"
+          ]
+        },
+        "D5": {
+          "title": "确认退料结束",
+          "display_mode": "text_and_images",
+          "reference_images": [],
+          "tools": [],
+          "materials": [],
+          "capture_only_when_channel_vision": true,
+          "display_conditions": {
+            "D5-C1": "设备退料流程已结束，没有仍待处理的退料提示。"
+          },
+          "display_warnings": [
+            "确认退料结束后，再进行后续进料。"
+          ]
+        }
+      },
+      "inspection_prompts": {},
+      "evidence_file": "evidence.json",
+      "reference_assets_materialized": true,
+      "printer_control": "user_operates_device_only",
+      "telemetry_integration": false,
+      "decomposition_basis": "project editorial decomposition of cited official sources",
+      "description": "用户确认按设备提示完成退料；不声称应用已测得内部送料或温度状态。",
+      "overview_source_policy": "步骤为官方快照的教学拆分；下面保留官方章节与逐字引用。附录进料独立为子任务，排除AMS Lite。"
+    }
+  },
+  "states": [
+    {
+      "state_id": "D1",
+      "step_index": 0,
+      "state_type": "initial_state",
+      "instruction": "确认确实需要退出旧料；如果正在打印，先按官方说明暂停当前任务。",
+      "preconditions": [],
+      "postconditions": [
+        "用户确认本次确实需要退料；当前未在打印，或原打印任务已按设备提示暂停，可按指南执行退料。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "context:退料前提"
+      ],
+      "warnings": [
+        "新机首次进料不必先执行退料；不在打印时不需要人为制造暂停任务。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "如何换料",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。",
+        "citation_ids": [
+          "3834865f5ea11d14505a75d8"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "D2",
+      "observation_nodes": [
+        {
+          "inspection_id": "D1-C1",
+          "condition": "用户确认本次确实需要退料；当前未在打印，或原打印任务已按设备提示暂停，可按指南执行退料。",
+          "component_ids": [
+            "context:退料前提"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "如何换料",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。",
+            "citation_ids": [
+              "3834865f5ea11d14505a75d8"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "D2",
+      "step_index": 1,
+      "state_type": "action",
+      "instruction": "在打印机屏幕选择退料；打印机将执行相应的热端加热和切料流程。",
+      "preconditions": [
+        "D1 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认已在设备上选择退料，并进入设备退料流程。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "target:退料操作界面"
+      ],
+      "warnings": [
+        "加热和切料由设备执行，本应用不下发这些控制命令。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "如何换料 / 1. 退料",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "在屏幕上选择 退料/Unload，打印机将开始自动加热热端，并切断耗材。",
+        "citation_ids": [
+          "393510ff2cb1d85389db05d8"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "D3",
+      "observation_nodes": [
+        {
+          "inspection_id": "D2-C1",
+          "condition": "用户确认已在设备上选择退料，并进入设备退料流程。",
+          "component_ids": [
+            "target:退料操作界面"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "如何换料 / 1. 退料",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "在屏幕上选择 退料/Unload，打印机将开始自动加热热端，并切断耗材。",
+            "citation_ids": [
+              "393510ff2cb1d85389db05d8"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "D3",
+      "step_index": 2,
+      "state_type": "action",
+      "instruction": "等待设备完成相应动作，根据设备或APP／Studio的退料提示进入手动抽出阶段。",
+      "preconditions": [
+        "D2 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认已看到允许手动抽出耗材的设备或应用提示。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "target:退料提示"
+      ],
+      "warnings": [
+        "不要仅凭计时、单张外观图或固定温度数字推断可以抽出。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "如何换料 / 1. 退料",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "在屏幕上选择 退料/Unload，打印机将开始自动加热热端，并切断耗材。\n完成上一步后，需要手动抽出耗材才能完成退料流程。\n请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。",
+        "citation_ids": [
+          "393510ff2cb1d85389db05d8",
+          "1ea3e50908d655fa89409b8d",
+          "0f84d44d0ea1e09f7a0cc5a9"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "D4",
+      "observation_nodes": [
+        {
+          "inspection_id": "D3-C1",
+          "condition": "用户确认已看到允许手动抽出耗材的设备或应用提示。",
+          "component_ids": [
+            "target:退料提示"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "如何换料 / 1. 退料",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "在屏幕上选择 退料/Unload，打印机将开始自动加热热端，并切断耗材。\n完成上一步后，需要手动抽出耗材才能完成退料流程。\n请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。",
+            "citation_ids": [
+              "393510ff2cb1d85389db05d8",
+              "1ea3e50908d655fa89409b8d",
+              "0f84d44d0ea1e09f7a0cc5a9"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "D4",
+      "step_index": 3,
+      "state_type": "action",
+      "instruction": "根据APP／Studio提示及时手动抽出耗材；未及时抽出时按指南选择重试。",
+      "preconditions": [
+        "D3 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认已在设备要求的阶段实际抽出耗材；如未完成则执行重试，不确认本项。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "target:耗材退出路径"
+      ],
+      "warnings": [
+        "原页将温度保持142°C且不下降描述为可能仍有余料、退料未完成；不将142°C设为完成阈值。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "如何换料 / 2. 抽出耗材",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "完成上一步后，需要手动抽出耗材才能完成退料流程。\n请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。\n如果没有及时抽出耗材，请在屏幕上选择 重试/Retry并重新抽出。",
+        "citation_ids": [
+          "1ea3e50908d655fa89409b8d",
+          "0f84d44d0ea1e09f7a0cc5a9",
+          "2b4726570c121d109d1add22"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": "D5",
+      "observation_nodes": [
+        {
+          "inspection_id": "D4-C1",
+          "condition": "用户确认已在设备要求的阶段实际抽出耗材；如未完成则执行重试，不确认本项。",
+          "component_ids": [
+            "target:耗材退出路径"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "如何换料 / 2. 抽出耗材",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "完成上一步后，需要手动抽出耗材才能完成退料流程。\n请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。\n如果没有及时抽出耗材，请在屏幕上选择 重试/Retry并重新抽出。",
+            "citation_ids": [
+              "1ea3e50908d655fa89409b8d",
+              "0f84d44d0ea1e09f7a0cc5a9",
+              "2b4726570c121d109d1add22"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "D5",
+      "step_index": 4,
+      "state_type": "action",
+      "instruction": "核对设备反馈，确认当前退料流程已结束，没有仍需抽出耗材的提示；需要换新料时可继续进料指导。",
+      "preconditions": [
+        "D4 的必要观察点已通过"
+      ],
+      "postconditions": [
+        "用户确认本机退料流程已结束，且没有仍待处理的退料提示。"
+      ],
+      "wrong_states": [
+        "用户尚未完成本项，或设备仍要求处理当前操作；无法确认时不通过。"
+      ],
+      "target_components": [
+        "context:退料完成反馈"
+      ],
+      "warnings": [
+        "只记录用户观察与声明；看见外部料管为空不证明机内所有余料已经清除。"
+      ],
+      "manual_provenance": {
+        "page": null,
+        "section": "如何换料 / 2. 抽出耗材",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+        "source_text": "完成上一步后，需要手动抽出耗材才能完成退料流程。\n请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。\n如果没有及时抽出耗材，请在屏幕上选择 重试/Retry并重新抽出。\n完成退料操作后，按照上述的\"打印准备\"操作进料。",
+        "citation_ids": [
+          "1ea3e50908d655fa89409b8d",
+          "0f84d44d0ea1e09f7a0cc5a9",
+          "2b4726570c121d109d1add22",
+          "d9eeab1c5b11e59e35836272"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "用户声明与视觉判断分别记录；不确定不通过；只核验本观察点，不据此宣称设备内部状态或打印成品质量。",
+      "next_on_success": null,
+      "observation_nodes": [
+        {
+          "inspection_id": "D5-C1",
+          "condition": "用户确认本机退料流程已结束，且没有仍待处理的退料提示。",
+          "component_ids": [
+            "context:退料完成反馈"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本项由用户在设备上完成并明确确认，不请求拍摄。",
+          "evidence_type": "display",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "如何换料 / 2. 抽出耗材",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+            "source_text": "完成上一步后，需要手动抽出耗材才能完成退料流程。\n请根据 APP/Studio 上的提示，尽快手动抽出耗材。如果喷嘴温度保持在 142℃ 且不下降，说明挤出机内仍有余料，则表示退料尚未完成。\n如果没有及时抽出耗材，请在屏幕上选择 重试/Retry并重新抽出。\n完成退料操作后，按照上述的\"打印准备\"操作进料。",
+            "citation_ids": [
+              "1ea3e50908d655fa89409b8d",
+              "0f84d44d0ea1e09f7a0cc5a9",
+              "2b4726570c121d109d1add22",
+              "d9eeab1c5b11e59e35836272"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    }
+  ]
+}

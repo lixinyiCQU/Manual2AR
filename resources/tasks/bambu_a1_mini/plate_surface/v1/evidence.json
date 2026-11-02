@@ -1,0 +1,70 @@
+{
+  "snapshot": "20261024T145623Z_e2655a",
+  "quotes": [
+    {
+      "citation_id": "1c73506b9c763a21cf36a102",
+      "ordinal": 3,
+      "text": "A 系列打印机配备了打印板位置检测功能，打印机在打印开始前能检测用户是否放置了打印板，避免直接在热床上打印，造成打印失败甚至损坏热床。下图为直接在热床上打印的错误示例：",
+      "text_sha256": "4f2674538f37c6ec5f9c969d310d71e1678ce003e3c4ce8beedfbbefe0f2da3a",
+      "heading_path": [
+        "什么是打印板位置检测？"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/build-plate-detection",
+      "body_sha256": "c8131b373e228404882fe7feb0b6aa209ea5753902fbe79450127af8e5b892d8",
+      "title": "A 系列打印板位置检测 | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T14:57:51.116957+00:00"
+    },
+    {
+      "citation_id": "0ecd18cfd9438327a2b2df37",
+      "ordinal": 2,
+      "text": "在使用挤出力传感器进行喷嘴是否被耗材包裹检测时，若喷嘴下方被耗材包裹或打印板放歪，都会导致喷嘴受力而检测到力的变化。当开启裹头检测后，打印机在检测时喷嘴会运动到热床外，随后一直往下运动。如果喷嘴被耗材包裹，形成厚厚的一个料团，在上述的运动过程中就会导致料团碰到热床而产生力变化。使用挤出力传感器（涡流线圈）就会检测到力的变化。",
+      "text_sha256": "c6900344627285871393e8922fb661fac4c912d0c007ade43e953b551903e2cb",
+      "heading_path": [
+        "这是什么"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/troubleshooting/hmscode/0300_1A00_0002_0001",
+      "body_sha256": "2bb2afcc825254e4f6e5aaa6298f4916183d93ca95a219dad4bc84d32edcf9ca",
+      "title": "HMS_0300-1A00-0002-0001: 喷嘴被耗材包裹或打印板放歪。 | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T15:03:21.414251+00:00"
+    },
+    {
+      "citation_id": "0d7b837b0a58a754f6f7bee1",
+      "ordinal": 10,
+      "text": "另外热床周围有其他异物也有可能导致误检测，请在打印前清理干净热床周边的异物。",
+      "text_sha256": "7244b725631400cf5352d7b74f81bcc86342d6b3e4d0b6f27eca8ddbbf43a96b",
+      "heading_path": [
+        "解决方法"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/troubleshooting/hmscode/0300_1A00_0002_0001",
+      "body_sha256": "2bb2afcc825254e4f6e5aaa6298f4916183d93ca95a219dad4bc84d32edcf9ca",
+      "title": "HMS_0300-1A00-0002-0001: 喷嘴被耗材包裹或打印板放歪。 | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T15:03:21.414251+00:00"
+    },
+    {
+      "citation_id": "e2475d165c89e390a29528c9",
+      "ordinal": 2,
+      "text": "打印板在使用过程中，其表面可能会积累空气中的灰尘，或因取模操作而沾上手指的汗渍、油脂。这些不易察觉的附着物均可能降低打印板粘结性能，进而影响打印质量。及时清洗打印板即可使其恢复正常状态。",
+      "text_sha256": "79836880f2da4a1e9d685a1c539d1d0cefd5ed45834dbfcb4599a20e7c8ce695",
+      "heading_path": [
+        "清洗原因"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/filament-acc/acc/pei-plate-clean-guide",
+      "body_sha256": "3ec06bd24c3b80a2f691d5e0f1a60b4e8cc06297c988d9ab9ef56d2fefeee999",
+      "title": "纹理 PEI 板清洁指南 | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T15:08:38.665429+00:00"
+    },
+    {
+      "citation_id": "356085b839e3a5b1c3dfd3cb",
+      "ordinal": 13,
+      "text": "手上的天然油脂可能会转移到打印板表面，从而影响其粘附性能。下图是打印板上不同指纹的示例，这些指纹在打印首层会明显影响效果。建议定期清洁纹理板，以确保打印板表面没有碎屑或指纹。",
+      "text_sha256": "ad05c5ebdb4a8796c78ef5b0a1edd73f0d8b707e02807bb435510e253dc4bc65",
+      "heading_path": [
+        "清洁建议"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/filament-acc/acc/pei-plate-clean-guide",
+      "body_sha256": "3ec06bd24c3b80a2f691d5e0f1a60b4e8cc06297c988d9ab9ef56d2fefeee999",
+      "title": "纹理 PEI 板清洁指南 | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T15:08:38.665429+00:00"
+    }
+  ]
+}

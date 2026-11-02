@@ -1,0 +1,93 @@
+{
+  "base_commit": "38d46e6",
+  "branch": "lixin/module-three",
+  "sources": [
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "learning/tracker.py",
+      "sha256": "3bc5dbb416e4a7e86942d707de22b96984f3eed764074953ee5aec2a1be2c4af"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "learning/cutie_tracker.py",
+      "sha256": "4d1b2c49aa08d78532bbd70125abf0034ffd51f412a2f37b0fb3c3db7652fd60"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "learning/cpu_tracker.py",
+      "sha256": "ba7632b540b71e9c4b145dc8ec8df101fed964d1ebb65c5de54330ecb1cab1bf"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "learning/cutie_client.py",
+      "sha256": "b28029a27a1f70717b187938fa832a3f55a110b6aa78d3e8a56b229958a211b5"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "learning/cloud/contract.py",
+      "sha256": "26e85014909d689e5f82f4a9d058fc89cd9e3edd8d19538d07d0b2706e838059"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "components/segmentation.py",
+      "sha256": "4a1edbd5597921a5536fe443ebf97dfbdfd44878319072e538c5a5b9851256d5"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "components/vision_audit.py",
+      "sha256": "5b5bc0b2796c329de81c256e3fa04f327ab7fb4d865c0e2c485dec8608ac9026"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "backend/app/vision_task_profiles.py",
+      "sha256": "099bf174c752626684fed5db791a931fde399ce1c3b41f1e6ee0f5ce593292fa"
+    },
+    {
+      "worktree": "Manual2AR-Module-One",
+      "path": "backend/app/plate_inspection.py",
+      "sha256": "0aec1ab2b0297365fab7aedf52a6e59e04e6736102a4f59b27478ae70db596e7"
+    }
+  ],
+  "module_two_reference": "Unboxing V2 task-entry and official evidence patterns; source worktree not modified",
+  "local_private_config": "inherited into ignored files; not part of public bundle",
+  "ui_reference": {
+    "commit": "f48cdd32b956e805232e75e4519067df5c006f94",
+    "files": [
+      "unity/Manual2AR/Assets/Manual2AR/Scripts/PrePrintPlateInspectionController.cs",
+      "unity/Manual2AR/Assets/Manual2AR/Scripts/PrePrintPlateInspectionOverlay.cs",
+      "unity/Manual2AR/Assets/Manual2AR/Scripts/Manual2ARVisualTheme.cs"
+    ],
+    "adaptation": "Main fullscreen stage, toolbar, checklist, state badge, bottom banner; fixed Chinese release messages; no print authorization"
+  },
+  "current_ui_revision": {
+    "date": "2026-11-01",
+    "reference": "User supplied module-three camera/checklist diagram, separate toolbar and results",
+    "changes": "aspect-fill camera card, unified banner, slim square vector icons; recorded-frame unclassified-object proposals and scoped partial-view results",
+    "version": "v4"
+  },
+  "v5_changes": {
+    "scope": "module-three implementation; included in module-three-v1.0.0",
+    "review": "DEMO_REVIEW_V5_ZH.md",
+    "cloud_patch_files": [
+      "learning/cloud/initialization.py",
+      "learning/cloud/engine.py",
+      "learning/cloud/service.py"
+    ],
+    "cache_sources_read_from_module_one": [
+      "learning/build_cached_notebook.py",
+      "learning/cloud/drive_cache.py"
+    ],
+    "recordings_audited_locally": [
+      "Module1_demo.mp4",
+      "Module3_demo.mp4"
+    ],
+    "gpu_endpoint_probe": "HTTP 530; no current real GPU inference verified"
+  },
+  "release": {
+    "version": "1.0.0",
+    "tag": "module-three-v1.0.0",
+    "module_one_release_reference": "90a0a0e109f1f122f7f75bfe46eb4b81222381b8",
+    "notes": "RELEASE_1.0.0_ZH.md",
+    "final_scope": "current-frame outside-plate removal and clean rechecks without segmenter initialization"
+  }
+}

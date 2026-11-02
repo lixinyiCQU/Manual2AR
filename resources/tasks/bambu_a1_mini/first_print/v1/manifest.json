@@ -1,0 +1,49 @@
+{
+  "format": "guidance-task-files-v1",
+  "files": {
+    "README_ZH.md": {
+      "bytes": 1093,
+      "sha256": "05dbbc81d4b099bc2b12c12ed6a1b86b61143d94f4cfb1ffb924d823fea61e65"
+    },
+    "evidence.json": {
+      "bytes": 19286,
+      "sha256": "9f4a01fc913dc0e5a88f304a33d9d905a3b329c5ea8cd8e91fc8cd8ce558f7b9"
+    },
+    "procedure.json": {
+      "bytes": 15097,
+      "sha256": "909a57222d856185f6d51070adbb2f8e67c660505b07b2ff962513a00b97c7d8"
+    },
+    "references/1037f6317141b54d.png": {
+      "bytes": 258309,
+      "sha256": "1037f6317141b54d9c378124437b79d41c3015a059467c9c4f1f65fa1eb96447"
+    },
+    "references/27e3a50aa6ab5883.png": {
+      "bytes": 871909,
+      "sha256": "27e3a50aa6ab58832803a5022150bcbbca752116a4a4a167bfb1c8c1cd857ce1"
+    },
+    "references/3bbe0cc2a2bea859.png": {
+      "bytes": 1050229,
+      "sha256": "3bbe0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973"
+    },
+    "references/793884d441b0ec4e.png": {
+      "bytes": 924698,
+      "sha256": "793884d441b0ec4ed19c08e4a067449c292e13527f34cc6feb871b70a6c41a00"
+    },
+    "references/9835557e83d5b573.png": {
+      "bytes": 241408,
+      "sha256": "9835557e83d5b573c14f398a6bf27e4270954885893d4e31a9b26659ec5643ef"
+    },
+    "references/e287a09fdbe6b398.png": {
+      "bytes": 934927,
+      "sha256": "e287a09fdbe6b3987c6e4abc0ee7c7bba1b6858d670366d1109709f442de884e"
+    },
+    "references/e5f0fd808fe66259.png": {
+      "bytes": 897632,
+      "sha256": "e5f0fd808fe66259947a5968d53ccb601728283cbe156c6fdce67bdf686f51fe"
+    },
+    "variants/first_print_studio.procedure.json": {
+      "bytes": 15408,
+      "sha256": "a3e185e2ada53de94578ab6debf3750c43d14c638b2ab1266246213bcda8a780"
+    }
+  }
+}

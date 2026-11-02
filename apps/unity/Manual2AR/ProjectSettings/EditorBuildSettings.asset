@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Manual2AR/Scenes/Welcome.unity
+    guid: ee50f6e265845ad9bc0ccd3439cdfa6c
+  - enabled: 1
+    path: Assets/Manual2AR/Scenes/PrinterLearning.unity
+    guid: 5dc6bd555b155d0d840a0d8c23e30c15
+  - enabled: 1
+    path: Assets/Manual2AR/Scenes/PrinterGuidance.unity
+    guid: 527976663ed94decb93dd673bb166b1a
+  - enabled: 1
+    path: Assets/Manual2AR/Scenes/PrinterInspection.unity
+    guid: 1c507368754b4ca5ab1047dc5c5d708e
+  m_configObjects: {}

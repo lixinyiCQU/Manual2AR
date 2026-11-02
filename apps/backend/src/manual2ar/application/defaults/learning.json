@@ -1,0 +1,91 @@
+{
+  "vlm": {
+    "base_url": "https://maas.qianwenaiapi.com/compatible-mode/v1",
+    "model": "qwen3.8-max-0902",
+    "api_key": "",
+    "timeout_seconds": 120,
+    "temperature": 0,
+    "enable_thinking": false
+  },
+  "backend": {
+    "host": "0.0.0.0",
+    "port": 8010,
+    "public_url": "http://127.0.0.1:8010"
+  },
+  "tracking": {
+    "provider": "opencv",
+    "sam2_url": "",
+    "timeout_seconds": 90,
+    "interval_seconds": 0.7
+  },
+  "cpu_tracking": {
+    "target_fps": 10,
+    "capture_max_side": 640,
+    "jpeg_quality": 78,
+    "request_timeout_seconds": 3,
+    "recovery_seconds": 2.5,
+    "recovery_max_frames": 20,
+    "max_corners": 100,
+    "minimum_points": 8,
+    "forward_backward_error": 1.5,
+    "minimum_inlier_ratio": 0.65,
+    "maximum_residual": 2.5,
+    "minimum_appearance_correlation": 0.55,
+    "maximum_motion_ratio": 0.18,
+    "minimum_scale": 0.85,
+    "maximum_scale": 1.18,
+    "png_compression": 1
+  },
+  "segmentation": {
+    "default_provider": "sam31_cutie",
+    "timeout_seconds": 120
+  },
+  "cutie_tracking": {
+    "connection_file": "configs/inference.connection.local.json",
+    "initialization_timeout_seconds": 300,
+    "request_timeout_seconds": 30,
+    "target_fps": 8,
+    "recovery_seconds": 3,
+    "recovery_max_frames": 20
+  },
+  "camera": {
+    "name": "",
+    "width": 960,
+    "height": 720,
+    "fps": 15
+  },
+  "knowledge": {
+    "offline_wiki": {
+      "archive": "../../Manual2AR-Data/sources/bambu-wiki/runs/20261024T145623Z_e2655a/archive.json",
+      "cache_dir": "../../Manual2AR-Data/cache/integrated/wiki",
+      "renderer_python": ".venv/bin/python",
+      "render": {
+        "width": 1024,
+        "tile_height": 1024
+      }
+    }
+  },
+  "display": {
+    "width": 1920,
+    "height": 1080
+  },
+  "static_images": {
+    "folder": "resources/samples",
+    "recursive": true,
+    "max_count": 100
+  },
+  "logging": {
+    "sample_interval_seconds": 2,
+    "max_sample_frames": 300
+  },
+  "minimum_confidence": 0.65,
+  "maximum_mask_iou": 0.85,
+  "performance": {
+    "preview_mode": "live",
+    "max_overlay_age_ms": 1500,
+    "telemetry_seconds": 2,
+    "target_render_fps": 60,
+    "evidence_async": true,
+    "compact_masks": true
+  }
+}

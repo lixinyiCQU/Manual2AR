@@ -1,0 +1,9 @@
+{"title":"模块三 · 打印状态检查","tasks":[
+ {"id":"plate_surface","title":"打印板异物与残料","description":"检查可见板面上的遗留物体和较明显的残余耗材。","available":true,"capture_instruction":"在打印前检查。让整块打印板及四周边缘入镜，尽量从斜上方拍摄；避免工具头遮挡和强反光。"},
+ {"id":"plate_position","title":"打印板在位与明显错位","description":"检查打印板是否缺失、明显放歪。","available":false},
+ {"id":"first_layer","title":"首层明显异常","description":"观察起皮、波浪纹、凸起和明显缺料。","available":false},
+ {"id":"part_detachment","title":"模型翘边与脱落","description":"观察模型相对打印板的可见变化。","available":false},
+ {"id":"nozzle_blob","title":"喷嘴裹头","description":"观察喷嘴周围持续积聚的料团。","available":false},
+ {"id":"purge_accumulation","title":"吐料区域废料堆积","description":"观察吐料挡板和通道上的残料。","available":false},
+ {"id":"feed_path","title":"可见供料路径异常","description":"观察料线外翻、明显缠绕和料管脱离。","available":false}
+]}

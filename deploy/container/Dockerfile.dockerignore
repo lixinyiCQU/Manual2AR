@@ -1,0 +1,12 @@
+**/.git
+**/.venv
+**/__pycache__
+**/*.local.json
+**/*.connection.local.json
+**/Library
+**/Temp
+**/Logs
+resources
+apps/unity
+tests
+docs

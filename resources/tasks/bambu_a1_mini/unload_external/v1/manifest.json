@@ -1,0 +1,33 @@
+{
+  "format": "guidance-task-files-v1",
+  "files": {
+    "README_ZH.md": {
+      "bytes": 640,
+      "sha256": "1b3b2a4aeea9203a8a970f1823d5804cef7fde9c8d3772fb5700a5acdd7f37bc"
+    },
+    "evidence.json": {
+      "bytes": 11353,
+      "sha256": "60d6ac600695aa436df99eccda77fb43fd1c89cf82479b37b136d5cfee4f719d"
+    },
+    "procedure.json": {
+      "bytes": 19268,
+      "sha256": "c8812675e87d33477d7327d6abe1a08dfa0eb89e7d5466dab5b9fe4833498c2c"
+    },
+    "references/3294dd4433772e86.png": {
+      "bytes": 996106,
+      "sha256": "3294dd4433772e86aaf744874761811f1984bc7bb1c278b062099ab7e846315d"
+    },
+    "references/7ecabcd180bb4ac2.png": {
+      "bytes": 902241,
+      "sha256": "7ecabcd180bb4ac228961eb6d1e6f680ed8c7c1469e9076513ccd4e625810839"
+    },
+    "references/91571fa6b86df5dc.png": {
+      "bytes": 903840,
+      "sha256": "91571fa6b86df5dcf807da737fb4aa2bb877bc93dfbc5a440b676a9928a1d6b6"
+    },
+    "references/dba0a5bc45f912d8.png": {
+      "bytes": 901663,
+      "sha256": "dba0a5bc45f912d8c5d94a7cd2f178a582c4eeed767b2993dbb927a60d4cf471"
+    }
+  }
+}

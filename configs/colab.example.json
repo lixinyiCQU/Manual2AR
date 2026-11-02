@@ -1,0 +1,27 @@
+{
+  "schema_version": "manual2ar-colab-v1",
+  "session_name": "manual2ar-integrated",
+  "gpu": "T4",
+  "auth": "oauth2",
+  "client_oauth_config": "",
+  "cli_version": "0.7.5",
+  "remote_root": "/content/Manual2AR",
+  "startup_timeout_seconds": 3600,
+  "poll_seconds": 5,
+  "public_url": "",
+  "drive_cache": {
+    "enabled": false,
+    "path": "/content/drive/MyDrive/Manual2AR/cache-v1",
+    "cache_environment": true
+  },
+  "inference": {
+    "precision": "auto",
+    "cutie": {
+      "max_internal_size": -1,
+      "mem_every": 5,
+      "channels_last": false,
+      "compile_encoder": false
+    },
+    "retain_initial_images": false
+  }
+}

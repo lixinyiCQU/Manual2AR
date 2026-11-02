@@ -1,0 +1,1327 @@
+{
+  "schema_version": "0.9",
+  "device": {
+    "device_id": "bambu_a1_mini",
+    "name": "Bambu Lab A1 mini",
+    "role": "manual_defined_equipment"
+  },
+  "task": {
+    "task_id": "a1_mini_standalone_unboxing_v1",
+    "manual_id": "wiki-unbox-20261024T145623Z_e2655a",
+    "initial_state": "U1",
+    "terminal_states": [
+      "U13"
+    ],
+    "task_type": "legacy",
+    "parameters": {
+      "title": "A1 mini 开箱 · AMS lite 套装",
+      "description": "依据官方开箱指南浏览和操作；可自由选择章节与分步骤，拍照检查仅供参考。",
+      "kind": "unboxing_tutorial_v2",
+      "variant_id": "ams_lite_unboxing",
+      "navigation_policy": "free",
+      "verification_role": "advisory",
+      "completion_scope": "已结束本次教程浏览；不代表所有操作已完成、视觉检查通过或打印机具备打印条件。",
+      "official_source": {
+        "title": "开箱 A1 mini 套装/单机",
+        "url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+      },
+      "presentation": {
+        "U1": {
+          "title": "重要提醒：",
+          "tools": [],
+          "materials": [],
+          "reference_images": [],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "重要提醒：",
+          "display_conditions": {
+            "U1-C1": "用户自行对照官方说明完成本章操作。"
+          },
+          "display_warnings": []
+        },
+        "U2": {
+          "title": "拆箱和取出 A1 mini, AMS lite 及配件",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/cc307229f9584c15.png",
+            "references/480070ee266fac6a.png",
+            "references/1f7d5ce680e4867d.png",
+            "references/0bb444abf7600eb0.png",
+            "references/036ec9a15962c1f0.png",
+            "references/6f61e8d0861ddfd6.png",
+            "references/13e8ce74f1cf5209.png"
+          ],
+          "substeps": [
+            {
+              "id": "U2-S1",
+              "title": "1. 从顶部取出保护纸壳",
+              "instruction": "1. 从顶部取出保护纸壳\n\n部分泡沫内嵌配件，请注意检查！",
+              "reference_images": [
+                "references/cc307229f9584c15.png",
+                "references/480070ee266fac6a.png"
+              ],
+              "citation_ids": [
+                "888dcda78709d192c591afdc",
+                "cf780aa94ee9020ed33c1c77"
+              ]
+            },
+            {
+              "id": "U2-S2",
+              "title": "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。",
+              "instruction": "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。\n\n取出配件，AMS lite 和打印机。当取出打印机时，请手扶 Z 轴的后盖，请勿用手触碰 Z 轴金属滑轨，请勿用手提起 X 轴导轨。\n\n后续版本将不提供色卡，具体以收到实物为准。",
+              "reference_images": [
+                "references/1f7d5ce680e4867d.png",
+                "references/0bb444abf7600eb0.png",
+                "references/036ec9a15962c1f0.png",
+                "references/6f61e8d0861ddfd6.png",
+                "references/13e8ce74f1cf5209.png"
+              ],
+              "citation_ids": [
+                "714007c0015aed6810e023ee",
+                "22ddb5e232618bd595f591c5",
+                "021741b370a0dbefe3121e54",
+                "ef093bc750e80c4527406c59"
+              ]
+            }
+          ],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "拆箱和取出 A1 mini, AMS lite 及配件",
+          "display_conditions": {
+            "U2-C1": "已取出的A1 mini整机及其摆放区域清楚可见。"
+          },
+          "display_warnings": []
+        },
+        "U3": {
+          "title": "检查包装盒中的配件",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/c55d9ff772684b55.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "检查包装盒中的配件",
+          "display_conditions": {
+            "U3-C1": "当前版本主要配件在画面中可辨，说明缺失或无法确认的物品。"
+          },
+          "display_warnings": []
+        },
+        "U4": {
+          "title": "解锁 Z 轴限制器和工具头",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/4b39325fae422752.png",
+            "references/6baa2ab9794e0423.png",
+            "references/89df12329d188cf1.png",
+            "references/331dadd4a769c1d9.png",
+            "references/b48f68f533007797.png",
+            "references/ba24acb2a7fa79fd.png"
+          ],
+          "substeps": [
+            {
+              "id": "U4-S1",
+              "title": "1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+              "instruction": "1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+              "reference_images": [
+                "references/4b39325fae422752.png",
+                "references/6baa2ab9794e0423.png"
+              ],
+              "citation_ids": [
+                "47ada685e0d504166d9eca03"
+              ]
+            },
+            {
+              "id": "U4-S2",
+              "title": "2. 剪断并取下工具头周围的扎带",
+              "instruction": "2. 剪断并取下工具头周围的扎带",
+              "reference_images": [
+                "references/89df12329d188cf1.png",
+                "references/331dadd4a769c1d9.png"
+              ],
+              "citation_ids": [
+                "c97adbf0e1837339be5c56f6"
+              ]
+            },
+            {
+              "id": "U4-S3",
+              "title": "3. 将工具头向左稍微移动，然后取下减震泡棉。",
+              "instruction": "3. 将工具头向左稍微移动，然后取下减震泡棉。\n\n如有热床和导轨保护泡沫，需要在这一步移除它们。",
+              "reference_images": [
+                "references/b48f68f533007797.png",
+                "references/ba24acb2a7fa79fd.png"
+              ],
+              "citation_ids": [
+                "4de210d91fa38f39a2fd07fe",
+                "18aaff3a3224135f9d359b07"
+              ]
+            }
+          ],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "解锁 Z 轴限制器和工具头",
+          "display_conditions": {
+            "U4-C1": "可见的Z轴运输限制器、工具头扎带和减震泡棉已移除；说明画面未覆盖的区域。"
+          },
+          "display_warnings": []
+        },
+        "U5": {
+          "title": "锁紧热床螺丝",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/242991258447e026.png",
+            "references/52845b77836884c0.png",
+            "references/6bc2913e5ee37c66.jpg"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "锁紧热床螺丝",
+          "display_conditions": {
+            "U5-C1": "用户自行对照官方说明完成本章操作。"
+          },
+          "display_warnings": []
+        },
+        "U6": {
+          "title": "安装吐料组件",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/df44ab9efd621e45.png",
+            "references/2ed23ae33f41c22d.png",
+            "references/3628ad936ffb4fb9.png",
+            "references/d13917dc6acd50bb.png",
+            "references/40f862ded0d46445.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "安装吐料组件",
+          "display_conditions": {
+            "U6-C1": "吐料组件已滑入X轴末端插槽，固定螺丝位置可见，外观无明显偏斜或静态干涉。"
+          },
+          "display_warnings": []
+        },
+        "U7": {
+          "title": "安装料盘支架",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/a9a63e8f81e4971f.png",
+            "references/7f6374cbdab2f5f2.png",
+            "references/6a3a99488854ca51.png",
+            "references/c9a91fdeec9d5877.png"
+          ],
+          "substeps": [
+            {
+              "id": "U7-S1",
+              "title": "1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。",
+              "instruction": "1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。\n\n如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+              "reference_images": [
+                "references/a9a63e8f81e4971f.png",
+                "references/7f6374cbdab2f5f2.png"
+              ],
+              "citation_ids": [
+                "026a3a3c147bd8b28d5bf414",
+                "f76bb592ba8515e684d48401"
+              ]
+            },
+            {
+              "id": "U7-S2",
+              "title": "2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。",
+              "instruction": "2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。",
+              "reference_images": [
+                "references/6a3a99488854ca51.png",
+                "references/c9a91fdeec9d5877.png"
+              ],
+              "citation_ids": [
+                "97eeffdb901ac2699a6a9aeb"
+              ]
+            }
+          ],
+          "applicability_note": "官方说明：使用 AMS lite 时可选择不安装料盘支架。",
+          "optional": true,
+          "official_heading": "安装料盘支架",
+          "display_conditions": {
+            "U7-C1": "料盘支架底座与安装面贴合，支架已沿匹配插槽滑入，无明显倾斜。"
+          },
+          "display_warnings": []
+        },
+        "U8": {
+          "title": "撕下摄像头和屏幕的保护膜。",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/0cef224293683eea.png",
+            "references/99c8e5db5e8f3f21.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "撕下摄像头和屏幕的保护膜。",
+          "display_conditions": {
+            "U8-C1": "用户自行对照官方说明完成本章操作。"
+          },
+          "display_warnings": []
+        },
+        "U9": {
+          "title": "组装 AMS lite",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/568ddcad4556da0d.png",
+            "references/7c738bddd191cc7c.png",
+            "references/53757a98621c7a6a.png",
+            "references/a6539614d61d7e5b.png",
+            "references/9f9cbc6e39d9fb7d.png",
+            "references/34431707cf5deabb.png",
+            "references/3906fb3ff8c40686.png",
+            "references/1fa4965edb22165e.png",
+            "references/86e4dc7f5c8ecda2.png",
+            "references/b8764b0e568f5f48.png",
+            "references/665543c7282a9933.png",
+            "references/b7afe741d0c9e66a.png",
+            "references/13015a70b14bcdb6.png",
+            "references/15579ec9d36f6433.png"
+          ],
+          "substeps": [
+            {
+              "id": "U9-S1",
+              "title": "1. 将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）",
+              "instruction": "1. 将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）",
+              "reference_images": [
+                "references/568ddcad4556da0d.png",
+                "references/7c738bddd191cc7c.png"
+              ],
+              "citation_ids": [
+                "dfb2a8d298b85efd8421eb8a"
+              ]
+            },
+            {
+              "id": "U9-S2",
+              "title": "2. 使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架",
+              "instruction": "2. 使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架",
+              "reference_images": [
+                "references/53757a98621c7a6a.png",
+                "references/a6539614d61d7e5b.png"
+              ],
+              "citation_ids": [
+                "cf6d5b0175ccb232bb092984"
+              ]
+            },
+            {
+              "id": "U9-S3",
+              "title": "3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。",
+              "instruction": "3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。\n\n黄色转轴是六边形的形状，相对容易对准卡扣位置。绿色转轴是长方形的形状，所以建议在插入之前先大致对准孔位，然后平行移动，稍作微调以确保对准卡扣位置。",
+              "reference_images": [
+                "references/9f9cbc6e39d9fb7d.png",
+                "references/34431707cf5deabb.png",
+                "references/3906fb3ff8c40686.png",
+                "references/1fa4965edb22165e.png"
+              ],
+              "citation_ids": [
+                "089d5d0a15f278bb002c98f8",
+                "e23a4c332e7134c601b7d2bb"
+              ]
+            },
+            {
+              "id": "U9-S4",
+              "title": "4. 在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置。",
+              "instruction": "4. 在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置。",
+              "reference_images": [
+                "references/86e4dc7f5c8ecda2.png"
+              ],
+              "citation_ids": [
+                "160f80ba83cb919652e48609"
+              ]
+            },
+            {
+              "id": "U9-S5",
+              "title": "5. 安装 PTFE 管",
+              "instruction": "5. 安装 PTFE 管\n\n如图所示，将 580 mm 特氟龙管插入其气动接头接口 1 和 2 中; 将 1 号口的 PTFE 的另一端插入至五通组件的左后方，2 号口 PTFE 管的另一端插入到五通组件的左前方。（从前往后看）\n\n如图所示,将 700 mm 特氟龙管插入其气动接头接口 3 和 4 中; 将 3 号口的 PTFE 的另一端插入至五通组件的右前方，4 号口 PTFE 管的另一端插入到五通组件的右后方。（从前往后看）\n\n注：如果在安装过程中错误地插入了 PTFE 管，您可以参考以下步骤将其拔出：A1 系列产品料管更换指引\n\n以下是 4 根 PTFE 管安装完成后的整体效果图示：",
+              "reference_images": [
+                "references/b8764b0e568f5f48.png",
+                "references/665543c7282a9933.png",
+                "references/b7afe741d0c9e66a.png",
+                "references/13015a70b14bcdb6.png",
+                "references/15579ec9d36f6433.png"
+              ],
+              "citation_ids": [
+                "054e3fbbfcfea2c2e5a935ef",
+                "b6c9b34ddfcc9464169e4661",
+                "f318fc7633c0caeb344aa1aa",
+                "428686f7590bc7457af6450c",
+                "94298949fc850d74aa5cadef"
+              ]
+            }
+          ],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "组装 AMS lite",
+          "display_conditions": {
+            "U9-C1": "AMS lite底座、回转轴和可见PTFE管接头呈现已安装外观，指出看不清的接合处。"
+          },
+          "display_warnings": []
+        },
+        "U10": {
+          "title": "安装集线器",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/4fd651068f2bad1c.png",
+            "references/46a23826d88d0290.png",
+            "references/6bfd95b3d7494010.png",
+            "references/9c380467f3025199.png",
+            "references/6dbd3d39fd693651.png",
+            "references/335bd1aa9903e95d.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "安装集线器",
+          "display_conditions": {
+            "U10-C1": "集线器位于靠近工具头处，可见线缆和PTFE管已进入对应孔位。"
+          },
+          "display_warnings": []
+        },
+        "U11": {
+          "title": "给打印机和 AMS lite 通电",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/6d29e32ba21f2306.png",
+            "references/244b6c1d9f54ac68.png",
+            "references/ddd1eecd55eaef94.png",
+            "references/e37ea311c0455f06.png",
+            "references/8f10ac3afb4565bf.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "给打印机和 AMS lite 通电",
+          "display_conditions": {
+            "U11-C1": "用户自行对照官方说明完成本章操作。"
+          },
+          "display_warnings": []
+        },
+        "U12": {
+          "title": "安装打印板后，根据屏幕提示，完成初始化和校准。",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/533e5487f0e952ec.png",
+            "references/02c49182d67bcdff.png",
+            "references/0d09c01864a30b61.png",
+            "references/f3b9a994d4f0970a.png",
+            "references/5f22e7f8238f4173.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "安装打印板后，根据屏幕提示，完成初始化和校准。",
+          "display_conditions": {
+            "U12-C1": "用户自行对照官方说明完成本章操作。"
+          },
+          "display_warnings": []
+        },
+        "U13": {
+          "title": "放置废料盒",
+          "tools": [],
+          "materials": [],
+          "reference_images": [
+            "references/0d428c26b928e87b.png"
+          ],
+          "substeps": [],
+          "applicability_note": "",
+          "optional": false,
+          "official_heading": "放置废料盒",
+          "display_conditions": {
+            "U13-C1": "用户自行对照官方说明完成本章操作。"
+          },
+          "display_warnings": []
+        }
+      },
+      "inspection_prompts": {
+        "U2-C1": {
+          "state_id": "U2",
+          "path": "prompts/ams_lite_unboxing-U2-C1.txt",
+          "sha256": "1aa6984476af39aff2a9206fee703e34bd1f633dc7ef45f6532bb1dc0e62a600",
+          "prompt_version": "official-unbox-advisory-v2"
+        },
+        "U3-C1": {
+          "state_id": "U3",
+          "path": "prompts/ams_lite_unboxing-U3-C1.txt",
+          "sha256": "13f8532a863171a878e4bc408af70fa06969d2391774aff0aa3ceb804e674e95",
+          "prompt_version": "official-unbox-advisory-v2"
+        },
+        "U4-C1": {
+          "state_id": "U4",
+          "path": "prompts/ams_lite_unboxing-U4-C1.txt",
+          "sha256": "3733528b4e1291190fe276e2f23f8e1da18950fad742ba4d73e44ad2b7e7a853",
+          "prompt_version": "official-unbox-advisory-v2"
+        },
+        "U6-C1": {
+          "state_id": "U6",
+          "path": "prompts/ams_lite_unboxing-U6-C1.txt",
+          "sha256": "39a2f939104ecee7370877ef6ca018e113f376ba0f785ee37f5e0ddc7a12f5e0",
+          "prompt_version": "official-unbox-advisory-v2"
+        },
+        "U7-C1": {
+          "state_id": "U7",
+          "path": "prompts/ams_lite_unboxing-U7-C1.txt",
+          "sha256": "a994e44385c3752f620f9584d214b7d6e7749e1923bbc8762a70056afe08d8df",
+          "prompt_version": "official-unbox-advisory-v2"
+        },
+        "U9-C1": {
+          "state_id": "U9",
+          "path": "prompts/ams_lite_unboxing-U9-C1.txt",
+          "sha256": "62cf15b32e88fe23caf3eca6497df1461859975b3f3047a8f347bd388c71c8d0",
+          "prompt_version": "official-unbox-advisory-v2"
+        },
+        "U10-C1": {
+          "state_id": "U10",
+          "path": "prompts/ams_lite_unboxing-U10-C1.txt",
+          "sha256": "3c096108d3559183e6a7258d9345223d43a709a09214d2f69c292165a1472988",
+          "prompt_version": "official-unbox-advisory-v2"
+        }
+      },
+      "excluded_sections": [
+        {
+          "heading": "附录：安装外挂料盘和初次打印",
+          "reason": "仅适用于另一种供料路径"
+        }
+      ],
+      "supported_variant": "AMS lite",
+      "entry_requirements": []
+    }
+  },
+  "states": [
+    {
+      "state_id": "U1",
+      "step_index": 0,
+      "state_type": "initial_state",
+      "instruction": "建议您在打印机开箱前浏览完整视频，确保顺畅的开箱体验。\n\n保护膜、保护泡沫和保护纸板可能与开箱视频所展示的机器有所不同，请以您实际收到的机器为准。\n\n屏幕表面都会覆盖一层或两层保护膜,目的是为了防止生产和运输过程中的污染。无论收到哪种状态,都是正常的新机器。\n\n有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以实际收到的为准。\n\n如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。\n\n最新包装的 A1 系列打印机已不再赠送色卡；配件物品包装由黑色塑料盒修改为透明塑料袋。\n\nA1 mini 的 Y 轴采用了全金属导轮，这套导轨系统确保用户不需要频繁调整 A1 mini 的运动组件，但需要定期进行润滑和清洁，以减少磨损和异音，保证打印机的精度和寿命，并有效防止导轨生锈。\n\n每一台打印机在出厂前，都会得到一定程度的润滑，但机器只会被涂抹少量的润滑油，因为如果涂抹过量的润滑油，可能会导致机器在运输中滴落到外壳上，产生明显的油污，影响外观。\n\n因此，我们强烈建议您在拆箱后为打印机的 Y 轴导轨涂抹适量的润滑油，并确保润滑油覆盖整个导轨。润滑油已经包含在配件盒中，请参考附带的视频以了解涂抹的方法：\n\n更多关于Y轴导轨的润滑指南，请参考: A1 mini 润滑Y轴导轨操作指南。",
+      "preconditions": [],
+      "postconditions": [
+        "用户自行对照官方说明完成本章操作。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "重要提醒：",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "建议您在打印机开箱前浏览完整视频，确保顺畅的开箱体验。\n保护膜、保护泡沫和保护纸板可能与开箱视频所展示的机器有所不同，请以您实际收到的机器为准。\n屏幕表面都会覆盖一层或两层保护膜,目的是为了防止生产和运输过程中的污染。无论收到哪种状态,都是正常的新机器。\n有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以实际收到的为准。\n如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。\n最新包装的 A1 系列打印机已不再赠送色卡；配件物品包装由黑色塑料盒修改为透明塑料袋。\n重要提醒：\nA1 mini 的 Y 轴采用了全金属导轮，这套导轨系统确保用户不需要频繁调整 A1 mini 的运动组件，但需要定期进行润滑和清洁，以减少磨损和异音，保证打印机的精度和寿命，并有效防止导轨生锈。\n每一台打印机在出厂前，都会得到一定程度的润滑，但机器只会被涂抹少量的润滑油，因为如果涂抹过量的润滑油，可能会导致机器在运输中滴落到外壳上，产生明显的油污，影响外观。\n因此，我们强烈建议您在拆箱后为打印机的 Y 轴导轨涂抹适量的润滑油，并确保润滑油覆盖整个导轨。润滑油已经包含在配件盒中，请参考附带的视频以了解涂抹的方法：\n更多关于Y轴导轨的润滑指南，请参考: A1 mini 润滑Y轴导轨操作指南。",
+        "citation_ids": [
+          "5db0bcf220af3a967422d596",
+          "3b51a9e7c8f70af9ee848ff9",
+          "7534b016cdd2c0be4cca5d13",
+          "80143204bfcf5668390099ed",
+          "cb6a6d977294e1a839216c07",
+          "9f0ff150f8ec767f3c7e34f0",
+          "f1d654492edf2e1a357e3639",
+          "a260f28be6934ab4406a6370",
+          "56cd5b95df89e50ed7622fda",
+          "d2d426fc6a0eb3152c8498bb",
+          "0189b16221626b9fa2d28439"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U2",
+      "observation_nodes": [
+        {
+          "inspection_id": "U1-C1",
+          "condition": "用户自行对照官方说明完成本章操作。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本章无需拍摄。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "重要提醒：",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "建议您在打印机开箱前浏览完整视频，确保顺畅的开箱体验。\n保护膜、保护泡沫和保护纸板可能与开箱视频所展示的机器有所不同，请以您实际收到的机器为准。\n屏幕表面都会覆盖一层或两层保护膜,目的是为了防止生产和运输过程中的污染。无论收到哪种状态,都是正常的新机器。\n有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以实际收到的为准。\n如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。\n最新包装的 A1 系列打印机已不再赠送色卡；配件物品包装由黑色塑料盒修改为透明塑料袋。\n重要提醒：\nA1 mini 的 Y 轴采用了全金属导轮，这套导轨系统确保用户不需要频繁调整 A1 mini 的运动组件，但需要定期进行润滑和清洁，以减少磨损和异音，保证打印机的精度和寿命，并有效防止导轨生锈。\n每一台打印机在出厂前，都会得到一定程度的润滑，但机器只会被涂抹少量的润滑油，因为如果涂抹过量的润滑油，可能会导致机器在运输中滴落到外壳上，产生明显的油污，影响外观。\n因此，我们强烈建议您在拆箱后为打印机的 Y 轴导轨涂抹适量的润滑油，并确保润滑油覆盖整个导轨。润滑油已经包含在配件盒中，请参考附带的视频以了解涂抹的方法：\n更多关于Y轴导轨的润滑指南，请参考: A1 mini 润滑Y轴导轨操作指南。",
+            "citation_ids": [
+              "5db0bcf220af3a967422d596",
+              "3b51a9e7c8f70af9ee848ff9",
+              "7534b016cdd2c0be4cca5d13",
+              "80143204bfcf5668390099ed",
+              "cb6a6d977294e1a839216c07",
+              "9f0ff150f8ec767f3c7e34f0",
+              "f1d654492edf2e1a357e3639",
+              "a260f28be6934ab4406a6370",
+              "56cd5b95df89e50ed7622fda",
+              "d2d426fc6a0eb3152c8498bb",
+              "0189b16221626b9fa2d28439"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U2",
+      "step_index": 1,
+      "state_type": "action",
+      "instruction": "请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。\n\n保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。\n\n部分泡沫内嵌配件，请注意检查！\n\n取出配件，AMS lite 和打印机。当取出打印机时，请手扶 Z 轴的后盖，请勿用手触碰 Z 轴金属滑轨，请勿用手提起 X 轴导轨。\n\n后续版本将不提供色卡，具体以收到实物为准。",
+      "preconditions": [],
+      "postconditions": [
+        "已取出的A1 mini整机及其摆放区域清楚可见。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "拆箱和取出 A1 mini, AMS lite 及配件",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "拆箱和取出 A1 mini, AMS lite 及配件\n请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。\n保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。\n1. 从顶部取出保护纸壳\n部分泡沫内嵌配件，请注意检查！\n2. 仔细阅读快速指南，提前熟悉开箱的注意事项。\n取出配件，AMS lite 和打印机。当取出打印机时，请手扶 Z 轴的后盖，请勿用手触碰 Z 轴金属滑轨，请勿用手提起 X 轴导轨。\n后续版本将不提供色卡，具体以收到实物为准。\n后续版本将不提供色卡，具体以收到实物为准。",
+        "citation_ids": [
+          "da9ade58cd475e05ee35696c",
+          "f9546944056f6c722796cbb6",
+          "34a39c59e0006d89311470ad",
+          "888dcda78709d192c591afdc",
+          "cf780aa94ee9020ed33c1c77",
+          "714007c0015aed6810e023ee",
+          "22ddb5e232618bd595f591c5",
+          "021741b370a0dbefe3121e54",
+          "ef093bc750e80c4527406c59"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U3",
+      "observation_nodes": [
+        {
+          "inspection_id": "U2-C1",
+          "condition": "已取出的A1 mini整机及其摆放区域清楚可见。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "从斜前方拍摄取出的整机。包装及运输限制器此时仍可能存在。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "拆箱和取出 A1 mini, AMS lite 及配件",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "拆箱和取出 A1 mini, AMS lite 及配件\n请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。\n保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。\n1. 从顶部取出保护纸壳\n部分泡沫内嵌配件，请注意检查！\n2. 仔细阅读快速指南，提前熟悉开箱的注意事项。\n取出配件，AMS lite 和打印机。当取出打印机时，请手扶 Z 轴的后盖，请勿用手触碰 Z 轴金属滑轨，请勿用手提起 X 轴导轨。\n后续版本将不提供色卡，具体以收到实物为准。\n后续版本将不提供色卡，具体以收到实物为准。",
+            "citation_ids": [
+              "da9ade58cd475e05ee35696c",
+              "f9546944056f6c722796cbb6",
+              "34a39c59e0006d89311470ad",
+              "888dcda78709d192c591afdc",
+              "cf780aa94ee9020ed33c1c77",
+              "714007c0015aed6810e023ee",
+              "22ddb5e232618bd595f591c5",
+              "021741b370a0dbefe3121e54",
+              "ef093bc750e80c4527406c59"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U3",
+      "step_index": 2,
+      "state_type": "action",
+      "instruction": "combo 版本：包含 A1 mini 打印机、AMS lite 主体（包含 4-pin 线）、AMS lite 底座支架和安装螺丝、AMS lite 料盘卷轴、吐料组件及其螺丝、料盘支架及其底座和螺丝、PTFE 管（2 根 580 mm，2 根 700 mm）、PEI 纹理板、耗材样品、通针、内六角扳手（H2 和 H1.5）、热床擦嘴胶条、料管集线器、热床刮刀刀片及其螺丝、32 GB Micro SD 卡（打印机内）、工具头切刀刀片、润滑油、润滑脂（2 种版本随机发货）、快速指南和免责声明。\n\n在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。",
+      "preconditions": [],
+      "postconditions": [
+        "当前版本主要配件在画面中可辨，说明缺失或无法确认的物品。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "检查包装盒中的配件",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "检查包装盒中的配件\ncombo 版本：包含 A1 mini 打印机、AMS lite 主体（包含 4-pin 线）、AMS lite 底座支架和安装螺丝、AMS lite 料盘卷轴、吐料组件及其螺丝、料盘支架及其底座和螺丝、PTFE 管（2 根 580 mm，2 根 700 mm）、PEI 纹理板、耗材样品、通针、内六角扳手（H2 和 H1.5）、热床擦嘴胶条、料管集线器、热床刮刀刀片及其螺丝、32 GB Micro SD 卡（打印机内）、工具头切刀刀片、润滑油、润滑脂（2 种版本随机发货）、快速指南和免责声明。\ncombo 版本 单机版本\n在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。\n在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。",
+        "citation_ids": [
+          "2c663c21a8aab7a8f8466018",
+          "58b9aabc0440296125f78221",
+          "0615866701a4f97939c8b888",
+          "3f8c47084514df8a165328f8",
+          "dc626ec0a739e8c6a1136c7a"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U4",
+      "observation_nodes": [
+        {
+          "inspection_id": "U3-C1",
+          "condition": "当前版本主要配件在画面中可辨，说明缺失或无法确认的物品。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "将本版本配件分组摆放后拍摄；小件看不清可补拍，不据此断言遗失。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "检查包装盒中的配件",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "检查包装盒中的配件\ncombo 版本：包含 A1 mini 打印机、AMS lite 主体（包含 4-pin 线）、AMS lite 底座支架和安装螺丝、AMS lite 料盘卷轴、吐料组件及其螺丝、料盘支架及其底座和螺丝、PTFE 管（2 根 580 mm，2 根 700 mm）、PEI 纹理板、耗材样品、通针、内六角扳手（H2 和 H1.5）、热床擦嘴胶条、料管集线器、热床刮刀刀片及其螺丝、32 GB Micro SD 卡（打印机内）、工具头切刀刀片、润滑油、润滑脂（2 种版本随机发货）、快速指南和免责声明。\ncombo 版本 单机版本\n在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。\n在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。",
+            "citation_ids": [
+              "2c663c21a8aab7a8f8466018",
+              "58b9aabc0440296125f78221",
+              "0615866701a4f97939c8b888",
+              "3f8c47084514df8a165328f8",
+              "dc626ec0a739e8c6a1136c7a"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U4",
+      "step_index": 3,
+      "state_type": "action",
+      "instruction": "如有热床和导轨保护泡沫，需要在这一步移除它们。",
+      "preconditions": [],
+      "postconditions": [
+        "可见的Z轴运输限制器、工具头扎带和减震泡棉已移除；说明画面未覆盖的区域。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "解锁 Z 轴限制器和工具头",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "解锁 Z 轴限制器和工具头\n1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴\n2. 剪断并取下工具头周围的扎带\n3. 将工具头向左稍微移动，然后取下减震泡棉。\n如有热床和导轨保护泡沫，需要在这一步移除它们。",
+        "citation_ids": [
+          "8040cecf2194d07754321dd0",
+          "47ada685e0d504166d9eca03",
+          "c97adbf0e1837339be5c56f6",
+          "4de210d91fa38f39a2fd07fe",
+          "18aaff3a3224135f9d359b07"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U5",
+      "observation_nodes": [
+        {
+          "inspection_id": "U4-C1",
+          "condition": "可见的Z轴运输限制器、工具头扎带和减震泡棉已移除；说明画面未覆盖的区域。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "完成本章三个分步骤后，拍摄原限制器和工具头区域；看不到的区域保留不确定。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "解锁 Z 轴限制器和工具头",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "解锁 Z 轴限制器和工具头\n1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴\n2. 剪断并取下工具头周围的扎带\n3. 将工具头向左稍微移动，然后取下减震泡棉。\n如有热床和导轨保护泡沫，需要在这一步移除它们。",
+            "citation_ids": [
+              "8040cecf2194d07754321dd0",
+              "47ada685e0d504166d9eca03",
+              "c97adbf0e1837339be5c56f6",
+              "4de210d91fa38f39a2fd07fe",
+              "18aaff3a3224135f9d359b07"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U5",
+      "step_index": 4,
+      "state_type": "action",
+      "instruction": "为了防止在运输途中受到冲击导致零部件损坏，在工厂组装过程中，会将热床底部的 3 颗螺丝（如图中绿色标记所示）松开。因此您需要将其拧紧。\n\n建议将热床稍微推动到一个方便您使用内六角扳手的位置，先插入扳手，然后用手固定扳手和打印板，防止螺丝脱落。",
+      "preconditions": [],
+      "postconditions": [
+        "用户自行对照官方说明完成本章操作。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "锁紧热床螺丝",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "锁紧热床螺丝\n为了防止在运输途中受到冲击导致零部件损坏，在工厂组装过程中，会将热床底部的 3 颗螺丝（如图中绿色标记所示）松开。因此您需要将其拧紧。\n建议将热床稍微推动到一个方便您使用内六角扳手的位置，先插入扳手，然后用手固定扳手和打印板，防止螺丝脱落。",
+        "citation_ids": [
+          "3f8ebb6f30233a4e57c3c7ee",
+          "661ff0e405da259e12e68b65",
+          "a835b0d73f70ea468d7d5bed"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U6",
+      "observation_nodes": [
+        {
+          "inspection_id": "U5-C1",
+          "condition": "用户自行对照官方说明完成本章操作。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本章无需拍摄。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "锁紧热床螺丝",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "锁紧热床螺丝\n为了防止在运输途中受到冲击导致零部件损坏，在工厂组装过程中，会将热床底部的 3 颗螺丝（如图中绿色标记所示）松开。因此您需要将其拧紧。\n建议将热床稍微推动到一个方便您使用内六角扳手的位置，先插入扳手，然后用手固定扳手和打印板，防止螺丝脱落。",
+            "citation_ids": [
+              "3f8ebb6f30233a4e57c3c7ee",
+              "661ff0e405da259e12e68b65",
+              "a835b0d73f70ea468d7d5bed"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U6",
+      "step_index": 5,
+      "state_type": "action",
+      "instruction": "将吐料组件从后往前滑入 X 轴末端端盖的插槽中，使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。\n\n请注意：在安装吐料组件后，应确保其与热床的左侧边沿平行，并且不会发生碰撞，如下图所示：",
+      "preconditions": [],
+      "postconditions": [
+        "吐料组件已滑入X轴末端插槽，固定螺丝位置可见，外观无明显偏斜或静态干涉。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "安装吐料组件",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "安装吐料组件\n将吐料组件从后往前滑入 X 轴末端端盖的插槽中，使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。\n请注意：在安装吐料组件后，应确保其与热床的左侧边沿平行，并且不会发生碰撞，如下图所示：",
+        "citation_ids": [
+          "d075485fafbc0552c7edd984",
+          "83b9bd74d33eb2f7f3d387a5",
+          "7fee805b27b47c25d253fa93"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U7",
+      "observation_nodes": [
+        {
+          "inspection_id": "U6-C1",
+          "condition": "吐料组件已滑入X轴末端插槽，固定螺丝位置可见，外观无明显偏斜或静态干涉。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "完成安装后从吐料组件所在侧拍摄插槽、固定螺丝和热床左侧边沿。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "安装吐料组件",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "安装吐料组件\n将吐料组件从后往前滑入 X 轴末端端盖的插槽中，使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。\n请注意：在安装吐料组件后，应确保其与热床的左侧边沿平行，并且不会发生碰撞，如下图所示：",
+            "citation_ids": [
+              "d075485fafbc0552c7edd984",
+              "83b9bd74d33eb2f7f3d387a5",
+              "7fee805b27b47c25d253fa93"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U7",
+      "step_index": 6,
+      "state_type": "action",
+      "instruction": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+      "preconditions": [],
+      "postconditions": [
+        "料盘支架底座与安装面贴合，支架已沿匹配插槽滑入，无明显倾斜。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "安装料盘支架",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "安装料盘支架\n1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。\n如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。\n2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。",
+        "citation_ids": [
+          "2084b989a72b3f544e967a15",
+          "026a3a3c147bd8b28d5bf414",
+          "f76bb592ba8515e684d48401",
+          "97eeffdb901ac2699a6a9aeb"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U8",
+      "observation_nodes": [
+        {
+          "inspection_id": "U7-C1",
+          "condition": "料盘支架底座与安装面贴合，支架已沿匹配插槽滑入，无明显倾斜。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "完成安装后拍摄底座螺丝与支架接合处；若AMS路径选择不安装，无需检查本章。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "安装料盘支架",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "安装料盘支架\n1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。\n如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。\n2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。",
+            "citation_ids": [
+              "2084b989a72b3f544e967a15",
+              "026a3a3c147bd8b28d5bf414",
+              "f76bb592ba8515e684d48401",
+              "97eeffdb901ac2699a6a9aeb"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U8",
+      "step_index": 7,
+      "state_type": "action",
+      "instruction": "撕下摄像头和屏幕的保护膜。",
+      "preconditions": [],
+      "postconditions": [
+        "用户自行对照官方说明完成本章操作。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "撕下摄像头和屏幕的保护膜。",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "撕下摄像头和屏幕的保护膜。\n有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以用户实际收到的为准。",
+        "citation_ids": [
+          "c89bfdbe4f1d9855ad53b3f1",
+          "cf78b33d8a1b26940b61467c"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U9",
+      "observation_nodes": [
+        {
+          "inspection_id": "U8-C1",
+          "condition": "用户自行对照官方说明完成本章操作。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本章无需拍摄。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "撕下摄像头和屏幕的保护膜。",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "撕下摄像头和屏幕的保护膜。\n有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以用户实际收到的为准。",
+            "citation_ids": [
+              "c89bfdbe4f1d9855ad53b3f1",
+              "cf78b33d8a1b26940b61467c"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U9",
+      "step_index": 8,
+      "state_type": "action",
+      "instruction": "黄色转轴是六边形的形状，相对容易对准卡扣位置。绿色转轴是长方形的形状，所以建议在插入之前先大致对准孔位，然后平行移动，稍作微调以确保对准卡扣位置。\n\n如图所示，将 580 mm 特氟龙管插入其气动接头接口 1 和 2 中; 将 1 号口的 PTFE 的另一端插入至五通组件的左后方，2 号口 PTFE 管的另一端插入到五通组件的左前方。（从前往后看）\n\n如图所示,将 700 mm 特氟龙管插入其气动接头接口 3 和 4 中; 将 3 号口的 PTFE 的另一端插入至五通组件的右前方，4 号口 PTFE 管的另一端插入到五通组件的右后方。（从前往后看）\n\n注：如果在安装过程中错误地插入了 PTFE 管，您可以参考以下步骤将其拔出：A1 系列产品料管更换指引\n\n以下是 4 根 PTFE 管安装完成后的整体效果图示：",
+      "preconditions": [],
+      "postconditions": [
+        "AMS lite底座、回转轴和可见PTFE管接头呈现已安装外观，指出看不清的接合处。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "组装 AMS lite",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "组装 AMS lite\n1. 将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）\n2. 使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架\n3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。\n黄色转轴是六边形的形状，相对容易对准卡扣位置。绿色转轴是长方形的形状，所以建议在插入之前先大致对准孔位，然后平行移动，稍作微调以确保对准卡扣位置。\n4. 在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置。\n5. 安装 PTFE 管\n如图所示，将 580 mm 特氟龙管插入其气动接头接口 1 和 2 中; 将 1 号口的 PTFE 的另一端插入至五通组件的左后方，2 号口 PTFE 管的另一端插入到五通组件的左前方。（从前往后看）\n如图所示,将 700 mm 特氟龙管插入其气动接头接口 3 和 4 中; 将 3 号口的 PTFE 的另一端插入至五通组件的右前方，4 号口 PTFE 管的另一端插入到五通组件的右后方。（从前往后看）\n注：如果在安装过程中错误地插入了 PTFE 管，您可以参考以下步骤将其拔出：A1 系列产品料管更换指引\n以下是 4 根 PTFE 管安装完成后的整体效果图示：",
+        "citation_ids": [
+          "42fb08ce8da544a638b58879",
+          "dfb2a8d298b85efd8421eb8a",
+          "cf6d5b0175ccb232bb092984",
+          "089d5d0a15f278bb002c98f8",
+          "e23a4c332e7134c601b7d2bb",
+          "160f80ba83cb919652e48609",
+          "054e3fbbfcfea2c2e5a935ef",
+          "b6c9b34ddfcc9464169e4661",
+          "f318fc7633c0caeb344aa1aa",
+          "428686f7590bc7457af6450c",
+          "94298949fc850d74aa5cadef"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U10",
+      "observation_nodes": [
+        {
+          "inspection_id": "U9-C1",
+          "condition": "AMS lite底座、回转轴和可见PTFE管接头呈现已安装外观，指出看不清的接合处。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "完成本章五个分步骤后拍摄AMS lite整体及管路接头；长度与内部卡紧不能从外观断言。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "组装 AMS lite",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "组装 AMS lite\n1. 将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）\n2. 使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架\n3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。\n黄色转轴是六边形的形状，相对容易对准卡扣位置。绿色转轴是长方形的形状，所以建议在插入之前先大致对准孔位，然后平行移动，稍作微调以确保对准卡扣位置。\n4. 在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置。\n5. 安装 PTFE 管\n如图所示，将 580 mm 特氟龙管插入其气动接头接口 1 和 2 中; 将 1 号口的 PTFE 的另一端插入至五通组件的左后方，2 号口 PTFE 管的另一端插入到五通组件的左前方。（从前往后看）\n如图所示,将 700 mm 特氟龙管插入其气动接头接口 3 和 4 中; 将 3 号口的 PTFE 的另一端插入至五通组件的右前方，4 号口 PTFE 管的另一端插入到五通组件的右后方。（从前往后看）\n注：如果在安装过程中错误地插入了 PTFE 管，您可以参考以下步骤将其拔出：A1 系列产品料管更换指引\n以下是 4 根 PTFE 管安装完成后的整体效果图示：",
+            "citation_ids": [
+              "42fb08ce8da544a638b58879",
+              "dfb2a8d298b85efd8421eb8a",
+              "cf6d5b0175ccb232bb092984",
+              "089d5d0a15f278bb002c98f8",
+              "e23a4c332e7134c601b7d2bb",
+              "160f80ba83cb919652e48609",
+              "054e3fbbfcfea2c2e5a935ef",
+              "b6c9b34ddfcc9464169e4661",
+              "f318fc7633c0caeb344aa1aa",
+              "428686f7590bc7457af6450c",
+              "94298949fc850d74aa5cadef"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U10",
+      "step_index": 9,
+      "state_type": "action",
+      "instruction": "如图所示安装集线器。将黑色线缆卡进集线器的小孔中，将特氟龙管卡入其他四个大孔中。请注意，集线器需要靠近打印机的工具头而非 AMS lite。\n\n未安装集线器可能导致线缆与热床剐蹭。\n\n建议 A1min i和 AMS lite 之间的距离为 50mm，如图所示。",
+      "preconditions": [],
+      "postconditions": [
+        "集线器位于靠近工具头处，可见线缆和PTFE管已进入对应孔位。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "安装集线器",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "安装集线器\n如图所示安装集线器。将黑色线缆卡进集线器的小孔中，将特氟龙管卡入其他四个大孔中。请注意，集线器需要靠近打印机的工具头而非 AMS lite。\n未安装集线器可能导致线缆与热床剐蹭。\n未安装集线器可能导致线缆与热床剐蹭。\n建议 A1min i和 AMS lite 之间的距离为 50mm，如图所示。",
+        "citation_ids": [
+          "4f1e5827175df559076dbf1a",
+          "2b5c10bbdc7a866204b8cac5",
+          "585181bb190f362a212ada99",
+          "3338d451dea45daf0aafd5a8",
+          "e8e3beb3b7c0d1ea282334ec"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U11",
+      "observation_nodes": [
+        {
+          "inspection_id": "U10-C1",
+          "condition": "集线器位于靠近工具头处，可见线缆和PTFE管已进入对应孔位。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "拍摄靠近工具头的集线器及线缆、PTFE管接合处。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "vision",
+          "manual_provenance": {
+            "page": null,
+            "section": "安装集线器",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "安装集线器\n如图所示安装集线器。将黑色线缆卡进集线器的小孔中，将特氟龙管卡入其他四个大孔中。请注意，集线器需要靠近打印机的工具头而非 AMS lite。\n未安装集线器可能导致线缆与热床剐蹭。\n未安装集线器可能导致线缆与热床剐蹭。\n建议 A1min i和 AMS lite 之间的距离为 50mm，如图所示。",
+            "citation_ids": [
+              "4f1e5827175df559076dbf1a",
+              "2b5c10bbdc7a866204b8cac5",
+              "585181bb190f362a212ada99",
+              "3338d451dea45daf0aafd5a8",
+              "e8e3beb3b7c0d1ea282334ec"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U11",
+      "step_index": 10,
+      "state_type": "action",
+      "instruction": "将 AMS lite 的 4pin 线插入 A1 min i右侧的任意一个接口；请确保正确插入 4 针电缆，将其对准保护卡的方向。\n\n请确保将 AMS lite 的 4pin 线和 A1 mini 编织线分别整理好，不要让它们互相交叉。这样可以防止在打印大零件时两根线相互缠绕或拉扯。\n\n再次提醒，您所收到的机器保护泡沫可能与视频中展示的机器不完全相同。如有必要，请在给打印机通电之前，将所有保护泡沫（例如用于保护热床的泡沫）全部移除。\n\n给打印机接上电源，按下机器背面的电源开关,启动 A1 mini。\n\n如图所示,放置打印机时,请在Y方向上留出足够热床移动的安全空间。",
+      "preconditions": [],
+      "postconditions": [
+        "用户自行对照官方说明完成本章操作。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "给打印机和 AMS lite 通电",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "给打印机和 AMS lite 通电\n将 AMS lite 的 4pin 线插入 A1 min i右侧的任意一个接口；请确保正确插入 4 针电缆，将其对准保护卡的方向。\n请确保将 AMS lite 的 4pin 线和 A1 mini 编织线分别整理好，不要让它们互相交叉。这样可以防止在打印大零件时两根线相互缠绕或拉扯。\n再次提醒，您所收到的机器保护泡沫可能与视频中展示的机器不完全相同。如有必要，请在给打印机通电之前，将所有保护泡沫（例如用于保护热床的泡沫）全部移除。\n给打印机接上电源，按下机器背面的电源开关,启动 A1 mini。\n如图所示,放置打印机时,请在Y方向上留出足够热床移动的安全空间。",
+        "citation_ids": [
+          "6bfb08216dab37219f811a5b",
+          "3de49f5996100b21cd461a4d",
+          "a0f07efd47a3dcada16d62fa",
+          "cb5886d4c5ce064aea332197",
+          "d7635d5c9ea5455406ee5713",
+          "1e00627658f2dab34bbb81ff"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U12",
+      "observation_nodes": [
+        {
+          "inspection_id": "U11-C1",
+          "condition": "用户自行对照官方说明完成本章操作。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本章无需拍摄。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "给打印机和 AMS lite 通电",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "给打印机和 AMS lite 通电\n将 AMS lite 的 4pin 线插入 A1 min i右侧的任意一个接口；请确保正确插入 4 针电缆，将其对准保护卡的方向。\n请确保将 AMS lite 的 4pin 线和 A1 mini 编织线分别整理好，不要让它们互相交叉。这样可以防止在打印大零件时两根线相互缠绕或拉扯。\n再次提醒，您所收到的机器保护泡沫可能与视频中展示的机器不完全相同。如有必要，请在给打印机通电之前，将所有保护泡沫（例如用于保护热床的泡沫）全部移除。\n给打印机接上电源，按下机器背面的电源开关,启动 A1 mini。\n如图所示,放置打印机时,请在Y方向上留出足够热床移动的安全空间。",
+            "citation_ids": [
+              "6bfb08216dab37219f811a5b",
+              "3de49f5996100b21cd461a4d",
+              "a0f07efd47a3dcada16d62fa",
+              "cb5886d4c5ce064aea332197",
+              "d7635d5c9ea5455406ee5713",
+              "1e00627658f2dab34bbb81ff"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U12",
+      "step_index": 11,
+      "state_type": "action",
+      "instruction": "安装打印面板，确保打印面板与擦嘴组件和热床线缆盖靠近。 在打印机开机后，请按照屏幕上的提示完成打印机的初始化和校准。\n\n如果你在开箱过程中跳过了联网和 Bambu Handy 绑定步骤，你也可以在打印机完成校准后，在设置页面联网绑定打印机。",
+      "preconditions": [],
+      "postconditions": [
+        "用户自行对照官方说明完成本章操作。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "安装打印板后，根据屏幕提示，完成初始化和校准。",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "安装打印板后，根据屏幕提示，完成初始化和校准。\n安装打印面板，确保打印面板与擦嘴组件和热床线缆盖靠近。 在打印机开机后，请按照屏幕上的提示完成打印机的初始化和校准。\n如果你在开箱过程中跳过了联网和 Bambu Handy 绑定步骤，你也可以在打印机完成校准后，在设置页面联网绑定打印机。",
+        "citation_ids": [
+          "79377a62d1d6377de13b0fc2",
+          "fa36881f75ab7b772943db9c",
+          "b6f54c53fe740a78d96dca75"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": "U13",
+      "observation_nodes": [
+        {
+          "inspection_id": "U12-C1",
+          "condition": "用户自行对照官方说明完成本章操作。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本章无需拍摄。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "安装打印板后，根据屏幕提示，完成初始化和校准。",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "安装打印板后，根据屏幕提示，完成初始化和校准。\n安装打印面板，确保打印面板与擦嘴组件和热床线缆盖靠近。 在打印机开机后，请按照屏幕上的提示完成打印机的初始化和校准。\n如果你在开箱过程中跳过了联网和 Bambu Handy 绑定步骤，你也可以在打印机完成校准后，在设置页面联网绑定打印机。",
+            "citation_ids": [
+              "79377a62d1d6377de13b0fc2",
+              "fa36881f75ab7b772943db9c",
+              "b6f54c53fe740a78d96dca75"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    },
+    {
+      "state_id": "U13",
+      "step_index": 12,
+      "state_type": "action",
+      "instruction": "开始打印前，推荐准备一个盒子放置于打印机侧面的吐料组件下方，用于收集打印过程产生的废料，保持环境整洁。\n\n您可以打印一个 废料盒，也可以使用耗材包装盒或其他容器来接废料。\n\n由于篇幅有限，首次打印的教程请参见下方链接。\n\n初次打印指南（使用AMS lite）\n\n初次打印指南（使用外挂料盘）",
+      "preconditions": [],
+      "postconditions": [
+        "用户自行对照官方说明完成本章操作。"
+      ],
+      "wrong_states": [],
+      "target_components": [
+        "target:本章安装区域"
+      ],
+      "warnings": [],
+      "manual_provenance": {
+        "page": null,
+        "section": "放置废料盒",
+        "source_type": "wiki",
+        "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+        "source_text": "放置废料盒\n开始打印前，推荐准备一个盒子放置于打印机侧面的吐料组件下方，用于收集打印过程产生的废料，保持环境整洁。\n您可以打印一个 废料盒，也可以使用耗材包装盒或其他容器来接废料。\n由于篇幅有限，首次打印的教程请参见下方链接。\n初次打印指南（使用AMS lite）\n初次打印指南（使用外挂料盘）",
+        "citation_ids": [
+          "4c5164227fdf98357a409da6",
+          "203f96c08ecad59e369d4c2c",
+          "390e17d6d53a89d20a62d8c8",
+          "4cfe15c80dfe98fb6ac45d8e",
+          "81d07994cd647d9102bfd1bd",
+          "47c4e85beecb273af7b50ed4"
+        ],
+        "snapshot_id": "20261024T145623Z_e2655a"
+      },
+      "verification": "可选的本章最终可见结果参考；不控制导航，不替代用户和设备反馈。",
+      "next_on_success": null,
+      "observation_nodes": [
+        {
+          "inspection_id": "U13-C1",
+          "condition": "用户自行对照官方说明完成本章操作。",
+          "component_ids": [
+            "target:本章安装区域"
+          ],
+          "viewpoint": "close_up",
+          "capture_instruction": "本章无需拍摄。",
+          "evidence_type": "position",
+          "visualization": "none",
+          "verification_channel": "manual",
+          "manual_provenance": {
+            "page": null,
+            "section": "放置废料盒",
+            "source_type": "wiki",
+            "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+            "source_text": "放置废料盒\n开始打印前，推荐准备一个盒子放置于打印机侧面的吐料组件下方，用于收集打印过程产生的废料，保持环境整洁。\n您可以打印一个 废料盒，也可以使用耗材包装盒或其他容器来接废料。\n由于篇幅有限，首次打印的教程请参见下方链接。\n初次打印指南（使用AMS lite）\n初次打印指南（使用外挂料盘）",
+            "citation_ids": [
+              "4c5164227fdf98357a409da6",
+              "203f96c08ecad59e369d4c2c",
+              "390e17d6d53a89d20a62d8c8",
+              "4cfe15c80dfe98fb6ac45d8e",
+              "81d07994cd647d9102bfd1bd",
+              "47c4e85beecb273af7b50ed4"
+            ],
+            "snapshot_id": "20261024T145623Z_e2655a"
+          },
+          "requires_same_frame": false
+        }
+      ]
+    }
+  ]
+}

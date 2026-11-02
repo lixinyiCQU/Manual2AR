@@ -1,0 +1,36 @@
+{
+  "vlm": {
+    "base_url": "https://maas.qianwenaiapi.com/compatible-mode/v1",
+    "model": "qwen3.8-flash",
+    "api_key": "",
+    "timeout_seconds": 90,
+    "enable_thinking": false
+  },
+  "backend": {
+    "host": "0.0.0.0",
+    "port": 8010,
+    "public_url": "http://127.0.0.1:8010"
+  },
+  "camera": {
+    "name": "",
+    "width": 960,
+    "height": 720,
+    "fps": 15
+  },
+  "verification": {
+    "minimum_confidence": 0.75,
+    "max_image_side": 1600,
+    "max_tokens": 1600
+  },
+  "visualization": {
+    "grabcut": true
+  },
+  "sessions": {
+    "max_runs": 64,
+    "idle_minutes": 120
+  },
+  "display": {
+    "width": 1920,
+    "height": 1080
+  }
+}

@@ -1,0 +1,596 @@
+{
+  "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+  "snapshot_id": "20261024T145623Z_e2655a",
+  "images": [
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(1).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "1. 从顶部取出保护纸壳"
+      ],
+      "original_path": "references/cc307229f9584c15.png",
+      "display_path": "references/cc307229f9584c15.png",
+      "original_sha256": "cc307229f9584c153d754773b1094dca6e4bf502320850c40be1c67f6e63127f"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(2).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "1. 从顶部取出保护纸壳"
+      ],
+      "original_path": "references/480070ee266fac6a.png",
+      "display_path": "references/480070ee266fac6a.png",
+      "original_sha256": "480070ee266fac6a8b46af6e0eead4b14d3ba5d9b36813bf3f4109cd439e67a2"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(3).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。"
+      ],
+      "original_path": "references/1f7d5ce680e4867d.png",
+      "display_path": "references/1f7d5ce680e4867d.png",
+      "original_sha256": "1f7d5ce680e4867d967dd4210ceb6afbca83692255d98c4cfba4aa0f0b06e3e5"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(4).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。"
+      ],
+      "original_path": "references/0bb444abf7600eb0.png",
+      "display_path": "references/0bb444abf7600eb0.png",
+      "original_sha256": "0bb444abf7600eb0f2dc878134baeece9b2905be99e863c1f9561ea4bbc4b463"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(5).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。"
+      ],
+      "original_path": "references/036ec9a15962c1f0.png",
+      "display_path": "references/036ec9a15962c1f0.png",
+      "original_sha256": "036ec9a15962c1f0f8e69aaa516827cd40287b2675c8733879c9da779dabc0c7"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(6).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。"
+      ],
+      "original_path": "references/6f61e8d0861ddfd6.png",
+      "display_path": "references/6f61e8d0861ddfd6.png",
+      "original_sha256": "6f61e8d0861ddfd62c850fddfa040a1ac112255ce61a8fbe4494355aa10fff0e"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(7).png",
+      "heading_path": [
+        "拆箱和取出 A1 mini, AMS lite 及配件",
+        "2. 仔细阅读快速指南，提前熟悉开箱的注意事项。"
+      ],
+      "original_path": "references/13e8ce74f1cf5209.png",
+      "display_path": "references/13e8ce74f1cf5209.png",
+      "original_sha256": "13e8ce74f1cf5209df0cdd1bba3a6a069780fdb24338101d599f5b62d674a25f"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(8).png",
+      "heading_path": [
+        "检查包装盒中的配件"
+      ],
+      "original_path": "references/c55d9ff772684b55.png",
+      "display_path": "references/c55d9ff772684b55.png",
+      "original_sha256": "c55d9ff772684b55aac2de196e5a7e4b9b967382e2a2a01497043381e1e99f8d"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(9).png",
+      "heading_path": [
+        "检查包装盒中的配件"
+      ],
+      "original_path": "references/d44d1ef9b2295ee0.png",
+      "display_path": "references/d44d1ef9b2295ee0.png",
+      "original_sha256": "d44d1ef9b2295ee02f8b1ebad6ddb146c38d0598c29544856c599f3dee2fb975"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/unlock-z1.png",
+      "heading_path": [
+        "解锁 Z 轴限制器和工具头",
+        "1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴"
+      ],
+      "original_path": "references/4b39325fae422752.png",
+      "display_path": "references/4b39325fae422752.png",
+      "original_sha256": "4b39325fae4227523526284fe14e8c78ca45e8b24d57b22eddd45d1ceab4b45d"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/unlock-z2.png",
+      "heading_path": [
+        "解锁 Z 轴限制器和工具头",
+        "1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴"
+      ],
+      "original_path": "references/6baa2ab9794e0423.png",
+      "display_path": "references/6baa2ab9794e0423.png",
+      "original_sha256": "6baa2ab9794e04238c272525cb7f5fe963cf4e9527e409b152bb30f429a4c8bf"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/unlock-x1.png",
+      "heading_path": [
+        "解锁 Z 轴限制器和工具头",
+        "2. 剪断并取下工具头周围的扎带"
+      ],
+      "original_path": "references/89df12329d188cf1.png",
+      "display_path": "references/89df12329d188cf1.png",
+      "original_sha256": "89df12329d188cf1142f299a07cde1e037f0d8bdb3277995a4f926fef31337c4"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/unlock-x2.png",
+      "heading_path": [
+        "解锁 Z 轴限制器和工具头",
+        "2. 剪断并取下工具头周围的扎带"
+      ],
+      "original_path": "references/331dadd4a769c1d9.png",
+      "display_path": "references/331dadd4a769c1d9.png",
+      "original_sha256": "331dadd4a769c1d9f0d7389546994d4103c7ef0d8d9053f0fbeddd73ec0f34b3"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/unlock-x3.png",
+      "heading_path": [
+        "解锁 Z 轴限制器和工具头",
+        "3. 将工具头向左稍微移动，然后取下减震泡棉。"
+      ],
+      "original_path": "references/b48f68f533007797.png",
+      "display_path": "references/b48f68f533007797.png",
+      "original_sha256": "b48f68f53300779789f16215412c82ae7e42b6aa7adeff35f8c014307c8a8472"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing/remove-foam.gif",
+      "heading_path": [
+        "解锁 Z 轴限制器和工具头",
+        "3. 将工具头向左稍微移动，然后取下减震泡棉。"
+      ],
+      "original_path": "references/4fbd3e790adceb7b.gif",
+      "display_path": "references/ba24acb2a7fa79fd.png",
+      "original_sha256": "4fbd3e790adceb7ba5ce7d3a9a9900515f6ddee539f49299c1bf428e71b27d25"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/lock-bed1.png",
+      "heading_path": [
+        "锁紧热床螺丝"
+      ],
+      "original_path": "references/242991258447e026.png",
+      "display_path": "references/242991258447e026.png",
+      "original_sha256": "242991258447e026a22f04fdf433be138a31e358a1686b87e7631e46428a3759"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/lock-bed2.png",
+      "heading_path": [
+        "锁紧热床螺丝"
+      ],
+      "original_path": "references/52845b77836884c0.png",
+      "display_path": "references/52845b77836884c0.png",
+      "original_sha256": "52845b77836884c0e7443916a0931ae8b75a37b65b212d96db8c0eea7085d4bd"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/%E7%94%A8%E6%89%8B%E5%9B%BA%E5%AE%9A.jpg",
+      "heading_path": [
+        "锁紧热床螺丝"
+      ],
+      "original_path": "references/6bc2913e5ee37c66.jpg",
+      "display_path": "references/6bc2913e5ee37c66.jpg",
+      "original_sha256": "6bc2913e5ee37c6691c27c874368e5fd5ec22be4e298af111753ca4bc2ac0df6"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/purge1.png",
+      "heading_path": [
+        "安装吐料组件"
+      ],
+      "original_path": "references/df44ab9efd621e45.png",
+      "display_path": "references/df44ab9efd621e45.png",
+      "original_sha256": "df44ab9efd621e4589a9aafa17248a72b27dbb2a7527e1fb77377bbd6e79043b"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(13).png",
+      "heading_path": [
+        "安装吐料组件"
+      ],
+      "original_path": "references/2ed23ae33f41c22d.png",
+      "display_path": "references/2ed23ae33f41c22d.png",
+      "original_sha256": "2ed23ae33f41c22d7e4f57e0c5a32854a6b2879d30a8c87530e708d14463a46c"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/purge3.png",
+      "heading_path": [
+        "安装吐料组件"
+      ],
+      "original_path": "references/3628ad936ffb4fb9.png",
+      "display_path": "references/3628ad936ffb4fb9.png",
+      "original_sha256": "3628ad936ffb4fb94d9db546e7dc46122801ff5b3c3c375cb7940da5f2d518eb"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/purge4.png",
+      "heading_path": [
+        "安装吐料组件"
+      ],
+      "original_path": "references/d13917dc6acd50bb.png",
+      "display_path": "references/d13917dc6acd50bb.png",
+      "original_sha256": "d13917dc6acd50bb41491dbfa4fbce9d52fa0bcac607eaaed65fd97d56f2b637"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/purge5v.png",
+      "heading_path": [
+        "安装吐料组件"
+      ],
+      "original_path": "references/40f862ded0d46445.png",
+      "display_path": "references/40f862ded0d46445.png",
+      "original_sha256": "40f862ded0d4644512687eace9dccf9da02ccd71959ffbe169d4e1ad9e24a88f"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(14).png",
+      "heading_path": [
+        "安装料盘支架",
+        "1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。"
+      ],
+      "original_path": "references/a9a63e8f81e4971f.png",
+      "display_path": "references/a9a63e8f81e4971f.png",
+      "original_sha256": "a9a63e8f81e4971fec50887d9813e5d62212f27378365476d63f3c5a2cfc3446"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/spool-holder2.png",
+      "heading_path": [
+        "安装料盘支架",
+        "1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。"
+      ],
+      "original_path": "references/7f6374cbdab2f5f2.png",
+      "display_path": "references/7f6374cbdab2f5f2.png",
+      "original_sha256": "7f6374cbdab2f5f2511c7e59b1258f7c7b6e0c98bcc943eed66f25b20b471249"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/spool-holder3.png",
+      "heading_path": [
+        "安装料盘支架",
+        "2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。"
+      ],
+      "original_path": "references/6a3a99488854ca51.png",
+      "display_path": "references/6a3a99488854ca51.png",
+      "original_sha256": "6a3a99488854ca516a9551dc6eb735f707ff7b7a91ab1d5d72c83f07966eb11a"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/spool-holder4.png",
+      "heading_path": [
+        "安装料盘支架",
+        "2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。"
+      ],
+      "original_path": "references/c9a91fdeec9d5877.png",
+      "display_path": "references/c9a91fdeec9d5877.png",
+      "original_sha256": "c9a91fdeec9d5877bcffc99ffd55cd2b2e996b8e5d1085e5a2e42119645e5bb4"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(15).png",
+      "heading_path": [
+        "撕下摄像头和屏幕的保护膜。"
+      ],
+      "original_path": "references/0cef224293683eea.png",
+      "display_path": "references/0cef224293683eea.png",
+      "original_sha256": "0cef224293683eea2f4d17095e298c678e4ee14f95a4e9178cc2b8f8a1b6e4e6"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(16).png",
+      "heading_path": [
+        "撕下摄像头和屏幕的保护膜。"
+      ],
+      "original_path": "references/99c8e5db5e8f3f21.png",
+      "display_path": "references/99c8e5db5e8f3f21.png",
+      "original_sha256": "99c8e5db5e8f3f2185359a4595fe3c7f84d8131b693f984ad0c78a38aa775d6e"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams1.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "1. 将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）"
+      ],
+      "original_path": "references/568ddcad4556da0d.png",
+      "display_path": "references/568ddcad4556da0d.png",
+      "original_sha256": "568ddcad4556da0d01904a3b7ab254b32d7747949e4024aacdf889f4e3171f60"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams2.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "1. 将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）"
+      ],
+      "original_path": "references/7c738bddd191cc7c.png",
+      "display_path": "references/7c738bddd191cc7c.png",
+      "original_sha256": "7c738bddd191cc7c861872be6fa941a6942899b34e628ba5de2ea5508bbe962b"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams3.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "2. 使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架"
+      ],
+      "original_path": "references/53757a98621c7a6a.png",
+      "display_path": "references/53757a98621c7a6a.png",
+      "original_sha256": "53757a98621c7a6acb6b4c3a7853236a034a362af996bd2bebe3ef118810e6de"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams4.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "2. 使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架"
+      ],
+      "original_path": "references/a6539614d61d7e5b.png",
+      "display_path": "references/a6539614d61d7e5b.png",
+      "original_sha256": "a6539614d61d7e5b38388af8c1242e06514c6249cbb59856b49e045c68c1d48c"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams5.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。"
+      ],
+      "original_path": "references/9f9cbc6e39d9fb7d.png",
+      "display_path": "references/9f9cbc6e39d9fb7d.png",
+      "original_sha256": "9f9cbc6e39d9fb7def3caf1cfa673f597172cd67cd064dabb2063008ac1285b3"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams6-cn.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。"
+      ],
+      "original_path": "references/34431707cf5deabb.png",
+      "display_path": "references/34431707cf5deabb.png",
+      "original_sha256": "34431707cf5deabb97b84c3bc7facfa59aa84b8de4e2621aa811a376c3f98bab"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams7.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。"
+      ],
+      "original_path": "references/3906fb3ff8c40686.png",
+      "display_path": "references/3906fb3ff8c40686.png",
+      "original_sha256": "3906fb3ff8c40686099979c851d82465d298caedaf1cab41c0fa08572ba8b30a"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams8.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "3. 滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。"
+      ],
+      "original_path": "references/1fa4965edb22165e.png",
+      "display_path": "references/1fa4965edb22165e.png",
+      "original_sha256": "1fa4965edb22165e61c27019a1ff483f5bb5432a2ef7ab038fe7633f17827e45"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams9.png",
+      "heading_path": [
+        "组装 AMS lite",
+        "4. 在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置。"
+      ],
+      "original_path": "references/86e4dc7f5c8ecda2.png",
+      "display_path": "references/86e4dc7f5c8ecda2.png",
+      "original_sha256": "86e4dc7f5c8ecda2333f348de3088975a400811f6e13f556ca536035b018d037"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(18).png",
+      "heading_path": [
+        "组装 AMS lite",
+        "5. 安装 PTFE 管"
+      ],
+      "original_path": "references/b8764b0e568f5f48.png",
+      "display_path": "references/b8764b0e568f5f48.png",
+      "original_sha256": "b8764b0e568f5f4856baf7d513c67d30ad4e9d0edf429001b9ecf9232baee2ae"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(19).png",
+      "heading_path": [
+        "组装 AMS lite",
+        "5. 安装 PTFE 管"
+      ],
+      "original_path": "references/665543c7282a9933.png",
+      "display_path": "references/665543c7282a9933.png",
+      "original_sha256": "665543c7282a99336eaa056017b8cb9a1314f9e9f183261c97c5fb26e66e5aa6"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(20).png",
+      "heading_path": [
+        "组装 AMS lite",
+        "5. 安装 PTFE 管"
+      ],
+      "original_path": "references/b7afe741d0c9e66a.png",
+      "display_path": "references/b7afe741d0c9e66a.png",
+      "original_sha256": "b7afe741d0c9e66acd23edc9b01020ae6f0882a3b3d59d7c6ba731157e97abe1"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(21).png",
+      "heading_path": [
+        "组装 AMS lite",
+        "5. 安装 PTFE 管"
+      ],
+      "original_path": "references/13015a70b14bcdb6.png",
+      "display_path": "references/13015a70b14bcdb6.png",
+      "original_sha256": "13015a70b14bcdb6e8a13c9c229db074c5ce2c0bf48ce877ed0ff108bac38642"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(17).png",
+      "heading_path": [
+        "组装 AMS lite",
+        "5. 安装 PTFE 管"
+      ],
+      "original_path": "references/15579ec9d36f6433.png",
+      "display_path": "references/15579ec9d36f6433.png",
+      "original_sha256": "15579ec9d36f6433312b2a964066cc8c546900b0db765be737faef59f5348430"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams15.png",
+      "heading_path": [
+        "安装集线器"
+      ],
+      "original_path": "references/4fd651068f2bad1c.png",
+      "display_path": "references/4fd651068f2bad1c.png",
+      "original_sha256": "4fd651068f2bad1c1f5101c6ce9aa9bed15aee9a60f59ac64da3cb078aa61390"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams16.png",
+      "heading_path": [
+        "安装集线器"
+      ],
+      "original_path": "references/46a23826d88d0290.png",
+      "display_path": "references/46a23826d88d0290.png",
+      "original_sha256": "46a23826d88d0290f7c2a57eaf13704eb0e1da4e54fdd18373c7be250c6358ac"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams17.png",
+      "heading_path": [
+        "安装集线器"
+      ],
+      "original_path": "references/6bfd95b3d7494010.png",
+      "display_path": "references/6bfd95b3d7494010.png",
+      "original_sha256": "6bfd95b3d7494010be2228cbcaf13712e3ef641744eb01dfdcbac4c0e5c50c36"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams18.png",
+      "heading_path": [
+        "安装集线器"
+      ],
+      "original_path": "references/9c380467f3025199.png",
+      "display_path": "references/9c380467f3025199.png",
+      "original_sha256": "9c380467f302519913d5bf7f07c4ae78292a4f5886216c73ea65f7f9e7bad779"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams19.png",
+      "heading_path": [
+        "安装集线器"
+      ],
+      "original_path": "references/6dbd3d39fd693651.png",
+      "display_path": "references/6dbd3d39fd693651.png",
+      "original_sha256": "6dbd3d39fd6936517890d458c2345b6f799cff4b0aec04b2394f924ec80381d8"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/assembly-ams20.png",
+      "heading_path": [
+        "安装集线器"
+      ],
+      "original_path": "references/335bd1aa9903e95d.png",
+      "display_path": "references/335bd1aa9903e95d.png",
+      "original_sha256": "335bd1aa9903e95d71f51a0631a2c7e63162c07f6da8bf037205039eeee4f327"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(22).png",
+      "heading_path": [
+        "给打印机和 AMS lite 通电"
+      ],
+      "original_path": "references/6d29e32ba21f2306.png",
+      "display_path": "references/6d29e32ba21f2306.png",
+      "original_sha256": "6d29e32ba21f2306fa473af81e16eaf0146441489509c73f0332353e94684375"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(23).png",
+      "heading_path": [
+        "给打印机和 AMS lite 通电"
+      ],
+      "original_path": "references/244b6c1d9f54ac68.png",
+      "display_path": "references/244b6c1d9f54ac68.png",
+      "original_sha256": "244b6c1d9f54ac6836dc3d9cf11edf0fcbdbff4b4234f7dc91136dd4cb7fdf10"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/power2.png",
+      "heading_path": [
+        "给打印机和 AMS lite 通电"
+      ],
+      "original_path": "references/ddd1eecd55eaef94.png",
+      "display_path": "references/ddd1eecd55eaef94.png",
+      "original_sha256": "ddd1eecd55eaef942e02996241fb0dbca5dc7e7c7021eb47301958c7db42c772"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/power3.png",
+      "heading_path": [
+        "给打印机和 AMS lite 通电"
+      ],
+      "original_path": "references/e37ea311c0455f06.png",
+      "display_path": "references/e37ea311c0455f06.png",
+      "original_sha256": "e37ea311c0455f06f4f5752fbe027654aa23f62650e3ab3da2a5f17eded2ddb8"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/space1.png",
+      "heading_path": [
+        "给打印机和 AMS lite 通电"
+      ],
+      "original_path": "references/8f10ac3afb4565bf.png",
+      "display_path": "references/8f10ac3afb4565bf.png",
+      "original_sha256": "8f10ac3afb4565bfcacb162692f6bf82f73c9270f1cb7f18814f1131d0e2b45c"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(24).png",
+      "heading_path": [
+        "安装打印板后，根据屏幕提示，完成初始化和校准。"
+      ],
+      "original_path": "references/533e5487f0e952ec.png",
+      "display_path": "references/533e5487f0e952ec.png",
+      "original_sha256": "533e5487f0e952ecb7e21296355960ce2e9118a62b989181c0e806942c229d4e"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(25).png",
+      "heading_path": [
+        "安装打印板后，根据屏幕提示，完成初始化和校准。"
+      ],
+      "original_path": "references/02c49182d67bcdff.png",
+      "display_path": "references/02c49182d67bcdff.png",
+      "original_sha256": "02c49182d67bcdffb40408292a58c5a25a16c4382175396f49a91d6f56b57086"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1m/manual/unbox/unbox_(26).png",
+      "heading_path": [
+        "安装打印板后，根据屏幕提示，完成初始化和校准。"
+      ],
+      "original_path": "references/0d09c01864a30b61.png",
+      "display_path": "references/0d09c01864a30b61.png",
+      "original_sha256": "0d09c01864a30b61fbe858009f1dc26d159fb138871dc9035623d45bd22cf56d"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/initiation2.png",
+      "heading_path": [
+        "安装打印板后，根据屏幕提示，完成初始化和校准。"
+      ],
+      "original_path": "references/f3b9a994d4f0970a.png",
+      "display_path": "references/f3b9a994d4f0970a.png",
+      "original_sha256": "f3b9a994d4f0970ad2f5f45665a2c19842b75f2cdb7c3fd4e0b816ee837b6d26"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/initiation4.png",
+      "heading_path": [
+        "安装打印板后，根据屏幕提示，完成初始化和校准。"
+      ],
+      "original_path": "references/5f22e7f8238f4173.png",
+      "display_path": "references/5f22e7f8238f4173.png",
+      "original_sha256": "5f22e7f8238f4173254c51deed65818ed68d9a5c9a1b8675c3b5638878f1e693"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/external1.png",
+      "heading_path": [
+        "附录：安装外挂料盘和初次打印"
+      ],
+      "original_path": "references/6b5e27aca8e60c53.png",
+      "display_path": "references/6b5e27aca8e60c53.png",
+      "original_sha256": "6b5e27aca8e60c53428b451171ef9853b61d5894d4604ae4301dc00d27b69dfb"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/n1/manual/unboxing-a1-mini-urey/external2.png",
+      "heading_path": [
+        "附录：安装外挂料盘和初次打印"
+      ],
+      "original_path": "references/7f5fdf31e692b4b1.png",
+      "display_path": "references/7f5fdf31e692b4b1.png",
+      "original_sha256": "7f5fdf31e692b4b1df51ba80d79d2ccf7dfef33928c6930e17ca909734e56c54"
+    },
+    {
+      "source_url": "https://wiki.bambulab.com/a1-mini/manual/unboxing-a1-mini-combo/a1_mini_purge_container_example.png",
+      "heading_path": [
+        "放置废料盒"
+      ],
+      "original_path": "references/0d428c26b928e87b.png",
+      "display_path": "references/0d428c26b928e87b.png",
+      "original_sha256": "0d428c26b928e87b13ecd1bc7804f2f3ba891c72bd0b7e9a8302f07526de6380"
+    }
+  ],
+  "policy": "Every official article image is preserved byte-for-byte; active variants filter only explicit applicability. GIF display atlases are derived; originals retained."
+}

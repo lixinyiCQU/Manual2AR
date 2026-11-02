@@ -1,0 +1,15 @@
+{
+  "ultralytics_commit": "2004cba021c68a46429be460e26954ab171b2862",
+  "ultralytics_version": "8.4.191",
+  "weights": {
+    "url": "https://modelscope.cn/models/facebook/sam3.1/resolve/616acbee0b9ed4177f1f389e3c13594a0a1f6398/sam3.1_multiplex.pt",
+    "revision": "616acbee0b9ed4177f1f389e3c13594a0a1f6398",
+    "size": 3502755717,
+    "sha256": "0567debeec80ba4ac6369540c6c248025283cb3ff2b92827509e57e2b3541cb6"
+  },
+  "license": {
+    "url": "https://modelscope.cn/models/facebook/sam3.1/resolve/616acbee0b9ed4177f1f389e3c13594a0a1f6398/LICENSE",
+    "size": 7352,
+    "sha256": "bec48f70bd37bf8280a9d1ebf01642d26086f6122ba735baa08fe03c5a6e7448"
+  }
+}

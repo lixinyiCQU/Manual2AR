@@ -1,0 +1,33 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A1 mini · 部件认知</title>
+<style>
+body{margin:0;background:#071321;color:#eff6fc;font:18px/1.8 "Microsoft YaHei","Noto Sans CJK SC",sans-serif}header{padding:20px 4%;border-bottom:1px solid #28475c}h1{margin:0;font-size:28px}.layout{display:grid;grid-template-columns:240px 1fr;gap:24px;margin:24px 4%}button{font:inherit;cursor:pointer;background:#103447;border:1px solid #33728a;color:#eff6fc;border-radius:7px;padding:10px 16px}aside button{display:block;width:100%;margin-bottom:10px;text-align:left}.panel{background:#0c2436;border:1px solid #29495e;border-radius:10px;padding:24px}img{max-width:280px;max-height:260px;float:left;margin:0 24px 16px 0}article{min-height:280px}h2{font-size:24px}h3{font-size:21px;color:#69d6ed}#more button{display:block;margin:10px 0;text-align:left}dialog{width:90%;height:88%;max-width:1400px;background:#10283b;color:white;border:1px solid #46c5df}iframe{width:100%;height:calc(100% - 65px);border:0;background:white;margin-top:12px}.bar{display:flex;gap:15px;align-items:center}#error{padding:20px;color:#efc57b}@media(max-width:800px){.layout{grid-template-columns:1fr}aside{display:flex;gap:8px;flex-wrap:wrap}aside button{width:auto}img{float:none}}
+</style>
+<header><h1>Manual2AR / A1 mini 部件认知</h1></header><div id="error"></div>
+<div class="layout"><aside id="parts"></aside><main class="panel"><article id="intro"></article><div id="more"></div></main></div>
+<dialog id="wiki"><div class="bar"><button id="close">返回</button><span id="pageTitle">离线 Wiki</span></div><iframe title="离线 Wiki 正文" sandbox="allow-same-origin" id="article"></iframe></dialog>
+<script>
+let knowledge;
+function el(tag,text,parent){const e=document.createElement(tag);if(text)e.textContent=text;if(parent)parent.append(e);return e}
+function button(text,parent,action){const b=el('button',text,parent);b.onclick=action;return b}
+function show(card){
+ const intro=document.getElementById('intro'),more=document.getElementById('more');intro.replaceChildren();more.replaceChildren();
+ el('h2',card?card.name:'认识 A1 mini',intro);
+ if(card?.images?.length){const image=el('img',null,intro);image.src=card.images[0].url;image.alt='官方配图'}
+ if(card)el('h3','功能说明',intro);
+ for(const text of card?card.description:knowledge.device_description)el('p',text,intro);
+ el('h2','更多信息',more);
+ const sources=card?card.more_information:knowledge.device_more_information;
+ for(const category of [...new Set(sources.map(s=>s.category||'官方 Wiki'))]){
+  el('h3',category,more);
+  for(const s of sources.filter(s=>(s.category||'官方 Wiki')===category))button(s.title,more,()=>{
+   document.getElementById('pageTitle').textContent=s.title;document.getElementById('article').src=s.url;document.getElementById('wiki').showModal();
+  });
+ }
+}
+document.getElementById('close').onclick=()=>{document.getElementById('wiki').close();document.getElementById('article').src='about:blank'};
+fetch('/api/learning/knowledge').then(r=>{if(!r.ok)throw Error('资料读取失败');return r.json()}).then(k=>{
+ knowledge=k;if(k.schema_version!=='learning-knowledge-v3')throw Error('请使用V3后端');
+ const parts=document.getElementById('parts');button('整机介绍',parts,()=>show(null));for(const c of k.cards)button(c.name,parts,()=>show(c));show(null);
+}).catch(e=>document.getElementById('error').textContent=e.message);
+</script></html>

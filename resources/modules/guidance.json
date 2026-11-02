@@ -1,0 +1,77 @@
+{
+  "format": "manual2ar-guidance-catalog-v1",
+  "module_title": "模块二：操作指导",
+  "tasks": [
+    {
+      "id": "a1_mini_standalone_unboxing_v1",
+      "title": "打印机开箱",
+      "description": "按官方章节学习开箱：先选外挂料盘或 AMS lite；自由浏览，拍照参考。",
+      "root": "tasks/bambu_a1_mini/unboxing/v2",
+      "default_variant": "standalone_unboxing",
+      "thumbnail": "cc307229f9584c15.png",
+      "variants": [
+        {
+          "id": "standalone_unboxing",
+          "title": "外挂料盘 / 单机",
+          "procedure": "procedure.json"
+        },
+        {
+          "id": "ams_lite_unboxing",
+          "title": "AMS lite 套装",
+          "procedure": "variants/ams_lite.procedure.json"
+        }
+      ],
+      "package_type": "tutorial_v2"
+    },
+    {
+      "id": "a1_mini_first_print_external_v1",
+      "title": "首次打印",
+      "description": "准备外挂料盘耗材、选择文件并开始打印；设备安装与校准请先完成开箱指导。",
+      "root": "tasks/bambu_a1_mini/first_print/v1",
+      "default_variant": "first_print_sd",
+      "thumbnail": "27e3a50aa6ab5883.png",
+      "variants": [
+        {
+          "id": "first_print_sd",
+          "title": "使用内置文件",
+          "procedure": "procedure.json"
+        },
+        {
+          "id": "first_print_studio",
+          "title": "使用 Bambu Studio",
+          "procedure": "variants/first_print_studio.procedure.json"
+        }
+      ]
+    },
+    {
+      "id": "a1_mini_load_external_v1",
+      "title": "进料",
+      "description": "安装外挂料盘，按设备提示进料，并观察实际吐料。",
+      "root": "tasks/bambu_a1_mini/load_external/v1",
+      "default_variant": "load_external_spool",
+      "thumbnail": "3bbe0cc2a2bea859.png",
+      "variants": [
+        {
+          "id": "load_external_spool",
+          "title": "外挂料盘",
+          "procedure": "procedure.json"
+        }
+      ]
+    },
+    {
+      "id": "a1_mini_unload_external_v1",
+      "title": "退料",
+      "description": "按设备提示退料、手动抽出耗材并确认流程结束。",
+      "root": "tasks/bambu_a1_mini/unload_external/v1",
+      "default_variant": "unload_external",
+      "thumbnail": "3294dd4433772e86.png",
+      "variants": [
+        {
+          "id": "unload_external",
+          "title": "外挂料盘",
+          "procedure": "procedure.json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "snapshot_id": "20261024T145623Z_e2655a",
+  "archive_sha256": "ec52746cb4b394185fa1cdbfc1d82f56b7535ac436b9e1c79a0d874c9fed6a70",
+  "required_layout": [
+    "objects",
+    "runs"
+  ],
+  "purpose": "Official offline evidence and component learning reader",
+  "source": "https://wiki.bambulab.com/zh/a1-mini"
+}

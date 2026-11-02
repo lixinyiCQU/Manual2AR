@@ -1,0 +1,338 @@
+{
+  "format": "guidance-evidence-v1",
+  "snapshot_id": "20261024T145623Z_e2655a",
+  "source_pages": {
+    "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool": {
+      "url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "title": "A1 mini 初次打印指南（使用外挂料盘） | Bambu Lab Wiki",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "artifact_dir": "runs/20261024T145623Z_e2655a/pages/a72066c9146236e95cc7",
+      "applicability": "A1 mini specific"
+    }
+  },
+  "evidence": {
+    "3834865f5ea11d14505a75d8": {
+      "ordinal": 35,
+      "kind": "p",
+      "text": "如果想换料，则需要暂停当前打印任务，先将工具头中耗材退出，再装载新耗材。",
+      "text_sha256": "4a804bec1cc4188b3653c7d93752c1f860418e083c4b32c5e61e6c15c8f9ef83",
+      "heading_path": [
+        "如何换料"
+      ],
+      "anchor": "如何换料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(22)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "3834865f5ea11d14505a75d8",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "d9eeab1c5b11e59e35836272": {
+      "ordinal": 43,
+      "kind": "p",
+      "text": "完成退料操作后，按照上述的\"打印准备\"操作进料。",
+      "text_sha256": "6ef13994c8fa7e0ae92ee8443ef0dfec11e8c71999732a98f2ccb137c5accf1f",
+      "heading_path": [
+        "如何换料",
+        "3. 进料"
+      ],
+      "anchor": "h-3-进料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(27)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "d9eeab1c5b11e59e35836272",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "10b0932757cb0f56efecaef4": {
+      "ordinal": 14,
+      "kind": "p",
+      "text": "根据耗材绕线的方向，安装料盘。",
+      "text_sha256": "c7fe0812bf81feca23d8c62844701ced5ad4535cfe84d5d9a2bc6c77c3698dc9",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "1. 安装料盘"
+      ],
+      "anchor": "h-1-安装料盘",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(7)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "10b0932757cb0f56efecaef4",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "4618026a2012b0e1d92fedda": {
+      "ordinal": 16,
+      "kind": "p",
+      "text": "将耗材的一端插入料管，向工具头里推送耗材直至无法前进。此时，打印机屏幕上的工具头处会出现小绿灯，表示检测到耗材进入。",
+      "text_sha256": "fd22385a4c4cbef0b7d6320c23428fc5e30b836810b4bcf84c4de91b936cb34b",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料-1",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(8)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "4618026a2012b0e1d92fedda",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "a70920122e4afc6d2117eff4": {
+      "ordinal": 8,
+      "kind": "p",
+      "text": "2. 点击进料，需手动选择耗材类型。",
+      "text_sha256": "a74e4bed533c51d35931da11b7e4765afc6b62d5a18a59991a22c59daa836b21",
+      "heading_path": [
+        "打印准备",
+        "使用附赠耗材",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(3)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "a70920122e4afc6d2117eff4",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "e098db844f661e4b7cc40fc0": {
+      "ordinal": 17,
+      "kind": "p",
+      "text": "在屏幕上选择 进料/Load。",
+      "text_sha256": "4eddc85b0e9159d8aa421e0c3a57acab7877596a63b97e9ddd525d2a9e3fb1e0",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料-1",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(9)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "e098db844f661e4b7cc40fc0",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "3fb0e1aa861b86514348c820": {
+      "ordinal": 18,
+      "kind": "p",
+      "text": "喷嘴开始加热到 250 ℃ 后，再次手动推入耗材。",
+      "text_sha256": "6977ba5d11e1268b59b541c4d26c35e4dd18b4b0df956fbbbd25c16596e39996",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料-1",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(10)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "3fb0e1aa861b86514348c820",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "d971490bd6650eee7b6a3800": {
+      "ordinal": 19,
+      "kind": "p",
+      "text": "观察喷嘴，以确保看见挤出机正常吐料。",
+      "text_sha256": "3cc383c69169ac56baa6d4ddfcf7c0ebce72e4353c498a503dfe006288f0e5a4",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料-1",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(11)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "d971490bd6650eee7b6a3800",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "f793e8d977edb97acc10f3b0": {
+      "ordinal": 20,
+      "kind": "p",
+      "text": "在看见喷嘴顺利吐出融化的线材后，在屏幕上选择 完成/Done，完成进料。",
+      "text_sha256": "fcb8f5ddf7f03380687c3b2bba56a4f51aa6d89867173940cdb6d3c65d21cf90",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料-1",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(12)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "f793e8d977edb97acc10f3b0",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    },
+    "c2dc19ae6a5e2e004db7b6e0": {
+      "ordinal": 21,
+      "kind": "p",
+      "text": "如果耗材没有被吐出，选择 重试/Retry，然后重复推入耗材的动作。",
+      "text_sha256": "13e6f5b53e51c3b7a32aa60a440eadb944fc5111f99fae93e6c8a377350a4013",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "anchor": "h-2-进料-1",
+      "dom_path": "html:nth-of-type(1) > body:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > main:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > p:nth-of-type(13)",
+      "html_line": 1010,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "final_url": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "body_sha256": "c158121ee1ef0d335926c4dbea6109acaa9d2b23f20cb3dc5d5e57d428d1622b",
+      "extraction_input_sha256": "49c6f5e0073bf42ce703df165616e7b11dfc6b3c352628525ab19a1221e3805a",
+      "extractor_sha256": "cc0265fae599325ab00c5b02fc858c90b23766e2dff0c96556c4ea492a50ad46",
+      "citation_id": "c2dc19ae6a5e2e004db7b6e0",
+      "captured_at": "2026-10-24T14:57:30.461082+00:00"
+    }
+  },
+  "images": {
+    "references/3bbe0cc2a2bea859.png": {
+      "path": "references/3bbe0cc2a2bea859.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare1-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "3bbe0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "1. 安装料盘"
+      ],
+      "archive_object_path": "objects/3b/be0cc2a2bea859c83c64633cc3ac36c0d62ca58b06e28d265d41b81cf6c973.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/69a5f024afe85627.png": {
+      "path": "references/69a5f024afe85627.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare2-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "69a5f024afe85627874bc7ab24d0d274c913359ce604822706f9b12fa2e8a0f8",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/69/a5f024afe85627874bc7ab24d0d274c913359ce604822706f9b12fa2e8a0f8.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/f7b24cc60ad2ddf2.png": {
+      "path": "references/f7b24cc60ad2ddf2.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare3-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "f7b24cc60ad2ddf23b7a252d24fda2b523912e74f51031aecad0213f9e85ef83",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/f7/b24cc60ad2ddf23b7a252d24fda2b523912e74f51031aecad0213f9e85ef83.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/6fe8a29de7068b9f.png": {
+      "path": "references/6fe8a29de7068b9f.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare4-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "6fe8a29de7068b9f7abc22ecced4155ff935c48fe24389597ea9149e03ea1245",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/6f/e8a29de7068b9f7abc22ecced4155ff935c48fe24389597ea9149e03ea1245.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/7602114cd0147626.png": {
+      "path": "references/7602114cd0147626.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare5-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "7602114cd01476260fac3e74bf4f81b952c802550a58b82c1112a27ca8bd80af",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/76/02114cd01476260fac3e74bf4f81b952c802550a58b82c1112a27ca8bd80af.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/028886162a802c69.png": {
+      "path": "references/028886162a802c69.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare6-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "028886162a802c69921d63155dd636866962aee13bef25c4fd233f500c0649fb",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/02/8886162a802c69921d63155dd636866962aee13bef25c4fd233f500c0649fb.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/eb1b99fa2c479a52.png": {
+      "path": "references/eb1b99fa2c479a52.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare7-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "eb1b99fa2c479a5249d63c674b25611e3c44fb9c23642ed1a5f99435735eabdf",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/eb/1b99fa2c479a5249d63c674b25611e3c44fb9c23642ed1a5f99435735eabdf.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    },
+    "references/4397e9f4bfde43f1.png": {
+      "path": "references/4397e9f4bfde43f1.png",
+      "source_url": "https://wiki.bambulab.com/n1/manual/first-print-with-external-spool/prepare8-external.png",
+      "source_page": "https://wiki.bambulab.com/zh/a1-mini/manual/first-print-with-external-spool",
+      "sha256": "4397e9f4bfde43f141b795967e9f4a41c35dfa1332e08ac71bd58f97432d6a5e",
+      "heading_path": [
+        "打印准备",
+        "使用料盘",
+        "2. 进料"
+      ],
+      "archive_object_path": "objects/43/97e9f4bfde43f141b795967e9f4a41c35dfa1332e08ac71bd58f97432d6a5e.png",
+      "materialized_in_plan": true,
+      "role": "official_instruction_reference_not_live_ground_truth"
+    }
+  }
+}

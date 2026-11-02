@@ -1,0 +1,22 @@
+{
+  "schema_version": "manual2ar-services-v1",
+  "services": [
+    {
+      "id": "bambu-a1-mini",
+      "title": "Bambu Lab A1 mini",
+      "description": "3D 打印机教学 · 官方 Wiki 资料",
+      "teaching_title": "Bambu Lab A1 mini · 3D打印教学",
+      "headline": "从认识设备，到完成第一次操作",
+      "introduction": "认识主要部件，按官方步骤完成操作，并检查打印板状态。",
+      "content_version": "1.0.0",
+      "source_title": "Bambu Lab 官方 Wiki",
+      "snapshot_resource": "source.bambu_wiki.manifest",
+      "backend_url": "",
+      "module_ids": [
+        "learning",
+        "guidance",
+        "inspection"
+      ]
+    }
+  ]
+}

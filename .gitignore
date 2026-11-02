@@ -1,78 +1,35 @@
-# Operating system and editors
-.DS_Store
-._*
-*.swp
-*.swo
-*.tmp
-*.bak
-*.orig
-.vscode/
+# Private workstation settings and service credentials
+**/config.local.json
+**/*.connection.local.json
+.venv/
 .idea/
-
-# Python
-**/.venv/
+.vscode/
+# Rebuildable Python and Unity state
 **/__pycache__/
-**/.pytest_cache/
-**/.mypy_cache/
-**/.ruff_cache/
+.pytest_cache/
 *.py[cod]
-.coverage
-htmlcov/
-
-# Runtime data and generated output
-.codex_tmp/
-artifacts/
-tmp/
+**/Library/
+**/Temp/
+**/Logs/
+**/obj/
+**/UserSettings/
+*.csproj
+*.sln
+*.pdb
+*.pidb
+.DS_Store
+# Public exports are regenerated from the single application configuration
+# Runtime evidence, resource datasets and builds live outside this worktree
+runtime/
 output/
-demo_tomorrow/
-backend/output/
-backend/data/debug_captures/
-backend/data/guidance_events/
-backend/data/jobs/
-backend/data/tracking_events/
-backend/data/training_samples/*
-!backend/data/training_samples/.gitkeep
-data/field_captures/
-demo_transition_cards/*
-!demo_transition_cards/Manual2AR_Transition_Cards_4x3.pptx
-!demo_transition_cards/Manual2AR_Transition_Cards_Contact_Sheet.png
-!demo_transition_cards/minimum_effort/
-demo_transition_cards/minimum_effort/*
-!demo_transition_cards/minimum_effort/Manual2AR_PDF_to_Task_Workflow_4x3.pptx
-!demo_transition_cards/minimum_effort/Manual2AR_PDF_to_Task_Workflow_4x3.png
-
-# Local manuals and model weights
 *.pt
 *.pth
 *.ckpt
-unity/Manual2AR/Assets/StreamingAssets/**/*.pdf
-examples/**/manual/*.pdf
-/2605.09620v1.pdf
 
-# Unity generated files
-**/[Ll]ibrary/
-**/[Tt]emp/
-**/[Oo]bj/
-**/[Bb]uild/
-**/[Bb]uilds/
-**/[Ll]ogs/
-**/[Uu]ser[Ss]ettings/
-**/MemoryCaptures/
-**/Recordings/
-*.csproj
-*.sln
-*.user
-*.pidb
-*.booproj
-*.svd
-*.pdb
-*.mdb
-*.opendb
-*.VC.db
+# Local operator configuration and generated Unity resources
+configs/*.local.json
+**/*.egg-info/
+apps/unity/Manual2AR/Assets/Manual2AR/Resources/Fonts/*.otf
+apps/unity/Manual2AR/Assets/Manual2AR/Resources/Fonts/OFL.txt
 
-# Local third-party reference checkouts not required at runtime
-third_party/arfoundation-samples/
-third_party/checkmanual/
-third_party/cutie/
-third_party/industreal/
-third_party/qwen3-vl/
+apps/unity/Manual2AR/Assets/StreamingAssets/*
