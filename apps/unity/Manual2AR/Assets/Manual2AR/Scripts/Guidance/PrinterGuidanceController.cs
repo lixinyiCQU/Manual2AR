@@ -17,6 +17,7 @@ namespace Manual2AR
         GameObject catalogPanel,actionsPanel;Text catalogStatus;Button resume,cancelChild;
         readonly List<Button> taskButtons=new List<Button>();readonly List<Texture2D> thumbnails=new List<Texture2D>();
         int catalogGeneration;
+        Button spatialEntry;
         RectTransform responseArea;bool? previewLayout;int textLayoutGeneration;Vector2 lastDisplaySize;float lastDisplayScale=-1;bool fittingText;
         Text captureHelp,checkTarget,manualHelp;RectTransform instructionCard,substepTabs;GameObject manualPanel;
         Texture2D modalTexture;string presentationKey="";readonly List<Texture2D> animationTextures=new List<Texture2D>();
@@ -42,6 +43,7 @@ namespace Manual2AR
             count=TextAt(root,"",new Vector2(.64f,.94f),new Vector2(.79f,.995f),21);BuildProgress(12);
 
             ButtonAt(root,"步骤总览",new Vector2(.025f,.845f),new Vector2(.18f,.89f),()=>ShowOverview(false));
+            spatialEntry=AppTheme.Button(root,"进入空间指导",new Vector2(.19f,.845f),new Vector2(.43f,.89f),OpenSpatial,AppIcon.Inspect,true);spatialEntry.gameObject.SetActive(false);
             cancelChild=ButtonAt(root,"结束子任务并返回",new Vector2(.31f,.845f),new Vector2(.58f,.89f),()=>StartCoroutine(CancelChild()));cancelChild.gameObject.SetActive(false);
             restart=ButtonAt(root,"重新开始",new Vector2(.83f,.845f),new Vector2(.975f,.89f),ResetDialog);
             instructionCard=Frame("操作说明与参考",root,new Vector2(.025f,.505f),new Vector2(.625f,.83f));
@@ -322,6 +324,7 @@ namespace Manual2AR
             string key=incoming.run_id+"/"+incoming.state_id+"/"+incoming.selected_substep_id;
             if(presentationKey!=key){shownState="";photoIndex=0;referenceImage.uvRect=new Rect(0,0,1,1);presentationKey=key;}
             base.Apply(incoming);catalogPanel.SetActive(false);BindTaskBack();BuildActions(incoming);BuildSubsteps();
+            spatialEntry.gameObject.SetActive(incoming.variant_id=="standalone_unboxing"&&!incoming.completed&&(incoming.state_id=="U4"||incoming.state_id=="U5"||incoming.state_id=="U6"||incoming.state_id=="U7"));
             count.text=run.completed?"本任务已完成":"第 "+(run.step_index+1)+" / "+run.step_count+" 步";
             referencePanel.anchorMin=new Vector2(.025f,.15f);referencePanel.anchorMax=new Vector2(.625f,.49f);
             bool visual=Array.Exists(run.observations??new UnboxingObservation[0],n=>n.channel=="vision")&&!run.completed;
@@ -375,6 +378,10 @@ namespace Manual2AR
             catalogStatus.text=connected?"请选择任务；也可继续当前指导。":"教学服务暂时未连接，请稍后重试。";
         }
         void BindTaskBack(){AppShell.BindBack("返回任务列表",ShowCatalog,()=>!busy&&!starting);}
+        void OpenSpatial(){
+            if(busy||run==null)return;StopCamera();CloseModal();root.gameObject.SetActive(false);
+            Spatial.SpatialGuidanceController.Open(settings.backend_url,run.state_id,()=>{root.gameObject.SetActive(true);BindTaskBack();});
+        }
         void RenderCatalog(){
             taskButtons.Clear();taskMenu.Clear();foreach(var texture in thumbnails)if(texture!=null)Destroy(texture);thumbnails.Clear();int generation=++catalogGeneration;
             if(catalog==null||catalog.tasks==null)return;

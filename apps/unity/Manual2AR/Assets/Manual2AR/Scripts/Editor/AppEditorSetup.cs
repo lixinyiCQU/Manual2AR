@@ -15,5 +15,7 @@ namespace Manual2AR.Editor {
   }
   [MenuItem("Manual2AR/打开欢迎界面")]
   public static void Open(){if(EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())EditorSceneManager.OpenScene("Assets/Manual2AR/Scenes/Welcome.unity");}
+  [MenuItem("Manual2AR/打开 U6 U7 空间指导演示")]
+  public static void OpenSpatial(){if(EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())EditorSceneManager.OpenScene("Assets/Manual2AR/Scenes/SpatialGuidance.unity");}
  }
 }

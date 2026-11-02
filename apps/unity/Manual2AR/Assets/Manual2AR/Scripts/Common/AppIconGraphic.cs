@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 namespace Manual2AR {
- public enum AppIcon {Camera,SwitchCamera,Inspect,Save,Clear,Home,Warning,Check,Close,Info,Back}
+ public enum AppIcon {Camera,SwitchCamera,Inspect,Save,Clear,Home,Warning,Check,Close,Info,Back,Play,Pause}
  [RequireComponent(typeof(CanvasRenderer))]
  public sealed class AppIconGraphic:MaskableGraphic {
   public AppIcon symbol;
@@ -14,6 +14,8 @@ namespace Manual2AR {
   void Box(VertexHelper v,float x,float y,float w,float h){Line(v,x,y,x+w,y);Line(v,x+w,y,x+w,y+h);Line(v,x+w,y+h,x,y+h);Line(v,x,y+h,x,y);}
   protected override void OnPopulateMesh(VertexHelper v){
    v.Clear();switch(symbol){
+    case AppIcon.Play:Line(v,.32f,.2f,.8f,.5f);Line(v,.8f,.5f,.32f,.8f);Line(v,.32f,.8f,.32f,.2f);break;
+    case AppIcon.Pause:Line(v,.35f,.22f,.35f,.78f);Line(v,.65f,.22f,.65f,.78f);break;
     case AppIcon.Camera:case AppIcon.Save:Box(v,.12f,.2f,.76f,.56f);Line(v,.3f,.76f,.37f,.88f);Line(v,.37f,.88f,.63f,.88f);Line(v,.63f,.88f,.7f,.76f);Circle(v,.5f,.48f,.17f);break;
     case AppIcon.SwitchCamera:Circle(v,.5f,.5f,.32f,25,165);Circle(v,.5f,.5f,.32f,205,345);Line(v,.19f,.58f,.15f,.76f);Line(v,.19f,.58f,.37f,.59f);Line(v,.81f,.42f,.85f,.24f);Line(v,.81f,.42f,.63f,.41f);break;
     case AppIcon.Inspect:Circle(v,.43f,.57f,.25f);Line(v,.61f,.39f,.86f,.14f);Line(v,.29f,.55f,.4f,.45f);Line(v,.4f,.45f,.58f,.66f);break;

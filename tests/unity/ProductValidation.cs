@@ -76,6 +76,13 @@ public static class ProductValidation {
  static IEnumerator Scenario(){
   Check(AppTheme.Readable("打印状态检查").IndexOf((char)0x200b)>=0,"Chinese wrapping missing");
   Check(AppTheme.Font!=null&&AppTheme.Font.HasCharacter('学'),"Embedded Chinese font not available");
+  Check(WindowsLocalBootstrap.IsNetworkPath(@"\\wsl.localhost\Ubuntu\demo\Manual2AR_Data"),"WSL UNC path was not identified");
+  Check(WindowsLocalBootstrap.IsNetworkPath("//wsl$/Ubuntu/demo/Manual2AR_Data"),"Forward-slash UNC path was not identified");
+  Check(!WindowsLocalBootstrap.IsNetworkPath(@"C:\Users\demo\Manual2AR_Data"),"Local Windows path was classified as a network share");
+  var clock=new Manual2AR.Spatial.SpatialPlayback();clock.Configure(3);clock.SetAvailable(true);Check(clock.Play(),"Playback did not start");clock.Tick(1);
+  Check(Mathf.Abs(clock.Progress-1f/3)<.001f,"Playback depends on camera update count");clock.SetAvailable(false);float stopped=clock.Progress;clock.Tick(10);
+  Check(clock.State=="paused"&&clock.Progress==stopped,"Tracking loss did not pause animation");clock.SetAvailable(true);Check(clock.State=="paused","Tracking recovery auto-executed an action");
+  Check(clock.Replay()&&clock.Progress==0,"Replay kept old progress");Check(clock.Tick(3)&&clock.State=="finished"&&!clock.Tick(1),"Animation finish was emitted more than once");
   Check(SceneManager.sceneCountInBuildSettings==4,"Build must contain exactly four product scenes");
   int cropCases=CheckFraming();
   var welcome=UnityEngine.Object.FindObjectOfType<WelcomeController>();
@@ -108,6 +115,62 @@ public static class ProductValidation {
   AppShell.Open("PrinterGuidance");yield return Wait(()=>!AppShell.Changing&&UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>()!=null,"Guidance did not open");
   var guidance=UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>();yield return Wait(()=>(bool)Field(guidance,"connected"),"Guidance not connected");NoDiagnostics();CheckBack("返回教学首页");yield return Shot("06-guidance-catalog.png");
   guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BeginSelected","a1_mini_standalone_unboxing_v1","standalone_unboxing",false));yield return Wait(()=>Field(guidance,"run")!=null,"Unboxing did not start");NoDiagnostics();yield return Shot("07-guidance-overview.png");Invoke(guidance,"CloseModal");yield return Shot("08-guidance-step.png");
+  var tutorial=(GuidanceRun)Field(guidance,"run");GuidanceRun spatialChapter=null;
+  foreach(string chapter in new[]{"U4","U5"}){
+   yield return Call(origin+"/api/guidance/runs/"+tutorial.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=tutorial.state_id,revision=tutorial.revision,target_state_id=chapter}),raw=>tutorial=JsonUtility.FromJson<GuidanceRun>(raw));
+   Invoke(guidance,"Apply",tutorial);Invoke(guidance,"CloseModal");Check(((Button)Field(guidance,"spatialEntry")).gameObject.activeSelf,chapter+" lacks spatial entry");
+  }
+  yield return Call(origin+"/api/guidance/runs/"+tutorial.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=tutorial.state_id,revision=tutorial.revision,target_state_id="U6"}),raw=>spatialChapter=JsonUtility.FromJson<GuidanceRun>(raw));
+  Invoke(guidance,"Apply",spatialChapter);Invoke(guidance,"CloseModal");
+  Check(((Button)Field(guidance,"spatialEntry")).gameObject.activeSelf,"U6 has no spatial entry");Invoke(guidance,"OpenSpatial");
+  var spatial=UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>();
+  yield return Wait(()=>Field(spatial,"plan")!=null,"Spatial plan missing");
+  var spatialPlan=(Manual2AR.Spatial.Plan)Field(spatial,"plan");Check(spatialPlan.actions.Length==10&&spatialPlan.chapters.Length==4,"Unboxing extension catalog missing");
+  spatial.StartCoroutine((IEnumerator)Invoke(spatial,"BeginSession","replay",false));
+  yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).target_ready,"Spatial replay missing");
+  CheckBack("返回图文指导");var firstSpatial=(Manual2AR.Spatial.Reply)Field(spatial,"last");
+  yield return Wait(()=>Field(spatial,"referenceTexture")!=null,"Official reference disappeared during session start");
+  Check(((RawImage)Field(spatial,"reference")).transform.parent.name=="Reference viewport","Reference is not confined to its own viewport");
+  Check(firstSpatial.lines.Length==3&&firstSpatial.pose.matrix.Length==16,"Metric arrow/pose missing");
+  Check(firstSpatial.visual!=null&&firstSpatial.visual.trajectory.Length==33,"Metric motion path missing");
+  Check(!(bool)Field(spatial,"setupVisible"),"Setup controls are mixed into normal guidance");
+  int authorScope=(int)Field(spatial,"authorGeneration");string spatialSession=((Manual2AR.Spatial.Session)Field(spatial,"session")).session_id;
+  Check((bool)Invoke(spatial,"AuthorReplyCurrent",authorScope,spatialSession),"Current authoring scope was rejected");Invoke(spatial,"CancelAuthor");
+  Check(!(bool)Invoke(spatial,"AuthorReplyCurrent",authorScope,spatialSession),"Cancelled authoring accepted a late reply");
+  var metricOverlay=(Manual2AR.Spatial.SpatialOverlay)Field(spatial,"overlay");metricOverlay.accepting=true;
+  Canvas.ForceUpdateCanvases();var metricRect=metricOverlay.rectTransform;var bounds=metricRect.rect;
+  Vector2 quarter=RectTransformUtility.WorldToScreenPoint(null,metricRect.TransformPoint(new Vector3(bounds.xMin+bounds.width*.25f,bounds.yMax-bounds.height*.25f,0)));
+  metricOverlay.OnPointerClick(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){position=quarter});
+  Check(metricOverlay.picks.Count==1&&Mathf.Abs(metricOverlay.picks[0].x-firstSpatial.width*.25f)<1&&Mathf.Abs(metricOverlay.picks[0].y-firstSpatial.height*.25f)<1,"UI click does not map to submitted image pixels");
+  metricOverlay.accepting=false;metricOverlay.picks.Clear();metricOverlay.SetVerticesDirty();
+  Canvas.ForceUpdateCanvases();Invoke(spatial,"RefreshCallout");
+  var calloutRect=(RectTransform)Field(Field(spatial,"callout"),"root");var imageCorners=new Vector3[4];var labelCorners=new Vector3[4];metricRect.GetWorldCorners(imageCorners);calloutRect.GetWorldCorners(labelCorners);
+  Check(labelCorners[0].x>=imageCorners[0].x-1&&labelCorners[2].x<=imageCorners[2].x+1,"Operation label extends outside camera image");
+  Invoke(spatial,"PlaybackCommand","play");yield return new WaitForSecondsRealtime(.6f);Check(((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Progress>0,"Playback did not advance");
+  Invoke(spatial,"PlaybackCommand","pause");float held=((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Progress;yield return new WaitForSecondsRealtime(.3f);
+  Check(Mathf.Abs(((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Progress-held)<.001f,"Pause did not hold the animation");
+  yield return Shot("spatial-01-slide.png");Invoke(spatial,"Select",1);
+  yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).lines.Length>20,"Fastening ring missing");
+  yield return Shot("spatial-02-fasten.png");Invoke(spatial,"Select",4);
+  yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).action_id=="holder.slide","U7 did not open");
+  yield return Shot("spatial-03-holder.png");
+  Invoke(spatial,"Select",3);yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).action_id=="holder.base","Base screws did not open");
+  Check(((System.Collections.ICollection)Field(spatial,"targetButtons")).Count==2,"Two screw selectors missing");Invoke(spatial,"SelectTarget",1);
+  yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).target_id=="second","Second screw kept first screw geometry");
+  Check(((Manual2AR.Spatial.Reply)Field(spatial,"last")).visual.label=="底座螺丝 2","Second screw label mismatch");Invoke(spatial,"MarkOperation");yield return Shot("spatial-04-second-screw.png");
+  Invoke(spatial,"SelectChapter","U4");yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).action_id=="zlock.remove","U4 chapter navigation failed");
+  Check(((System.Collections.ICollection)Field(spatial,"targetButtons")).Count==4,"Z lock needs four screw selectors");Check(((System.Collections.ICollection)Field(spatial,"tabs")).Count==4,"U4 action tabs missing");
+  Invoke(spatial,"SelectTarget",3);yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).target_id=="fourth","Fourth transport screw missing");yield return Shot("extension-01-zlock.png");
+  Invoke(spatial,"Select",Array.FindIndex(spatialPlan.actions,a=>a.action_id=="toolhead.tie"));yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).visual!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).visual.kind=="cut","Tie reference missing");
+  Check(((Manual2AR.Spatial.Reply)Field(spatial,"last")).visual.tool_lines.Length==2,"Cut reference geometry missing");yield return Shot("extension-02-tie.png");
+  Invoke(spatial,"Select",Array.FindIndex(spatialPlan.actions,a=>a.action_id=="packing.foam"));yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).visual!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).visual.kind=="highlight","Foam highlight missing");
+  Check(((System.Collections.ICollection)Field(spatial,"targetButtons")).Count==3,"Optional foam positions missing");
+  Invoke(spatial,"SelectChapter","U5");yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).action_id=="bed.tighten","U5 chapter navigation failed");
+  Check(((System.Collections.ICollection)Field(spatial,"targetButtons")).Count==3,"Bed needs three screw selectors");Check(((Button)Field(spatial,"verify")).GetComponentInChildren<Text>().text=="人工确认","Bed tightening should not be a VLM check");
+  spatial.StartCoroutine((IEnumerator)Invoke(spatial,"Verify"));yield return null;Check(((Text)Field(spatial,"checkResult")).text.Contains("人工确认"),"Manual confirmation not shown");yield return Shot("extension-03-bed.png");
+  AppShell.GoBack();yield return Wait(()=>UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>()==null,"Spatial view did not release");
+  Check(((RectTransform)Field(guidance,"root")).gameObject.activeSelf,"Tutorial did not resume");
+  Check(((GuidanceRun)Field(guidance,"run")).revision==spatialChapter.revision,"Spatial view changed tutorial progress");
   CheckBack("返回任务列表");AppShell.GoBack();yield return null;Check(SceneManager.GetActiveScene().name=="PrinterGuidance"&&((GameObject)Field(guidance,"catalogPanel")).activeSelf,"Guidance skipped its task catalog");CheckBack("返回教学首页");
   AppShell.GoBack();yield return Wait(()=>!AppShell.Changing&&SceneManager.GetActiveScene().name=="Welcome","Guidance did not release");
   AppShell.Open("PrinterInspection");yield return Wait(()=>!AppShell.Changing&&UnityEngine.Object.FindObjectOfType<PrinterInspectionController>()!=null,"Inspection did not open");
@@ -136,7 +199,7 @@ public static class ProductValidation {
   welcome=UnityEngine.Object.FindObjectOfType<WelcomeController>();yield return Wait(()=>welcome!=null&&Field(welcome,"catalog")!=null,"Welcome missing");Invoke(welcome,"Library");
   Check(AppShell.SelectedService==null,"Cannot return to service library");yield return Shot("12-return-library.png");
   Check(UnityEngine.Object.FindObjectsOfType<AppShell>().Length==1,"Duplicate application shell");Check(errors==0,"Runtime errors");
-  File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true}");
+  File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true,\"spatial_replay\":true,\"spatial_metric_geometry\":true,\"spatial_pixel_picking\":true,\"spatial_reference_loaded\":true,\"spatial_preserves_tutorial_progress\":true}");
   SessionState.SetBool(Key,false);EditorApplication.Exit(0);
  }
 }

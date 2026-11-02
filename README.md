@@ -124,6 +124,14 @@ bash run.sh gpu-notebook      # 从规范源码重新生成唯一 Notebook
 bash run.sh inference-bundle  # 导出独立推理源码包
 ```
 
-当前 242 项 Python 回归通过（含 30 项 Colab 部署检查及资料服务/自动回退检查）；Unity 四场景实际 Play 验证运行时错误为 0，另通过 40 个画幅、旋转与镜像组合的图像检查。Unity 验证使用受控模型，未测试实物摄像头及真实 GPU 推理；HPC 和容器未做现场部署。
+当前 269 项 Python 回归通过（含 27 项空间几何与扩展接口检查、30 项 Colab 部署检查及资料服务/自动回退检查）；Unity 四场景实际 Play 验证运行时错误为 0，另通过 40 个画幅、旋转与镜像组合的图像检查。Unity 验证使用受控模型，未测试实物摄像头及真实 GPU 推理；HPC 和容器未做现场部署。
 
 架构及扩展方式见 [ARCHITECTURE](docs/ARCHITECTURE.md)，分阶段迁移和回滚位置见 [MIGRATION](docs/MIGRATION.md)。当前分支 `lixin/integration-v1`，整合版 V1 标签为 `integration-v1.0.0`，原三个 V1 工作树保持独立。
+
+模块二下一阶段的动作与 AR 开发规格见 [模块二 V2 开发手册](docs/MODULE_TWO_V2_DEVELOPMENT.md)，包含官方开箱映射、空间契约、阶段交付及 Guided Reality 代码/资产复用审计。
+
+U6/U7 Windows 摄像头空间指导已提供独立入口、相机标定、双视图作用点设置与模拟回放；操作及代码边界见 [空间指导演示说明](docs/MODULE_TWO_SPATIAL_DEMO.md)。实机需要打印标记并完成界面内标定。
+
+实机视频审计后，U6/U7 已增加位置标签、独立播放时钟及暂停/重播、两颗底座螺丝分别设置，以及操作标记与核验分离的日志；见 [实测审计与阶段进展](docs/MODULE_TWO_SPATIAL_PROGRESS.md)。已有主位置数据保持兼容。
+
+2026-11-03 已扩展开箱 U4/U5：四颗限制器螺丝、扎带、工具头左移、可选泡棉，以及热床三颗螺丝。U4—U7 共 10 个指导单元，支持章节/动作导航；见 [第二轮审查与开箱扩展](docs/UNBOXING_SPATIAL_EXTENSION.md)。热床锁紧使用人工确认。

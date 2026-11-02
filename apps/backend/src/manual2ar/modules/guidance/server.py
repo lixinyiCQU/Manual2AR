@@ -53,12 +53,17 @@ class Action(Command):
 def create_app(config, client=None, log_root=None):
     from .manage import public
     service = GuidanceService(config, client=client, log_root=log_root)
+    from .spatial.router import router as spatial_router
+    spatial_api, spatial = spatial_router(config, service.registry, next(iter(service.engines.values())).client)
     @asynccontextmanager
     async def lifespan(app):
         yield
+        for identity in list(spatial.sessions):spatial.close(identity)
         for identity in list(service.meta):service.close(identity)
     app = FastAPI(title='Manual2AR 模块二：操作指导',lifespan=lifespan)
     app.state.guidance = service
+    app.state.spatial = spatial
+    app.include_router(spatial_api)
 
     @app.get('/health')
     def health(): return {'status':'ok', 'module':'operation-guidance', 'scope':'external_spool_and_ams_lite_unboxing',

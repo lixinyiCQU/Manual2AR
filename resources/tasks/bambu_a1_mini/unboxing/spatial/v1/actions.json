@@ -1,0 +1,477 @@
+{
+  "schema_version": "manual2ar-spatial-actions-v1",
+  "task_id": "a1_mini_standalone_unboxing_v1",
+  "variant_id": "standalone_unboxing",
+  "snapshot_id": "20261024T145623Z_e2655a",
+  "coordinate_convention": "T_camera_from_marker; metres; marker X right Y printed-top Z out; camera X right Y down Z forward",
+  "actions": [
+    {
+      "action_id": "purge.slide",
+      "chapter_id": "U6",
+      "title": "滑入吐料组件",
+      "kind": "slide",
+      "instruction": "将吐料组件从后往前滑入 X 轴末端端盖的插槽。",
+      "authoring_instruction": "第一点：组件开始滑入的位置；第二点：插槽内最终位置。",
+      "reference_images": [
+        "references/df44ab9efd621e45.png",
+        "references/2ed23ae33f41c22d.png",
+        "references/3628ad936ffb4fb9.png",
+        "references/d13917dc6acd50bb.png",
+        "references/40f862ded0d46445.png"
+      ],
+      "citation_ids": [
+        "83b9bd74d33eb2f7f3d387a5"
+      ],
+      "official_text": "将吐料组件从后往前滑入 X 轴末端端盖的插槽中，使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 1,
+      "target_components": [
+        "purge_wiper",
+        "x_axis_end_cap_slot"
+      ],
+      "tool_type": "none",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "吐料组件插槽"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表实际操作完成；按官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "static_setup",
+      "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
+      "playback_caption": "将吐料组件从后往前滑入 X 轴末端端盖的插槽。"
+    },
+    {
+      "action_id": "purge.fasten",
+      "chapter_id": "U6",
+      "title": "固定吐料组件",
+      "kind": "fasten",
+      "instruction": "使用一颗 M3-12 螺丝固定吐料组件。",
+      "authoring_instruction": "第一点：螺丝刀手柄方向的一点；第二点：固定螺丝中心。",
+      "reference_images": [
+        "references/df44ab9efd621e45.png",
+        "references/2ed23ae33f41c22d.png",
+        "references/3628ad936ffb4fb9.png",
+        "references/d13917dc6acd50bb.png",
+        "references/40f862ded0d46445.png"
+      ],
+      "citation_ids": [
+        "83b9bd74d33eb2f7f3d387a5"
+      ],
+      "official_text": "将吐料组件从后往前滑入 X 轴末端端盖的插槽中，使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 3,
+      "target_components": [
+        "purge_wiper",
+        "screw_m3_12"
+      ],
+      "tool_type": "supplied_hex_tool",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "M3-12 固定螺丝"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表实际操作完成；按官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "static_setup",
+      "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
+      "playback_caption": "先找到标记的螺丝，再对照官方参考图固定；工具轮廓只作对准示意。"
+    },
+    {
+      "action_id": "purge.alignment",
+      "chapter_id": "U6",
+      "title": "检查平行及静态间隙",
+      "kind": "align",
+      "instruction": "确保吐料组件与热床左侧边沿平行，且不会发生碰撞。",
+      "authoring_instruction": "第一点与第二点：沿热床左侧边沿选两个固定位置，作为平行参照。",
+      "reference_images": [
+        "references/df44ab9efd621e45.png",
+        "references/2ed23ae33f41c22d.png",
+        "references/3628ad936ffb4fb9.png",
+        "references/d13917dc6acd50bb.png",
+        "references/40f862ded0d46445.png"
+      ],
+      "citation_ids": [
+        "7fee805b27b47c25d253fa93"
+      ],
+      "official_text": "请注意：在安装吐料组件后，应确保其与热床的左侧边沿平行，并且不会发生碰撞，如下图所示：",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 4,
+      "target_components": [
+        "purge_wiper",
+        "build_plate_left_edge"
+      ],
+      "tool_type": "none",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "平行参照"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表实际操作完成；按官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "static_setup",
+      "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
+      "playback_caption": "对照标出的参照线检查平行关系与静态间隙。"
+    },
+    {
+      "action_id": "holder.base",
+      "chapter_id": "U7",
+      "title": "安装料盘支架底座",
+      "kind": "fasten",
+      "instruction": "使用两颗 M3-8 螺丝固定料盘支架底座，注意官方图示方向。可分别选择螺丝 1 和螺丝 2 查看位置示意。",
+      "authoring_instruction": "第一点：螺丝刀手柄方向的一点；第二点：底座的一颗螺丝中心。",
+      "reference_images": [
+        "references/a9a63e8f81e4971f.png",
+        "references/7f6374cbdab2f5f2.png",
+        "references/6a3a99488854ca51.png",
+        "references/c9a91fdeec9d5877.png"
+      ],
+      "citation_ids": [
+        "026a3a3c147bd8b28d5bf414"
+      ],
+      "official_text": "1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 0,
+      "target_components": [
+        "spool_holder_base",
+        "screws_m3_8"
+      ],
+      "tool_type": "supplied_hex_tool",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "底座螺丝 1",
+          "short_label": "螺丝 1"
+        },
+        {
+          "id": "second",
+          "label": "底座螺丝 2",
+          "short_label": "螺丝 2"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表实际操作完成；按官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "static_setup",
+      "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
+      "playback_caption": "先找到标记的螺丝，再对照官方参考图固定；工具轮廓只作对准示意。"
+    },
+    {
+      "action_id": "holder.slide",
+      "chapter_id": "U7",
+      "title": "从上向下滑入料盘支架",
+      "kind": "slide",
+      "instruction": "从上向下滑入料盘支架，确保方向与插槽匹配。",
+      "authoring_instruction": "第一点：插槽上方的起点；第二点：支架滑入到底的位置。",
+      "reference_images": [
+        "references/a9a63e8f81e4971f.png",
+        "references/7f6374cbdab2f5f2.png",
+        "references/6a3a99488854ca51.png",
+        "references/c9a91fdeec9d5877.png"
+      ],
+      "citation_ids": [
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "official_text": "2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 2,
+      "target_components": [
+        "external_spool_holder",
+        "holder_base_slot"
+      ],
+      "tool_type": "none",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "料盘支架插槽"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表实际操作完成；按官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "static_setup",
+      "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
+      "playback_caption": "从上向下滑入料盘支架，确保方向与插槽匹配。"
+    },
+    {
+      "action_id": "zlock.remove",
+      "chapter_id": "U4",
+      "title": "拆除 Z 轴限制器螺丝",
+      "kind": "fasten",
+      "instruction": "拧下 Z 轴运输限制器的四颗螺丝，解锁 Z 轴。",
+      "authoring_instruction": "第一点：保持静止的工具轴线点；第二点：当前选中限制器螺丝的中心。",
+      "reference_images": [
+        "references/4b39325fae422752.png",
+        "references/6baa2ab9794e0423.png",
+        "references/89df12329d188cf1.png",
+        "references/331dadd4a769c1d9.png",
+        "references/b48f68f533007797.png",
+        "references/ba24acb2a7fa79fd.png"
+      ],
+      "citation_ids": [
+        "47ada685e0d504166d9eca03"
+      ],
+      "official_text": "1. 拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 0,
+      "target_components": [
+        "限制螺丝 1",
+        "限制螺丝 2",
+        "限制螺丝 3",
+        "限制螺丝 4"
+      ],
+      "tool_type": "supplied_hex_tool",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "限制螺丝 1",
+          "short_label": "螺丝 1"
+        },
+        {
+          "id": "second",
+          "label": "限制螺丝 2",
+          "short_label": "螺丝 2"
+        },
+        {
+          "id": "third",
+          "label": "限制螺丝 3",
+          "short_label": "螺丝 3"
+        },
+        {
+          "id": "fourth",
+          "label": "限制螺丝 4",
+          "short_label": "螺丝 4"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表操作完成；对照官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "transport_lock",
+      "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
+      "applicability_note": "已完成开箱的设备可直接浏览官方图文，不要为演示重新装回运输固定件。",
+      "playback_caption": "拧下 Z 轴运输限制器的四颗螺丝，解锁 Z 轴。"
+    },
+    {
+      "action_id": "toolhead.tie",
+      "chapter_id": "U4",
+      "title": "剪断并取下扎带",
+      "kind": "cut",
+      "instruction": "对照官方图找到工具头周围的运输扎带，剪断并取下；不要把相邻线束作为扎带。",
+      "authoring_instruction": "第一点：工具靠近方向上的固定参照点；第二点：可见运输扎带的位置。",
+      "reference_images": [
+        "references/4b39325fae422752.png",
+        "references/6baa2ab9794e0423.png",
+        "references/89df12329d188cf1.png",
+        "references/331dadd4a769c1d9.png",
+        "references/b48f68f533007797.png",
+        "references/ba24acb2a7fa79fd.png"
+      ],
+      "citation_ids": [
+        "c97adbf0e1837339be5c56f6"
+      ],
+      "official_text": "2. 剪断并取下工具头周围的扎带",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 2,
+      "target_components": [
+        "工具头运输扎带"
+      ],
+      "tool_type": "scissors_reference",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "工具头运输扎带"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表操作完成；对照官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "toolhead",
+      "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
+      "applicability_note": "已完成开箱的设备可直接浏览官方图文，不要为演示重新装回运输固定件。",
+      "playback_caption": "对照官方图找到工具头周围的运输扎带，剪断并取下；不要把相邻线束作为扎带。"
+    },
+    {
+      "action_id": "toolhead.slide",
+      "chapter_id": "U4",
+      "title": "工具头稍向左移",
+      "kind": "slide",
+      "instruction": "将工具头沿 X 导轨向打印机左侧稍微移动，为取下减震泡棉留出空间。方向以官方图示为准，不按屏幕左右推断。",
+      "authoring_instruction": "第一点：当前工具头位置；第二点：沿真实导轨左侧可重复指认的位置。只作小幅移动方向示意，不编造毫米距离。",
+      "reference_images": [
+        "references/4b39325fae422752.png",
+        "references/6baa2ab9794e0423.png",
+        "references/89df12329d188cf1.png",
+        "references/331dadd4a769c1d9.png",
+        "references/b48f68f533007797.png",
+        "references/ba24acb2a7fa79fd.png"
+      ],
+      "citation_ids": [
+        "4de210d91fa38f39a2fd07fe"
+      ],
+      "official_text": "3. 将工具头向左稍微移动，然后取下减震泡棉。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 4,
+      "target_components": [
+        "工具头左移方向"
+      ],
+      "tool_type": "none",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "工具头左移方向"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表操作完成；对照官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "toolhead",
+      "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
+      "applicability_note": "已完成开箱的设备可直接浏览官方图文，不要为演示重新装回运输固定件。",
+      "playback_caption": "将工具头沿 X 导轨向打印机左侧稍微移动，为取下减震泡棉留出空间。方向以官方图示为准，不按屏幕左右推断。",
+      "invalidates_actions": [
+        "toolhead.tie",
+        "toolhead.slide",
+        "packing.foam"
+      ]
+    },
+    {
+      "action_id": "packing.foam",
+      "chapter_id": "U4",
+      "title": "取下减震及保护泡棉",
+      "kind": "highlight",
+      "instruction": "取下显露的工具头减震泡棉；如有热床和导轨保护泡沫，也在本步移除。没有这些包装件时无需补装或重复操作。",
+      "authoring_instruction": "在当前实际存在的泡棉上选两个清楚、固定的参照位置；只高亮泡棉，不指定官方未说明的移除路径。",
+      "reference_images": [
+        "references/4b39325fae422752.png",
+        "references/6baa2ab9794e0423.png",
+        "references/89df12329d188cf1.png",
+        "references/331dadd4a769c1d9.png",
+        "references/b48f68f533007797.png",
+        "references/ba24acb2a7fa79fd.png"
+      ],
+      "citation_ids": [
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "official_text": "3. 将工具头向左稍微移动，然后取下减震泡棉。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 5,
+      "target_components": [
+        "工具头减震泡棉",
+        "热床保护泡棉",
+        "导轨保护泡棉"
+      ],
+      "tool_type": "none",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "工具头减震泡棉",
+          "short_label": "工具头泡棉"
+        },
+        {
+          "id": "bed",
+          "label": "热床保护泡棉",
+          "short_label": "热床泡棉"
+        },
+        {
+          "id": "rail",
+          "label": "导轨保护泡棉",
+          "short_label": "导轨泡棉"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表操作完成；对照官方图文自行操作。",
+      "verification_mode": "vision",
+      "anchor_scope": "packing",
+      "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
+      "applicability_note": "已完成开箱的设备可直接浏览官方图文，不要为演示重新装回运输固定件。",
+      "playback_caption": "取下显露的工具头减震泡棉；如有热床和导轨保护泡沫，也在本步移除。没有这些包装件时无需补装或重复操作。"
+    },
+    {
+      "action_id": "bed.tighten",
+      "chapter_id": "U5",
+      "title": "锁紧热床三颗螺丝",
+      "kind": "fasten",
+      "instruction": "对照官方图绿色标记，逐颗锁紧热床底部的三颗螺丝。可先将热床移到便于操作的位置，再设置作用点；按原文固定好扳手和打印板。",
+      "authoring_instruction": "第一点：保持静止的扳手轴线参照点；第二点：当前选中热床螺丝的中心。先摆好热床，再从可见角度设置。",
+      "reference_images": [
+        "references/242991258447e026.png",
+        "references/52845b77836884c0.png",
+        "references/6bc2913e5ee37c66.jpg"
+      ],
+      "citation_ids": [
+        "661ff0e405da259e12e68b65",
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "official_text": "为了防止在运输途中受到冲击导致零部件损坏，在工厂组装过程中，会将热床底部的 3 颗螺丝（如图中绿色标记所示）松开。因此您需要将其拧紧。",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "primary_reference_index": 0,
+      "target_components": [
+        "热床螺丝 1",
+        "热床螺丝 2",
+        "热床螺丝 3"
+      ],
+      "tool_type": "supplied_hex_tool",
+      "target_instances": [
+        {
+          "id": "main",
+          "label": "热床螺丝 1",
+          "short_label": "螺丝 1"
+        },
+        {
+          "id": "second",
+          "label": "热床螺丝 2",
+          "short_label": "螺丝 2"
+        },
+        {
+          "id": "third",
+          "label": "热床螺丝 3",
+          "short_label": "螺丝 3"
+        }
+      ],
+      "editorial_decomposition": true,
+      "playback_note": "动作示意不代表操作完成；对照官方图文自行操作。",
+      "verification_mode": "manual",
+      "anchor_scope": "bed",
+      "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
+      "applicability_note": "锁紧程度与扭矩不能从图像确认，本章使用人工确认。",
+      "playback_caption": "对照官方图绿色标记，逐颗锁紧热床底部的三颗螺丝。可先将热床移到便于操作的位置，再设置作用点；按原文固定好扳手和打印板。"
+    }
+  ],
+  "chapters": [
+    {
+      "id": "U4",
+      "title": "解锁 Z 轴限制器和工具头"
+    },
+    {
+      "id": "U5",
+      "title": "锁紧热床螺丝"
+    },
+    {
+      "id": "U6",
+      "title": "安装吐料组件"
+    },
+    {
+      "id": "U7",
+      "title": "安装料盘支架"
+    }
+  ],
+  "coverage": {
+    "guidance_units": 10,
+    "chapter_ids": [
+      "U4",
+      "U5",
+      "U6",
+      "U7"
+    ],
+    "platform": "windows_rgb_marker",
+    "measured_spatial_accuracy": false,
+    "automatic_target_initialization": false
+  }
+}
