@@ -217,7 +217,7 @@ namespace Manual2AR
             var texture=cameraImage.texture;if(texture==null)return;float scale=Mathf.Min(cameraArea.rect.width/texture.width,cameraArea.rect.height/texture.height);
             cameraRect.sizeDelta=new Vector2(texture.width*scale,texture.height*scale);cameraRect.localEulerAngles=Vector3.zero;cameraImage.uvRect=new Rect(0,0,1,1);
         }
-        protected void LayoutReference(){if(referenceTexture==null)return;float s=Mathf.Min(referenceArea.rect.width/referenceTexture.width,referenceArea.rect.height/referenceTexture.height);referenceRect.sizeDelta=new Vector2(referenceTexture.width*s,referenceTexture.height*s);}
+        protected virtual void LayoutReference(){if(referenceTexture==null)return;float s=Mathf.Min(referenceArea.rect.width/referenceTexture.width,referenceArea.rect.height/referenceTexture.height);referenceRect.sizeDelta=new Vector2(referenceTexture.width*s,referenceTexture.height*s);}
         protected virtual IEnumerator LoadReference()
         {
             int generation=++photoGeneration;var photos=run.presentation.images;

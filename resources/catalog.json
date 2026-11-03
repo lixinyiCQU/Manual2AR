@@ -12,6 +12,7 @@
     "source.bambu_wiki.manifest": "sources/bambu_wiki/manifest.json",
     "ui.font": "shared/fonts/NotoSansCJKsc-Regular.otf",
     "app.services": "services/catalog.json",
-    "task.unboxing.spatial": "tasks/bambu_a1_mini/unboxing/spatial/v1/actions.json"
+    "task.unboxing.spatial": "tasks/bambu_a1_mini/unboxing/spatial/v1/actions.json",
+    "module.guidance.lessons": "modules/guidance_lessons.v1.json"
   }
 }

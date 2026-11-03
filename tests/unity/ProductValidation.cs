@@ -76,6 +76,10 @@ public static class ProductValidation {
  static IEnumerator Scenario(){
   Check(AppTheme.Readable("打印状态检查").IndexOf((char)0x200b)>=0,"Chinese wrapping missing");
   Check(AppTheme.Font!=null&&AppTheme.Font.HasCharacter('学'),"Embedded Chinese font not available");
+  string dense=LessonReadableText.Wrap(new string('中',40),8,t=>t.Length);var wrappedLines=dense.Split('\n');Check(wrappedLines.Length==5,"Chinese text has premature word-run breaks");foreach(string line in wrappedLines)Check(line.Length==8,"Chinese row leaves unexplained short lines");
+  string protectedWords=LessonReadableText.Wrap(LessonReadableText.Prepare("安装 M3-12 螺丝，料管为 520 mm。"),12,t=>t.Length);Check(protectedWords.Contains("M3-12")&&protectedWords.Contains("520\u00a0mm"),"Model names or units were split");
+  foreach(string line in protectedWords.Split('\n'))Check(!line.StartsWith("，")&&!line.StartsWith("。"),"Punctuation starts a rendered line");
+
   Check(WindowsLocalBootstrap.IsNetworkPath(@"\\wsl.localhost\Ubuntu\demo\Manual2AR_Data"),"WSL UNC path was not identified");
   Check(WindowsLocalBootstrap.IsNetworkPath("//wsl$/Ubuntu/demo/Manual2AR_Data"),"Forward-slash UNC path was not identified");
   Check(!WindowsLocalBootstrap.IsNetworkPath(@"C:\Users\demo\Manual2AR_Data"),"Local Windows path was classified as a network share");
@@ -115,7 +119,39 @@ public static class ProductValidation {
   AppShell.Open("PrinterGuidance");yield return Wait(()=>!AppShell.Changing&&UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>()!=null,"Guidance did not open");
   var guidance=UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>();yield return Wait(()=>(bool)Field(guidance,"connected"),"Guidance not connected");NoDiagnostics();CheckBack("返回教学首页");yield return Shot("06-guidance-catalog.png");
   guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BeginSelected","a1_mini_standalone_unboxing_v1","standalone_unboxing",false));yield return Wait(()=>Field(guidance,"run")!=null,"Unboxing did not start");NoDiagnostics();yield return Shot("07-guidance-overview.png");Invoke(guidance,"CloseModal");yield return Shot("08-guidance-step.png");
+  Check(!((GameObject)Field(guidance,"placeholder")).activeSelf,"Reading chapter repeats the task outline");
+  var readingCard=(RectTransform)Field(guidance,"instructionCard");Check(readingCard.anchorMax.y-readingCard.anchorMin.y>.65f,"Text-only chapter did not reclaim outline space");
   var tutorial=(GuidanceRun)Field(guidance,"run");GuidanceRun spatialChapter=null;
+  yield return Call(origin+"/api/guidance/runs/"+tutorial.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=tutorial.state_id,revision=tutorial.revision,target_state_id="U3"}),raw=>tutorial=JsonUtility.FromJson<GuidanceRun>(raw));
+  Invoke(guidance,"Apply",tutorial);Invoke(guidance,"CloseModal");yield return Wait(()=>Field(guidance,"referenceTexture")!=null,"Lesson reference missing");
+  var lessonPicture=(RectTransform)Field(guidance,"referencePanel");Check(readingCard.anchorMax.x<lessonPicture.anchorMin.x,"Instructions overlap official figure");
+  Check(!((GameObject)Field(guidance,"captureDialog")).activeSelf,"Optional camera controls clutter the reading page");
+  Check(!((Button)Field(guidance,"previousPhoto")).gameObject.activeSelf&&!((Button)Field(guidance,"nextPhoto")).gameObject.activeSelf,"Single image has redundant arrows");
+  yield return Shot("lesson-01-reading-and-figure.png");Invoke(guidance,"OpenPhotoReference");CheckBack("返回教学");yield return Shot("lesson-02-photo-idle.png");
+  var referenceView=(RectTransform)Field(guidance,"referenceArea");Canvas.ForceUpdateCanvases();Check(referenceView.rect.width>800,"Official figure remains too narrow");
+  var referenceGraphic=(RawImage)Field(guidance,"referenceImage");var originalUV=referenceGraphic.uvRect;referenceGraphic.uvRect=new Rect(0,0,.5f,.25f);Invoke(guidance,"LayoutReference");
+  var fittedReference=(RectTransform)Field(guidance,"referenceRect");var atlas=(Texture2D)Field(guidance,"referenceTexture");Check(Mathf.Abs(fittedReference.rect.width/fittedReference.rect.height-atlas.width*.5f/(atlas.height*.25f))<.01f,"GIF frame uses atlas aspect rather than its own aspect");referenceGraphic.uvRect=originalUV;Invoke(guidance,"LayoutReference");
+  var cameraPicture=(RawImage)Field(guidance,"cameraImage");var photoPreviewTexture=new Texture2D(2,2,TextureFormat.RGB24,false);ImageConversion.LoadImage(photoPreviewTexture,bytes);cameraPicture.texture=photoPreviewTexture;Invoke(guidance,"LayoutTeachingPanels");
+  Check(!((GameObject)Field(guidance,"cameraEmpty")).activeSelf,"Empty-camera hint covers the preview");
+  var photoArea=(RectTransform)Field(guidance,"cameraArea");Check(photoArea.rect.width>900&&photoArea.rect.height>500,"Photo preview is still squeezed");
+  Check(((Button)Field(guidance,"primary")).transform.parent==((GameObject)Field(guidance,"cameraPanel")).transform,"Capture action is outside its dialog");
+  ((Text)Field(guidance,"result")).text="本次拍照参考 · 建议调整\n请将配件分组摆放，并补拍尚未清楚入镜的部分。\n可对照官方参考图继续操作。";yield return Shot("lesson-03-photo-preview.png");Invoke(guidance,"Apply",tutorial);CheckBack("返回教学");
+  Invoke(guidance,"OpenCameraSettings");CheckBack("返回拍照参考");yield return Shot("lesson-04-camera-settings.png");AppShell.GoBack();CheckBack("返回教学");AppShell.GoBack();CheckBack("返回任务列表");
+  Check(!((GameObject)Field(guidance,"captureDialog")).activeSelf,"Photo dialog did not close");UnityEngine.Object.Destroy(photoPreviewTexture);
+
+  foreach(string chapter in new[]{"U2","U6","U10"}){
+   string substep=chapter=="U2"?"U2-S2":null;
+   yield return Call(origin+"/api/guidance/runs/"+tutorial.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=tutorial.state_id,revision=tutorial.revision,target_state_id=chapter,substep_id=substep}),raw=>tutorial=JsonUtility.FromJson<GuidanceRun>(raw));
+   Invoke(guidance,"Apply",tutorial);Invoke(guidance,"CloseModal");yield return Shot("reader-"+chapter+"-sections.png");
+   Check(tutorial.presentation.lesson!=null&&tutorial.presentation.lesson.reviewed,"Reviewed lesson data missing");
+   var content=(RectTransform)Field(guidance,"body");bool actionSection=false,cautionSection=false;
+   foreach(Transform child in content){if(child.name=="操作指导")actionSection=true;if(child.name=="注意事项"||child.name=="操作前注意")cautionSection=true;}
+   Check(actionSection&&cautionSection,"Operation and caution sections were not separated");
+   foreach(var reader in content.GetComponentsInChildren<LessonReadableText>()){
+    var label=reader.GetComponent<Text>();Check(label.horizontalOverflow==HorizontalWrapMode.Overflow,"Unity word wrapping still overrides reviewed reading flow");
+    Check(reader.Source.Replace("\u00a0"," ").IndexOf("\u200b")<0,"Canonical reading source contains invisible break runs");
+   }
+  }
   foreach(string chapter in new[]{"U4","U5"}){
    yield return Call(origin+"/api/guidance/runs/"+tutorial.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=tutorial.state_id,revision=tutorial.revision,target_state_id=chapter}),raw=>tutorial=JsonUtility.FromJson<GuidanceRun>(raw));
    Invoke(guidance,"Apply",tutorial);Invoke(guidance,"CloseModal");Check(((Button)Field(guidance,"spatialEntry")).gameObject.activeSelf,chapter+" lacks spatial entry");
@@ -149,6 +185,14 @@ public static class ProductValidation {
   Invoke(spatial,"PlaybackCommand","play");yield return new WaitForSecondsRealtime(.6f);Check(((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Progress>0,"Playback did not advance");
   Invoke(spatial,"PlaybackCommand","pause");float held=((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Progress;yield return new WaitForSecondsRealtime(.3f);
   Check(Mathf.Abs(((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Progress-held)<.001f,"Pause did not hold the animation");
+  // Frozen-photo preview remains distinct from calibrated spatial guidance.
+  var photoFrame=(Manual2AR.Spatial.Reply)Field(spatial,"last");
+  var preview=new Manual2AR.Spatial.LocationPreview{status="found",session_id=photoFrame.session_id,action_id=photoFrame.action_id,target_id=photoFrame.target_id,source_sha256=photoFrame.source_sha256,client_frame_id=photoFrame.client_frame_id,width=photoFrame.width,height=photoFrame.height,box_lines=photoFrame.lines,outlines=new[]{new Manual2AR.Spatial.Outline{points=new[]{new Manual2AR.Spatial.Pixel(400,300),new Manual2AR.Spatial.Pixel(500,300),new Manual2AR.Spatial.Pixel(500,400)}}}};
+  Check((bool)Invoke(spatial,"PresentLocation",preview,photoFrame,photoFrame.session_id),"Bound photo preview was rejected");
+  Check((bool)Field(spatial,"frozen")&&(bool)Field(spatial,"locationPreview")&&!((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Available,"Photo preview leaked into metric playback");
+  Check(((Text)Field(spatial,"modeLabel")).text.Contains("不是三维定位"),"Photo preview has no scope label");yield return Shot("integrated-04-photo-preview.png");
+  preview.source_sha256="wrong-frame";Check(!(bool)Invoke(spatial,"PresentLocation",preview,photoFrame,photoFrame.session_id),"Wrong photo identity was accepted");
+  spatial.StartCoroutine((IEnumerator)Invoke(spatial,"Locate"));yield return Wait(()=>!(bool)Field(spatial,"frozen"),"Returning to live view failed");
   yield return Shot("spatial-01-slide.png");Invoke(spatial,"Select",1);
   yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).lines.Length>20,"Fastening ring missing");
   yield return Shot("spatial-02-fasten.png");Invoke(spatial,"Select",4);
@@ -170,7 +214,25 @@ public static class ProductValidation {
   spatial.StartCoroutine((IEnumerator)Invoke(spatial,"Verify"));yield return null;Check(((Text)Field(spatial,"checkResult")).text.Contains("人工确认"),"Manual confirmation not shown");yield return Shot("extension-03-bed.png");
   AppShell.GoBack();yield return Wait(()=>UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>()==null,"Spatial view did not release");
   Check(((RectTransform)Field(guidance,"root")).gameObject.activeSelf,"Tutorial did not resume");
-  Check(((GuidanceRun)Field(guidance,"run")).revision==spatialChapter.revision,"Spatial view changed tutorial progress");
+  yield return Wait(()=>((GuidanceRun)Field(guidance,"run")).state_id=="U5","Spatial return did not follow official chapter");
+  var resumed=(GuidanceRun)Field(guidance,"run");
+  Check(resumed.user_marked_step_ids.Length==0,"Spatial replay changed tutorial operation marks");
+  Check(resumed.spatial_guidance.learning_records.Length>0,"Spatial learning records were not attached to tutorial");
+  foreach(var record in resumed.spatial_guidance.learning_records)Check(!record.operation_verified,"Replay was reported as verified");
+  Invoke(guidance,"ShowOverview",false);yield return Shot("integrated-01-coverage.png");Invoke(guidance,"CloseModal");
+  guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BrowseStep","U7","U7-S2"));
+  yield return Wait(()=>((GuidanceRun)Field(guidance,"run")).selected_substep_id=="U7-S2"&&!(bool)Field(guidance,"busy"),"Substep selection failed");
+  Invoke(guidance,"ShowSpatialActions");yield return Shot("integrated-02-actions.png");Invoke(guidance,"CloseModal");Invoke(guidance,"OpenSpatial");
+  spatial=UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>();yield return Wait(()=>Field(spatial,"plan")!=null,"Contextual spatial view missing");
+  Check(((Manual2AR.Spatial.Plan)Field(spatial,"plan")).actions[(int)Field(spatial,"actionIndex")].action_id=="holder.slide","Substep opened the wrong spatial action");
+  spatial.StartCoroutine((IEnumerator)Invoke(spatial,"BeginSession","replay",false));yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).target_ready,"Reopened spatial replay missing");
+  Invoke(spatial,"PlaybackCommand","play");yield return Shot("integrated-03-guidance.png");AppShell.GoBack();
+  yield return Wait(()=>UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>()==null,"Contextual spatial view did not close");
+  yield return Wait(()=>((RectTransform)Field(guidance,"root")).gameObject.activeSelf&&!(bool)Field(guidance,"busy"),"Official tutorial did not resume");
+  guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BeginSelected","a1_mini_first_print_external_v1","first_print_sd",true));
+  yield return Wait(()=>Field(guidance,"run") is GuidanceRun firstPrint&&firstPrint.task_id=="a1_mini_first_print_external_v1"&&!(bool)Field(guidance,"busy"),"First-print task did not survive the UI change");Invoke(guidance,"CloseModal");
+  bool hasManualRequirement=false;foreach(var paragraph in ((RectTransform)Field(guidance,"body")).GetComponentsInChildren<Text>())if(paragraph.text.Replace("\u200b","").Contains("完成后请确认"))hasManualRequirement=true;
+  Check(hasManualRequirement,"Gated manual task lost its confirmation requirement");Check(((Button)Field(guidance,"primary")).transform.parent==(RectTransform)Field(guidance,"root"),"Manual confirmation is hidden in photo dialog");yield return Shot("lesson-05-first-print.png");
   CheckBack("返回任务列表");AppShell.GoBack();yield return null;Check(SceneManager.GetActiveScene().name=="PrinterGuidance"&&((GameObject)Field(guidance,"catalogPanel")).activeSelf,"Guidance skipped its task catalog");CheckBack("返回教学首页");
   AppShell.GoBack();yield return Wait(()=>!AppShell.Changing&&SceneManager.GetActiveScene().name=="Welcome","Guidance did not release");
   AppShell.Open("PrinterInspection");yield return Wait(()=>!AppShell.Changing&&UnityEngine.Object.FindObjectOfType<PrinterInspectionController>()!=null,"Inspection did not open");

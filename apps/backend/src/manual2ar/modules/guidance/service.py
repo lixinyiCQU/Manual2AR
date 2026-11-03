@@ -28,6 +28,10 @@ class GuidanceService:
         self.meta = {}
         self.closing = set()
         self.lock = threading.RLock()
+        from .experience import UnboxingExperience
+        self.experience = UnboxingExperience(self)
+        from .lesson import LessonPresenter
+        self.lessons = LessonPresenter(config)
 
     def parts(self, identity):
         item = self.meta.get(identity)
@@ -127,7 +131,9 @@ class GuidanceService:
             can_advance=value['can_advance'] and m['status']=='running' and not m['busy'])
         if m['status'] != 'running':
             value['channel'] = ''; value['capture_instruction'] = ''; value['can_back'] = False
-        return value
+        value['presentation']['lesson']=self.lessons.compose(m['variant_id'],value['state_id'],
+            value.get('selected_substep_id',''),value['presentation'],engine.task)
+        return self.experience.attach(value, m, engine, run)
 
     def view(self, identity):
         with self.lock:

@@ -5,12 +5,15 @@ from .service import SpatialService
 from .printing import sheets
 
 
-def router(config,registry,client):
-    service=SpatialService(config,registry,client)
+def router(config,registry,client,experience=None):
+    service=SpatialService(config,registry,client,experience)
     api=APIRouter(prefix='/api/guidance/spatial',tags=['desktop-spatial-guidance'])
 
     @api.get('/config')
     def config_view():return service.catalog()
+
+    @api.get('/capabilities')
+    def capabilities():return service.capabilities()
 
     @api.get('/print.pdf')
     def print_pdf():return Response(sheets(),media_type='application/pdf')
@@ -40,6 +43,9 @@ def router(config,registry,client):
 
     @api.post('/sessions/{identity}/verify')
     def verify(identity:str,command:Verify):return service.verify(identity,command)
+
+    @api.post('/sessions/{identity}/locate')
+    def locate(identity:str,command:Verify):return service.locate(identity,command)
 
     @api.post('/sessions/{identity}/events')
     def event(identity:str,command:Interaction):return service.interaction(identity,command)

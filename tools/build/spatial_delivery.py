@@ -17,6 +17,7 @@ def main():
     shutil.copyfile(ROOT/'docs/MODULE_TWO_SPATIAL_DEMO.md',target/'使用说明.md')
     shutil.copyfile(ROOT/'docs/MODULE_TWO_SPATIAL_PROGRESS.md',target/'实测审计与更新.md')
     shutil.copyfile(ROOT/'docs/UNBOXING_SPATIAL_EXTENSION.md',target/'开箱扩展说明.md')
+    shutil.copyfile(ROOT/'docs/MODULE_TWO_UNBOXING_PROTOTYPE.md',target/'模块二开箱原型.md')
     shutil.copyfile(ROOT/'deploy/windows/Start-Desktop.ps1',target/'Start-Desktop.ps1')
     launcher=b'@echo off\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Desktop.ps1"'
     (target/'启动空间演示.cmd').write_bytes(launcher+b' -SpatialDemo\r\nif errorlevel 1 pause\r\n')
@@ -31,12 +32,12 @@ def main():
                      'resources/tasks/bambu_a1_mini/unboxing/spatial']:
         paths.extend(p for p in (ROOT/relative).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
     paths.extend(ROOT/p for p in ['packages/perception/src/manual2ar_perception/spatial.py','packages/contracts/src/manual2ar_contracts/spatial.py',
-        'apps/backend/src/manual2ar/modules/guidance/server.py','apps/backend/src/manual2ar/application/manage.py',
-        'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceController.cs',
+        'apps/backend/src/manual2ar/modules/guidance/server.py','apps/backend/src/manual2ar/modules/guidance/service.py','apps/backend/src/manual2ar/modules/guidance/lesson.py','apps/backend/src/manual2ar/modules/guidance/experience.py','apps/backend/src/manual2ar/application/manage.py',
+        'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceController.cs','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceLayout.cs','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceLesson.cs','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceLesson.cs.meta','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/LessonReadableText.cs','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/LessonReadableText.cs.meta','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceLayout.cs.meta','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/GuidanceStepView.cs','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterGuidanceModels.cs','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Guidance/PrinterUnboxingModels.cs',
         'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Editor/AppEditorSetup.cs',
         'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Common/AppIconGraphic.cs',
         'apps/unity/Manual2AR/Assets/Manual2AR/Scenes/SpatialGuidance.unity',
-        'docs/MODULE_TWO_SPATIAL_DEMO.md','docs/MODULE_TWO_SPATIAL_PROGRESS.md','docs/UNBOXING_SPATIAL_EXTENSION.md','tools/evaluation/spatial_recording.py','tests/backend/guidance/test_spatial.py','tests/backend/guidance/test_unboxing_extension.py',
+        'docs/MODULE_TWO_UNBOXING_PROTOTYPE.md','docs/MODULE_TWO_SPATIAL_DEMO.md','docs/MODULE_TWO_SPATIAL_PROGRESS.md','docs/UNBOXING_SPATIAL_EXTENSION.md','tools/evaluation/spatial_recording.py','tests/backend/guidance/test_spatial.py','tests/backend/guidance/test_unboxing_extension.py','tests/backend/guidance/test_experience.py','tests/backend/guidance/test_lesson.py','resources/modules/guidance_lessons.v1.json',
         'tests/unity/ProductValidation.cs','tools/build/validate_desktop.py','tools/build/WindowsPlayerBuild.cs',
         'tools/build/spatial_delivery.py','resources/catalog.json','README.md',
         'deploy/windows/Start-Desktop.ps1',

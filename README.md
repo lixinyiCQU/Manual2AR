@@ -66,21 +66,21 @@ docs/                      架构、迁移说明与来源记录
 
 ## 配置与项目外数据
 
-| 配置 | 用途 |
-|---|---|
-| `backend.public_url` | Windows Unity 可访问的业务后端地址 |
-| `vlm.api_key`、`modules.*.model` | 本地填写凭据、分别选择模型 |
-| `vlm.proxy_mode` | `auto`：绕过失效的本机代理；`system`：始终使用系统代理；`direct`：直连。只影响本项目，不修改系统网络设置 |
-| `modules.*.settings` | 模块高级设置覆盖；默认值由后端包管理 |
-| `modules.learning.provider`、`modules.inspection.provider` | 开发测试默认值 / 打印检查供应商；部件认知的用户会话使用自动选择 |
-| `gpu.connection_file` | 同一 HTTP 协议的 GPU 服务连接文件 |
-| `paths.resources` | 教学资源根目录，默认 `resources` |
-| `paths.wiki_archive` | 原始 Wiki 资料库 `runs/<快照>/archive.json` |
-| `paths.runtime` | 会话日志、现场图像、检查证据、静态实验结果 |
-| `paths.cache` | 可删除后重建的 Wiki 阅读缓存 |
-| `paths.builds` | Unity 工程包和 GPU 源码包 |
-| `paths.static_images` | 模块一、三静态图片输入目录 |
-| `paths.renderer_python` | 离线页面渲染使用的 Python 解释器 |
+| 配置                                                           | 用途                                                                                                           |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `backend.public_url`                                         | Windows Unity 可访问的业务后端地址                                                                             |
+| `vlm.api_key`、`modules.*.model`                           | 本地填写凭据、分别选择模型                                                                                     |
+| `vlm.proxy_mode`                                             | `auto`：绕过失效的本机代理；`system`：始终使用系统代理；`direct`：直连。只影响本项目，不修改系统网络设置 |
+| `modules.*.settings`                                         | 模块高级设置覆盖；默认值由后端包管理                                                                           |
+| `modules.learning.provider`、`modules.inspection.provider` | 开发测试默认值 / 打印检查供应商；部件认知的用户会话使用自动选择                                                |
+| `gpu.connection_file`                                        | 同一 HTTP 协议的 GPU 服务连接文件                                                                              |
+| `paths.resources`                                            | 教学资源根目录，默认 `resources`                                                                             |
+| `paths.wiki_archive`                                         | 原始 Wiki 资料库 `runs/<快照>/archive.json`                                                                  |
+| `paths.runtime`                                              | 会话日志、现场图像、检查证据、静态实验结果                                                                     |
+| `paths.cache`                                                | 可删除后重建的 Wiki 阅读缓存                                                                                   |
+| `paths.builds`                                               | Unity 工程包和 GPU 源码包                                                                                      |
+| `paths.static_images`                                        | 模块一、三静态图片输入目录                                                                                     |
+| `paths.renderer_python`                                      | 离线页面渲染使用的 Python 解释器                                                                               |
 
 配置中的相对路径以仓库根目录为基准。使用 `load(显式配置文件路径)` 部署业务后端时，以配置文件上两级目录为基准，也可以使用绝对路径。
 
@@ -124,7 +124,7 @@ bash run.sh gpu-notebook      # 从规范源码重新生成唯一 Notebook
 bash run.sh inference-bundle  # 导出独立推理源码包
 ```
 
-当前 269 项 Python 回归通过（含 27 项空间几何与扩展接口检查、30 项 Colab 部署检查及资料服务/自动回退检查）；Unity 四场景实际 Play 验证运行时错误为 0，另通过 40 个画幅、旋转与镜像组合的图像检查。Unity 验证使用受控模型，未测试实物摄像头及真实 GPU 推理；HPC 和容器未做现场部署。
+当前 285 项 Python 回归通过（含 43 项空间几何、开箱阅读与扩展接口检查、30 项 Colab 部署检查及资料服务/自动回退检查）；Unity 四场景实际 Play 验证运行时错误为 0，另通过 40 个画幅、旋转与镜像组合的图像检查。Unity 验证使用受控模型，未测试实物摄像头及真实 GPU 推理；HPC 和容器未做现场部署。
 
 架构及扩展方式见 [ARCHITECTURE](docs/ARCHITECTURE.md)，分阶段迁移和回滚位置见 [MIGRATION](docs/MIGRATION.md)。当前分支 `lixin/integration-v1`，整合版 V1 标签为 `integration-v1.0.0`，原三个 V1 工作树保持独立。
 
@@ -135,3 +135,5 @@ U6/U7 Windows 摄像头空间指导已提供独立入口、相机标定、双视
 实机视频审计后，U6/U7 已增加位置标签、独立播放时钟及暂停/重播、两颗底座螺丝分别设置，以及操作标记与核验分离的日志；见 [实测审计与阶段进展](docs/MODULE_TWO_SPATIAL_PROGRESS.md)。已有主位置数据保持兼容。
 
 2026-11-03 已扩展开箱 U4/U5：四颗限制器螺丝、扎带、工具头左移、可选泡棉，以及热床三颗螺丝。U4—U7 共 10 个指导单元，支持章节/动作导航；见 [第二轮审查与开箱扩展](docs/UNBOXING_SPATIAL_EXTENSION.md)。热床锁紧使用人工确认。
+
+模块二现提供整合版 Windows 开箱指导原型：13 章官方图文、U4—U7 空间动作、按分步骤进入、可选拍照找位置及统一学习记录。使用与接口见 [开箱原型说明](docs/MODULE_TWO_UNBOXING_PROTOTYPE.md)。

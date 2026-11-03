@@ -1,0 +1,4470 @@
+{
+  "schema_version": "manual2ar-reviewed-lessons-v1",
+  "revision": "2026-11-03.1",
+  "basis": "Explicit editorial grouping of the fixed official Wiki-derived task packages; no runtime LLM classification. Source spans retain full text.",
+  "cards": {
+    "standalone_unboxing/U1/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "d3c4e2e8a28f0d5658a2bad0e4325d180c1af4932270f56bfd18832bac674392",
+      "step_title": "",
+      "citation_ids": [
+        "5db0bcf220af3a967422d596",
+        "3b51a9e7c8f70af9ee848ff9",
+        "7534b016cdd2c0be4cca5d13",
+        "80143204bfcf5668390099ed",
+        "cb6a6d977294e1a839216c07",
+        "9f0ff150f8ec767f3c7e34f0",
+        "f1d654492edf2e1a357e3639",
+        "a260f28be6934ab4406a6370",
+        "56cd5b95df89e50ed7622fda",
+        "d2d426fc6a0eb3152c8498bb",
+        "0189b16221626b9fa2d28439"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "建议您在打印机开箱前浏览完整视频，确保顺畅的开箱体验。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            27
+          ],
+          "span_sha256": "e8067724f6a996af4ae240eb30cc7c25c790b2e609f292571b4d5a80bec3c03d",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "保护膜、保护泡沫和保护纸板可能与开箱视频所展示的机器有所不同，请以您实际收到的机器为准。",
+          "source_field": "instruction",
+          "source_span": [
+            29,
+            73
+          ],
+          "span_sha256": "b4e24fe7d05078918bfb69f30067069368785fa609c41fcd119aa11f30e1d09e",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "屏幕表面都会覆盖一层或两层保护膜,目的是为了防止生产和运输过程中的污染。无论收到哪种状态,都是正常的新机器。",
+          "source_field": "instruction",
+          "source_span": [
+            75,
+            129
+          ],
+          "span_sha256": "0300fdcd3e31aaf605eccc372698bd8a8c06fecb0690cc9a7c06976ec80561e5",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以实际收到的为准。",
+          "source_field": "instruction",
+          "source_span": [
+            131,
+            215
+          ],
+          "span_sha256": "97e1fe56cb23a7c9049ad5df3a9739f2bb83d92733531adcdc061d3f431d107d",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。",
+          "source_field": "instruction",
+          "source_span": [
+            217,
+            302
+          ],
+          "span_sha256": "97101bb95d68956fa08c6293bfc34dde1c7e4a2323955b666b6084c53d77969e",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "最新包装的 A1 系列打印机已不再赠送色卡；配件物品包装由黑色塑料盒修改为透明塑料袋。",
+          "source_field": "instruction",
+          "source_span": [
+            304,
+            347
+          ],
+          "span_sha256": "ed5b62e548d9412de69070ca722b74c3b3bf8162fb729c7a67112a92ab32a641",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "A1 mini 的 Y 轴采用了全金属导轮，这套导轨系统确保用户不需要频繁调整 A1 mini 的运动组件，但需要定期进行润滑和清洁，以减少磨损和异音，保证打印机的精度和寿命，并有效防止导轨生锈。",
+          "source_field": "instruction",
+          "source_span": [
+            349,
+            447
+          ],
+          "span_sha256": "5e74f4d623bf108a37571326dd6bd5ca83d948318523e399a15cbde1f8e27e9f",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "每一台打印机在出厂前，都会得到一定程度的润滑，但机器只会被涂抹少量的润滑油，因为如果涂抹过量的润滑油，可能会导致机器在运输中滴落到外壳上，产生明显的油污，影响外观。",
+          "source_field": "instruction",
+          "source_span": [
+            449,
+            531
+          ],
+          "span_sha256": "020005ebd3b0adc3859cc5cf4bba65343156b09d4c81bc22dcfec897c9d73b75",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "我们强烈建议您在拆箱后为打印机的 Y 轴导轨涂抹适量的润滑油，并确保润滑油覆盖整个导轨。润滑油已经包含在配件盒中，请参考附带的视频以了解涂抹的方法：",
+          "source_field": "instruction",
+          "source_span": [
+            533,
+            610
+          ],
+          "span_sha256": "49cb2a65c5563ecb871ee0e6c7b7c8c6e10d6e0402494edbe97273dd56f9c926",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "更多关于Y轴导轨的润滑指南，请参考: A1 mini 润滑Y轴导轨操作指南。",
+          "source_field": "instruction",
+          "source_span": [
+            612,
+            650
+          ],
+          "span_sha256": "e17674efc9dad83dadb38e8bf452424fca9e22fca3a9b2a7ec8fe5aa4d85c8a8",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U2/U2-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "ccc0ca58890ae3d75a0141cfc3296f4deca1a14e9faf5d449fb79e57b50b2474",
+      "step_title": "从顶部取出保护纸壳",
+      "citation_ids": [
+        "da9ade58cd475e05ee35696c",
+        "f9546944056f6c722796cbb6",
+        "34a39c59e0006d89311470ad",
+        "888dcda78709d192c591afdc",
+        "cf780aa94ee9020ed33c1c77",
+        "714007c0015aed6810e023ee",
+        "22ddb5e232618bd595f591c5",
+        "021741b370a0dbefe3121e54",
+        "ef093bc750e80c4527406c59"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "从顶部取出保护纸壳",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            12
+          ],
+          "span_sha256": "84d4c71237d300e2bae2c36385a3eb308ab50bacfdeae5a2df6c6bbf5fe7f58d",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "部分泡沫内嵌配件，请注意检查！",
+          "source_field": "instruction",
+          "source_span": [
+            14,
+            29
+          ],
+          "span_sha256": "6129d33378a29d8e3315d499a078a2bda542af16bebb8d447bc130ec214eeb89",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。",
+          "source_field": "chapter_context",
+          "source_span": [
+            0,
+            26
+          ],
+          "span_sha256": "e144032619564b8aadcf304f27451d09b3c01be486382d158647fae02c759a1b",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。",
+          "source_field": "chapter_context",
+          "source_span": [
+            28,
+            91
+          ],
+          "span_sha256": "88552f95d342ea8ee8a366893169edd7e468f1fcc8c8ebd7474804521c3c2f94",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。",
+          "source_field": "chapter_context",
+          "source_span": [
+            91,
+            123
+          ],
+          "span_sha256": "1d9e312dab9d4ea04d97d1e0346954a25a9778ba145a27129d158342032fdfa3",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U2/U2-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "0245c16b0b678a1e02a050609a78dfe12ff5a59caab09f679436d4257e3f5349",
+      "step_title": "仔细阅读快速指南，提前熟悉开箱的注意事项",
+      "citation_ids": [
+        "da9ade58cd475e05ee35696c",
+        "f9546944056f6c722796cbb6",
+        "34a39c59e0006d89311470ad",
+        "888dcda78709d192c591afdc",
+        "cf780aa94ee9020ed33c1c77",
+        "714007c0015aed6810e023ee",
+        "22ddb5e232618bd595f591c5",
+        "021741b370a0dbefe3121e54",
+        "ef093bc750e80c4527406c59"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "仔细阅读快速指南，提前熟悉开箱的注意事项。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            24
+          ],
+          "span_sha256": "d476e00bdb2a3748a74b38cd1d62c7873190f403f6445a2033664fbd620bb6ca",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "取出配件和打印机。",
+          "source_field": "instruction",
+          "source_span": [
+            26,
+            45
+          ],
+          "span_sha256": "5c6b37e768c4da8b735d5f5449a6a8e09db01f70bb3e95dd727c19c680f01d99",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "当取出打印机时，请手扶 Z 轴的后盖，请勿用手触碰 Z 轴金属滑轨，请勿用手提起 X 轴导轨。",
+          "source_field": "instruction",
+          "source_span": [
+            45,
+            92
+          ],
+          "span_sha256": "d9359da841fe69a9826ec25891827842f586caf77fd03a49a1068633d10f96bc",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "后续版本将不提供色卡，具体以收到实物为准。",
+          "source_field": "instruction",
+          "source_span": [
+            94,
+            115
+          ],
+          "span_sha256": "3e9d95e01c8e16a14388662eec3a3232c78c7b65fb90f020991bbda1f1f3b87f",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。",
+          "source_field": "chapter_context",
+          "source_span": [
+            0,
+            26
+          ],
+          "span_sha256": "e144032619564b8aadcf304f27451d09b3c01be486382d158647fae02c759a1b",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。",
+          "source_field": "chapter_context",
+          "source_span": [
+            28,
+            91
+          ],
+          "span_sha256": "88552f95d342ea8ee8a366893169edd7e468f1fcc8c8ebd7474804521c3c2f94",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。",
+          "source_field": "chapter_context",
+          "source_span": [
+            91,
+            123
+          ],
+          "span_sha256": "1d9e312dab9d4ea04d97d1e0346954a25a9778ba145a27129d158342032fdfa3",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U3/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "882f9ad86902d9bcc5be7b9b9e95879f4477c0aa42c9e1c089fd4c29824b9507",
+      "step_title": "",
+      "citation_ids": [
+        "2c663c21a8aab7a8f8466018",
+        "c7766858bf56c0b27be9d20d",
+        "0615866701a4f97939c8b888",
+        "3f8c47084514df8a165328f8",
+        "dc626ec0a739e8c6a1136c7a"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "scope",
+          "text": "外挂料盘／单机版本",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            5
+          ],
+          "span_sha256": "27b586f77430c4214db3d76352f83b15f18468296c35c7a7e258b1145180d8f1",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ],
+          "editorial_display": true
+        },
+        {
+          "kind": "materials",
+          "text": "A1 mini 打印机",
+          "source_field": "instruction",
+          "source_span": [
+            7,
+            19
+          ],
+          "span_sha256": "0100cee94d7e93de1c9938eb9a2bcb06d396a53f0455285a871b7ecfaed0c5e6",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "吐料组件及其螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            20,
+            28
+          ],
+          "span_sha256": "d2ec3372b5346dde6fe91509c6bd09d5ac2b55f81cc4348ff6ed924231968578",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "料盘支架及其底座和螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            29,
+            40
+          ],
+          "span_sha256": "a17a86d1671a72432f118f8d3989b932513e9e8f033c78e77ef425bff29a3b0d",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "PTFE 管（1 根 520 mm）",
+          "source_field": "instruction",
+          "source_span": [
+            41,
+            59
+          ],
+          "span_sha256": "68180110fe3f3f3632340f3774d240396f6b112fc30279d507439ac48929efa2",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "PEI 纹理板",
+          "source_field": "instruction",
+          "source_span": [
+            60,
+            67
+          ],
+          "span_sha256": "e9902227f9cf927a414649bc28fce8b89a96ed57436ca641ce39d93b576901fe",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "耗材样品",
+          "source_field": "instruction",
+          "source_span": [
+            68,
+            72
+          ],
+          "span_sha256": "3bbd643b62e47871db30f45115eadfee8cb1a812a9444d9c96e5a0d9c13ef2f9",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "通针",
+          "source_field": "instruction",
+          "source_span": [
+            73,
+            75
+          ],
+          "span_sha256": "381dda4f8dbdeb6c1ee0b84a37090ffeed5f6362014f4471fd9fce86bf4e57ab",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "内六角扳手（H2 和 H1.5）",
+          "source_field": "instruction",
+          "source_span": [
+            76,
+            92
+          ],
+          "span_sha256": "276fe89b864e068db0df0977be3f1aeb6a5badb5210e9e6b849c6d63f4a756f1",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "热床擦嘴胶条",
+          "source_field": "instruction",
+          "source_span": [
+            93,
+            99
+          ],
+          "span_sha256": "b22e50de97798f893e0c1b437d233a596702400836e0a7bdd0f572e36d3e797e",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "料管集线器",
+          "source_field": "instruction",
+          "source_span": [
+            100,
+            105
+          ],
+          "span_sha256": "a919f6c0de43ebebc7559e6454d3799655fb24ac91704bfcd3021fe7473abb45",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "热床刮刀刀片及其螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            106,
+            116
+          ],
+          "span_sha256": "a71baacea36238c3f2f1df048abdc285765766c60c3ed6f4cfbbd6c93b7f7f76",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "32 GB Micro SD 卡（打印机内）",
+          "source_field": "instruction",
+          "source_span": [
+            117,
+            139
+          ],
+          "span_sha256": "1715bf2177cdb6e612b7489208d0f5d20d1699425b9efc7367c20349cadd8710",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "工具头切刀刀片",
+          "source_field": "instruction",
+          "source_span": [
+            140,
+            147
+          ],
+          "span_sha256": "7cfca360cc6da1015ae68343c641ca7427def680b26d2a81e2044090ea36d8ae",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "润滑油",
+          "source_field": "instruction",
+          "source_span": [
+            148,
+            151
+          ],
+          "span_sha256": "3b7c90d54134f5869f33551ba871e261c701ebfff80d07bcc140e81119193cbc",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "润滑脂（2 种版本随机发货）",
+          "source_field": "instruction",
+          "source_span": [
+            152,
+            166
+          ],
+          "span_sha256": "1b2cbbde26ac348d4724945ee4715b3a40a216b3e0e48df81bb374aab4c7d518",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "快速指南和免责声明。",
+          "source_field": "instruction",
+          "source_span": [
+            167,
+            177
+          ],
+          "span_sha256": "98d06ab75b4034019d0110aa799ba41c742654795ed48d8f8363b569e6a7b092",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。",
+          "source_field": "instruction",
+          "source_span": [
+            179,
+            210
+          ],
+          "span_sha256": "b04516ec9d30cf75123820d8ff09085bd590d6651be7f7620c324b8d69a18121",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "c7766858bf56c0b27be9d20d",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U4/U4-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "8f0ab63ae24ba3cb9096be589528149761120e04fc2a20bebff5b91046e051af",
+      "step_title": "拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+      "citation_ids": [
+        "8040cecf2194d07754321dd0",
+        "47ada685e0d504166d9eca03",
+        "c97adbf0e1837339be5c56f6",
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            42
+          ],
+          "span_sha256": "3a77121595ff9961b22058c4ea84599e645fdc2753cd94f79f3abb469dc09847",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U4/U4-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "85a012440e3b1ac317418e0097e016a58f684f3551e576d29f36683a5646e67c",
+      "step_title": "剪断并取下工具头周围的扎带",
+      "citation_ids": [
+        "8040cecf2194d07754321dd0",
+        "47ada685e0d504166d9eca03",
+        "c97adbf0e1837339be5c56f6",
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "剪断并取下工具头周围的扎带",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            16
+          ],
+          "span_sha256": "3c74639f631cf14a30c3faa2ce88dacb34c1647eccbb5280689eb74b5191ac63",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U4/U4-S3": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "4efca0ff5d93a2c3333ad4a9421bfbe99fbe44e3ef50e8a1684083245a07ce6c",
+      "step_title": "将工具头向左稍微移动，然后取下减震泡棉",
+      "citation_ids": [
+        "8040cecf2194d07754321dd0",
+        "47ada685e0d504166d9eca03",
+        "c97adbf0e1837339be5c56f6",
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将工具头向左稍微移动，然后取下减震泡棉。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            23
+          ],
+          "span_sha256": "d9cb8c78dd1632602035577e316b096d883fe0c3196cd0966a06dc6210e9491f",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "如有热床和导轨保护泡沫，需要在这一步移除它们。",
+          "source_field": "instruction",
+          "source_span": [
+            25,
+            48
+          ],
+          "span_sha256": "6459bf0de6139c47b6629ff7b4ac57f6fcba0af79da31faf63bd743cdec78f9c",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U5/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "5f63cc279d5b06dd3a9d2e45bf3ea9dc256a130f2d1e99913acaab8858280cef",
+      "step_title": "",
+      "citation_ids": [
+        "3f8ebb6f30233a4e57c3c7ee",
+        "661ff0e405da259e12e68b65",
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "note",
+          "text": "为了防止在运输途中受到冲击导致零部件损坏，在工厂组装过程中，会将热床底部的 3 颗螺丝（如图中绿色标记所示）松开。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            57
+          ],
+          "span_sha256": "c9b444cd6005a58d15f768a645b874087dea767c1b377b6797ca0a2f40a765e4",
+          "citation_ids": [
+            "3f8ebb6f30233a4e57c3c7ee",
+            "661ff0e405da259e12e68b65",
+            "a835b0d73f70ea468d7d5bed"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "建议将热床稍微推动到一个方便您使用内六角扳手的位置，先插入扳手，然后用手固定扳手和打印板，防止螺丝脱落。",
+          "source_field": "instruction",
+          "source_span": [
+            69,
+            121
+          ],
+          "span_sha256": "849c6d2612de4868633f76e49470252e4139108a5525525b9ac3bbd1b7d02d0a",
+          "citation_ids": [
+            "3f8ebb6f30233a4e57c3c7ee",
+            "661ff0e405da259e12e68b65",
+            "a835b0d73f70ea468d7d5bed"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "您需要将其拧紧。",
+          "source_field": "instruction",
+          "source_span": [
+            57,
+            67
+          ],
+          "span_sha256": "f6a3471474b89fd196af9397f4832a002ac76995864dbd7bf74a825c9584c4ec",
+          "citation_ids": [
+            "3f8ebb6f30233a4e57c3c7ee",
+            "661ff0e405da259e12e68b65",
+            "a835b0d73f70ea468d7d5bed"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U6/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "12e786be2e194ccb78b63d4cdd9dec2fbe1b025daad12b5700add97368a59a51",
+      "step_title": "",
+      "citation_ids": [
+        "d075485fafbc0552c7edd984",
+        "83b9bd74d33eb2f7f3d387a5",
+        "7fee805b27b47c25d253fa93"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将吐料组件从后往前滑入 X 轴末端端盖的插槽中。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            24
+          ],
+          "span_sha256": "20101b52f13efbfa66a7ed984eaf4c284d92b83213f0636d056e160bca874f64",
+          "citation_ids": [
+            "d075485fafbc0552c7edd984",
+            "83b9bd74d33eb2f7f3d387a5",
+            "7fee805b27b47c25d253fa93"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。",
+          "source_field": "instruction",
+          "source_span": [
+            24,
+            58
+          ],
+          "span_sha256": "f3fdff09e7e63e39d52b3ee22c91b9a8a7f3437f2cf15faf7aa36033d742ea6e",
+          "citation_ids": [
+            "d075485fafbc0552c7edd984",
+            "83b9bd74d33eb2f7f3d387a5",
+            "7fee805b27b47c25d253fa93"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "在安装吐料组件后，应确保其与热床的左侧边沿平行，并且不会发生碰撞，如下图所示：",
+          "source_field": "instruction",
+          "source_span": [
+            60,
+            103
+          ],
+          "span_sha256": "0b990111d66ba7e0c980e2cd713437ea348dce522d99c68ea0bf13ecc6d6fc0b",
+          "citation_ids": [
+            "d075485fafbc0552c7edd984",
+            "83b9bd74d33eb2f7f3d387a5",
+            "7fee805b27b47c25d253fa93"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U7/U7-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "f7272a5148dc96fad254d67c92b723071a7bdbc830e3a5bcf36871e0684365d6",
+      "step_title": "使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向",
+      "citation_ids": [
+        "2084b989a72b3f544e967a15",
+        "026a3a3c147bd8b28d5bf414",
+        "f76bb592ba8515e684d48401",
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            39
+          ],
+          "span_sha256": "7bdf7abe3eeb612c3e0989bdb31e2b4774938b9e4835f766b33d2e0dd90ae540",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请注意安装方向。",
+          "source_field": "instruction",
+          "source_span": [
+            39,
+            47
+          ],
+          "span_sha256": "168a219b838557f84d155104c7ea77941faa705fa5e5e15781ca14259ca201fd",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "scope",
+          "text": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+          "source_field": "instruction",
+          "source_span": [
+            49,
+            90
+          ],
+          "span_sha256": "6d6e16eed34e72a114b3a974d173f8d416c6e1d6678f1acc7cf10dcb370803e0",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U7/U7-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "fb5d1e675b587aa7b564b9a9be5f58060e4d3c6b1246653c7beafc5724151860",
+      "step_title": "从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配",
+      "citation_ids": [
+        "2084b989a72b3f544e967a15",
+        "026a3a3c147bd8b28d5bf414",
+        "f76bb592ba8515e684d48401",
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "从上向下滑入料盘支架。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            14
+          ],
+          "span_sha256": "ae4ec2499c55d911c72c5abd6fd0974bea4f056b5a1d426adec02ce6bc74b143",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请确保料盘支架方向与插槽方向相匹配。",
+          "source_field": "instruction",
+          "source_span": [
+            14,
+            32
+          ],
+          "span_sha256": "5de348768fd062061261a0866e0215823bf12df1c885770f8df23f614ba780b8",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U8/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "f403e7b96bb2488aa072f574b56f52f79d7174be47d54b26934d7eba123a01b5",
+      "step_title": "",
+      "citation_ids": [
+        "c89bfdbe4f1d9855ad53b3f1",
+        "cf78b33d8a1b26940b61467c"
+      ],
+      "source_refs": {
+        "screen_film": {
+          "state_id": "U1",
+          "paragraph": 4
+        }
+      },
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "撕下摄像头和屏幕的保护膜。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            13
+          ],
+          "span_sha256": "60aca25722e4b6309316caa6007d6589fd1c9d510a14bad47b7ea3daab688875",
+          "citation_ids": [
+            "c89bfdbe4f1d9855ad53b3f1",
+            "cf78b33d8a1b26940b61467c"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。",
+          "source_field": "screen_film",
+          "source_span": [
+            0,
+            85
+          ],
+          "span_sha256": "97101bb95d68956fa08c6293bfc34dde1c7e4a2323955b666b6084c53d77969e",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U9/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "d77b21d18833538ac5ef6c2fa652e0bc6a8ac9016309bf06019b9dddab3aa210",
+      "step_title": "",
+      "citation_ids": [
+        "73afd7297435e0bc4c59b769"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "如果您想使用外挂的料盘，可以参考下图的方式，安装料盘PTFE管和料盘。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            35
+          ],
+          "span_sha256": "eadee50bf5e595b32ba68cb2aee43ce598c90ef1559be60e6c6d7e16e4097164",
+          "citation_ids": [
+            "73afd7297435e0bc4c59b769"
+          ]
+        },
+        {
+          "kind": "scope",
+          "text": "此章节原文和四管示意针对 AMS lite。单机请对照官网外挂料盘附录图整理一根PTFE管与工具头连接线，不要求插满四个大孔。",
+          "source_field": "applicability_note",
+          "source_span": [
+            0,
+            63
+          ],
+          "span_sha256": "26c0273ffb92c3650d608046e942f49a9c7285dcd3cfe8c507a6830745075fbd",
+          "citation_ids": [
+            "73afd7297435e0bc4c59b769"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U10/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "ab8494beb8090de50cb1fba83dea31bbd3f2fe77c2d76e1bbbe364f48f9e0e68",
+      "step_title": "",
+      "citation_ids": [
+        "6bfb08216dab37219f811a5b",
+        "cb5886d4c5ce064aea332197",
+        "d7635d5c9ea5455406ee5713",
+        "1e00627658f2dab34bbb81ff"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "precondition",
+          "text": "再次提醒，您所收到的机器保护泡沫可能与视频中展示的机器不完全相同。如有必要，请在给打印机通电之前，将所有保护泡沫（例如用于保护热床的泡沫）全部移除。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            74
+          ],
+          "span_sha256": "e6b360990689bec104c3aaf80db7747eb66f4f3b0bdd885543e583d90177c6ef",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "给打印机接上电源，按下机器背面的电源开关,启动 A1 mini。",
+          "source_field": "instruction",
+          "source_span": [
+            76,
+            108
+          ],
+          "span_sha256": "9d3d3db5cf4f6aa9e43418cefdca2a0a1c16d7edd736da56db28c606def2b1d4",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "precondition",
+          "text": "如图所示,放置打印机时,请在Y方向上留出足够热床移动的安全空间。",
+          "source_field": "instruction",
+          "source_span": [
+            110,
+            142
+          ],
+          "span_sha256": "af688656f49302bcd559649ac0097996b2aa0d26926dab39b8452ee3cb43d157",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "scope",
+          "text": "单机仅执行打印机通电部分；无需连接 AMS lite 4-pin 线。",
+          "source_field": "applicability_note",
+          "source_span": [
+            0,
+            58
+          ],
+          "span_sha256": "e95f131e9407bd6d5a7eba5718fc51d2a518a73a4d758cc2ed4e0564ab519969",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U11/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "e70af3765180598f85fb14ed4e82e06c59a442a1e25b67e6a32f81643ae99002",
+      "step_title": "",
+      "citation_ids": [
+        "79377a62d1d6377de13b0fc2",
+        "fa36881f75ab7b772943db9c",
+        "b6f54c53fe740a78d96dca75"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "安装打印面板，确保打印面板与擦嘴组件和热床线缆盖靠近。 在打印机开机后，请按照屏幕上的提示完成打印机的初始化和校准。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            58
+          ],
+          "span_sha256": "65973ecbb99273cbb4dbc5ccd659e89bbeb023d899afff2ad86f2b96d8a1563a",
+          "citation_ids": [
+            "79377a62d1d6377de13b0fc2",
+            "fa36881f75ab7b772943db9c",
+            "b6f54c53fe740a78d96dca75"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "如果你在开箱过程中跳过了联网和 Bambu Handy 绑定步骤，你也可以在打印机完成校准后，在设置页面联网绑定打印机。",
+          "source_field": "instruction",
+          "source_span": [
+            60,
+            120
+          ],
+          "span_sha256": "3903e938f78e040dfe06a674186db216085ae1d460ec1aba11f08623876c6008",
+          "citation_ids": [
+            "79377a62d1d6377de13b0fc2",
+            "fa36881f75ab7b772943db9c",
+            "b6f54c53fe740a78d96dca75"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U12/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "0ffc08bf15c036f14637c4d057decd09b4e47af54ea193a88e8ed11a40228bce",
+      "step_title": "",
+      "citation_ids": [
+        "0750c90cbfdde5b4329f61ee",
+        "73afd7297435e0bc4c59b769"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "如果您想使用外挂的料盘，可以参考下图的方式，安装料盘PTFE管和料盘。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            35
+          ],
+          "span_sha256": "eadee50bf5e595b32ba68cb2aee43ce598c90ef1559be60e6c6d7e16e4097164",
+          "citation_ids": [
+            "0750c90cbfdde5b4329f61ee",
+            "73afd7297435e0bc4c59b769"
+          ]
+        }
+      ]
+    },
+    "standalone_unboxing/U13/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4",
+      "source_sha256": "b1cb67c98d7546477780597755fe4567cbb65c2ed9ce5e4e0e2aab45bac2d211",
+      "step_title": "",
+      "citation_ids": [
+        "4c5164227fdf98357a409da6",
+        "203f96c08ecad59e369d4c2c",
+        "390e17d6d53a89d20a62d8c8",
+        "4cfe15c80dfe98fb6ac45d8e",
+        "81d07994cd647d9102bfd1bd",
+        "47c4e85beecb273af7b50ed4"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "开始打印前，推荐准备一个盒子放置于打印机侧面的吐料组件下方，用于收集打印过程产生的废料，保持环境整洁。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            51
+          ],
+          "span_sha256": "af1a6dfd42afb1ed5808c5d80d9ae170a2205114becf621a8eb1864db9253902",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "您可以打印一个 废料盒，也可以使用耗材包装盒或其他容器来接废料。",
+          "source_field": "instruction",
+          "source_span": [
+            53,
+            85
+          ],
+          "span_sha256": "10cd034b38846eee7475bf1d5f6bb59c9638dca692cc1d46b61a493f3061bb70",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "由于篇幅有限，首次打印的教程请参见下方链接。",
+          "source_field": "instruction",
+          "source_span": [
+            87,
+            109
+          ],
+          "span_sha256": "6154a2c21f857207f746b085a840b919f1b699c4af7594a25f955be13ea5657c",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "初次打印指南（使用AMS lite）",
+          "source_field": "instruction",
+          "source_span": [
+            111,
+            129
+          ],
+          "span_sha256": "4712a817d1e225b751a9433057a4dd773455da7cbdce76f13a6824915fe81a74",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "初次打印指南（使用外挂料盘）",
+          "source_field": "instruction",
+          "source_span": [
+            131,
+            145
+          ],
+          "span_sha256": "8e8661f7e552c5490ae67136d9c52eb6d31b2f0c541266172dd1b80f27708366",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U1/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "d3c4e2e8a28f0d5658a2bad0e4325d180c1af4932270f56bfd18832bac674392",
+      "step_title": "",
+      "citation_ids": [
+        "5db0bcf220af3a967422d596",
+        "3b51a9e7c8f70af9ee848ff9",
+        "7534b016cdd2c0be4cca5d13",
+        "80143204bfcf5668390099ed",
+        "cb6a6d977294e1a839216c07",
+        "9f0ff150f8ec767f3c7e34f0",
+        "f1d654492edf2e1a357e3639",
+        "a260f28be6934ab4406a6370",
+        "56cd5b95df89e50ed7622fda",
+        "d2d426fc6a0eb3152c8498bb",
+        "0189b16221626b9fa2d28439"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "建议您在打印机开箱前浏览完整视频，确保顺畅的开箱体验。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            27
+          ],
+          "span_sha256": "e8067724f6a996af4ae240eb30cc7c25c790b2e609f292571b4d5a80bec3c03d",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "保护膜、保护泡沫和保护纸板可能与开箱视频所展示的机器有所不同，请以您实际收到的机器为准。",
+          "source_field": "instruction",
+          "source_span": [
+            29,
+            73
+          ],
+          "span_sha256": "b4e24fe7d05078918bfb69f30067069368785fa609c41fcd119aa11f30e1d09e",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "屏幕表面都会覆盖一层或两层保护膜,目的是为了防止生产和运输过程中的污染。无论收到哪种状态,都是正常的新机器。",
+          "source_field": "instruction",
+          "source_span": [
+            75,
+            129
+          ],
+          "span_sha256": "0300fdcd3e31aaf605eccc372698bd8a8c06fecb0690cc9a7c06976ec80561e5",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "有些打印机出厂时会有 2 层保护膜（第 1 层带有手撕位），而有些只有 1 层膜（如果没有看到手撕位，就说明只有 1 层膜）。这两种情况都会同时发货，以实际收到的为准。",
+          "source_field": "instruction",
+          "source_span": [
+            131,
+            215
+          ],
+          "span_sha256": "97e1fe56cb23a7c9049ad5df3a9739f2bb83d92733531adcdc061d3f431d107d",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。",
+          "source_field": "instruction",
+          "source_span": [
+            217,
+            302
+          ],
+          "span_sha256": "97101bb95d68956fa08c6293bfc34dde1c7e4a2323955b666b6084c53d77969e",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "最新包装的 A1 系列打印机已不再赠送色卡；配件物品包装由黑色塑料盒修改为透明塑料袋。",
+          "source_field": "instruction",
+          "source_span": [
+            304,
+            347
+          ],
+          "span_sha256": "ed5b62e548d9412de69070ca722b74c3b3bf8162fb729c7a67112a92ab32a641",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "A1 mini 的 Y 轴采用了全金属导轮，这套导轨系统确保用户不需要频繁调整 A1 mini 的运动组件，但需要定期进行润滑和清洁，以减少磨损和异音，保证打印机的精度和寿命，并有效防止导轨生锈。",
+          "source_field": "instruction",
+          "source_span": [
+            349,
+            447
+          ],
+          "span_sha256": "5e74f4d623bf108a37571326dd6bd5ca83d948318523e399a15cbde1f8e27e9f",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "每一台打印机在出厂前，都会得到一定程度的润滑，但机器只会被涂抹少量的润滑油，因为如果涂抹过量的润滑油，可能会导致机器在运输中滴落到外壳上，产生明显的油污，影响外观。",
+          "source_field": "instruction",
+          "source_span": [
+            449,
+            531
+          ],
+          "span_sha256": "020005ebd3b0adc3859cc5cf4bba65343156b09d4c81bc22dcfec897c9d73b75",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "我们强烈建议您在拆箱后为打印机的 Y 轴导轨涂抹适量的润滑油，并确保润滑油覆盖整个导轨。润滑油已经包含在配件盒中，请参考附带的视频以了解涂抹的方法：",
+          "source_field": "instruction",
+          "source_span": [
+            533,
+            610
+          ],
+          "span_sha256": "49cb2a65c5563ecb871ee0e6c7b7c8c6e10d6e0402494edbe97273dd56f9c926",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "更多关于Y轴导轨的润滑指南，请参考: A1 mini 润滑Y轴导轨操作指南。",
+          "source_field": "instruction",
+          "source_span": [
+            612,
+            650
+          ],
+          "span_sha256": "e17674efc9dad83dadb38e8bf452424fca9e22fca3a9b2a7ec8fe5aa4d85c8a8",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U2/U2-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "ccc0ca58890ae3d75a0141cfc3296f4deca1a14e9faf5d449fb79e57b50b2474",
+      "step_title": "从顶部取出保护纸壳",
+      "citation_ids": [
+        "da9ade58cd475e05ee35696c",
+        "f9546944056f6c722796cbb6",
+        "34a39c59e0006d89311470ad",
+        "888dcda78709d192c591afdc",
+        "cf780aa94ee9020ed33c1c77",
+        "714007c0015aed6810e023ee",
+        "22ddb5e232618bd595f591c5",
+        "021741b370a0dbefe3121e54",
+        "ef093bc750e80c4527406c59"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "从顶部取出保护纸壳",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            12
+          ],
+          "span_sha256": "84d4c71237d300e2bae2c36385a3eb308ab50bacfdeae5a2df6c6bbf5fe7f58d",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "部分泡沫内嵌配件，请注意检查！",
+          "source_field": "instruction",
+          "source_span": [
+            14,
+            29
+          ],
+          "span_sha256": "6129d33378a29d8e3315d499a078a2bda542af16bebb8d447bc130ec214eeb89",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。",
+          "source_field": "chapter_context",
+          "source_span": [
+            0,
+            26
+          ],
+          "span_sha256": "e144032619564b8aadcf304f27451d09b3c01be486382d158647fae02c759a1b",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。",
+          "source_field": "chapter_context",
+          "source_span": [
+            28,
+            91
+          ],
+          "span_sha256": "88552f95d342ea8ee8a366893169edd7e468f1fcc8c8ebd7474804521c3c2f94",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。",
+          "source_field": "chapter_context",
+          "source_span": [
+            91,
+            123
+          ],
+          "span_sha256": "1d9e312dab9d4ea04d97d1e0346954a25a9778ba145a27129d158342032fdfa3",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U2/U2-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "0245c16b0b678a1e02a050609a78dfe12ff5a59caab09f679436d4257e3f5349",
+      "step_title": "仔细阅读快速指南，提前熟悉开箱的注意事项",
+      "citation_ids": [
+        "da9ade58cd475e05ee35696c",
+        "f9546944056f6c722796cbb6",
+        "34a39c59e0006d89311470ad",
+        "888dcda78709d192c591afdc",
+        "cf780aa94ee9020ed33c1c77",
+        "714007c0015aed6810e023ee",
+        "22ddb5e232618bd595f591c5",
+        "021741b370a0dbefe3121e54",
+        "ef093bc750e80c4527406c59"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "仔细阅读快速指南，提前熟悉开箱的注意事项。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            24
+          ],
+          "span_sha256": "d476e00bdb2a3748a74b38cd1d62c7873190f403f6445a2033664fbd620bb6ca",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "取出配件，AMS lite 和打印机。",
+          "source_field": "instruction",
+          "source_span": [
+            26,
+            45
+          ],
+          "span_sha256": "5c6b37e768c4da8b735d5f5449a6a8e09db01f70bb3e95dd727c19c680f01d99",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "当取出打印机时，请手扶 Z 轴的后盖，请勿用手触碰 Z 轴金属滑轨，请勿用手提起 X 轴导轨。",
+          "source_field": "instruction",
+          "source_span": [
+            45,
+            92
+          ],
+          "span_sha256": "d9359da841fe69a9826ec25891827842f586caf77fd03a49a1068633d10f96bc",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "后续版本将不提供色卡，具体以收到实物为准。",
+          "source_field": "instruction",
+          "source_span": [
+            94,
+            115
+          ],
+          "span_sha256": "3e9d95e01c8e16a14388662eec3a3232c78c7b65fb90f020991bbda1f1f3b87f",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请逐个取出零件，不要一次性将塑料包装袋从盒子中取出。",
+          "source_field": "chapter_context",
+          "source_span": [
+            0,
+            26
+          ],
+          "span_sha256": "e144032619564b8aadcf304f27451d09b3c01be486382d158647fae02c759a1b",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "保护泡沫可能与开箱视频所示的机器有所不同，请以您收到的机器为准。例如，部分机器的热床下面装有保护泡沫，在开箱过程中需要被移除。",
+          "source_field": "chapter_context",
+          "source_span": [
+            28,
+            91
+          ],
+          "span_sha256": "88552f95d342ea8ee8a366893169edd7e468f1fcc8c8ebd7474804521c3c2f94",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "早期包装箱内包含色卡，最新的包装箱内不包含色卡，具体以开箱为准。",
+          "source_field": "chapter_context",
+          "source_span": [
+            91,
+            123
+          ],
+          "span_sha256": "1d9e312dab9d4ea04d97d1e0346954a25a9778ba145a27129d158342032fdfa3",
+          "citation_ids": [
+            "da9ade58cd475e05ee35696c",
+            "f9546944056f6c722796cbb6",
+            "34a39c59e0006d89311470ad",
+            "888dcda78709d192c591afdc",
+            "cf780aa94ee9020ed33c1c77",
+            "714007c0015aed6810e023ee",
+            "22ddb5e232618bd595f591c5",
+            "021741b370a0dbefe3121e54",
+            "ef093bc750e80c4527406c59"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U3/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "ab5ca4a7a5b0b6ca6c0c857fc5afc7f72189851c7edf2b043eaae19b0d82b67e",
+      "step_title": "",
+      "citation_ids": [
+        "2c663c21a8aab7a8f8466018",
+        "58b9aabc0440296125f78221",
+        "0615866701a4f97939c8b888",
+        "3f8c47084514df8a165328f8",
+        "dc626ec0a739e8c6a1136c7a"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "scope",
+          "text": "AMS lite 套装版本",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            9
+          ],
+          "span_sha256": "bc5a2581e12974bb85f966aef88154bca65da1dbe6415ecb8213500626600e1c",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ],
+          "editorial_display": true
+        },
+        {
+          "kind": "materials",
+          "text": "A1 mini 打印机",
+          "source_field": "instruction",
+          "source_span": [
+            11,
+            23
+          ],
+          "span_sha256": "0100cee94d7e93de1c9938eb9a2bcb06d396a53f0455285a871b7ecfaed0c5e6",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "AMS lite 主体（包含 4-pin 线）",
+          "source_field": "instruction",
+          "source_span": [
+            24,
+            47
+          ],
+          "span_sha256": "e6b298d39bdb8a87996f13f086e3f97725df3fdcb601b8c717268852c19c09f7",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "AMS lite 底座支架和安装螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            48,
+            66
+          ],
+          "span_sha256": "6b06db37c198b60ce1da730e010962b390e1c205071e1a4de5b14d54e75ac5f7",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "AMS lite 料盘卷轴",
+          "source_field": "instruction",
+          "source_span": [
+            67,
+            80
+          ],
+          "span_sha256": "0df49146e33d7baf5e5f0c9c1ee44ef3d1d2c3be2ccf02d0b3e2213b3d4f9178",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "吐料组件及其螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            81,
+            89
+          ],
+          "span_sha256": "d2ec3372b5346dde6fe91509c6bd09d5ac2b55f81cc4348ff6ed924231968578",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "料盘支架及其底座和螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            90,
+            101
+          ],
+          "span_sha256": "a17a86d1671a72432f118f8d3989b932513e9e8f033c78e77ef425bff29a3b0d",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "PTFE 管（2 根 580 mm，2 根 700 mm）",
+          "source_field": "instruction",
+          "source_span": [
+            102,
+            131
+          ],
+          "span_sha256": "476f03436e418d67192374cd86499416c73616b06563b761637494d68b77cf11",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "PEI 纹理板",
+          "source_field": "instruction",
+          "source_span": [
+            132,
+            139
+          ],
+          "span_sha256": "e9902227f9cf927a414649bc28fce8b89a96ed57436ca641ce39d93b576901fe",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "耗材样品",
+          "source_field": "instruction",
+          "source_span": [
+            140,
+            144
+          ],
+          "span_sha256": "3bbd643b62e47871db30f45115eadfee8cb1a812a9444d9c96e5a0d9c13ef2f9",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "通针",
+          "source_field": "instruction",
+          "source_span": [
+            145,
+            147
+          ],
+          "span_sha256": "381dda4f8dbdeb6c1ee0b84a37090ffeed5f6362014f4471fd9fce86bf4e57ab",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "内六角扳手（H2 和 H1.5）",
+          "source_field": "instruction",
+          "source_span": [
+            148,
+            164
+          ],
+          "span_sha256": "276fe89b864e068db0df0977be3f1aeb6a5badb5210e9e6b849c6d63f4a756f1",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "热床擦嘴胶条",
+          "source_field": "instruction",
+          "source_span": [
+            165,
+            171
+          ],
+          "span_sha256": "b22e50de97798f893e0c1b437d233a596702400836e0a7bdd0f572e36d3e797e",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "料管集线器",
+          "source_field": "instruction",
+          "source_span": [
+            172,
+            177
+          ],
+          "span_sha256": "a919f6c0de43ebebc7559e6454d3799655fb24ac91704bfcd3021fe7473abb45",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "热床刮刀刀片及其螺丝",
+          "source_field": "instruction",
+          "source_span": [
+            178,
+            188
+          ],
+          "span_sha256": "a71baacea36238c3f2f1df048abdc285765766c60c3ed6f4cfbbd6c93b7f7f76",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "32 GB Micro SD 卡（打印机内）",
+          "source_field": "instruction",
+          "source_span": [
+            189,
+            211
+          ],
+          "span_sha256": "1715bf2177cdb6e612b7489208d0f5d20d1699425b9efc7367c20349cadd8710",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "工具头切刀刀片",
+          "source_field": "instruction",
+          "source_span": [
+            212,
+            219
+          ],
+          "span_sha256": "7cfca360cc6da1015ae68343c641ca7427def680b26d2a81e2044090ea36d8ae",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "润滑油",
+          "source_field": "instruction",
+          "source_span": [
+            220,
+            223
+          ],
+          "span_sha256": "3b7c90d54134f5869f33551ba871e261c701ebfff80d07bcc140e81119193cbc",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "润滑脂（2 种版本随机发货）",
+          "source_field": "instruction",
+          "source_span": [
+            224,
+            238
+          ],
+          "span_sha256": "1b2cbbde26ac348d4724945ee4715b3a40a216b3e0e48df81bb374aab4c7d518",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "materials",
+          "text": "快速指南和免责声明。",
+          "source_field": "instruction",
+          "source_span": [
+            239,
+            249
+          ],
+          "span_sha256": "98d06ab75b4034019d0110aa799ba41c742654795ed48d8f8363b569e6a7b092",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "在最新包装中，配件盒中的物品包装由黑色塑料盒修改为透明塑料袋。",
+          "source_field": "instruction",
+          "source_span": [
+            251,
+            282
+          ],
+          "span_sha256": "b04516ec9d30cf75123820d8ff09085bd590d6651be7f7620c324b8d69a18121",
+          "citation_ids": [
+            "2c663c21a8aab7a8f8466018",
+            "58b9aabc0440296125f78221",
+            "0615866701a4f97939c8b888",
+            "3f8c47084514df8a165328f8",
+            "dc626ec0a739e8c6a1136c7a"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U4/U4-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "8f0ab63ae24ba3cb9096be589528149761120e04fc2a20bebff5b91046e051af",
+      "step_title": "拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+      "citation_ids": [
+        "8040cecf2194d07754321dd0",
+        "47ada685e0d504166d9eca03",
+        "c97adbf0e1837339be5c56f6",
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "拧下用于在运输过程中保护打印机安全的 Z 轴限制器的 4 颗螺丝以解锁 Z 轴",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            42
+          ],
+          "span_sha256": "3a77121595ff9961b22058c4ea84599e645fdc2753cd94f79f3abb469dc09847",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U4/U4-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "85a012440e3b1ac317418e0097e016a58f684f3551e576d29f36683a5646e67c",
+      "step_title": "剪断并取下工具头周围的扎带",
+      "citation_ids": [
+        "8040cecf2194d07754321dd0",
+        "47ada685e0d504166d9eca03",
+        "c97adbf0e1837339be5c56f6",
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "剪断并取下工具头周围的扎带",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            16
+          ],
+          "span_sha256": "3c74639f631cf14a30c3faa2ce88dacb34c1647eccbb5280689eb74b5191ac63",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U4/U4-S3": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "4efca0ff5d93a2c3333ad4a9421bfbe99fbe44e3ef50e8a1684083245a07ce6c",
+      "step_title": "将工具头向左稍微移动，然后取下减震泡棉",
+      "citation_ids": [
+        "8040cecf2194d07754321dd0",
+        "47ada685e0d504166d9eca03",
+        "c97adbf0e1837339be5c56f6",
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将工具头向左稍微移动，然后取下减震泡棉。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            23
+          ],
+          "span_sha256": "d9cb8c78dd1632602035577e316b096d883fe0c3196cd0966a06dc6210e9491f",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "如有热床和导轨保护泡沫，需要在这一步移除它们。",
+          "source_field": "instruction",
+          "source_span": [
+            25,
+            48
+          ],
+          "span_sha256": "6459bf0de6139c47b6629ff7b4ac57f6fcba0af79da31faf63bd743cdec78f9c",
+          "citation_ids": [
+            "8040cecf2194d07754321dd0",
+            "47ada685e0d504166d9eca03",
+            "c97adbf0e1837339be5c56f6",
+            "4de210d91fa38f39a2fd07fe",
+            "18aaff3a3224135f9d359b07"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U5/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "5f63cc279d5b06dd3a9d2e45bf3ea9dc256a130f2d1e99913acaab8858280cef",
+      "step_title": "",
+      "citation_ids": [
+        "3f8ebb6f30233a4e57c3c7ee",
+        "661ff0e405da259e12e68b65",
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "note",
+          "text": "为了防止在运输途中受到冲击导致零部件损坏，在工厂组装过程中，会将热床底部的 3 颗螺丝（如图中绿色标记所示）松开。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            57
+          ],
+          "span_sha256": "c9b444cd6005a58d15f768a645b874087dea767c1b377b6797ca0a2f40a765e4",
+          "citation_ids": [
+            "3f8ebb6f30233a4e57c3c7ee",
+            "661ff0e405da259e12e68b65",
+            "a835b0d73f70ea468d7d5bed"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "建议将热床稍微推动到一个方便您使用内六角扳手的位置，先插入扳手，然后用手固定扳手和打印板，防止螺丝脱落。",
+          "source_field": "instruction",
+          "source_span": [
+            69,
+            121
+          ],
+          "span_sha256": "849c6d2612de4868633f76e49470252e4139108a5525525b9ac3bbd1b7d02d0a",
+          "citation_ids": [
+            "3f8ebb6f30233a4e57c3c7ee",
+            "661ff0e405da259e12e68b65",
+            "a835b0d73f70ea468d7d5bed"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "您需要将其拧紧。",
+          "source_field": "instruction",
+          "source_span": [
+            57,
+            67
+          ],
+          "span_sha256": "f6a3471474b89fd196af9397f4832a002ac76995864dbd7bf74a825c9584c4ec",
+          "citation_ids": [
+            "3f8ebb6f30233a4e57c3c7ee",
+            "661ff0e405da259e12e68b65",
+            "a835b0d73f70ea468d7d5bed"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U6/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "12e786be2e194ccb78b63d4cdd9dec2fbe1b025daad12b5700add97368a59a51",
+      "step_title": "",
+      "citation_ids": [
+        "d075485fafbc0552c7edd984",
+        "83b9bd74d33eb2f7f3d387a5",
+        "7fee805b27b47c25d253fa93"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将吐料组件从后往前滑入 X 轴末端端盖的插槽中。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            24
+          ],
+          "span_sha256": "20101b52f13efbfa66a7ed984eaf4c284d92b83213f0636d056e160bca874f64",
+          "citation_ids": [
+            "d075485fafbc0552c7edd984",
+            "83b9bd74d33eb2f7f3d387a5",
+            "7fee805b27b47c25d253fa93"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "使用配件盒中的一颗 M3-12 螺丝（用于吐料组件）来固定吐料组件。",
+          "source_field": "instruction",
+          "source_span": [
+            24,
+            58
+          ],
+          "span_sha256": "f3fdff09e7e63e39d52b3ee22c91b9a8a7f3437f2cf15faf7aa36033d742ea6e",
+          "citation_ids": [
+            "d075485fafbc0552c7edd984",
+            "83b9bd74d33eb2f7f3d387a5",
+            "7fee805b27b47c25d253fa93"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "在安装吐料组件后，应确保其与热床的左侧边沿平行，并且不会发生碰撞，如下图所示：",
+          "source_field": "instruction",
+          "source_span": [
+            60,
+            103
+          ],
+          "span_sha256": "0b990111d66ba7e0c980e2cd713437ea348dce522d99c68ea0bf13ecc6d6fc0b",
+          "citation_ids": [
+            "d075485fafbc0552c7edd984",
+            "83b9bd74d33eb2f7f3d387a5",
+            "7fee805b27b47c25d253fa93"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U7/U7-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "679b4613eccfb578ac88fdda6fdac5b04a85eded6aa840bf93587904e6fa66f5",
+      "step_title": "使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向",
+      "citation_ids": [
+        "2084b989a72b3f544e967a15",
+        "026a3a3c147bd8b28d5bf414",
+        "f76bb592ba8515e684d48401",
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            39
+          ],
+          "span_sha256": "7bdf7abe3eeb612c3e0989bdb31e2b4774938b9e4835f766b33d2e0dd90ae540",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请注意安装方向。",
+          "source_field": "instruction",
+          "source_span": [
+            39,
+            47
+          ],
+          "span_sha256": "168a219b838557f84d155104c7ea77941faa705fa5e5e15781ca14259ca201fd",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "scope",
+          "text": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+          "source_field": "instruction",
+          "source_span": [
+            49,
+            90
+          ],
+          "span_sha256": "6d6e16eed34e72a114b3a974d173f8d416c6e1d6678f1acc7cf10dcb370803e0",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "scope",
+          "text": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+          "source_field": "applicability_note",
+          "source_span": [
+            0,
+            29
+          ],
+          "span_sha256": "339bf6d1cc7b775721c095c26d50cfb6906728f19d9b0dc46da5088b5de713c3",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U7/U7-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "199359df8f53aa500e1f7e67332baa72d222d2b7008bdedbc1e7df769138f693",
+      "step_title": "从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配",
+      "citation_ids": [
+        "2084b989a72b3f544e967a15",
+        "026a3a3c147bd8b28d5bf414",
+        "f76bb592ba8515e684d48401",
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "从上向下滑入料盘支架。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            14
+          ],
+          "span_sha256": "ae4ec2499c55d911c72c5abd6fd0974bea4f056b5a1d426adec02ce6bc74b143",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请确保料盘支架方向与插槽方向相匹配。",
+          "source_field": "instruction",
+          "source_span": [
+            14,
+            32
+          ],
+          "span_sha256": "5de348768fd062061261a0866e0215823bf12df1c885770f8df23f614ba780b8",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        },
+        {
+          "kind": "scope",
+          "text": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+          "source_field": "applicability_note",
+          "source_span": [
+            0,
+            29
+          ],
+          "span_sha256": "339bf6d1cc7b775721c095c26d50cfb6906728f19d9b0dc46da5088b5de713c3",
+          "citation_ids": [
+            "2084b989a72b3f544e967a15",
+            "026a3a3c147bd8b28d5bf414",
+            "f76bb592ba8515e684d48401",
+            "97eeffdb901ac2699a6a9aeb"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U8/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "f403e7b96bb2488aa072f574b56f52f79d7174be47d54b26934d7eba123a01b5",
+      "step_title": "",
+      "citation_ids": [
+        "c89bfdbe4f1d9855ad53b3f1",
+        "cf78b33d8a1b26940b61467c"
+      ],
+      "source_refs": {
+        "screen_film": {
+          "state_id": "U1",
+          "paragraph": 4
+        }
+      },
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "撕下摄像头和屏幕的保护膜。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            13
+          ],
+          "span_sha256": "60aca25722e4b6309316caa6007d6589fd1c9d510a14bad47b7ea3daab688875",
+          "citation_ids": [
+            "c89bfdbe4f1d9855ad53b3f1",
+            "cf78b33d8a1b26940b61467c"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "如果您的打印机屏幕有 2 层膜，您可以撕掉外层。如果只有一层膜，您可以自行决定是否要撕掉这一层膜，可撕可不撕。但我们建议您保留最后一层，这样可以避免在使用屏幕时产生划痕。",
+          "source_field": "screen_film",
+          "source_span": [
+            0,
+            85
+          ],
+          "span_sha256": "97101bb95d68956fa08c6293bfc34dde1c7e4a2323955b666b6084c53d77969e",
+          "citation_ids": [
+            "5db0bcf220af3a967422d596",
+            "3b51a9e7c8f70af9ee848ff9",
+            "7534b016cdd2c0be4cca5d13",
+            "80143204bfcf5668390099ed",
+            "cb6a6d977294e1a839216c07",
+            "9f0ff150f8ec767f3c7e34f0",
+            "f1d654492edf2e1a357e3639",
+            "a260f28be6934ab4406a6370",
+            "56cd5b95df89e50ed7622fda",
+            "d2d426fc6a0eb3152c8498bb",
+            "0189b16221626b9fa2d28439"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U9/U9-S1": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "a29a745a58f01fd6705989edfda4cf9caf00af8119dc779049b9f37d83f98d24",
+      "step_title": "将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）",
+      "citation_ids": [
+        "42fb08ce8da544a638b58879",
+        "dfb2a8d298b85efd8421eb8a",
+        "cf6d5b0175ccb232bb092984",
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb",
+        "160f80ba83cb919652e48609",
+        "054e3fbbfcfea2c2e5a935ef",
+        "b6c9b34ddfcc9464169e4661",
+        "f318fc7633c0caeb344aa1aa",
+        "428686f7590bc7457af6450c",
+        "94298949fc850d74aa5cadef"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将 AMS lite 的主体放在其支架上，AMS lite 主体有线缆的一端朝向斜上方（在后方）",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            51
+          ],
+          "span_sha256": "735700c190df470e34fb2e9b097b30a4ecdf13f73705ed8ca39781d1f1e15ebf",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U9/U9-S2": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "d8d48ee5e160a6cf43bc6df2e4265992911689a733053c730e3697412e89cce2",
+      "step_title": "使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架",
+      "citation_ids": [
+        "42fb08ce8da544a638b58879",
+        "dfb2a8d298b85efd8421eb8a",
+        "cf6d5b0175ccb232bb092984",
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb",
+        "160f80ba83cb919652e48609",
+        "054e3fbbfcfea2c2e5a935ef",
+        "b6c9b34ddfcc9464169e4661",
+        "f318fc7633c0caeb344aa1aa",
+        "428686f7590bc7457af6450c",
+        "94298949fc850d74aa5cadef"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "使用配件盒中的 4 颗 BT3-8 螺丝（用于 AMS 底座支架）连接 AMS lite 的主体和支架",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            54
+          ],
+          "span_sha256": "e7cacc95b6773a80073f29ed5afdd7abc19de552421cd1a5742cc65a2c67df10",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U9/U9-S3": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "8d96ef16c48ff12d55e733342126c8f7a21d70ff56ce6e55ed35f8d84be5244f",
+      "step_title": "滑入 AMS lite 回转轴，并推到底部。安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件",
+      "citation_ids": [
+        "42fb08ce8da544a638b58879",
+        "dfb2a8d298b85efd8421eb8a",
+        "cf6d5b0175ccb232bb092984",
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb",
+        "160f80ba83cb919652e48609",
+        "054e3fbbfcfea2c2e5a935ef",
+        "b6c9b34ddfcc9464169e4661",
+        "f318fc7633c0caeb344aa1aa",
+        "428686f7590bc7457af6450c",
+        "94298949fc850d74aa5cadef"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "滑入 AMS lite 回转轴，并推到底部。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            25
+          ],
+          "span_sha256": "d24899ba289cfed8a0c7cf28a91c553aa0bc42e7b8841931409a7108408cf836",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "安装时，请确保回转轴和料盘轴颜色一一对应(如图所示，黄色对黄色，绿色对绿色)，以防损坏部件。",
+          "source_field": "instruction",
+          "source_span": [
+            25,
+            71
+          ],
+          "span_sha256": "b2cdc494e8b178d7f8eccf03c3c46c62d2eb5ef443d626064cfb3056b244eb22",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "黄色转轴是六边形的形状，相对容易对准卡扣位置。绿色转轴是长方形的形状，所以建议在插入之前先大致对准孔位，然后平行移动，稍作微调以确保对准卡扣位置。",
+          "source_field": "instruction",
+          "source_span": [
+            73,
+            146
+          ],
+          "span_sha256": "85cc590fbc56371780d6c17e9596358905dcf8ef8dfcd7ed78889347b723a03a",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U9/U9-S4": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "21fd3e4ee555267473e268f8eb8c54ca34356ef8f9c5a97b73e684ce3fef6bc3",
+      "step_title": "在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置",
+      "citation_ids": [
+        "42fb08ce8da544a638b58879",
+        "dfb2a8d298b85efd8421eb8a",
+        "cf6d5b0175ccb232bb092984",
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb",
+        "160f80ba83cb919652e48609",
+        "054e3fbbfcfea2c2e5a935ef",
+        "b6c9b34ddfcc9464169e4661",
+        "f318fc7633c0caeb344aa1aa",
+        "428686f7590bc7457af6450c",
+        "94298949fc850d74aa5cadef"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "在成功安装转轴后，将 AMS lite 放置在 A1 mini 打印机的右侧位置。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            44
+          ],
+          "span_sha256": "92e71abd5f13f899883de5c5c53aac7a97094da6fc34deb4677512e1c75acc80",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U9/U9-S5": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "600b5f5254f73cb99d4780e6f0f4e24a06f54a5eb69b44f3963c680c96474b7f",
+      "step_title": "安装 PTFE 管",
+      "citation_ids": [
+        "42fb08ce8da544a638b58879",
+        "dfb2a8d298b85efd8421eb8a",
+        "cf6d5b0175ccb232bb092984",
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb",
+        "160f80ba83cb919652e48609",
+        "054e3fbbfcfea2c2e5a935ef",
+        "b6c9b34ddfcc9464169e4661",
+        "f318fc7633c0caeb344aa1aa",
+        "428686f7590bc7457af6450c",
+        "94298949fc850d74aa5cadef"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "安装 PTFE 管",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            12
+          ],
+          "span_sha256": "a3081c70f883f1668c46089094ba5037ae093f3411aacc634edee8ea34810291",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "如图所示，将 580 mm 特氟龙管插入其气动接头接口 1 和 2 中; 将 1 号口的 PTFE 的另一端插入至五通组件的左后方，2 号口 PTFE 管的另一端插入到五通组件的左前方。（从前往后看）",
+          "source_field": "instruction",
+          "source_span": [
+            14,
+            114
+          ],
+          "span_sha256": "c3714e8e5cc0df6d7319b495effb3901941bc65b2dd0935b2ec845faa7c5ff21",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "如图所示,将 700 mm 特氟龙管插入其气动接头接口 3 和 4 中; 将 3 号口的 PTFE 的另一端插入至五通组件的右前方，4 号口 PTFE 管的另一端插入到五通组件的右后方。（从前往后看）",
+          "source_field": "instruction",
+          "source_span": [
+            116,
+            216
+          ],
+          "span_sha256": "1a2184f9305109e7572c9666167d45f07f03bd8068c0fccff8b76caa4c604fb4",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "注：如果在安装过程中错误地插入了 PTFE 管，您可以参考以下步骤将其拔出：A1 系列产品料管更换指引",
+          "source_field": "instruction",
+          "source_span": [
+            218,
+            269
+          ],
+          "span_sha256": "cec94dc38d3581f7dd1ac786850878dd41645e8a3332184904ffa3c181458223",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "以下是 4 根 PTFE 管安装完成后的整体效果图示：",
+          "source_field": "instruction",
+          "source_span": [
+            271,
+            298
+          ],
+          "span_sha256": "3b18412a9782014f9ee4716662863a2f31d501b75d707fbc6f67364fddda8161",
+          "citation_ids": [
+            "42fb08ce8da544a638b58879",
+            "dfb2a8d298b85efd8421eb8a",
+            "cf6d5b0175ccb232bb092984",
+            "089d5d0a15f278bb002c98f8",
+            "e23a4c332e7134c601b7d2bb",
+            "160f80ba83cb919652e48609",
+            "054e3fbbfcfea2c2e5a935ef",
+            "b6c9b34ddfcc9464169e4661",
+            "f318fc7633c0caeb344aa1aa",
+            "428686f7590bc7457af6450c",
+            "94298949fc850d74aa5cadef"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U10/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "71c739c1e1aa9de9d21b0f29abdcaed470e820e3e242821149ead2ed97e4aa91",
+      "step_title": "",
+      "citation_ids": [
+        "4f1e5827175df559076dbf1a",
+        "2b5c10bbdc7a866204b8cac5",
+        "585181bb190f362a212ada99",
+        "3338d451dea45daf0aafd5a8",
+        "e8e3beb3b7c0d1ea282334ec"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "如图所示安装集线器。将黑色线缆卡进集线器的小孔中，将特氟龙管卡入其他四个大孔中。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            40
+          ],
+          "span_sha256": "f6a812e336294623e899104165845699057b38c6c5614dbbce63ba658cc22ae7",
+          "citation_ids": [
+            "4f1e5827175df559076dbf1a",
+            "2b5c10bbdc7a866204b8cac5",
+            "585181bb190f362a212ada99",
+            "3338d451dea45daf0aafd5a8",
+            "e8e3beb3b7c0d1ea282334ec"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请注意，集线器需要靠近打印机的工具头而非 AMS lite。",
+          "source_field": "instruction",
+          "source_span": [
+            40,
+            70
+          ],
+          "span_sha256": "b8b61fb56974b43c97ad3eb1e38a62b7628cb8250ff9b3b3006c5b3fdde2a234",
+          "citation_ids": [
+            "4f1e5827175df559076dbf1a",
+            "2b5c10bbdc7a866204b8cac5",
+            "585181bb190f362a212ada99",
+            "3338d451dea45daf0aafd5a8",
+            "e8e3beb3b7c0d1ea282334ec"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "未安装集线器可能导致线缆与热床剐蹭。",
+          "source_field": "instruction",
+          "source_span": [
+            72,
+            90
+          ],
+          "span_sha256": "7dde107b4bfb5e93e288818d016b7ec2e9c53173c212d809825d63ae101ab361",
+          "citation_ids": [
+            "4f1e5827175df559076dbf1a",
+            "2b5c10bbdc7a866204b8cac5",
+            "585181bb190f362a212ada99",
+            "3338d451dea45daf0aafd5a8",
+            "e8e3beb3b7c0d1ea282334ec"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "建议 A1min i和 AMS lite 之间的距离为 50mm，如图所示。",
+          "source_field": "instruction",
+          "source_span": [
+            92,
+            130
+          ],
+          "span_sha256": "126410315514af2d4c2e7b0f5b80762ad4bb1fab259dfdfd64ec2063f46666f5",
+          "citation_ids": [
+            "4f1e5827175df559076dbf1a",
+            "2b5c10bbdc7a866204b8cac5",
+            "585181bb190f362a212ada99",
+            "3338d451dea45daf0aafd5a8",
+            "e8e3beb3b7c0d1ea282334ec"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U11/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "5b0470f5ab9ef8059c04aefaf5db6bfd07371dceb74087defe03e38a21633ce1",
+      "step_title": "",
+      "citation_ids": [
+        "6bfb08216dab37219f811a5b",
+        "3de49f5996100b21cd461a4d",
+        "a0f07efd47a3dcada16d62fa",
+        "cb5886d4c5ce064aea332197",
+        "d7635d5c9ea5455406ee5713",
+        "1e00627658f2dab34bbb81ff"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将 AMS lite 的 4pin 线插入 A1 min i右侧的任意一个接口。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            40
+          ],
+          "span_sha256": "f821f4101a5dd3c8c51d44a55cfc7b70c320093dfe85ea6fa717699e35d8c32a",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "3de49f5996100b21cd461a4d",
+            "a0f07efd47a3dcada16d62fa",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请确保正确插入 4 针电缆，将其对准保护卡的方向。",
+          "source_field": "instruction",
+          "source_span": [
+            40,
+            65
+          ],
+          "span_sha256": "3d3d81d38a02bc90f29bdfb95f971f441a4013f534170f5b8ca413b438b00f55",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "3de49f5996100b21cd461a4d",
+            "a0f07efd47a3dcada16d62fa",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请确保将 AMS lite 的 4pin 线和 A1 mini 编织线分别整理好，不要让它们互相交叉。这样可以防止在打印大零件时两根线相互缠绕或拉扯。",
+          "source_field": "instruction",
+          "source_span": [
+            67,
+            142
+          ],
+          "span_sha256": "b503b52d0196ebc53d20b26a4c4ac89a9cd35076914c09fb4d788cf70c5157bb",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "3de49f5996100b21cd461a4d",
+            "a0f07efd47a3dcada16d62fa",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "precondition",
+          "text": "再次提醒，您所收到的机器保护泡沫可能与视频中展示的机器不完全相同。如有必要，请在给打印机通电之前，将所有保护泡沫（例如用于保护热床的泡沫）全部移除。",
+          "source_field": "instruction",
+          "source_span": [
+            144,
+            218
+          ],
+          "span_sha256": "e6b360990689bec104c3aaf80db7747eb66f4f3b0bdd885543e583d90177c6ef",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "3de49f5996100b21cd461a4d",
+            "a0f07efd47a3dcada16d62fa",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "给打印机接上电源，按下机器背面的电源开关,启动 A1 mini。",
+          "source_field": "instruction",
+          "source_span": [
+            220,
+            252
+          ],
+          "span_sha256": "9d3d3db5cf4f6aa9e43418cefdca2a0a1c16d7edd736da56db28c606def2b1d4",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "3de49f5996100b21cd461a4d",
+            "a0f07efd47a3dcada16d62fa",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        },
+        {
+          "kind": "precondition",
+          "text": "如图所示,放置打印机时,请在Y方向上留出足够热床移动的安全空间。",
+          "source_field": "instruction",
+          "source_span": [
+            254,
+            286
+          ],
+          "span_sha256": "af688656f49302bcd559649ac0097996b2aa0d26926dab39b8452ee3cb43d157",
+          "citation_ids": [
+            "6bfb08216dab37219f811a5b",
+            "3de49f5996100b21cd461a4d",
+            "a0f07efd47a3dcada16d62fa",
+            "cb5886d4c5ce064aea332197",
+            "d7635d5c9ea5455406ee5713",
+            "1e00627658f2dab34bbb81ff"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U12/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "e70af3765180598f85fb14ed4e82e06c59a442a1e25b67e6a32f81643ae99002",
+      "step_title": "",
+      "citation_ids": [
+        "79377a62d1d6377de13b0fc2",
+        "fa36881f75ab7b772943db9c",
+        "b6f54c53fe740a78d96dca75"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "安装打印面板，确保打印面板与擦嘴组件和热床线缆盖靠近。 在打印机开机后，请按照屏幕上的提示完成打印机的初始化和校准。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            58
+          ],
+          "span_sha256": "65973ecbb99273cbb4dbc5ccd659e89bbeb023d899afff2ad86f2b96d8a1563a",
+          "citation_ids": [
+            "79377a62d1d6377de13b0fc2",
+            "fa36881f75ab7b772943db9c",
+            "b6f54c53fe740a78d96dca75"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "如果你在开箱过程中跳过了联网和 Bambu Handy 绑定步骤，你也可以在打印机完成校准后，在设置页面联网绑定打印机。",
+          "source_field": "instruction",
+          "source_span": [
+            60,
+            120
+          ],
+          "span_sha256": "3903e938f78e040dfe06a674186db216085ae1d460ec1aba11f08623876c6008",
+          "citation_ids": [
+            "79377a62d1d6377de13b0fc2",
+            "fa36881f75ab7b772943db9c",
+            "b6f54c53fe740a78d96dca75"
+          ]
+        }
+      ]
+    },
+    "ams_lite_unboxing/U13/-": {
+      "task_id": "a1_mini_standalone_unboxing_v1",
+      "source_task_revision": "09ffd573cbea59aa9e921393018befd3d82f22a23fae68df438a899df899efc6",
+      "source_sha256": "b1cb67c98d7546477780597755fe4567cbb65c2ed9ce5e4e0e2aab45bac2d211",
+      "step_title": "",
+      "citation_ids": [
+        "4c5164227fdf98357a409da6",
+        "203f96c08ecad59e369d4c2c",
+        "390e17d6d53a89d20a62d8c8",
+        "4cfe15c80dfe98fb6ac45d8e",
+        "81d07994cd647d9102bfd1bd",
+        "47c4e85beecb273af7b50ed4"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "开始打印前，推荐准备一个盒子放置于打印机侧面的吐料组件下方，用于收集打印过程产生的废料，保持环境整洁。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            51
+          ],
+          "span_sha256": "af1a6dfd42afb1ed5808c5d80d9ae170a2205114becf621a8eb1864db9253902",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "action",
+          "text": "您可以打印一个 废料盒，也可以使用耗材包装盒或其他容器来接废料。",
+          "source_field": "instruction",
+          "source_span": [
+            53,
+            85
+          ],
+          "span_sha256": "10cd034b38846eee7475bf1d5f6bb59c9638dca692cc1d46b61a493f3061bb70",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "由于篇幅有限，首次打印的教程请参见下方链接。",
+          "source_field": "instruction",
+          "source_span": [
+            87,
+            109
+          ],
+          "span_sha256": "6154a2c21f857207f746b085a840b919f1b699c4af7594a25f955be13ea5657c",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "初次打印指南（使用AMS lite）",
+          "source_field": "instruction",
+          "source_span": [
+            111,
+            129
+          ],
+          "span_sha256": "4712a817d1e225b751a9433057a4dd773455da7cbdce76f13a6824915fe81a74",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        },
+        {
+          "kind": "note",
+          "text": "初次打印指南（使用外挂料盘）",
+          "source_field": "instruction",
+          "source_span": [
+            131,
+            145
+          ],
+          "span_sha256": "8e8661f7e552c5490ae67136d9c52eb6d31b2f0c541266172dd1b80f27708366",
+          "citation_ids": [
+            "4c5164227fdf98357a409da6",
+            "203f96c08ecad59e369d4c2c",
+            "390e17d6d53a89d20a62d8c8",
+            "4cfe15c80dfe98fb6ac45d8e",
+            "81d07994cd647d9102bfd1bd",
+            "47c4e85beecb273af7b50ed4"
+          ]
+        }
+      ]
+    },
+    "first_print_sd/P3/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "909a57222d856185f6d51070adbb2f8e67c660505b07b2ff962513a00b97c7d8",
+      "source_sha256": "bd77aca081776522e9de1dcf91ca02cb06ab0f3be1f6e9f37d6f7ed99f888194",
+      "step_title": "",
+      "citation_ids": [
+        "a38a83f538aecdc3482321b3",
+        "3834865f5ea11d14505a75d8",
+        "d9eeab1c5b11e59e35836272"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "如果已装载好合适耗材，可以直接确认；需要指导时进入进料；需要换料时先退料，再进料。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            41
+          ],
+          "span_sha256": "9ad2484923edeb88c6bdeb324bb6e3f2cf35c6e860aab1c702978097987e1b59",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "只有需要退出旧料或更换耗材时，才先进入退料指导。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            28
+          ],
+          "span_sha256": "ea3ceaa301e997063096599e6445d5e3c2d5000217a187a220b5eb81f06993b3",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        },
+        {
+          "kind": "caution",
+          "text": "已自行完成耗材准备时，可直接确认并继续，无需重复进料或退料。",
+          "source_field": "warnings",
+          "source_span": [
+            30,
+            49
+          ],
+          "span_sha256": "8d99ebce6f7aaf7f521f5a6aa227f71f972cad7712036a509b48a7a1ba64409d",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "first_print_sd/P4/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "909a57222d856185f6d51070adbb2f8e67c660505b07b2ff962513a00b97c7d8",
+      "source_sha256": "125b9cd989801b3585261fbdb1ca55a556aa886cfb2adb5cd74d929c9867a9fd",
+      "step_title": "",
+      "citation_ids": [
+        "06c1f617fbb9a57ea6e246be",
+        "7b2963bce4e77c0ef9cb0c3e"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "在打印机屏幕进入打印文件，选择MicroSD卡中的模型。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            28
+          ],
+          "span_sha256": "af7d86eb7f840ba5f6440e2164e8a4ae90423f86542d0d11413cafee7d51f666",
+          "citation_ids": [
+            "06c1f617fbb9a57ea6e246be",
+            "7b2963bce4e77c0ef9cb0c3e"
+          ]
+        }
+      ]
+    },
+    "first_print_sd/P5/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "909a57222d856185f6d51070adbb2f8e67c660505b07b2ff962513a00b97c7d8",
+      "source_sha256": "5b6cd3a1dbee0e2f3a2803293eb4e653c22228bf9ed04796ce2a77575dad71ea",
+      "step_title": "",
+      "citation_ids": [
+        "a38a83f538aecdc3482321b3",
+        "4f4fb4fed400a5f2b2823c78"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "再次确认耗材已装载、打印板已放置；按官方建议核对热床调平和动态流量校准选项。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            38
+          ],
+          "span_sha256": "3c79321352787cf37e495d4d99ab54b83d055af0b9b31a6abfca04a1c9afd11a",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "4f4fb4fed400a5f2b2823c78"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "按官方建议核对热床调平和动态流量校准选项，结合本次打印设置确认。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            19
+          ],
+          "span_sha256": "5a68d1583936b2027317355e71ef1795cb68642c6ab3f1a232c0935a039a9b77",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "4f4fb4fed400a5f2b2823c78"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "first_print_sd/P6/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "909a57222d856185f6d51070adbb2f8e67c660505b07b2ff962513a00b97c7d8",
+      "source_sha256": "d05bb55e47a5ddd6291fa34604c28bc491f41e1812e51ce66e443caa4936c380",
+      "step_title": "",
+      "citation_ids": [
+        "79fc32a675af9bd839b6a558"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "在打印机上点击打印，并根据设备反馈确认任务已开始执行或准备。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            30
+          ],
+          "span_sha256": "33349f8ceda2aa0d3af8859fccaa1f690094d2f33d96b7c1da3ff60c82ce163c",
+          "citation_ids": [
+            "79fc32a675af9bd839b6a558"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "本应用不下发打印指令。",
+          "source_field": "instruction",
+          "source_span": [
+            30,
+            41
+          ],
+          "span_sha256": "36a1ea7d7530c7c721b894d2e8ff6ae76f864a7b43d2e6bade41616840379299",
+          "citation_ids": [
+            "79fc32a675af9bd839b6a558"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "确认只表示已在设备上发起打印，首层和成品质量仍需另外观察。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            25
+          ],
+          "span_sha256": "5e1cc9ebde96091ffe928410a3967579032e4fe83cfc4087a78895fa98b96a2a",
+          "citation_ids": [
+            "79fc32a675af9bd839b6a558"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "first_print_studio/P3/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "a3e185e2ada53de94578ab6debf3750c43d14c638b2ab1266246213bcda8a780",
+      "source_sha256": "bd77aca081776522e9de1dcf91ca02cb06ab0f3be1f6e9f37d6f7ed99f888194",
+      "step_title": "",
+      "citation_ids": [
+        "a38a83f538aecdc3482321b3",
+        "3834865f5ea11d14505a75d8",
+        "d9eeab1c5b11e59e35836272"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "如果已装载好合适耗材，可以直接确认；需要指导时进入进料；需要换料时先退料，再进料。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            41
+          ],
+          "span_sha256": "9ad2484923edeb88c6bdeb324bb6e3f2cf35c6e860aab1c702978097987e1b59",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "只有需要退出旧料或更换耗材时，才先进入退料指导。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            28
+          ],
+          "span_sha256": "ea3ceaa301e997063096599e6445d5e3c2d5000217a187a220b5eb81f06993b3",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        },
+        {
+          "kind": "caution",
+          "text": "已自行完成耗材准备时，可直接确认并继续，无需重复进料或退料。",
+          "source_field": "warnings",
+          "source_span": [
+            30,
+            49
+          ],
+          "span_sha256": "8d99ebce6f7aaf7f521f5a6aa227f71f972cad7712036a509b48a7a1ba64409d",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "first_print_studio/P4/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "a3e185e2ada53de94578ab6debf3750c43d14c638b2ab1266246213bcda8a780",
+      "source_sha256": "a8647b1c26d8815d1f95659dd04a6653195866c2c883c963789314a6e3afbc28",
+      "step_title": "",
+      "citation_ids": [
+        "c2dd846ec25484e22e5134d0",
+        "3b3de939ebc19458a73de052",
+        "6e71a2fded983aafbca8a20c"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "打开Bambu Studio，按官方说明选择模型并切片。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            28
+          ],
+          "span_sha256": "0164ed23ce8339f11de3692d31198e30ef8238a4bf8a4bda358a645fc2bf2e63",
+          "citation_ids": [
+            "c2dd846ec25484e22e5134d0",
+            "3b3de939ebc19458a73de052",
+            "6e71a2fded983aafbca8a20c"
+          ]
+        }
+      ]
+    },
+    "first_print_studio/P5/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "a3e185e2ada53de94578ab6debf3750c43d14c638b2ab1266246213bcda8a780",
+      "source_sha256": "ca4935c202a5013820304b71d9253689eba2fba2fda130ec3e30f2566a91eb82",
+      "step_title": "",
+      "citation_ids": [
+        "a38a83f538aecdc3482321b3",
+        "6e71a2fded983aafbca8a20c"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "发送前确认选择的是本机，且本机耗材已装载、打印板已放置；核对实际软件界面中的打印设置。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            43
+          ],
+          "span_sha256": "e6b554bce32824c8c57e485c31f56bef6225ce71fc00b1737cb93370f299c05b",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "6e71a2fded983aafbca8a20c"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "发送前确认目标是当前这台打印机；设置名称以正在使用的 Bambu Studio 界面为准。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            19
+          ],
+          "span_sha256": "5a68d1583936b2027317355e71ef1795cb68642c6ab3f1a232c0935a039a9b77",
+          "citation_ids": [
+            "a38a83f538aecdc3482321b3",
+            "6e71a2fded983aafbca8a20c"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "first_print_studio/P6/-": {
+      "task_id": "a1_mini_first_print_external_v1",
+      "source_task_revision": "a3e185e2ada53de94578ab6debf3750c43d14c638b2ab1266246213bcda8a780",
+      "source_sha256": "0a64f4f3aa12a0ec03c98624aa7f2eb1f4b41c0ce7ebe1a412bf70509093eb85",
+      "step_title": "",
+      "citation_ids": [
+        "6e71a2fded983aafbca8a20c"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "通过Bambu Studio发送打印任务，在设备上观察并确认接收／执行反馈。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            38
+          ],
+          "span_sha256": "fc39b1d02adec47b601f136311345b6d59454885c728d00966a81ccadbc2d6a4",
+          "citation_ids": [
+            "6e71a2fded983aafbca8a20c"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "发送成功后仍需确认设备的接收与执行反馈；发送成功不等于成品打印完成。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            25
+          ],
+          "span_sha256": "5e1cc9ebde96091ffe928410a3967579032e4fe83cfc4087a78895fa98b96a2a",
+          "citation_ids": [
+            "6e71a2fded983aafbca8a20c"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "load_external_spool/L1/-": {
+      "task_id": "a1_mini_load_external_v1",
+      "source_task_revision": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2",
+      "source_sha256": "163888aae406856f897b46cc7728bbbbf8c7a77c0efca479bfc3695d0f305678",
+      "step_title": "",
+      "citation_ids": [
+        "3834865f5ea11d14505a75d8",
+        "d9eeab1c5b11e59e35836272"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "确认当前确实需要进料；如旧料尚未退出，先进入退料指导。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            27
+          ],
+          "span_sha256": "7e9e86e14b58697bc79bcdfecda4f3636ac16c8200dcbc4d28f461673632a34f",
+          "citation_ids": [
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "正在打印时，请先按设备要求处理当前状态，再执行进料。",
+          "source_field": "instruction",
+          "source_span": [
+            27,
+            55
+          ],
+          "span_sha256": "b7a820f730614982ecc124b8087d139455f6e1f413958fdfbbe39b769c97c2e1",
+          "citation_ids": [
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        },
+        {
+          "kind": "caution",
+          "text": "请在打印机上操作进料，加热和送料状态以设备提示为准。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            24
+          ],
+          "span_sha256": "0873b380fc59cc1616d85876cccba221c3035746f22e9d04c75c73dcbd18c3bb",
+          "citation_ids": [
+            "3834865f5ea11d14505a75d8",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "load_external_spool/L2/-": {
+      "task_id": "a1_mini_load_external_v1",
+      "source_task_revision": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2",
+      "source_sha256": "90d53d5d525d9ba3dece415f2b1714642f62e280fac07b6f7e0b72088ffafb32",
+      "step_title": "",
+      "citation_ids": [
+        "10b0932757cb0f56efecaef4"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "根据耗材绕线方向，将料盘安装到已装好的外挂料盘支架上，按指导拍摄安装位置。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            37
+          ],
+          "span_sha256": "4853bc02f1fd01ae837d55fcfa9ac2a58ffbb16909f5297d6924419d3320ea5c",
+          "citation_ids": [
+            "10b0932757cb0f56efecaef4"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请按官方图示安装并检查料盘支架；照片只能提供外观参考。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            26
+          ],
+          "span_sha256": "0c66f3a4601ef543d09a24b78a22f6e3765e87ac26b7c4883a4568dea2d209f3",
+          "citation_ids": [
+            "10b0932757cb0f56efecaef4"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "load_external_spool/L3/-": {
+      "task_id": "a1_mini_load_external_v1",
+      "source_task_revision": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2",
+      "source_sha256": "a5abae6f050651b74fbab7c033600a9a0d1711b2e154fb41c1dbe830407d0bd4",
+      "step_title": "",
+      "citation_ids": [
+        "4618026a2012b0e1d92fedda"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "将料头插入料管，向工具头推送到指南所述位置，查看打印机屏幕是否显示耗材进入。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            38
+          ],
+          "span_sha256": "5479f3f723150b39f5b140a7d156f6460bbd8585a36bab05c4ae63baa98c99aa",
+          "citation_ids": [
+            "4618026a2012b0e1d92fedda"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请在打印机屏幕确认耗材检测提示；仅看到料管连接，不能证明喷嘴已正常出料。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            15
+          ],
+          "span_sha256": "d5c561a69ff4399aae40a26a493e60429fb63328f69a24118f6bb7afe41ed8bc",
+          "citation_ids": [
+            "4618026a2012b0e1d92fedda"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "load_external_spool/L4/-": {
+      "task_id": "a1_mini_load_external_v1",
+      "source_task_revision": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2",
+      "source_sha256": "70654bc2694ac5b2b984420f5fed1ff35a474b00de1fe272a3249ac2800723e0",
+      "step_title": "",
+      "citation_ids": [
+        "a70920122e4afc6d2117eff4",
+        "e098db844f661e4b7cc40fc0"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "在打印机屏幕选择进料；如屏幕要求选择耗材类型，按实际耗材选择。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            31
+          ],
+          "span_sha256": "8f5b22f71c6e3eca2d5d78ef0b803ab95ec3ea86cba07b89e5e1497c7b83e9dd",
+          "citation_ids": [
+            "a70920122e4afc6d2117eff4",
+            "e098db844f661e4b7cc40fc0"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "耗材类型请按实际装入的材料选择，不要仅凭外观判断。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            14
+          ],
+          "span_sha256": "3b7754762e27188081b35bea8382c79ba708a9a55817b88e1c341443b09c0c92",
+          "citation_ids": [
+            "a70920122e4afc6d2117eff4",
+            "e098db844f661e4b7cc40fc0"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "load_external_spool/L5/-": {
+      "task_id": "a1_mini_load_external_v1",
+      "source_task_revision": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2",
+      "source_sha256": "9df724404278d26c377bfff856e3d3bd578503586b65da08ad2d7e20416a0b11",
+      "step_title": "",
+      "citation_ids": [
+        "3fb0e1aa861b86514348c820"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "按设备进料流程等待加热，并在相应提示阶段再次手动推入耗材。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            29
+          ],
+          "span_sha256": "4c27f7e33e6d797cd0e77243d279b7eadc2b7fe1769e37d210c0720e1c14ff19",
+          "citation_ids": [
+            "3fb0e1aa861b86514348c820"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "加热请跟随设备进料流程，不要把指南中的 250°C 当作所有材料的打印温度。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            28
+          ],
+          "span_sha256": "c447c669cc3f26adc377c1ba3f8ef2842d5066fa76d45df396382f55616928a3",
+          "citation_ids": [
+            "3fb0e1aa861b86514348c820"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "load_external_spool/L6/-": {
+      "task_id": "a1_mini_load_external_v1",
+      "source_task_revision": "c7631575ba0b65409b88ea04e1007b1d1f30309af5309d38c55dd4246537a3a2",
+      "source_sha256": "9176b5cd25b50b36fb297e89f090ec0a329b9cbfd5dabbd6d0906a271676f74a",
+      "step_title": "",
+      "citation_ids": [
+        "d971490bd6650eee7b6a3800",
+        "f793e8d977edb97acc10f3b0",
+        "c2dc19ae6a5e2e004db7b6e0"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "实际观察喷嘴是否正常挤出耗材；正常时在设备上选择完成，没有吐出时按提示重试。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            38
+          ],
+          "span_sha256": "683b4cce0298702fe0c108ac90d63607ac193aebd71aa8b979bfa035490dc4e3",
+          "citation_ids": [
+            "d971490bd6650eee7b6a3800",
+            "f793e8d977edb97acc10f3b0",
+            "c2dc19ae6a5e2e004db7b6e0"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请确认这一次确有耗材从喷嘴挤出，不要把已有废料当作本次进料成功的证据。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            22
+          ],
+          "span_sha256": "e35b7ddec7fb27e1c1722e388f07c2fc9ac12a81882ed6fd9e90f1a346865472",
+          "citation_ids": [
+            "d971490bd6650eee7b6a3800",
+            "f793e8d977edb97acc10f3b0",
+            "c2dc19ae6a5e2e004db7b6e0"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "unload_external/D1/-": {
+      "task_id": "a1_mini_unload_external_v1",
+      "source_task_revision": "c8812675e87d33477d7327d6abe1a08dfa0eb89e7d5466dab5b9fe4833498c2c",
+      "source_sha256": "c8da6cc7bca5d8ea26d04ea57ec6d00e09a1aa9e463fa3a222fe9d7bf5410e9d",
+      "step_title": "",
+      "citation_ids": [
+        "3834865f5ea11d14505a75d8"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "确认确实需要退出旧料；如果正在打印，先按官方说明暂停当前任务。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            31
+          ],
+          "span_sha256": "9b7bc232a9e1dacd481b9f9edc46de9af618298054242f055c978af0660d6025",
+          "citation_ids": [
+            "3834865f5ea11d14505a75d8"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "新机首次进料无需先退料；设备正在打印时，才需要先按官方提示暂停。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            12
+          ],
+          "span_sha256": "ba869b8f3d33b1e94c9241302a237a3d6763f458ab670cbb3647a346b1672ea8",
+          "citation_ids": [
+            "3834865f5ea11d14505a75d8"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "unload_external/D2/-": {
+      "task_id": "a1_mini_unload_external_v1",
+      "source_task_revision": "c8812675e87d33477d7327d6abe1a08dfa0eb89e7d5466dab5b9fe4833498c2c",
+      "source_sha256": "0b6252c00c2962760d5cb1fa5c2511e2f663986bb3b8bd92f14bb4d78d94cc86",
+      "step_title": "",
+      "citation_ids": [
+        "393510ff2cb1d85389db05d8"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "在打印机屏幕选择退料；打印机将执行相应的热端加热和切料流程。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            30
+          ],
+          "span_sha256": "a7a32604601c59c17ccc987e5148baac12aba89a9b9f51ec5870eb367ce86371",
+          "citation_ids": [
+            "393510ff2cb1d85389db05d8"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "加热和切料由打印机执行，请以设备屏幕的提示为准。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            19
+          ],
+          "span_sha256": "3d4cc7d8b134bc0ec56fc8689817bca07981c8666ab697948e3777ecf8298422",
+          "citation_ids": [
+            "393510ff2cb1d85389db05d8"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "unload_external/D3/-": {
+      "task_id": "a1_mini_unload_external_v1",
+      "source_task_revision": "c8812675e87d33477d7327d6abe1a08dfa0eb89e7d5466dab5b9fe4833498c2c",
+      "source_sha256": "1dc13b76f443fdc465b673a7cc435ada2e19ce6c4bae9cd9644c51f1eaa61f7f",
+      "step_title": "",
+      "citation_ids": [
+        "393510ff2cb1d85389db05d8",
+        "1ea3e50908d655fa89409b8d",
+        "0f84d44d0ea1e09f7a0cc5a9"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "等待设备完成相应动作，根据设备或APP／Studio的退料提示进入手动抽出阶段。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            40
+          ],
+          "span_sha256": "92ff85f73f1c645ce472d7ef6c10e0258caed4057ee59d98294ebd6c090766ee",
+          "citation_ids": [
+            "393510ff2cb1d85389db05d8",
+            "1ea3e50908d655fa89409b8d",
+            "0f84d44d0ea1e09f7a0cc5a9"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请等待设备明确提示可以手动抽出，不要仅按计时或固定温度自行判断。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            21
+          ],
+          "span_sha256": "3adc532b9cd73d48bc5df0b009c5b143771ef7fae5c95cafc245caf211b30854",
+          "citation_ids": [
+            "393510ff2cb1d85389db05d8",
+            "1ea3e50908d655fa89409b8d",
+            "0f84d44d0ea1e09f7a0cc5a9"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "unload_external/D4/-": {
+      "task_id": "a1_mini_unload_external_v1",
+      "source_task_revision": "c8812675e87d33477d7327d6abe1a08dfa0eb89e7d5466dab5b9fe4833498c2c",
+      "source_sha256": "7755e84a081fb5d7fc7eefe4fe94d8204da317d5b57f54caec8eb50d34bd6aad",
+      "step_title": "",
+      "citation_ids": [
+        "1ea3e50908d655fa89409b8d",
+        "0f84d44d0ea1e09f7a0cc5a9",
+        "2b4726570c121d109d1add22"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "根据APP／Studio提示及时手动抽出耗材；未及时抽出时按指南选择重试。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            37
+          ],
+          "span_sha256": "76a6a87cc43aae4eb39b992f12e33b92e2ac0c3aee096a85720fb0369dd59425",
+          "citation_ids": [
+            "1ea3e50908d655fa89409b8d",
+            "0f84d44d0ea1e09f7a0cc5a9",
+            "2b4726570c121d109d1add22"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "指南将温度保持 142°C 且不下降列为可能未退料完成的情况，请结合设备提示检查。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            24
+          ],
+          "span_sha256": "ca04d4139fce7b4bd840d5bec4524c0b950a53c19acd015e5e61fb44edf96ced",
+          "citation_ids": [
+            "1ea3e50908d655fa89409b8d",
+            "0f84d44d0ea1e09f7a0cc5a9",
+            "2b4726570c121d109d1add22"
+          ],
+          "editorial_display": true
+        }
+      ]
+    },
+    "unload_external/D5/-": {
+      "task_id": "a1_mini_unload_external_v1",
+      "source_task_revision": "c8812675e87d33477d7327d6abe1a08dfa0eb89e7d5466dab5b9fe4833498c2c",
+      "source_sha256": "d7ff13b694f9cee6cd42767ae91cc23d1cfa7fe136807b4ebe1b6dbde1d28ae5",
+      "step_title": "",
+      "citation_ids": [
+        "1ea3e50908d655fa89409b8d",
+        "0f84d44d0ea1e09f7a0cc5a9",
+        "2b4726570c121d109d1add22",
+        "d9eeab1c5b11e59e35836272"
+      ],
+      "source_refs": {},
+      "blocks": [
+        {
+          "kind": "action",
+          "text": "核对设备反馈，确认当前退料流程已结束，没有仍需抽出耗材的提示；需要换新料时可继续进料指导。",
+          "source_field": "instruction",
+          "source_span": [
+            0,
+            45
+          ],
+          "span_sha256": "90202bdaa626276f82839cbf8fb5c6052ae720ab969a39e2ba0dc368048a085b",
+          "citation_ids": [
+            "1ea3e50908d655fa89409b8d",
+            "0f84d44d0ea1e09f7a0cc5a9",
+            "2b4726570c121d109d1add22",
+            "d9eeab1c5b11e59e35836272"
+          ]
+        },
+        {
+          "kind": "caution",
+          "text": "请根据设备反馈确认退料结束；外部料管看起来为空，并不能证明机内已没有余料。",
+          "source_field": "warnings",
+          "source_span": [
+            0,
+            16
+          ],
+          "span_sha256": "125b6c638df90f25a878532bb377c8979a11ebde9afcf076aeea78bdb5b1a71c",
+          "citation_ids": [
+            "1ea3e50908d655fa89409b8d",
+            "0f84d44d0ea1e09f7a0cc5a9",
+            "2b4726570c121d109d1add22",
+            "d9eeab1c5b11e59e35836272"
+          ],
+          "editorial_display": true
+        }
+      ]
+    }
+  }
+}

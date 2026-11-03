@@ -86,9 +86,9 @@ def package(c):
         '云端视觉服务使用源码中的 deploy/colab/Manual2AR_GPU.ipynb。\n'
         '主页可选择部件认知、操作指导和打印状态检查。\n',encoding='utf-8')
     with (target/'START_HERE_ZH.md').open('a',encoding='utf-8') as guide:
-        guide.write('\nU6/U7 空间指导：Unity 菜单 Manual2AR → 打开 U6 U7 空间指导演示，然后按 Play。\n'
+        guide.write('\n开箱指导：Welcome → 操作指导 → 打印机开箱 → 外挂料盘／单机；U4—U7 可进入空间指导。\n'
                     '先点「模拟回放」验证链路；实机先完成界面内相机标定和起终点设置。\n'
-                    '完整说明见源码 docs/MODULE_TWO_SPATIAL_DEMO.md。\n')
+                    '完整说明见源码 docs/MODULE_TWO_UNBOXING_PROTOTYPE.md。\n')
     archive = output / 'Manual2AR-Unity.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
         for p in sorted(target.rglob('*')):

@@ -40,6 +40,8 @@ class Session:
     reuse: bool
     calibration: dict | None
     targets: dict
+    context: dict = field(default_factory=dict)
+    locating:bool=False
     lock: object = field(default_factory=threading.RLock)
     frames: OrderedDict = field(default_factory=OrderedDict)
     samples: list = field(default_factory=list)
@@ -55,10 +57,11 @@ class Session:
 
 
 class SpatialService:
-    def __init__(self, config, registry, client):
+    def __init__(self, config, registry, client, experience=None):
+        self.experience = experience
         self.config, self.registry, self.client = config, registry, client
         self.store = ResourceStore.configured(config)
-        self.plan = self.store.json('task.unboxing.spatial')
+        self.plan = experience.catalog() if experience else self.store.json('task.unboxing.spatial')
         self.actions = {a['action_id']: a for a in self.plan['actions']}
         self.root = Path(config['runtime_dir']) / 'guidance-spatial'
         self.sessions = {}; self.lock = threading.RLock();self.profile_lock=threading.RLock();self.rig_validity={}
@@ -68,9 +71,19 @@ class SpatialService:
                 'print_url': '/api/guidance/spatial/print.pdf', 'calibration_minimum_views': 12,
                 'profile_note': '标记与打印机必须保持刚性固定；移动标记或打印机可动部件后请重新设置作用点。'}
 
+    def capabilities(self):
+        return {'schema_version':'manual2ar-spatial-capabilities-v1',
+                'capture_contract':'manual2ar-capture-v1','visual_contract':'manual2ar-spatial-visual-v1',
+                'active_providers':['desktop_rgb','synthetic'],'reserved_providers':['arkit'],
+                'native_ar_available':False,'depth_required':False,
+                'placement_method':'calibrated_marker_and_explicit_two_view_authoring',
+                'render_identity':'client_frame_id + source_sha256; upright_unmirrored pixels',
+                'coordinate_convention':self.plan['coordinate_convention']}
+
     def profile(self, name, identity):return self.root / 'profiles' / name / (identity + '.json')
 
     def begin(self, command):
+        context = self.experience.context(command.tutorial_run_id) if command.tutorial_run_id and self.experience else {}
         with self.lock:expired=[k for k,s in self.sessions.items() if time.monotonic()-s.touched>1200]
         for identity in expired:self.close(identity)
         with self.lock:
@@ -84,6 +97,7 @@ class SpatialService:
                 calibration, targets = replay_calibration(), replay_targets(self.actions)
             session = Session(identity, command.camera_id, command.rig_id, command.mode,
                               command.reuse_targets or command.mode == 'replay', calibration, targets)
+            session.context = context
             session.authorized=set(targets) if session.reuse else set()
             if command.mode!='replay':
                 with self.profile_lock:
@@ -92,7 +106,7 @@ class SpatialService:
             self.sessions[identity] = session
             self.event(session, 'session.begin', {'mode': command.mode, 'reuse_targets': session.reuse})
             return {'session_id': identity, 'calibrated': calibration is not None, 'mode': command.mode,
-                    'has_saved_targets': bool(targets), 'target_reuse_confirmed': session.reuse}
+                    'has_saved_targets': bool(targets), 'target_reuse_confirmed': session.reuse, 'tutorial_context': context}
 
     @contextmanager
     def session(self, identity):
@@ -101,13 +115,14 @@ class SpatialService:
             if s is None:raise HTTPException(404, '空间指导已关闭，请重新打开。')
         with s.lock:
             if s.closed:raise HTTPException(409, '空间指导已关闭。')
+            if s.context:self.experience.context(s.context['tutorial_run_id'])
             s.touched = time.monotonic()
             yield s
 
     def event(self, s, name, data):
         folder=self.root/'runs'/s.identity;folder.mkdir(parents=True,exist_ok=True)
         with (folder/'events.jsonl').open('a',encoding='utf-8') as f:
-            f.write(json.dumps({'event':name,'time':time.time(),**data},ensure_ascii=False)+'\n')
+            f.write(json.dumps({'event':name,'time':time.time(),**s.context,**data},ensure_ascii=False)+'\n')
 
     def close(self, identity):
         with self.lock:s=self.sessions.pop(identity,None)
@@ -141,6 +156,12 @@ class SpatialService:
         except Exception:raise HTTPException(422,'图像无效，请使用摄像头原始拍摄画面。') from None
         h,w=pixels.shape[:2]
         with self.session(identity) as s:
+            snapshot=request.snapshot
+            if snapshot:
+                if snapshot.provider_id!=('synthetic' if s.mode=='replay' else 'desktop_rgb'):
+                    raise HTTPException(422,'当前服务支持 Windows 有标记指导；原生 AR 提供方尚未启用。')
+                if (snapshot.client_frame_id,snapshot.source_sha256,snapshot.width,snapshot.height)!=(request.client_frame_id,request.source_sha256,w,h):
+                    raise HTTPException(409,'空间快照与拍摄图像不匹配，已拒绝显示。')
             if request.client_frame_id<=s.last:raise HTTPException(409,'过期帧已丢弃。')
             if s.size and s.size!=(w,h):raise HTTPException(409,'画幅已变化，请重新启动空间指导并标定当前画幅。')
             s.size=(w,h);s.last=request.client_frame_id
@@ -179,14 +200,14 @@ class SpatialService:
                                     result['target_ready']=True
                             except ValueError:result['state']='target_outside_view'
                         else:result['state']='relocation_required' if key in s.invalidated else 'target_setup_required'
-            s.frames[s.last]={'raw':raw,'pose':pose,'size':(w,h),'sha256':request.source_sha256,'at':time.monotonic(),'action_id':action['action_id'],'target_id':request.target_id,'target_epoch':s.invalidated.get(key,'')}
+            s.frames[s.last]={'raw':raw,'pose':pose,'size':(w,h),'sha256':request.source_sha256,'at':time.monotonic(),'action_id':action['action_id'],'target_id':request.target_id,'target_epoch':s.invalidated.get(key,''),'snapshot':snapshot.model_dump() if snapshot else None}
             while len(s.frames)>80:
                 oldest=next(k for k in s.frames if k not in s.pinned)
                 del s.frames[oldest]
             # No unbounded per-frame images on disk; retain only explicit authoring/check evidence.
             result['processing_ms']=round((time.perf_counter()-started)*1000,2)
             self.event(s,'frame', {**{k:result[k] for k in ['client_frame_id','source_sha256','action_id','target_id','state','processing_ms']},
-                'pose':result['pose'],'target_anchor':result['visual']['anchor'] if result['visual'] else None})
+                'pose':result['pose'],'capture_snapshot':snapshot.model_dump() if snapshot else None,'target_anchor':result['visual']['anchor'] if result['visual'] else None})
             return result
 
     def pin(self,identity,frame_id):
@@ -284,6 +305,8 @@ class SpatialService:
                 frame=s.frames.get(request.client_frame_id)
                 if not frame or frame['sha256']!=request.source_sha256 or frame['action_id']!=request.action_id or frame.get('target_id','main')!=request.target_id:
                     raise HTTPException(409,'交互对应的取景已过期或属于其他位置。')
+            if self.experience:
+                self.experience.record(s.context,s.identity,s.mode,action,request.target_id,request.name)
             self.event(s,'interaction.'+request.name,{**request.model_dump(),'operation_verified':False})
             if request.name=='user_marked' and action.get('invalidates_actions'):
                 with self.profile_lock:
@@ -324,5 +347,31 @@ class SpatialService:
         except Exception:
             raise HTTPException(502,'AI 拍照参考暂不可用，可继续查看其他动作或稍后重试。') from None
         atomic_json(folder/'result.json',{'source_sha256':sha,'prompt_sha256':binding['sha256'],**reply.model_dump()})
+        with self.session(identity) as current:
+            if self.experience:self.experience.record(current.context,identity,current.mode,action,request.target_id,'chapter_advice',{'advice_status':reply.status,'source_sha256':sha})
         return {'action_id':action['action_id'],'target_id':request.target_id,'chapter_id':state.state_id,'source_sha256':sha,
                 'client_frame_id':request.client_frame_id,'advisory_only':True,**reply.model_dump()}
+
+    def locate(self,identity,request):
+        action,instance,_=self.target(request.action_id,request.target_id)
+        with self.session(identity) as s:
+            if s.mode=='replay':raise HTTPException(409,'模拟场景不调用现场部件识别。')
+            if s.locating:raise HTTPException(409,'正在寻找当前部件，请稍候。')
+            frame=s.frames.get(request.client_frame_id)
+            if not frame or time.monotonic()-frame['at']>60 or frame['action_id']!=request.action_id or frame.get('target_id','main')!=request.target_id:
+                raise HTTPException(409,'请重新拍摄当前动作和操作位置。')
+            raw,sha=frame['raw'],frame['sha256'];s.locating=True
+        try:
+            if not self.config['vlm']['api_key'].strip():raise HTTPException(503,'请在 configs/app.local.json 填写 vlm.api_key。')
+            from .localization import locate
+            folder=self.root/'runs'/identity/('locate-'+uuid.uuid4().hex);folder.mkdir(parents=True,exist_ok=True)
+            try:result=locate(self.client,self.config,raw,action,instance,folder)
+            except Exception:raise HTTPException(502,'暂时无法找到这个位置，可对照官方图文或换角度再拍。') from None
+            with self.session(identity) as current:
+                latest=current.frames.get(current.last)
+                if not latest or (latest['action_id'],latest.get('target_id','main'))!=(request.action_id,request.target_id):
+                    raise HTTPException(409,'指导动作已切换，旧定位已丢弃。')
+                if self.experience:self.experience.record(current.context,identity,current.mode,action,request.target_id,'location_preview',{'source_sha256':sha,'localization_status':result['status']})
+            return {**result,'session_id':identity,'source_sha256':sha,'client_frame_id':request.client_frame_id}
+        finally:
+            with s.lock:s.locating=False

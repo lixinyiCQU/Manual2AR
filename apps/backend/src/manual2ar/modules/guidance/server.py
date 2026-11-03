@@ -54,7 +54,7 @@ def create_app(config, client=None, log_root=None):
     from .manage import public
     service = GuidanceService(config, client=client, log_root=log_root)
     from .spatial.router import router as spatial_router
-    spatial_api, spatial = spatial_router(config, service.registry, next(iter(service.engines.values())).client)
+    spatial_api, spatial = spatial_router(config, service.registry, next(iter(service.engines.values())).client, service.experience)
     @asynccontextmanager
     async def lifespan(app):
         yield
@@ -137,6 +137,14 @@ def create_app(config, client=None, log_root=None):
                     image='<br><img style="width:100%;max-width:700px" src="'+escape(record['image_url'],quote=True)+'">' if record.get('image_url') else ''
                     rows.append('<tr><td>'+escape(node.inspection_id)+'</td><td>'+escape(node.verification_channel)+'</td><td>'+escape(record.get('status','not_started'))+'</td><td>'+escape(node.condition)+'<p>'+escape(record.get('evidence',''))+'</p><p>'+escape(record.get('correction',''))+'</p>'+image+'</td></tr>')
             tutorial=''
+            spatial_rows=[]
+            for item in getattr(run, 'spatial_learning', []):
+                label='模拟回放' if item['mode']=='replay' else '实机指导'
+                action=service.experience.actions.get(item['action_id'],{})
+                target=next((t['label'] for t in action.get('target_instances',[]) if t['id']==item['target_id']),'操作位置')
+                event_label={'play':'播放示意','pause':'暂停','replay':'重新播放','animation_finished':'示意结束','user_marked':'用户标记已操作','target_selected':'切换位置','tracking_hidden':'提示已隐藏','chapter_advice':'章级拍照参考','location_preview':'拍照找位置'}.get(item['event'],'指导交互')
+                spatial_rows.append('<tr><td>'+escape(item['chapter_id'])+'</td><td>'+escape(action.get('title','操作指导'))+'</td><td>'+escape(target)+'</td><td>'+label+'</td><td>'+event_label+'</td></tr>')
+            spatial_report=('<h2>空间指导记录</h2><p>播放、用户操作标记与章级拍照建议分别记录；模拟回放不作为实机操作或安装合格的证据。</p><table><tr><th>章节</th><th>动作</th><th>位置</th><th>模式</th><th>事件</th></tr>'+''.join(spatial_rows)+'</table>') if spatial_rows else ''
             if engine.task.params.get('navigation_policy')=='free':
                 engine.ensure(run)
                 rows_intro=[]
@@ -149,7 +157,7 @@ def create_app(config, client=None, log_root=None):
             links=''
             for child in m['receipts']:
                 links+='<li><a href="/api/guidance/runs/'+escape(child['run_id'],quote=True)+'/report">'+escape(child['title'])+'</a> · '+escape(child['status'])+'</li>'
-            return '<!doctype html><meta charset="utf-8"><title>操作指导记录</title><style>body{font:17px sans-serif;background:#081828;color:#e7f7ff;padding:24px}a{color:#36d6eb}td,th{border:1px solid #285066;padding:12px;vertical-align:top}table{border-collapse:collapse}</style><h1>'+escape(service.registry.entry(m['task_id'])['title'])+'</h1><p>任务版本：'+escape(engine.task.revision)+'<br>人工确认与视觉结果分别记录；指导完成不等于成品质量通过。</p>'+tutorial+'<ul>'+links+'</ul><table><tr><th>观察点</th><th>通道</th><th>状态</th><th>条件与证据</th></tr>'+''.join(rows)+'</table>'
+            return '<!doctype html><meta charset="utf-8"><title>操作指导记录</title><style>body{font:17px sans-serif;background:#081828;color:#e7f7ff;padding:24px}a{color:#36d6eb}td,th{border:1px solid #285066;padding:12px;vertical-align:top}table{border-collapse:collapse}</style><h1>'+escape(service.registry.entry(m['task_id'])['title'])+'</h1><p>任务版本：'+escape(engine.task.revision)+'<br>人工确认与视觉结果分别记录；指导完成不等于成品质量通过。</p>'+tutorial+spatial_report+'<ul>'+links+'</ul><table><tr><th>观察点</th><th>通道</th><th>状态</th><th>条件与证据</th></tr>'+''.join(rows)+'</table>'
 
     @app.delete('/api/guidance/runs/{identity}',status_code=204)
     def close(identity:str):

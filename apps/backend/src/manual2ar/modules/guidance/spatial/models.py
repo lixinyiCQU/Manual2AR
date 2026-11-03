@@ -1,5 +1,6 @@
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
+from manual2ar_contracts.spatial import CaptureSnapshot
 
 
 class Strict(BaseModel):
@@ -7,6 +8,7 @@ class Strict(BaseModel):
 
 
 class Begin(Strict):
+    tutorial_run_id: str = Field(default='', pattern=r'^([a-f0-9]{32})?$')
     mode: Literal['camera', 'replay'] = 'camera'
     camera_id: str = Field(pattern=r'^[a-zA-Z0-9_.-]{1,64}$')
     rig_id: str = Field(default='a1-mini', pattern=r'^[a-zA-Z0-9_.-]{1,64}$')
@@ -14,6 +16,7 @@ class Begin(Strict):
 
 
 class Frame(Strict):
+    snapshot:CaptureSnapshot | None = None
     target_id:str=Field(default='main',pattern=r'^[a-z][a-z0-9_]{0,31}$')
     client_frame_id: int = Field(ge=1)
     image_base64: str = Field(min_length=32, max_length=3_000_000)

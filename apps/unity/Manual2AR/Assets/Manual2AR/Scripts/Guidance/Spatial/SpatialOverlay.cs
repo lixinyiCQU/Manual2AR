@@ -10,9 +10,10 @@ namespace Manual2AR.Spatial {
   public event Action<Pixel> Selected;
   public int width=960,height=720;public Segment[] lines=new Segment[0];public Pixel[] corners;
   public GuidanceVisual visual;public Pixel leaderEnd;public float progress;
+  public Outline[] outlines;
   public readonly List<Pixel> picks=new List<Pixel>();
   public bool accepting;
-  public void Clear(){lines=new Segment[0];corners=null;visual=null;leaderEnd=null;picks.Clear();SetVerticesDirty();}
+  public void Clear(){lines=new Segment[0];corners=null;visual=null;leaderEnd=null;outlines=null;picks.Clear();SetVerticesDirty();}
   Vector2 Point(Pixel p){var r=rectTransform.rect;return new Vector2(r.xMin+p.x/width*r.width,r.yMax-p.y/height*r.height);}
   void Line(VertexHelper v,Vector2 a,Vector2 b,Color shade,float thickness){
    if((a-b).sqrMagnitude<.01f)return;Vector2 n=b-a;n=new Vector2(-n.y,n.x).normalized*thickness*.5f;int i=v.currentVertCount;
@@ -20,6 +21,7 @@ namespace Manual2AR.Spatial {
   }
   protected override void OnPopulateMesh(VertexHelper v){
    v.Clear();foreach(var line in lines??new Segment[0]){Line(v,Point(line.a),Point(line.b),new Color(0,.12f,.16f,.9f),9);Line(v,Point(line.a),Point(line.b),AppTheme.TargetCyan,4);}
+   foreach(var outline in outlines??new Outline[0])if(outline.points!=null&&outline.points.Length>2)for(int i=0;i<outline.points.Length;i++)Line(v,Point(outline.points[i]),Point(outline.points[(i+1)%outline.points.Length]),AppTheme.SuccessGreen,3);
    if(corners!=null&&corners.Length==4)for(int i=0;i<4;i++)Line(v,Point(corners[i]),Point(corners[(i+1)%4]),AppTheme.SuccessGreen,2);
    if(visual!=null&&!accepting){
     Vector2 anchor=Point(visual.anchor);Circle(v,anchor,16,AppTheme.TargetCyan,2);
@@ -27,7 +29,16 @@ namespace Manual2AR.Spatial {
     if(visual.kind=="slide"&&visual.trajectory!=null&&visual.trajectory.Length>1){
      float index=Mathf.Clamp01(progress)*(visual.trajectory.Length-1);int i=Mathf.Min((int)index,visual.trajectory.Length-2);
      Vector2 moving=Vector2.Lerp(Point(visual.trajectory[i]),Point(visual.trajectory[i+1]),index-i);
-     Circle(v,moving,7,Color.white,4);Circle(v,moving,11,AppTheme.TargetCyan,2);
+     Vector2 direction=(Point(visual.trajectory[i+1])-Point(visual.trajectory[i])).normalized;
+     if(direction.sqrMagnitude>.5f){
+      Vector2 side=new Vector2(-direction.y,direction.x);
+      // A directional glyph, not a fabricated component model or swept volume.
+      Line(v,moving-direction*32,moving,Color.white,5);
+      Line(v,moving,moving-direction*17+side*12,AppTheme.TargetCyan,6);
+      Line(v,moving,moving-direction*17-side*12,AppTheme.TargetCyan,6);
+      Circle(v,Point(visual.trajectory[0]),10,new Color(1,1,1,.8f),2);
+      Circle(v,Point(visual.trajectory[visual.trajectory.Length-1]),18,AppTheme.TargetCyan,3);
+     }
     }else if(visual.kind=="fasten"||visual.kind=="cut"){
      foreach(var segment in visual.tool_lines??new Segment[0])Line(v,Point(segment.a),Point(segment.b),new Color(1,.78f,.35f,.9f),6);
      Circle(v,anchor,21+Mathf.Sin(progress*Mathf.PI*2)*4,new Color(1,.78f,.35f,.85f),2);

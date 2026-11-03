@@ -3,9 +3,12 @@ using System.Collections;
 using UnityEngine;
 namespace Manual2AR.Spatial {
  /// <summary>One camera owner; fixed upright 4:3 capture is also the calibrated image domain.</summary>
- public sealed class SpatialCamera:MonoBehaviour {
+ public sealed class SpatialCamera:MonoBehaviour,ISpatialFrameSource {
   WebCamTexture webcam;CameraFraming framing;Texture2D capture;float lastFrameAt;
   public bool Ready {get{return webcam!=null&&webcam.isPlaying&&webcam.width>16;}}
+  public string ProviderId {get{return "desktop_rgb";}}
+  public int CaptureWidth {get{return capture==null?0:capture.width;}}
+  public int CaptureHeight {get{return capture==null?0:capture.height;}}
   public string Signature {get{return !Ready?"":webcam.deviceName+"|"+webcam.width+"x"+webcam.height+"|"+webcam.videoRotationAngle+"|"+webcam.videoVerticallyMirrored+"|upright-4:3-960-v1";}}
   public IEnumerator Open(int selected,Action<string> error){
    Close();if(!Application.HasUserAuthorization(UserAuthorization.WebCam))yield return Application.RequestUserAuthorization(UserAuthorization.WebCam);
