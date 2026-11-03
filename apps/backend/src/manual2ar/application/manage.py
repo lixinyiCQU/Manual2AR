@@ -80,14 +80,14 @@ def package(c):
         '# Manual2AR Unity 前端\n\n'
         '在 Unity Hub 中添加本文件夹，使用 Unity 2022.3.34f1 打开。\n'
         '打开 Assets/Manual2AR/Scenes/Welcome.unity，再按 Play。\n\n'
-        '后端位于独立的源码工作树 Manual2AR-Integrated；在 WSL 的源码目录运行 `bash run.sh start`。\n'
+        '后端位于源码工作树 '+ROOT.name+'；在 WSL 的源码目录运行 `bash run.sh start`。\n'
         '本包连接的后端地址为：'+c['backend']['public_url']+'。\n\n'
         'API Key、GPU 连接和其他参数只修改源码目录的 configs/app.local.json；修改后运行 `bash run.sh package` 更新本包。\n'
         '云端视觉服务使用源码中的 deploy/colab/Manual2AR_GPU.ipynb。\n'
         '主页可选择部件认知、操作指导和打印状态检查。\n',encoding='utf-8')
     with (target/'START_HERE_ZH.md').open('a',encoding='utf-8') as guide:
         guide.write('\n开箱指导：Welcome → 操作指导 → 打印机开箱 → 外挂料盘／单机；U4—U7 可进入空间指导。\n'
-                    '先点「模拟回放」验证链路；实机先完成界面内相机标定和起终点设置。\n'
+                    '选择相机；有有效位置时自动循环示意。首次实机使用先完成相机标定和作用点设置。\n'
                     '完整说明见源码 docs/MODULE_TWO_UNBOXING_PROTOTYPE.md。\n')
     archive = output / 'Manual2AR-Unity.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:

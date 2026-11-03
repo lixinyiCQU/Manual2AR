@@ -17,6 +17,20 @@ def targets(actions):
         for index,instance in enumerate(action['target_instances'][1:],1):
             result[key+'::'+instance['id']]={'points_m':[[.09+index*.018,.04,.025],[.09+index*.018,-.02,.025]],
                 'marker_id':MARKER_ID,'marker_length_m':MARKER_LENGTH,'synthetic':True}
+    # Distinct schematic transport screws; a horizontal device-left example.
+    # These values belong only to synthetic replay, never the physical rig store.
+    def set_target(key,first,second):
+        if key.split('::')[0] in actions:
+            result[key]={'points_m':[first,second],'marker_id':MARKER_ID,'marker_length_m':MARKER_LENGTH,'synthetic':True}
+    for suffix,x,y in [('',-.12,.075),('::second',-.08,.075),('::third',-.12,.025),('::fourth',-.08,.025)]:
+        set_target('zlock.remove'+suffix,[x-.025,y+.04,.045],[x,y,.025])
+    set_target('toolhead.tie',[.11,.115,.025],[.11,.055,.025])
+    set_target('toolhead.slide',[.11,.055,.025],[.045,.055,.025])
+    for suffix,x,y in [('',.10,-.055),('::bed',.045,-.095),('::rail',-.10,-.075)]:
+        set_target('packing.foam'+suffix,[x-.015,y,.025],[x+.015,y,.025])
+    for suffix,y in [('',.025),('::second',-.025)]:
+        set_target('holder.base'+suffix,[.135,y+.025,.04],[.09,y,.025])
+    set_target('holder.slide',[.09,.09,.025],[.09,-.045,.025])
     return result
 
 
@@ -42,5 +56,11 @@ def jpeg(index):
     image[mask>0]=cv2.cvtColor(warped,cv2.COLOR_GRAY2BGR)[mask>0]
     target=project([[.07,.05,.025],[.11,.05,.025],[.11,-.06,.025],[.07,-.06,.025]],transform,matrix,distortion).astype(np.int32)
     cv2.fillConvexPoly(image,target,(120,150,160));cv2.polylines(image,[target],True,(210,240,240),2)
+    screws=project([[-.12,.075,.025],[-.08,.075,.025],[-.12,.025,.025],[-.08,.025,.025]],transform,matrix,distortion).astype(int)
+    for point in screws:
+        centre=tuple(point);cv2.circle(image,centre,6,(55,65,70),-1);cv2.circle(image,centre,6,(220,225,225),1)
+    mounting=project([[.09,.025,.025],[.09,-.025,.025]],transform,matrix,distortion).astype(int)
+    for point in mounting:
+        centre=tuple(point);cv2.circle(image,centre,5,(55,65,70),-1);cv2.circle(image,centre,5,(220,225,225),1)
     cv2.putText(image,'SYNTHETIC REPLAY - NOT A PRINTER CHECK',(25,45),cv2.FONT_HERSHEY_SIMPLEX,.65,(220,240,240),1,cv2.LINE_AA)
     return cv2.imencode('.jpg',image,[cv2.IMWRITE_JPEG_QUALITY,92])[1].tobytes()

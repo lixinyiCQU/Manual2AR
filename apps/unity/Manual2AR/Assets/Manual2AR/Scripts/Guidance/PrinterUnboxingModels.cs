@@ -8,7 +8,7 @@ namespace Manual2AR
     }
     [Serializable] public class UnboxingTask { public string task_id,task_revision,title,scope;public UnboxingStep[] steps;public string[] entry_requirements;public UnboxingOfficialSection[] official_sections;public UnboxingOfficialSource official_source; }
     [Serializable] public class UnboxingStep {public string id,title,channel,spatial_mode;public bool optional;public UnboxingSubstep[] substeps;}
-    [Serializable] public class UnboxingSubstep {public string id,title;}
+    [Serializable] public class UnboxingSubstep {public string id,title,display_title;}
     [Serializable] public class UnboxingOfficialSource {public string title,url;}
     [Serializable] public class UnboxingAnimationFrame {public string url,local_file,sha256;public int duration_ms;public float[] uv;}
     [Serializable] public class UnboxingOfficialSection {public string title,url,quote,citation_id,captured_at;}

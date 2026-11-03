@@ -6,7 +6,7 @@
 
 ## 打开演示
 
-源码工作树：`Manual2AR-Li/Manual2AR-Integrated`。继续使用 V1 的
+源码工作树：`Manual2AR-Li/Manual2AR-Spatial-Guidance`。继续使用 V1 的
 `configs/app.local.json`；本功能不需要新的 API Key，也不依赖 GPU 服务。
 只有主动点击「拍照参考」才会调用原来配置的 VLM。
 

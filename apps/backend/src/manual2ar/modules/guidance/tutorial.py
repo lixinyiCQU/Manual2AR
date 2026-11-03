@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from fastapi import HTTPException
 from manual2ar.modules.guidance.task import TaskPackage
 from manual2ar.modules.guidance.engine import GuideService, now
+from .lesson import substep_caption
 
 
 class Substep(BaseModel):
@@ -85,7 +86,7 @@ class TutorialService(GuideService):
     def view(self,run):
         self.ensure(run);value=super().view(run);state=self.state(run);card=self.task.cards[state.state_id]
         selected=run.tutorial_substeps.get(state.state_id,card.substeps[0].id if card.substeps else '')
-        value['substeps']=[{'id':s.id,'title':s.title} for s in card.substeps]
+        value['substeps']=[{'id':s.id,'title':s.title,'display_title':substep_caption(s.title,s.instruction)} for s in card.substeps]
         value['selected_substep_id']=selected
         if selected:
             sub=next(s for s in card.substeps if s.id==selected)

@@ -18,7 +18,6 @@ namespace Manual2AR {
             count=TextAt(root,"",new Vector2(.64f,.94f),new Vector2(.79f,.995f),21);BuildProgress(12);
             ButtonAt(root,"步骤总览",new Vector2(.025f,.845f),new Vector2(.18f,.89f),()=>ShowOverview(false));
             spatialEntry=AppTheme.Button(root,"进入空间指导",new Vector2(.19f,.845f),new Vector2(.40f,.89f),OpenSpatial,AppIcon.Inspect,true);spatialEntry.gameObject.SetActive(false);
-            spatialActions=AppTheme.Button(root,"指导单元",new Vector2(.41f,.845f),new Vector2(.55f,.89f),ShowSpatialActions,AppIcon.Info);spatialActions.gameObject.SetActive(false);
             cancelChild=ButtonAt(root,"结束子任务并返回",new Vector2(.19f,.845f),new Vector2(.55f,.89f),()=>StartCoroutine(CancelChild()));cancelChild.gameObject.SetActive(false);
             photoEntry=AppTheme.Button(root,"拍照参考（可选）",new Vector2(.60f,.845f),new Vector2(.815f,.89f),OpenPhotoReference,AppIcon.Camera);photoEntry.gameObject.SetActive(false);
             restart=ButtonAt(root,"重新开始",new Vector2(.83f,.845f),new Vector2(.975f,.89f),ResetDialog);

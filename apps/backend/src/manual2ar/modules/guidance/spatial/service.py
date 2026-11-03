@@ -19,9 +19,9 @@ import numpy as np
 from fastapi import HTTPException
 from PIL import Image
 from manual2ar.resources import ResourceStore
-from manual2ar_perception.spatial import detect_pose, guide_lines, project, triangulate,visual_geometry
-from manual2ar_contracts.spatial import GuidanceVisual
+from manual2ar_perception.spatial import detect_pose, guide_lines, project, triangulate
 from .printing import MARKER_ID, MARKER_LENGTH, PATTERN, SQUARE
+from .visuals import compose
 
 
 def atomic_json(path, value):
@@ -67,7 +67,7 @@ class SpatialService:
         self.sessions = {}; self.lock = threading.RLock();self.profile_lock=threading.RLock();self.rig_validity={}
 
     def catalog(self):
-        return {**self.plan, 'marker_id': MARKER_ID, 'marker_length_m': MARKER_LENGTH,
+        return {**self.plan, 'visual_revision':'mesh-loop-v2', 'marker_id': MARKER_ID, 'marker_length_m': MARKER_LENGTH,
                 'print_url': '/api/guidance/spatial/print.pdf', 'calibration_minimum_views': 12,
                 'profile_note': '标记与打印机必须保持刚性固定；移动标记或打印机可动部件后请重新设置作用点。'}
 
@@ -122,7 +122,7 @@ class SpatialService:
     def event(self, s, name, data):
         folder=self.root/'runs'/s.identity;folder.mkdir(parents=True,exist_ok=True)
         with (folder/'events.jsonl').open('a',encoding='utf-8') as f:
-            f.write(json.dumps({'event':name,'time':time.time(),**s.context,**data},ensure_ascii=False)+'\n')
+            f.write(json.dumps({'event':name,'time':time.time(),'visual_revision':'mesh-loop-v2',**s.context,**data},ensure_ascii=False)+'\n')
 
     def close(self, identity):
         with self.lock:s=self.sessions.pop(identity,None)
@@ -196,7 +196,7 @@ class SpatialService:
                                     result['state']='target_outside_view'
                                 else:
                                     result['lines']=[{'a':{'x':float(a[0]),'y':float(a[1])},'b':{'x':float(b[0]),'y':float(b[1])}} for a,b in projected]
-                                    result['visual']=GuidanceVisual(**visual_geometry(target['points_m'],action['kind'],pose['transform'],matrix,distortion),label=instance['label']).model_dump()
+                                    result['visual']=compose(action,instance['label'],target['points_m'],pose['transform'],matrix,distortion)
                                     result['target_ready']=True
                             except ValueError:result['state']='target_outside_view'
                         else:result['state']='relocation_required' if key in s.invalidated else 'target_setup_required'
@@ -207,7 +207,8 @@ class SpatialService:
             # No unbounded per-frame images on disk; retain only explicit authoring/check evidence.
             result['processing_ms']=round((time.perf_counter()-started)*1000,2)
             self.event(s,'frame', {**{k:result[k] for k in ['client_frame_id','source_sha256','action_id','target_id','state','processing_ms']},
-                'pose':result['pose'],'capture_snapshot':snapshot.model_dump() if snapshot else None,'target_anchor':result['visual']['anchor'] if result['visual'] else None})
+                'pose':result['pose'],'capture_snapshot':snapshot.model_dump() if snapshot else None,'target_anchor':result['visual']['anchor'] if result['visual'] else None,
+                'asset_id':(result['visual'].get('asset') or {}).get('asset_id') if result['visual'] else None})
             return result
 
     def pin(self,identity,frame_id):
@@ -320,6 +321,26 @@ class SpatialService:
             while len(s.event_ids)>256:s.event_ids.popitem(last=False)
             return {'status':'recorded','duplicate':False,'operation_verified':False,'relocation_required':bool(request.name=='user_marked' and action.get('invalidates_actions'))}
 
+    def vision_anchors(self,s,frame,action,target_id,chapter=False):
+        """Project only explicitly authorized positions using the requested frame pose."""
+        if not frame['pose'] or not s.calibration:return []
+        result=[];matrix=np.array(s.calibration['matrix']);distortion=np.array(s.calibration['distortion'])
+        actions=[a for a in self.actions.values() if a['chapter_id']==action['chapter_id']] if chapter else [action]
+        for unit in actions:
+            for instance in unit['target_instances']:
+                if not chapter and instance['id']!=target_id:continue
+                _,_,key=self.target(unit['action_id'],instance['id']);target=s.targets.get(key)
+                if key not in s.authorized or key in s.invalidated or not target or target.get('marker_id')!=MARKER_ID or target.get('marker_length_m')!=MARKER_LENGTH:continue
+                points=target['points_m'] if unit['kind']=='slide' else [target['points_m'][-1]]
+                try:pixels=project(points,frame['pose']['transform'],matrix,distortion)
+                except ValueError:continue
+                w,h=frame['size']
+                for point in pixels:
+                    if 0<=point[0]<w and 0<=point[1]<h:
+                        result.append({'action_id':unit['action_id'],'target_id':instance['id'],'label':instance['label'],
+                            'point_0_1000':[round(float(point[0])/w*1000),round(float(point[1])/h*1000)]})
+        return result
+
     def verify(self,identity,request):
         action,_,_=self.target(request.action_id,request.target_id)
         if action.get('verification_mode')=='manual':raise HTTPException(409,'本章由用户对照官方说明人工确认，视觉不能判断螺丝松紧；本次未调用 VLM。')
@@ -329,7 +350,7 @@ class SpatialService:
             if not frame or time.monotonic()-frame['at']>60:raise HTTPException(409,'请重新拍摄当前画面。')
             if frame['action_id']!=action['action_id']:raise HTTPException(409,'照片属于其他动作，请重新拍摄。')
             if frame.get('target_id','main')!=request.target_id:raise HTTPException(409,'照片属于其他位置，请重新拍摄。')
-            raw,sha=frame['raw'],frame['sha256']
+            raw,sha=frame['raw'],frame['sha256'];anchors=self.vision_anchors(s,frame,action,request.target_id,chapter=True)
         if not self.config['vlm']['api_key'].strip():raise HTTPException(503,'请在 configs/app.local.json 填写 vlm.api_key。')
         # Reuse the immutable V1 chapter-specific prompt and result contract.
         from ..verification import bound_prompt,result_contract
@@ -338,16 +359,24 @@ class SpatialService:
         prompt,binding=task.prompt(state,node);prompt=bound_prompt(prompt,task.document.task.task_id,state,node)
         contract=result_contract(state.state_id,node.inspection_id)
         folder=self.root/'runs'/identity/('check-'+uuid.uuid4().hex);folder.mkdir(parents=True,exist_ok=True)
+        from .vision_context import prepare,failure
+        images,context,meta=prepare(raw,anchors,folder);prompt+=context
+        if action['chapter_id']=='U7':
+            prompt+='\n消歧约束：目标是固定在打印机 Z 立柱上的白色／浅灰色外挂料盘支架及小底座，排除桌面旁堆叠料卷、蓝色支架和其他装置。只检查底座可见贴合及支架可见接合；连接区域看不清时返回 uncertain，不能仅凭外观完整判定通过。不能判断或要求用照片确认螺丝扭矩。'
         (folder/'input.jpg').write_bytes(raw);(folder/'prompt.txt').write_text(prompt,encoding='utf-8')
+        started=time.perf_counter();self.event(s,'vision.started',{'kind':'chapter_advice','action_id':action['action_id'],'client_frame_id':request.client_frame_id,'source_sha256':sha,'image_count':meta['image_count'],'artifact':folder.name})
         try:
-            reply=contract.model_validate(self.client.chat_structured(prompt=prompt,schema=contract.model_json_schema(),
-                images_base64=[base64.b64encode(raw).decode()],max_tokens=self.config['verification']['max_tokens']))
+            raw_reply=self.client.chat_structured(prompt=prompt,schema=contract.model_json_schema(),images_base64=images,max_tokens=self.config['verification']['max_tokens'])
+            atomic_json(folder/'model_reply.json',raw_reply);reply=contract.model_validate(raw_reply)
             if reply.confidence<self.config['verification']['minimum_confidence']:
                 reply=reply.model_copy(update={'status':'uncertain','next_action':'请补拍清晰的安装区域，或对照官方参考图自行确认。'})
-        except Exception:
+        except Exception as error:
+            details=failure(folder,error);self.event(s,'vision.failed',{'kind':'chapter_advice','artifact':folder.name,'elapsed_ms':round((time.perf_counter()-started)*1000),**details})
             raise HTTPException(502,'AI 拍照参考暂不可用，可继续查看其他动作或稍后重试。') from None
-        atomic_json(folder/'result.json',{'source_sha256':sha,'prompt_sha256':binding['sha256'],**reply.model_dump()})
+        atomic_json(folder/'result.json',{'source_sha256':sha,'official_prompt_sha256':binding['sha256'],
+            'prompt_sha256':hashlib.sha256(prompt.encode()).hexdigest(),**reply.model_dump()})
         with self.session(identity) as current:
+            self.event(current,'vision.finished',{'kind':'chapter_advice','artifact':folder.name,'status':reply.status,'source_sha256':sha,'elapsed_ms':round((time.perf_counter()-started)*1000)})
             if self.experience:self.experience.record(current.context,identity,current.mode,action,request.target_id,'chapter_advice',{'advice_status':reply.status,'source_sha256':sha})
         return {'action_id':action['action_id'],'target_id':request.target_id,'chapter_id':state.state_id,'source_sha256':sha,
                 'client_frame_id':request.client_frame_id,'advisory_only':True,**reply.model_dump()}
@@ -360,17 +389,22 @@ class SpatialService:
             frame=s.frames.get(request.client_frame_id)
             if not frame or time.monotonic()-frame['at']>60 or frame['action_id']!=request.action_id or frame.get('target_id','main')!=request.target_id:
                 raise HTTPException(409,'请重新拍摄当前动作和操作位置。')
-            raw,sha=frame['raw'],frame['sha256'];s.locating=True
+            raw,sha=frame['raw'],frame['sha256'];anchors=self.vision_anchors(s,frame,action,request.target_id);s.locating=True
         try:
             if not self.config['vlm']['api_key'].strip():raise HTTPException(503,'请在 configs/app.local.json 填写 vlm.api_key。')
             from .localization import locate
+            from .vision_context import failure
             folder=self.root/'runs'/identity/('locate-'+uuid.uuid4().hex);folder.mkdir(parents=True,exist_ok=True)
-            try:result=locate(self.client,self.config,raw,action,instance,folder)
-            except Exception:raise HTTPException(502,'暂时无法找到这个位置，可对照官方图文或换角度再拍。') from None
+            started=time.perf_counter();self.event(s,'vision.started',{'kind':'location','artifact':folder.name,'action_id':action['action_id'],'client_frame_id':request.client_frame_id,'source_sha256':sha,'has_authored_context':bool(anchors)})
+            try:result=locate(self.client,self.config,raw,action,instance,folder,anchors)
+            except Exception as error:
+                details=failure(folder,error);self.event(s,'vision.failed',{'kind':'location','artifact':folder.name,'elapsed_ms':round((time.perf_counter()-started)*1000),**details})
+                raise HTTPException(502,'暂时无法找到这个位置，请靠近安装区域或换角度再拍。') from None
             with self.session(identity) as current:
                 latest=current.frames.get(current.last)
                 if not latest or (latest['action_id'],latest.get('target_id','main'))!=(request.action_id,request.target_id):
                     raise HTTPException(409,'指导动作已切换，旧定位已丢弃。')
+                self.event(current,'vision.finished',{'kind':'location','artifact':folder.name,'status':result['status'],'source_sha256':sha,'elapsed_ms':round((time.perf_counter()-started)*1000)})
                 if self.experience:self.experience.record(current.context,identity,current.mode,action,request.target_id,'location_preview',{'source_sha256':sha,'localization_status':result['status']})
             return {**result,'session_id':identity,'source_sha256':sha,'client_frame_id':request.client_frame_id}
         finally:

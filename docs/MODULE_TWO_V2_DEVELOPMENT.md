@@ -40,7 +40,7 @@ V2 的核心交互是“找到位置 → 看懂动作 → 自己操作 → 自�
 
 《Guided Reality》是 UIST 2025 工作，而不是按当前日期计算的两年前工作。论文第 3、5 节提出五类指导：高亮、移动示意、手势、工具示意、情境控件。第 5.1 节强调保存请求时的深度与相机位姿。移动示意可以来自分割图片在空间平面上的动画，不要求完整重建机器。
 
-本项目用已审核的官方 Wiki 确定步骤与方向，不让 LLM 自由重写开箱流程。LLM 辅助现场目标识别和解释，空间锚点及动作参数须有可验证的几何来源。论文的按步请求与人工导航不等于自动动作验收。[作者项目页](https://ryosuzuki.org/guided-reality/)，本地原文：`../Guided Reality.pdf`，重点阅读第 4–8、12、14–15 页。
+本项目用已审核的官方 Wiki 确定步骤与方向，不让 LLM 自由重写开箱流程。LLM 辅助现场目标识别和解释，空间锚点及动作参数须有可验证的几何来源。论文的按步请求与人工导航不等于自动动作验收。[作者项目页](https://ryosuzuki.org/guided-reality/)，本地原文：`../References/Guided Reality.pdf`，重点阅读第 4–8、12、14–15 页。
 
 ### 2.2 2026 年可利用的能力及采用决定
 
@@ -550,7 +550,7 @@ summary.json             耗时、错误分类、空间误差与覆盖情况
 ## 21. 参考资料与证据等级
 
 - [公开 Unity 版本](https://github.com/AdaZhao1211/Guided-Reality-Unity)，许可与平台差异见第 20 节。
-- 本地论文：`../Guided Reality.pdf`，UIST 2025。论文实验结果不作为本系统性能承诺。
+- 本地论文：`../References/Guided Reality.pdf`，UIST 2025。论文实验结果不作为本系统性能承诺。
 - [作者项目页](https://ryosuzuki.org/guided-reality/)、[第一作者页面](https://adazhao.info/GuidedReality)。
 - [官方开箱 Wiki](https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo)。本手册具体动作依据项目固定离线快照，不声称已比较官网所有后续更新。
 - [Unity AR Foundation 5.1 相机](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/features/camera.html)、[图像跟踪](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@5.1/manual/features/image-tracking.html)。

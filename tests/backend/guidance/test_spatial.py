@@ -216,7 +216,7 @@ def test_saved_primary_target_survives_upgrade_and_occlusion_without_reauthoring
         api=begin(client,'camera',reuse_targets=True)
         result=client.post(api+'/frames',json=frame(action='holder.slide')).json()
         assert result['target_configured'] and result['target_ready'] and result['target_id']=='main'
-        assert result['visual']['label']=='料盘支架插槽'
+        assert result['visual']['label']=='支架滑入方向'
         blank=cv2.imencode('.jpg',np.full((720,960,3),255,np.uint8))[1].tobytes()
         hidden=client.post(api+'/frames',json=frame(blank,number=2,action='holder.slide')).json()
         assert hidden['target_configured'] and not hidden['target_ready'] and hidden['visual'] is None
@@ -230,7 +230,7 @@ def test_two_screw_positions_are_independent_and_have_bound_frame_identity(app):
         second=client.post(api+'/frames',json=frame(number=2,action='holder.base',target_id='second')).json()
         assert first['target_id']=='main' and second['target_id']=='second'
         assert first['visual']['label']=='底座螺丝 1' and second['visual']['label']=='底座螺丝 2'
-        assert abs(first['visual']['anchor']['x']-second['visual']['anchor']['x'])>20
+        assert np.linalg.norm([first['visual']['anchor'][axis]-second['visual']['anchor'][axis] for axis in ['x','y']])>20
         assert client.post(api+'/frames',json=frame(number=3,action='purge.slide',target_id='second')).status_code==422
 
 

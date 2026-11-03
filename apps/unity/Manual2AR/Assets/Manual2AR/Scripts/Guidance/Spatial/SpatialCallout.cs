@@ -15,6 +15,15 @@ namespace Manual2AR.Spatial {
    root.sizeDelta=new Vector2(width,height);label.text=AppTheme.Readable(visual.label);
    float x=visual.anchor.x/overlay.width*size.x,y=(1-visual.anchor.y/overlay.height)*size.y;
    float left=Mathf.Clamp(x+28,5,Mathf.Max(5,size.x-width-5));float centre=Mathf.Clamp(y+45,height*.5f+5,size.y-height*.5f-5);
+   if(SpatialAssetGraphic.HasPlacement(visual)){
+    Vector3 tail=SpatialAssetGraphic.Transform(visual.asset.marker_from_asset,new Vector3(0,-1,0));Vector2 tailPixel;float depth;
+    if(SpatialAssetGraphic.Project(visual.projection,tail,out tailPixel,out depth)){
+     // Put the label on the other side of the tool, never over the handle/shaft.
+     float offset=tailPixel.y<visual.anchor.y?-55:55;
+     centre=Mathf.Clamp(y+offset,height*.5f+5,size.y-height*.5f-5);
+     left=Mathf.Clamp(x+55,5,Mathf.Max(5,size.x-width-5));
+    }
+   }
    root.anchoredPosition=new Vector2(left,centre);root.gameObject.SetActive(true);
    overlay.leaderEnd=new Pixel(left/size.x*overlay.width,(1-centre/size.y)*overlay.height);
   }

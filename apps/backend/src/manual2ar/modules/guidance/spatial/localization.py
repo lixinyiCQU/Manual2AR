@@ -7,6 +7,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from manual2ar_contracts.perception import GuidanceTarget
 from manual2ar_perception.segmentation import ComponentMaskTracker
+from .vision_context import prepare,write
 
 
 class LocatedTarget(BaseModel):
@@ -15,6 +16,8 @@ class LocatedTarget(BaseModel):
     target_id:str
     status:Literal['found','unseen','uncertain']
     confidence:float=Field(ge=0,le=1)
+    evidence:str=Field(default='',max_length=1200)
+    next_action:str=Field(default='',max_length=800)
     bbox_0_1000:list[int]=Field(max_length=4)
     foreground_point_0_1000:list[int]=Field(max_length=2)
 
@@ -33,7 +36,8 @@ def prompt_for(action,instance):
     binding={'action_id':action['action_id'],'target_id':instance['id'],
         'official_instruction':action['instruction'],'official_quote':action['official_text'],
         'target_components':action['target_components'],'selected_target':instance['label'],
-        'tool_type':action['tool_type']}
+        'tool_type':action['tool_type'],
+        'task_specific_localization':action.get('localization_context','')}
     return ('Locate the CURRENTLY VISIBLE target for this Bambu Lab A1 mini instruction. '
         'This request helps a learner FIND the location; it is NOT installation verification. '
         'Do not judge completion, torque or tool safety; do not infer metric 3D positions. '
@@ -44,19 +48,28 @@ def prompt_for(action,instance):
         'with empty arrays. Do not invent a location. '
         'bbox_0_1000 is [left,top,right,bottom], top-left origin, normalized 0..1000. '
         'foreground_point_0_1000 must lie INSIDE visible target material and the box. '
+        'Describe evidence and a concrete recapture suggestion in Chinese using evidence and next_action. '
         'Echo action_id and target_id exactly. Binding: '+json.dumps(binding,ensure_ascii=False))
 
 
-def locate(client,config,raw,action,instance,folder):
+def locate(client,config,raw,action,instance,folder,anchors=None):
     prompt=prompt_for(action,instance)
+    images,context,_=prepare(raw,anchors or [],folder);prompt+=context
     (folder/'input.jpg').write_bytes(raw);(folder/'prompt.txt').write_text(prompt,encoding='utf-8')
-    answer=LocatedTarget.model_validate(client.chat_structured(prompt=prompt,
-        schema=LocatedTarget.model_json_schema(),images_base64=[base64.b64encode(raw).decode()],
-        max_tokens=min(1600,config['verification']['max_tokens'])))
+    reply=client.chat_structured(prompt=prompt,schema=LocatedTarget.model_json_schema(),images_base64=images,
+        max_tokens=min(1600,config['verification']['max_tokens']))
+    write(folder/'model_reply.json',reply);answer=LocatedTarget.model_validate(reply)
     if (answer.action_id,answer.target_id)!=(action['action_id'],instance['id']):
         raise ValueError('Grounding belongs to another action or target')
     if answer.confidence<config['verification']['minimum_confidence']:
         answer=answer.model_copy(update={'status':'uncertain','bbox_0_1000':[],'foreground_point_0_1000':[]})
+    if answer.status=='found' and anchors:
+        x,y,r,b=answer.bbox_0_1000
+        if not any(x<=hint['point_0_1000'][0]<=r and y<=hint['point_0_1000'][1]<=b for hint in anchors):
+            answer=answer.model_copy(update={'status':'uncertain','bbox_0_1000':[],'foreground_point_0_1000':[],
+                'evidence':'候选部件与当前设定的操作位置不一致。','next_action':'请核对作用点，或靠近安装区域换角度补拍。'})
+    if not answer.evidence:answer=answer.model_copy(update={'evidence':'已找到候选位置，请对照实物。' if answer.status=='found' else '当前照片无法明确辨认所选位置。'})
+    if not answer.next_action:answer=answer.model_copy(update={'next_action':'可返回实时画面继续。' if answer.status=='found' else action.get('capture_guidance','请靠近目标、换角度再拍。')})
     pixels=cv2.imdecode(np.frombuffer(raw,np.uint8),cv2.IMREAD_COLOR);height,width=pixels.shape[:2]
     result={**answer.model_dump(),'width':width,'height':height,'box_lines':[],'outlines':[],
         'purpose':'localization_preview','coordinate_space':'image_pixels','metric_placement':False,

@@ -125,7 +125,7 @@
       "title": "安装料盘支架底座",
       "kind": "fasten",
       "instruction": "使用两颗 M3-8 螺丝固定料盘支架底座，注意官方图示方向。可分别选择螺丝 1 和螺丝 2 查看位置示意。",
-      "authoring_instruction": "第一点：螺丝刀手柄方向的一点；第二点：底座的一颗螺丝中心。",
+      "authoring_instruction": "先把扳手插在当前螺丝上并保持不动。第一点选长杆外端，第二点选螺丝中心；换视角时仍选同一对点。",
       "reference_images": [
         "references/a9a63e8f81e4971f.png",
         "references/7f6374cbdab2f5f2.png",
@@ -160,7 +160,19 @@
       "verification_mode": "vision",
       "anchor_scope": "static_setup",
       "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
-      "playback_caption": "先找到标记的螺丝，再对照官方参考图固定；工具轮廓只作对准示意。"
+      "playback_caption": "将内六角工具对准当前底座螺丝，按官方图示固定底座；旋转只表示拧紧动作，不表示要求的角度或扭矩。",
+      "visual_guidance": {
+        "asset_id": "hex_key",
+        "motion": "tighten",
+        "scale_policy": "authored_axis_illustration"
+      },
+      "authoring_points": [
+        "扳手长杆外端",
+        "当前螺丝中心"
+      ],
+      "capture_guidance": "拍清底座安装面、当前螺丝和定位纸；被支架挡住时请换角度。",
+      "ready_hint": "对准底座螺丝 · 自动循环示意",
+      "localization_context": "Locate only an actually visible M3-8 screw fixing the small external spool-holder base at the Z-column mounting area. Do not select a transport lock, rail, printer-foot screw, spindle arm or the entire printer. The two screw IDs are user-assigned setup labels, NOT image-left/right or top/bottom labels. If this specific screw cannot be disambiguated, or the installed holder hides it, return uncertain/unseen. Do not invent an occluded screw. The intended holder is the WHITE/LIGHT-GREY plastic bracket physically attached to the printer Z column. Background stacks of spools, blue fixtures, AMS units, the display and build plate are excluded. Use any provided user-authored hint to resolve instance identity, but reject a hint if the actual object is absent or different."
     },
     {
       "action_id": "holder.slide",
@@ -168,7 +180,7 @@
       "title": "从上向下滑入料盘支架",
       "kind": "slide",
       "instruction": "从上向下滑入料盘支架，确保方向与插槽匹配。",
-      "authoring_instruction": "第一点：插槽上方的起点；第二点：支架滑入到底的位置。",
+      "authoring_instruction": "在底座同一条可见的竖直导向边上，第一点选上端角点，第二点选下端角点；不点空中或被遮挡的位置。",
       "reference_images": [
         "references/a9a63e8f81e4971f.png",
         "references/7f6374cbdab2f5f2.png",
@@ -189,7 +201,7 @@
       "target_instances": [
         {
           "id": "main",
-          "label": "料盘支架插槽"
+          "label": "支架滑入方向"
         }
       ],
       "editorial_decomposition": true,
@@ -197,7 +209,19 @@
       "verification_mode": "vision",
       "anchor_scope": "static_setup",
       "relocation_note": "移动过定位纸、打印机或相关部件后，请重新设置受影响的位置。",
-      "playback_caption": "从上向下滑入料盘支架，确保方向与插槽匹配。"
+      "playback_caption": "按官方图示从上向下滑入料盘支架，并确认方向匹配；箭头沿已选导向边示意，不代表隐藏卡扣位置或滑动距离。",
+      "visual_guidance": {
+        "asset_id": "movement_arrow",
+        "motion": "translate",
+        "scale_policy": "authored_axis_illustration"
+      },
+      "authoring_points": [
+        "导向边上端",
+        "同一导向边下端"
+      ],
+      "capture_guidance": "从侧面拍清底座导向边和定位纸；已装好的支架无需拆下。",
+      "ready_hint": "沿导向边向下滑入",
+      "localization_context": "Locate the actually visible receiving slot/guide on the small fixed external spool-holder BASE beside the Z column, not the horizontal spool-support arm or a rail. If an already-installed holder hides the slot, return unseen/uncertain; do not infer an invisible latch or final seating point. Manual setup may use an exposed vertical guide edge only for an illustrative downward direction. The intended holder is the WHITE/LIGHT-GREY plastic bracket physically attached to the printer Z column. Background stacks of spools, blue fixtures, AMS units, the display and build plate are excluded. Use any provided user-authored hint to resolve instance identity, but reject a hint if the actual object is absent or different."
     },
     {
       "action_id": "zlock.remove",
@@ -255,7 +279,12 @@
       "anchor_scope": "transport_lock",
       "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
       "applicability_note": "已完成开箱的设备可直接浏览官方图文，不要为演示重新装回运输固定件。",
-      "playback_caption": "拧下 Z 轴运输限制器的四颗螺丝，解锁 Z 轴。"
+      "playback_caption": "拧下 Z 轴运输限制器的四颗螺丝，解锁 Z 轴。",
+      "visual_guidance": {
+        "asset_id": "hex_key",
+        "motion": "loosen",
+        "scale_policy": "authored_axis_illustration"
+      }
     },
     {
       "action_id": "toolhead.tie",
@@ -294,7 +323,12 @@
       "anchor_scope": "toolhead",
       "relocation_note": "热床或工具头等部件移动后，相关作用点需重新设置；相机标定不因此失效。",
       "applicability_note": "已完成开箱的设备可直接浏览官方图文，不要为演示重新装回运输固定件。",
-      "playback_caption": "对照官方图找到工具头周围的运输扎带，剪断并取下；不要把相邻线束作为扎带。"
+      "playback_caption": "对照官方图找到工具头周围的运输扎带，剪断并取下；不要把相邻线束作为扎带。",
+      "visual_guidance": {
+        "asset_id": "scissors",
+        "motion": "cut",
+        "scale_policy": "authored_axis_illustration"
+      }
     },
     {
       "action_id": "toolhead.slide",
@@ -338,7 +372,12 @@
         "toolhead.tie",
         "toolhead.slide",
         "packing.foam"
-      ]
+      ],
+      "visual_guidance": {
+        "asset_id": "movement_arrow",
+        "motion": "translate",
+        "scale_policy": "authored_axis_illustration"
+      }
     },
     {
       "action_id": "packing.foam",

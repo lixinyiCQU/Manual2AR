@@ -18,6 +18,9 @@ def main():
     shutil.copyfile(ROOT/'docs/MODULE_TWO_SPATIAL_PROGRESS.md',target/'实测审计与更新.md')
     shutil.copyfile(ROOT/'docs/UNBOXING_SPATIAL_EXTENSION.md',target/'开箱扩展说明.md')
     shutil.copyfile(ROOT/'docs/MODULE_TWO_UNBOXING_PROTOTYPE.md',target/'模块二开箱原型.md')
+    shutil.copyfile(ROOT/'docs/U4_VISUAL_GUIDANCE.md',target/'U4视觉指导.md')
+    shutil.copyfile(ROOT/'docs/U7_VISUAL_GUIDANCE.md',target/'U7实测说明.md')
+    shutil.copyfile(ROOT/'docs/U7_TEST_REVIEW.md',target/'U7测试审计与更新.md')
     shutil.copyfile(ROOT/'deploy/windows/Start-Desktop.ps1',target/'Start-Desktop.ps1')
     launcher=b'@echo off\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Desktop.ps1"'
     (target/'启动空间演示.cmd').write_bytes(launcher+b' -SpatialDemo\r\nif errorlevel 1 pause\r\n')
@@ -43,6 +46,11 @@ def main():
         'deploy/windows/Start-Desktop.ps1',
         'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Common/WindowsLocalBootstrap.cs',
         'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Common/WindowsLocalBootstrap.cs.meta'])
+    paths.extend(ROOT/p for p in ['docs/U4_VISUAL_GUIDANCE.md','docs/U7_VISUAL_GUIDANCE.md','tests/backend/guidance/test_visual_assets.py',
+        'tools/assets/guided_reality.py','apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Editor/GuidanceLocalAssetImport.cs'])
+    paths.extend(ROOT/p for p in ['docs/U7_TEST_REVIEW.md','tests/backend/guidance/test_vision_context.py',
+        'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Common/AppDropdown.cs',
+        'apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Common/AppDropdown.cs.meta'])
     sources={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
     proof_path=builds/'validation-camera-fix/hardware-proof.json'
     proof=json.loads(proof_path.read_text()) if proof_path.is_file() else {}
@@ -53,6 +61,8 @@ def main():
         'changes_committed':False,'source_sha256':sources,'backend_url':config['backend']['public_url'],
         'physical_camera_tested':capture_tested,'physical_spatial_accuracy_tested':False,'real_vlm_calls_in_validation':0,
         'validation_folders':[p.name for p in sorted(builds.glob('validation-spatial-*'))]}
+    local=ROOT/'apps/unity/Manual2AR/Assets/Manual2AR/Resources/GuidanceLocal/provenance.json'
+    manifest['local_reference_assets']=json.loads(local.read_text()) if local.is_file() else None
     (target/'delivery.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     archive=shutil.make_archive(str(builds/'Manual2AR-Windows'),'zip',target.parent,target.name)
     print(archive)

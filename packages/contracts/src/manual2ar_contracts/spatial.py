@@ -49,6 +49,23 @@ class Line(BaseModel):
     b:Pixel
 
 
+class SpatialProjection(BaseModel):
+    """Frozen OpenCV projection, paired with the enclosing RGB frame identity."""
+    model_config=ConfigDict(extra='forbid',allow_inf_nan=False)
+    camera_from_marker:list[float]=Field(min_length=16,max_length=16)
+    intrinsics:list[float]=Field(min_length=9,max_length=9)
+    distortion:list[float]=Field(min_length=4,max_length=8)
+
+
+class GuidanceAsset(BaseModel):
+    """Metre placement; asset local origin is its functional tip, +Y into target."""
+    model_config=ConfigDict(extra='forbid',allow_inf_nan=False)
+    asset_id:Literal['hex_key','scissors','movement_arrow']
+    marker_from_asset:list[float]=Field(min_length=16,max_length=16)
+    motion:Literal['loosen','tighten','cut','translate','static']='static'
+    translation_m:list[float]=Field(default_factory=lambda:[0.,0.,0.],min_length=3,max_length=3)
+
+
 class GuidanceVisual(BaseModel):
     model_config=ConfigDict(extra='forbid')
     schema_version:Literal['manual2ar-spatial-visual-v1']='manual2ar-spatial-visual-v1'
@@ -57,6 +74,9 @@ class GuidanceVisual(BaseModel):
     anchor:Pixel
     trajectory:list[Pixel]=Field(default_factory=list,max_length=65)
     tool_lines:list[Line]=Field(default_factory=list,max_length=64)
+    # Additive: old clients retain their line reference; new clients project meshes.
+    projection:SpatialProjection|None=None
+    asset:GuidanceAsset|None=None
     # The animation is explanatory, not an observation of a user's movement.
     illustrative_only:Literal[True]=True
-    duration_seconds:float=Field(default=3,ge=1,le=10,allow_inf_nan=False)
+    duration_seconds:float=Field(default=1.2,ge=.5,le=10,allow_inf_nan=False)

@@ -17,7 +17,7 @@ namespace Manual2AR
         GameObject catalogPanel,actionsPanel;Text catalogStatus;Button resume,cancelChild;
         readonly List<Button> taskButtons=new List<Button>();readonly List<Texture2D> thumbnails=new List<Texture2D>();
         int catalogGeneration;
-        Button spatialEntry,spatialActions;
+        Button spatialEntry;
         RectTransform responseArea;int textLayoutGeneration;Vector2 lastDisplaySize;float lastDisplayScale=-1;bool fittingText;
         Text captureHelp,checkTarget,manualHelp;RectTransform instructionCard,substepTabs;GameObject manualPanel;
         Texture2D modalTexture;string presentationKey="";readonly List<Texture2D> animationTextures=new List<Texture2D>();
@@ -121,11 +121,12 @@ namespace Manual2AR
             foreach(Transform child in substepTabs){child.gameObject.SetActive(false);Destroy(child.gameObject);}
             var steps=Current.substeps??new UnboxingSubstep[0];substepTabs.gameObject.SetActive(steps.Length>0);
             var scroll=body.parent.parent.GetComponent<RectTransform>();scroll.anchorMax=new Vector2(.975f,steps.Length>0?.75f:.87f);
-            for(int i=0;i<steps.Length;i++){
-                var sub=steps[i];float width=1f/steps.Length;
-                var button=ButtonAt(substepTabs,"分步骤 "+(i+1),new Vector2(i*width,.08f),new Vector2((i+1)*width-.015f,.92f),()=>StartCoroutine(BrowseStep(run.state_id,sub.id)));
-                if(sub.id==Current.selected_substep_id)button.GetComponent<Image>().color=new Color(.02f,.26f,.32f);
-            }
+            if(steps.Length==0)return;
+            var dropdown=AppDropdown.Create(substepTabs,"Substep selector",new Vector2(0,.08f),new Vector2(1,.92f));
+            var names=new List<string>();int selected=0;
+            for(int i=0;i<steps.Length;i++){names.Add("分步骤 "+(i+1)+(string.IsNullOrEmpty(steps[i].display_title)?"":" · "+steps[i].display_title));if(steps[i].id==Current.selected_substep_id)selected=i;}
+            dropdown.AddOptions(names);dropdown.SetValueWithoutNotify(selected);dropdown.RefreshShownValue();
+            dropdown.onValueChanged.AddListener(index=>{if(busy){dropdown.SetValueWithoutNotify(selected);return;}StartCoroutine(BrowseStep(run.state_id,steps[index].id));});
         }
         IEnumerator BrowseStep(string state,string substep)
         {
@@ -185,7 +186,7 @@ namespace Manual2AR
             if(presentationKey!=key){ClosePhotoReference();shownState="";photoIndex=0;referenceImage.uvRect=new Rect(0,0,1,1);presentationKey=key;}
             base.Apply(incoming);catalogPanel.SetActive(false);BindTaskBack();BuildActions(incoming);BuildSubsteps();
             bool hasSpatial=incoming.spatial_guidance!=null&&incoming.spatial_guidance.available&&!incoming.completed;
-            spatialEntry.gameObject.SetActive(hasSpatial);spatialActions.gameObject.SetActive(hasSpatial);
+            spatialEntry.gameObject.SetActive(hasSpatial);
             count.text=run.completed?"本任务已完成":"第 "+(run.step_index+1)+" / "+run.step_count+" 步";
             bool visual=Array.Exists(run.observations??new UnboxingObservation[0],n=>n.channel=="vision")&&!run.completed;
             cameraPanel.SetActive(visual);manualPanel.SetActive(false);placeholder.SetActive(false);photoEntry.gameObject.SetActive(visual);
@@ -242,14 +243,6 @@ namespace Manual2AR
             if(Current==null||Current.spatial_guidance==null||!Current.spatial_guidance.available)return;
             var guidance=Current.spatial_guidance;
             OpenSpatialAction(guidance.current_action_ids!=null&&guidance.current_action_ids.Length>0?guidance.current_action_ids[0]:guidance.actions[0].action_id);
-        }
-        void ShowSpatialActions(){
-            if(busy||Current==null||Current.spatial_guidance==null)return;CloseModal();
-            modal=Frame("选择指导单元",root,new Vector2(.15f,.19f),new Vector2(.85f,.81f)).gameObject;
-            TextAt(modal.transform,"先找到位置，再对照官方图理解动作",new Vector2(.05f,.83f),new Vector2(.95f,.96f),28).color=Cyan;
-            var actions=Current.spatial_guidance.actions;
-            for(int i=0;i<actions.Length;i++){var action=actions[i];float y=.68f-i*.155f;ButtonAt(modal.transform,action.title,new Vector2(.06f,y),new Vector2(.94f,y+.12f),()=>OpenSpatialAction(action.action_id));}
-            ButtonAt(modal.transform,"返回图文",new Vector2(.65f,.025f),new Vector2(.94f,.12f),CloseModal);
         }
         void OpenSpatialAction(string actionId){
             if(busy||run==null)return;ClosePhotoReference();StopCamera();CloseModal();root.gameObject.SetActive(false);

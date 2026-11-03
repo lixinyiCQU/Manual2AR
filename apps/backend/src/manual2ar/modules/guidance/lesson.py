@@ -11,6 +11,16 @@ TITLES={'scope':'适用版本','precondition':'操作前注意','action':'操作
         'materials':'配件清单','caution':'注意事项','note':'补充说明'}
 
 
+def substep_caption(title,instruction):
+    """Readable source excerpt; retain the immutable original heading separately."""
+    def clean(value):return re.sub(r'^\s*\d+\s*[.)、．：:]*\s*','',value.strip())
+    value=clean(title)
+    if len(value)<2:
+        value=next((clean(line) for line in instruction.splitlines() if clean(line)),'')
+    value=re.split(r'[。；\n]',value,maxsplit=1)[0]
+    return value if len(value)<=36 else value[:36]+'…'
+
+
 def source_fields(presentation, task, refs=None):
     result={key:presentation.get(key,'') or '' for key in ('instruction','chapter_context','applicability_note')}
     for key in ('warnings','tools','materials'):

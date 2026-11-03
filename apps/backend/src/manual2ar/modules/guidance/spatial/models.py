@@ -54,7 +54,7 @@ class Interaction(Strict):
     event_id:str=Field(pattern=r'^[a-f0-9]{32}$')
     action_id:str=Field(min_length=1,max_length=100)
     target_id:str=Field(default='main',pattern=r'^[a-z][a-z0-9_]{0,31}$')
-    name:Literal['play','pause','replay','animation_finished','user_marked','target_selected','tracking_hidden']
+    name:Literal['play','pause','replay','animation_finished','auto_started','auto_resumed','user_marked','target_selected','tracking_hidden']
     client_frame_id:int=Field(ge=0)
     source_sha256:str=Field(default='',pattern=r'^([a-f0-9]{64})?$')
     progress:float=Field(default=0,ge=0,le=1)
