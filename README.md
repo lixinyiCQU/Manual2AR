@@ -1,6 +1,8 @@
 # Manual2AR
 
-当前阶段：三模块整合与 Windows 开箱空间指导。原 `Manual2AR-Integrated` 已重命名为 `Manual2AR-Spatial-Guidance`；工作树、归档与后续资产库入口见 [工作区整理记录](docs/WORKSPACE_ORGANIZATION.md)。
+当前工作树：`Manual2AR-Dev`，分支 `lixin/asset-library`。本轮已接入 U7 教学视觉资产，使用与扩展规范见 [视觉资产库](docs/VISUAL_ASSET_LIBRARY.md)。
+
+前一阶段的主仓库和空间指导工作树已归档至 `Archive/`；当前位置、分支和恢复方式见 [工作区整理记录](docs/WORKSPACE_ORGANIZATION.md)。
 
 一个 Unity 工程、一个业务后端、一个可独立部署的 GPU 推理服务，提供部件认知、操作指导和打印状态检查。
 
@@ -102,7 +104,7 @@ archives/                   重构前源码快照与迁移报告
 
 ## GPU 与静态测试
 
-Colab：在 VS Code 的 WSL 窗口打开 **`Manual2AR.code-workspace`**，从任务菜单运行「Colab: 登录 Google」，再运行「Colab: 启动 GPU」。启动器会自动部署、获取连接并写入配置，无需手动上传/下载。设置只修改 `configs/colab.local.json`，完整步骤见 [VS Code Colab 使用说明](docs/COLAB_VSCODE.md)。
+Colab：在 VS Code 的 WSL 窗口打开 **`Manual2AR.code-workspace`**，从任务菜单运行「Colab: 登录 Google」，再运行「Colab: 启动 GPU」。启动器自动部署、更新连接，并在就绪后持续监控；Ctrl+C 仅停止本地监控。已有运行时可单独运行「Colab: 持续监控」，异常时运行「Colab: 诊断连接与进程」。设置只修改 `configs/colab.local.json`，完整步骤见 [VS Code Colab 使用说明](docs/COLAB_VSCODE.md)。
 
 原网页入口仍是 `deploy/colab/Manual2AR_GPU.ipynb`，模型固定 SAM3.1 + Cutie。
 
@@ -128,7 +130,7 @@ bash run.sh inference-bundle  # 导出独立推理源码包
 
 既有 Python 回归覆盖空间几何、开箱阅读与扩展接口、Colab 部署及资料服务/自动回退；Unity 四场景实际 Play 验证运行时错误为 0，另通过 40 个画幅、旋转与镜像组合的图像检查。Unity 验证使用受控模型，未测试实物摄像头及真实 GPU 推理；HPC 和容器未做现场部署。
 
-架构及扩展方式见 [ARCHITECTURE](docs/ARCHITECTURE.md)，分阶段迁移和回滚位置见 [MIGRATION](docs/MIGRATION.md)。当前分支 `lixin/integration-v1`，整合版 V1 标签为 `integration-v1.0.0`，原三个 V1 工作树已移入同级 `Archive/Module-V1/`，停止日常开发。
+架构及扩展方式见 [ARCHITECTURE](docs/ARCHITECTURE.md)，分阶段迁移和回滚位置见 [MIGRATION](docs/MIGRATION.md)。整合基线分支 `lixin/integration-v1`，整合版 V1 标签为 `integration-v1.0.0`，原三个 V1 工作树已移入同级 `Archive/Module-V1/`，停止日常开发。
 
 模块二下一阶段的动作与 AR 开发规格见 [模块二 V2 开发手册](docs/MODULE_TWO_V2_DEVELOPMENT.md)，包含官方开箱映射、空间契约、阶段交付及 Guided Reality 代码/资产复用审计。
 
@@ -139,3 +141,7 @@ U6/U7 Windows 摄像头空间指导已提供独立入口、相机标定、双视
 2026-11-03 已扩展开箱 U4/U5：四颗限制器螺丝、扎带、工具头左移、可选泡棉，以及热床三颗螺丝。U4—U7 共 10 个指导单元，支持章节/动作导航；见 [第二轮审查与开箱扩展](docs/UNBOXING_SPATIAL_EXTENSION.md)。热床锁紧使用人工确认。
 
 模块二现提供整合版 Windows 开箱指导原型：13 章官方图文、U4—U7 空间动作、按分步骤进入、可选拍照找位置及统一学习记录。使用与接口见 [开箱原型说明](docs/MODULE_TWO_UNBOXING_PROTOTYPE.md)。
+
+U7 已增加打印机工作坐标 O／XYZ 与声明式动作参数，支持分割高亮、二维代理和已定位的三维动画同屏。只需一次确认工作坐标，再按轴向、距离、周期和转角调整动作；详见 [打印机工作坐标与复测步骤](docs/PRINTER_WORK_COORDINATES.md)。该坐标仅供教学，不是设备固件机械零点，也不控制电机。
+
+U7 的两个分步骤现按顺序开放：底座安装需通过独立 VLM 可见安装检查，之后才可进入安装料盘支架；图文页与空间页共享本次教程的核验结果，复检失败重新锁定。

@@ -23,5 +23,6 @@ case "${1:-}" in
   colab-*) exec .venv/bin/python -B -m tools.deployment.colab "${1#colab-}" ;;
   test) exec .venv/bin/python -B -m manual2ar.application.testing ;;
   gpu-notebook) exec .venv/bin/python -B -m tools.build.gpu_notebook ;;
-  *) printf '%s\n' '命令：setup / start / sync / package / test / resources / gpu-notebook / inference-bundle / colab-{setup,login,start,status,logs,stop-service,release}。配置请编辑 configs/app.local.json。' ;;
+  diagnostics-notebook) exec .venv/bin/python -B -m tools.build.colab_diagnostics ;;
+  *) printf '%s\n' '命令：setup / start / sync / package / test / resources / gpu-notebook / diagnostics-notebook / inference-bundle / colab-{setup,login,start,start-watch,watch,diagnose,test-runtime,release-diagnostic,status,logs,stop-service,release}。配置请编辑 configs/app.local.json。' ;;
 esac

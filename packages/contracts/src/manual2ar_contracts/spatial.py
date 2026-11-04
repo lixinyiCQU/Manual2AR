@@ -1,6 +1,9 @@
 """Additive desktop guidance visualization contract, independent of tutorial checks."""
 from typing import Literal
 from pydantic import BaseModel,ConfigDict,Field,model_validator
+from .visual_assets import VisualPresentation,VisualTextLabel
+from .machine_frame import MotionParameters
+from .guidance_display import GuidanceDisplay
 
 
 class CaptureSnapshot(BaseModel):
@@ -14,8 +17,8 @@ class CaptureSnapshot(BaseModel):
     provider_id:Literal['desktop_rgb','synthetic','arkit']
     client_frame_id:int=Field(ge=1)
     source_sha256:str=Field(pattern=r'^[a-f0-9]{64}$')
-    width:int=Field(ge=320,le=4096)
-    height:int=Field(ge=240,le=4096)
+    width:int=Field(ge=160,le=4096)
+    height:int=Field(ge=160,le=4096)
     capture_monotonic_ms:float=Field(ge=0)
     pixel_domain:Literal['upright_unmirrored']='upright_unmirrored'
     reference_space_id:str=Field(default='',max_length=100)
@@ -57,6 +60,13 @@ class SpatialProjection(BaseModel):
     distortion:list[float]=Field(min_length=4,max_length=8)
 
 
+class VisualAxis(BaseModel):
+    model_config=ConfigDict(extra='forbid',allow_inf_nan=False)
+    id:Literal['X','Y','Z']
+    a:Pixel
+    b:Pixel
+
+
 class GuidanceAsset(BaseModel):
     """Metre placement; asset local origin is its functional tip, +Y into target."""
     model_config=ConfigDict(extra='forbid',allow_inf_nan=False)
@@ -77,6 +87,12 @@ class GuidanceVisual(BaseModel):
     # Additive: old clients retain their line reference; new clients project meshes.
     projection:SpatialProjection|None=None
     asset:GuidanceAsset|None=None
+    presentation:VisualPresentation|None=None
+    display:GuidanceDisplay|None=None
+    text_labels:list[VisualTextLabel]=Field(default_factory=list,max_length=4)
+    axes:list[VisualAxis]=Field(default_factory=list,max_length=3)
+    motion_parameters:MotionParameters|None=None
+    machine_frame_id:str=Field(default='',max_length=32)
     # The animation is explanatory, not an observation of a user's movement.
     illustrative_only:Literal[True]=True
     duration_seconds:float=Field(default=1.2,ge=.5,le=10,allow_inf_nan=False)

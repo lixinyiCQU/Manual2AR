@@ -1,25 +1,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Manual2AR.VisualGuidance;
 
 namespace Manual2AR.Spatial {
  /// <summary>Project illustration meshes using the exact RGB snapshot's K/distortion/pose.
  /// No estimated depth, extra camera, hidden GPU dependency, or task-state mutation.</summary>
  [RequireComponent(typeof(CanvasRenderer))]
- public sealed class SpatialAssetGraphic:MaskableGraphic {
+ public sealed class SpatialAssetGraphic:MaskableGraphic,IVisualGuidanceRenderer {
   public GuidanceVisual visual;public int width=960,height=720;public float progress;
   public int VisibleTriangles {get;private set;}
   public string AssetProvenance {get;private set;}="";
   struct Face {public Vector2 a,b,c;public float depth;public Color color;}
   readonly List<Face> faces=new List<Face>();
+  readonly VisualSceneSampler sampler=new VisualSceneSampler();VisualPresentation presentation;VisualRenderFrame renderFrame;
   // JsonUtility may create empty nested objects for JSON null; check the payload.
   public static bool HasPlacement(GuidanceVisual value){
+   if(value?.presentation?.instances!=null)return VisualAssetLibrary.Validate(value.presentation)&&value.projection!=null;
    return value!=null&&value.asset!=null&&!string.IsNullOrEmpty(value.asset.asset_id)
     &&value.asset.marker_from_asset!=null&&value.asset.marker_from_asset.Length==16
     &&value.projection!=null&&value.projection.camera_from_marker!=null&&value.projection.camera_from_marker.Length==16
     &&value.projection.intrinsics!=null&&value.projection.intrinsics.Length==9;
   }
-  public void Clear(){visual=null;VisibleTriangles=0;AssetProvenance="";SetVerticesDirty();}
+  public void Clear(){visual=null;presentation=null;renderFrame=null;VisibleTriangles=0;AssetProvenance="";SetVerticesDirty();}
+  public void Legacy(GuidanceVisual value){presentation=null;renderFrame=null;visual=value;}
+  public void Present(VisualPresentation value,VisualRenderFrame frame,float phase){
+   if(!VisualAssetLibrary.Validate(value)||frame==null||frame.ReferenceSpaceId!=value.reference_space_id){Clear();return;}
+   visual=null;presentation=value;renderFrame=frame;width=frame.Width;height=frame.Height;progress=phase;SetVerticesDirty();
+  }
   public static Vector3 Transform(float[] matrix,Vector3 p){
    return new Vector3(matrix[0]*p.x+matrix[1]*p.y+matrix[2]*p.z+matrix[3],matrix[4]*p.x+matrix[5]*p.y+matrix[6]*p.z+matrix[7],matrix[8]*p.x+matrix[9]*p.y+matrix[10]*p.z+matrix[11]);
   }
@@ -40,6 +48,11 @@ namespace Manual2AR.Spatial {
   Vector2 Local(Vector2 p){var r=rectTransform.rect;return new Vector2(r.xMin+p.x/width*r.width,r.yMax-p.y/height*r.height);}
   protected override void OnPopulateMesh(VertexHelper helper){
    helper.Clear();faces.Clear();VisibleTriangles=0;AssetProvenance="";
+   if(presentation!=null){
+    var projection=new SpatialProjection{camera_from_marker=renderFrame.CameraFromReference,intrinsics=renderFrame.Intrinsics,distortion=renderFrame.Distortion};
+    foreach(var part in sampler.Sample(presentation,progress))AddFaces(part.Vertices,part.Triangles,part.Color,projection);
+    AssetProvenance="manual2ar-library-v1/"+presentation.presentation_id;Emit(helper);return;
+   }
    if(!HasPlacement(visual))return;
    var asset=visual.asset;if(asset.marker_from_asset==null||asset.marker_from_asset.Length!=16)return;
    var model=SpatialAssetGeometry.Get(asset.asset_id);if(model==null)return;AssetProvenance=model.provenance;
@@ -59,6 +72,19 @@ namespace Manual2AR.Spatial {
      faces.Add(new Face{a=Local(pixels[a]),b=Local(pixels[b]),c=Local(pixels[c]),depth=(camera[a].z+camera[b].z+camera[c].z)/3,color=color});
     }
    }
+   Emit(helper);
+  }
+  void AddFaces(Vector3[] vertices,int[] indices,Color shade,SpatialProjection projection){
+   if(shade.a<.01f)return;
+   for(int n=0;n<indices.Length;n+=3){
+    Vector3 a=vertices[indices[n]],b=vertices[indices[n+1]],c=vertices[indices[n+2]];Vector2 pa,pb,pc;float depth;
+    if(!Project(projection,a,out pa,out depth)||!Project(projection,b,out pb,out depth)||!Project(projection,c,out pc,out depth))continue;
+    var ca=Transform(projection.camera_from_marker,a);var cb=Transform(projection.camera_from_marker,b);var cc=Transform(projection.camera_from_marker,c);
+    float light=.65f+.35f*Mathf.Abs(Vector3.Dot(Vector3.Cross(cb-ca,cc-ca).normalized,new Vector3(-.3f,-.4f,-1).normalized));
+    faces.Add(new Face{a=Local(pa),b=Local(pb),c=Local(pc),depth=(ca.z+cb.z+cc.z)/3,color=new Color(shade.r*light,shade.g*light,shade.b*light,shade.a)});
+   }
+  }
+  void Emit(VertexHelper helper){
    faces.Sort((a,b)=>b.depth.CompareTo(a.depth));
    foreach(var face in faces){
     // UI shader culls neither face; painter sorting supplies readable tool surfaces.

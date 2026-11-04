@@ -102,7 +102,7 @@ class Locator:
     def __init__(self,visible=True):self.calls=[];self.visible=visible
     def chat_structured(self,**kwargs):
         self.calls.append(kwargs)
-        return {'action_id':'holder.slide','target_id':'main','status':'found' if self.visible else 'unseen',
+        return {'action_id':'toolhead.slide','target_id':'main','status':'found' if self.visible else 'unseen',
             'confidence':.95,'bbox_0_1000':[600,300,750,600] if self.visible else [],
             'foreground_point_0_1000':[675,450] if self.visible else []}
 
@@ -112,12 +112,12 @@ def test_photo_localization_is_action_specific_and_never_a_placement_or_check(ap
     client=Locator(visible);app.state.spatial.client=client;app.state.spatial.config['vlm']['api_key']='test-only'
     with TestClient(app) as c:
         run=tutorial(c);api=begin(c,'camera',tutorial_run_id=run['run_id'])
-        request=frame(action='holder.slide');assert c.post(api+'/frames',json=request).status_code==200
-        r=c.post(api+'/locate',json={'action_id':'holder.slide','target_id':'main','client_frame_id':1})
+        request=frame(action='toolhead.slide');assert c.post(api+'/frames',json=request).status_code==200
+        r=c.post(api+'/locate',json={'action_id':'toolhead.slide','target_id':'main','client_frame_id':1})
         assert r.status_code==200,r.text
         value=r.json();assert value['metric_placement'] is False and value['source_sha256']==request['source_sha256']
         assert len(value['box_lines'])==(4 if visible else 0)
-        prompt=client.calls[0]['prompt'];assert '从上向下' in prompt and 'NOT installation verification' in prompt
+        prompt=client.calls[0]['prompt'];assert '向左' in prompt and 'NOT installation verification' in prompt
         assert len(client.calls[0]['images_base64'])==1
         # No target/camera profiles are created and the tutorial never advances.
         assert not list((app.state.spatial.root/'profiles').rglob('*.json'))

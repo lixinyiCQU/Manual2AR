@@ -12,17 +12,17 @@ class Locator:
     def chat_structured(self,**kwargs):
         self.calls.append(kwargs)
         if self.fail:raise VisionError('do not persist private transport data','timeout')
-        return {'action_id':'holder.base','target_id':'main','status':'uncertain','confidence':.8,
+        return {'action_id':'zlock.remove','target_id':'main','status':'uncertain','confidence':.8,
             'bbox_0_1000':[],'foreground_point_0_1000':[], 'evidence':'螺丝被支架遮挡。','next_action':'请从安装面侧面补拍。'}
 
 
 def test_location_uses_only_confirmed_positions_and_same_frame_crop(app):
-    service=app.state.spatial;profiles(service,{'holder.base':fixture_target()})
+    service=app.state.spatial;profiles(service,{'zlock.remove':fixture_target()})
     spy=Locator();service.client=spy;service.config['vlm']['api_key']='test-only'
     with TestClient(app) as c:
-        api=begin(c,'camera',reuse_targets=True);request=frame(action='holder.base')
+        api=begin(c,'camera',reuse_targets=True);request=frame(action='zlock.remove')
         c.post(api+'/frames',json=request)
-        answer=c.post(api+'/locate',json={'action_id':'holder.base','target_id':'main','client_frame_id':1})
+        answer=c.post(api+'/locate',json={'action_id':'zlock.remove','target_id':'main','client_frame_id':1})
         assert answer.status_code==200 and answer.json()['evidence']=='螺丝被支架遮挡。'
         assert len(spy.calls[0]['images_base64'])==2
         assert '不能使用局部图坐标' in spy.calls[0]['prompt']
@@ -35,19 +35,19 @@ def test_location_uses_only_confirmed_positions_and_same_frame_crop(app):
 
 
 def test_unconfirmed_saved_points_are_never_sent_as_current_context(app):
-    service=app.state.spatial;profiles(service,{'holder.base':fixture_target()})
+    service=app.state.spatial;profiles(service,{'zlock.remove':fixture_target()})
     spy=Locator();service.client=spy;service.config['vlm']['api_key']='test-only'
     with TestClient(app) as c:
-        api=begin(c,'camera',reuse_targets=False);c.post(api+'/frames',json=frame(action='holder.base'))
-        assert c.post(api+'/locate',json={'action_id':'holder.base','client_frame_id':1}).status_code==200
+        api=begin(c,'camera',reuse_targets=False);c.post(api+'/frames',json=frame(action='zlock.remove'))
+        assert c.post(api+'/locate',json={'action_id':'zlock.remove','client_frame_id':1}).status_code==200
         assert len(spy.calls[0]['images_base64'])==1
 
 
 def test_failed_model_call_has_safe_error_artifact_and_event(app):
     service=app.state.spatial;service.client=Locator(True);service.config['vlm']['api_key']='test-only'
     with TestClient(app) as c:
-        api=begin(c,'camera');c.post(api+'/frames',json=frame(action='holder.base'))
-        assert c.post(api+'/locate',json={'action_id':'holder.base','client_frame_id':1}).status_code==502
+        api=begin(c,'camera');c.post(api+'/frames',json=frame(action='zlock.remove'))
+        assert c.post(api+'/locate',json={'action_id':'zlock.remove','client_frame_id':1}).status_code==502
         root=service.root/'runs'/api.rsplit('/',1)[-1];folder=next(root.glob('locate-*'))
         error=json.loads((folder/'error.json').read_text());assert error=={'error_type':'VisionError','code':'timeout'}
         assert 'private transport' not in (folder/'error.json').read_text()
@@ -57,20 +57,20 @@ def test_failed_model_call_has_safe_error_artifact_and_event(app):
 def test_server_advertises_current_visual_revision_and_short_cycle(app):
     with TestClient(app) as c:
         assert c.get('/api/guidance/spatial/config').json()['visual_revision']=='mesh-loop-v2'
-        api=begin(c);r=c.post(api+'/frames',json=frame(action='holder.base')).json()
+        api=begin(c);r=c.post(api+'/frames',json=frame(action='zlock.remove')).json()
         assert r['visual']['asset']['asset_id']=='hex_key' and r['visual']['duration_seconds']==1.2
 
 
 def test_candidate_far_from_authored_position_is_not_shown_as_found(app):
     class WrongRegion(Locator):
         def chat_structured(self,**kwargs):
-            return {'action_id':'holder.base','target_id':'main','status':'found','confidence':.99,
+            return {'action_id':'zlock.remove','target_id':'main','status':'found','confidence':.99,
                 'bbox_0_1000':[1,1,30,30],'foreground_point_0_1000':[15,15]}
-    service=app.state.spatial;profiles(service,{'holder.base':fixture_target()})
+    service=app.state.spatial;profiles(service,{'zlock.remove':fixture_target()})
     service.client=WrongRegion();service.config['vlm']['api_key']='test-only'
     with TestClient(app) as c:
-        api=begin(c,'camera',reuse_targets=True);c.post(api+'/frames',json=frame(action='holder.base'))
-        value=c.post(api+'/locate',json={'action_id':'holder.base','client_frame_id':1}).json()
+        api=begin(c,'camera',reuse_targets=True);c.post(api+'/frames',json=frame(action='zlock.remove'))
+        value=c.post(api+'/locate',json={'action_id':'zlock.remove','client_frame_id':1}).json()
         assert value['status']=='uncertain' and not value['box_lines'] and not value['outlines']
         assert '不一致' in value['evidence']
 

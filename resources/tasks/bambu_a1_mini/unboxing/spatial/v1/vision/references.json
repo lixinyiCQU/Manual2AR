@@ -1,0 +1,41 @@
+{
+  "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+  "references": {
+    "base": {
+      "file": "base_reference.jpg",
+      "source": "references/a9a63e8f81e4971f.png",
+      "crop_xyxy": [
+        805,
+        455,
+        940,
+        660
+      ],
+      "citation": "026a3a3c147bd8b28d5bf414",
+      "sha256": "2fa696bf3a0e88cb8fba02e10f416e426bef15af6a1427b47ac37e195185fc72"
+    },
+    "holder": {
+      "file": "holder_reference.jpg",
+      "source": "references/6a3a99488854ca51.png",
+      "crop_xyxy": [
+        325,
+        295,
+        735,
+        450
+      ],
+      "citation": "97eeffdb901ac2699a6a9aeb",
+      "sha256": "eb08506771f7700365c1c43aa04e750fc27d6f3e0c66bc7ab1cf17478e43305b"
+    },
+    "installation": {
+      "file": "installation_reference.jpg",
+      "source": "references/c9a91fdeec9d5877.png",
+      "crop_xyxy": [
+        285,
+        230,
+        825,
+        580
+      ],
+      "citation": "97eeffdb901ac2699a6a9aeb",
+      "sha256": "ed7f1eebbdde5fcacbaf952bd4be191c53c8a1500d67f8e90d54175dc54c592b"
+    }
+  }
+}

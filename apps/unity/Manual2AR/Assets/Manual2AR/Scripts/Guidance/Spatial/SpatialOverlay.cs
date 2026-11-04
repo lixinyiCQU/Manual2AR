@@ -13,6 +13,7 @@ namespace Manual2AR.Spatial {
   public Outline[] outlines;
   public readonly List<Pixel> picks=new List<Pixel>();
   public bool accepting;
+  public int MaximumPicks=2;
   public void Clear(){lines=new Segment[0];corners=null;visual=null;leaderEnd=null;outlines=null;picks.Clear();SetVerticesDirty();}
   Vector2 Point(Pixel p){var r=rectTransform.rect;return new Vector2(r.xMin+p.x/width*r.width,r.yMax-p.y/height*r.height);}
   void Line(VertexHelper v,Vector2 a,Vector2 b,Color shade,float thickness){
@@ -56,7 +57,7 @@ namespace Manual2AR.Spatial {
   void Circle(VertexHelper v,Vector2 centre,float radius,Color shade,float thickness){for(int i=0;i<28;i++){float a=i*Mathf.PI*2/28,b=(i+1)*Mathf.PI*2/28;Line(v,centre+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius,centre+new Vector2(Mathf.Cos(b),Mathf.Sin(b))*radius,shade,thickness);}}
   void Disk(VertexHelper v,Vector2 centre,float radius,Color shade){for(int i=0;i<28;i++){float a=i*Mathf.PI*2/28,b=(i+1)*Mathf.PI*2/28;int n=v.currentVertCount;v.AddVert(centre,shade,Vector2.zero);v.AddVert(centre+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius,shade,Vector2.zero);v.AddVert(centre+new Vector2(Mathf.Cos(b),Mathf.Sin(b))*radius,shade,Vector2.zero);v.AddTriangle(n,n+1,n+2);}}
   public void OnPointerClick(PointerEventData data){
-   if(!accepting||picks.Count>=2)return;Vector2 local;if(!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,data.position,data.pressEventCamera,out local))return;
+   if(!accepting||picks.Count>=MaximumPicks)return;Vector2 local;if(!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,data.position,data.pressEventCamera,out local))return;
    var r=rectTransform.rect;if(!r.Contains(local))return;
    var p=new Pixel((local.x-r.xMin)/r.width*width,(r.yMax-local.y)/r.height*height);picks.Add(p);SetVerticesDirty();Selected?.Invoke(p);
   }

@@ -4,9 +4,9 @@ using UnityEngine.UI;
 namespace Manual2AR.Spatial {
  /// <summary>Names authored image points; no coordinate inference or task logic.</summary>
  public sealed class SpatialPickLabels {
-  readonly RectTransform[] boxes=new RectTransform[2];readonly Text[] texts=new Text[2];
+  readonly RectTransform[] boxes=new RectTransform[3];readonly Text[] texts=new Text[3];
   public SpatialPickLabels(Transform parent){
-   for(int i=0;i<2;i++){
+   for(int i=0;i<3;i++){
     boxes[i]=AppTheme.Panel(parent,"Setup point "+(i+1),Vector2.zero,Vector2.zero);boxes[i].pivot=new Vector2(0,.5f);
     texts[i]=AppTheme.Label(boxes[i],"",new Vector2(.04f,.04f),new Vector2(.96f,.96f),19);
     texts[i].alignment=TextAnchor.MiddleCenter;
@@ -16,7 +16,7 @@ namespace Manual2AR.Spatial {
   }
   public void Refresh(SpatialOverlay overlay,string[] names){
    var size=overlay.rectTransform.rect.size;
-   for(int i=0;i<2;i++){
+   for(int i=0;i<3;i++){
     bool visible=overlay.accepting&&i<overlay.picks.Count&&size.x>1&&size.y>1;
     boxes[i].gameObject.SetActive(visible);if(!visible)continue;
     string name=names!=null&&names.Length>i?names[i]:(i==0?"第一点":"第二点");

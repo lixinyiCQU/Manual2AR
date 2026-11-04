@@ -23,5 +23,17 @@
       "compile_encoder": false
     },
     "retain_initial_images": false
+  },
+  "monitor_seconds": 30,
+  "remote_logs": {
+    "enabled": true,
+    "path": "/content/drive/MyDrive/Manual2AR/logs",
+    "interval_seconds": 15
+  },
+  "diagnostics": {
+    "suite": "session_lifecycle",
+    "session_name": "manual2ar-diagnostics",
+    "duration_minutes": 30,
+    "sample_seconds": 15
   }
 }

@@ -209,6 +209,7 @@ def test_cli_entrypoint_uses_pinned_installed_module_and_isolated_session_store(
 @pytest.mark.parametrize('command,output,message',[
     (['new'],'ColabRequestError: Service Unavailable','无需重新登录'),
     (['exec'],"Session appears to be lost (404/401)",'连接已失效'),
+    (['drivemount'],'Error propagating: 400','Drive 授权是两个步骤'),
 ])
 def test_cli_distinguishes_capacity_and_lost_runtime_from_login(tmp_path,monkeypatch,command,output,message):
     c=colab.CLI(settings(),tmp_path,lambda _:None)
@@ -259,7 +260,7 @@ def test_dispatch_checks_source_hashes_before_extracting_or_running(tmp_path):
 def test_workspace_tasks_are_file_configured_and_run_inside_project():
     workspace=json.loads((colab.ROOT/'Manual2AR.code-workspace').read_text())
     tasks=workspace['tasks']['tasks']
-    assert {t['args'][-1] for t in tasks}>={'colab-start','colab-status','colab-release','colab-login'}
+    assert {t['args'][-1] for t in tasks}>={'colab-start-watch','colab-watch','colab-diagnose','colab-status','colab-release','colab-login'}
     assert all(t['type']=='process' and t['command']=='bash' and t['options']['cwd']=='${workspaceFolder:Manual2AR}' for t in tasks)
 
 

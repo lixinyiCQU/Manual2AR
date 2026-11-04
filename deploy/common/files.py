@@ -6,12 +6,16 @@ import tempfile
 
 
 def private_json(path, value):
+    private_text(path,json.dumps(value,ensure_ascii=False,indent=2))
+
+
+def private_text(path, value):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     fd,name=tempfile.mkstemp(prefix=path.name+'.',dir=path.parent)
     try:
         os.fchmod(fd,0o600)
         with os.fdopen(fd,'w') as stream:
-            json.dump(value,stream,ensure_ascii=False,indent=2)
+            stream.write(value)
             stream.flush();os.fsync(stream.fileno())
         os.replace(name,path)
     finally:

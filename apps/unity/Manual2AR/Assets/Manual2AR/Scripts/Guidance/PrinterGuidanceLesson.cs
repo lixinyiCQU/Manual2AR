@@ -11,12 +11,7 @@ namespace Manual2AR {
         protected override void RebuildBody(){
             foreach(Transform child in body){child.gameObject.SetActive(false);Destroy(child.gameObject);}
             var lesson=run.presentation.lesson;
-            Paragraph(body,lesson==null?run.presentation.title:lesson.chapter_title,34,Color.white);
-            var heading=body.GetChild(body.childCount-1).GetComponent<Text>();heading.fontStyle=FontStyle.Bold;
-            if(Current.substeps!=null&&Current.substeps.Length>0){
-                int index=System.Array.FindIndex(Current.substeps,s=>s.id==Current.selected_substep_id);
-                Paragraph(body,"当前分步骤 "+(index+1)+" / "+Current.substeps.Length,20,AppTheme.Muted);
-            }
+            chapterHeading.text=AppTheme.Readable(lesson==null?run.presentation.title:lesson.chapter_title);
             if(lesson!=null&&lesson.sections!=null){
                 foreach(var section in lesson.sections){
                     if(section.blocks==null||section.blocks.Length==0)continue;
@@ -57,7 +52,7 @@ namespace Manual2AR {
         void BuildLessonSection(LessonSection section){
             bool caution=section.kind=="caution"||section.kind=="precondition";
             bool scope=section.kind=="scope";
-            var panel=ReadingGroup(section.title,caution?(Color?)new Color(.16f,.105f,.045f):scope?(Color?)new Color(.035f,.14f,.19f):null);
+            var panel=ReadingGroup(section.title,caution?(Color?)new Color(.16f,.105f,.045f):(scope||section.kind=="action")?(Color?)new Color(.035f,.14f,.19f):null);
             SectionHeading(panel,section.title,caution?CautionInk:Cyan,caution);
             int number=0;
             foreach(var block in section.blocks){

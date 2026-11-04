@@ -67,33 +67,26 @@ namespace Manual2AR
         void ShowOverview(bool entering)
         {
             if(task==null)return;ClosePhotoReference();StopCamera();CloseModal();
-            modal=Frame("步骤总览",root,new Vector2(.035f,.09f),new Vector2(.965f,.93f)).gameObject;
+            modal=Frame("步骤总览",root,new Vector2(.035f,.09f),new Vector2(.965f,.93f)).gameObject;AppModalBackdrop.Attach(modal);
             TextAt(modal.transform,task.title,new Vector2(.035f,.89f),new Vector2(.965f,.98f),31).color=Color.white;
             var outline=Scroll(modal.transform,new Vector2(.025f,.14f),new Vector2(.61f,.87f));
             Paragraph(outline,"教程章节 · "+task.steps.Length+" 章",24,Cyan);
             foreach(var step in task.steps){
                 var selected=step;string state=step.id;
-                bool visited=Current!=null&&Array.IndexOf(Current.visited_step_ids??new string[0],state)>=0;
-                string label=(state==run.state_id?"正在查看 · ":visited?"已浏览 · ":"")+step.title+(step.optional?"（可选）":"")+(Free?(step.spatial_mode=="marker"?" · 空间指导":" · 图文"):"");
-                if(Free)RowButton(outline,label,()=>{CloseModal();StartCoroutine(BrowseStep(selected.id,null));});
+                if(Free)ChapterRow(outline,selected);
                 else Paragraph(outline,step.title,21,Color.white);
             }
             var official=Scroll(modal.transform,new Vector2(.63f,.34f),new Vector2(.975f,.87f));
             Paragraph(official,"关于本教程",24,Cyan);Paragraph(official,task.scope,21,Color.white);
             foreach(var requirement in task.entry_requirements??new string[0])Paragraph(official,requirement,20,new Color(1,.82f,.5f));
-            if(Free)Paragraph(official,"点击左侧章节可自由跳转。拍照回答仅供参考，不影响浏览；浏览记录与操作标记分别保存。",20,Color.white);
-            if(Current!=null&&Current.spatial_guidance!=null&&Current.spatial_guidance.learning_records!=null){
-                int physical=0,replay=0;
-                foreach(var item in Current.spatial_guidance.learning_records)if(item.@event=="user_marked"){if(item.mode=="replay")replay++;else physical++;}
-                Paragraph(official,"空间指导操作标记：实机 "+physical+" 项；模拟 "+replay+" 项。\n标记与拍照建议分别记录。",19,Color.white);
-            }
+            if(Free)Paragraph(official,"图文章节完成后请手动确认；空间指导完成视觉核验后显示绿色勾选。",20,Color.white);
             var source=task.official_source;
             string sourceUrl=source!=null?source.url:(task.official_sections!=null&&task.official_sections.Length>0?task.official_sections[0].url:"");
             Paragraph(official,source!=null?source.title:"Bambu Lab 官方指南",21,Cyan);
             if(!string.IsNullOrEmpty(sourceUrl)){
-                ButtonAt(modal.transform,"打开官方指南 ↗",new Vector2(.65f,.24f),new Vector2(.95f,.31f),()=>Application.OpenURL(sourceUrl));
+                ButtonAt(modal.transform,"查看官方指南",new Vector2(.65f,.125f),new Vector2(.95f,.20f),()=>StartCoroutine(OpenOfficialWiki(sourceUrl)));
             }
-            ButtonAt(modal.transform,"查看学习记录",new Vector2(.65f,.14f),new Vector2(.95f,.21f),()=>Application.OpenURL(settings.backend_url+Api+run.run_id+"/report"));
+
 
             ButtonAt(modal.transform,entering?"开始浏览教程":"返回当前章节",new Vector2(.65f,.025f),new Vector2(.95f,.10f),CloseModal);
             EnhanceScrolls();
@@ -116,24 +109,43 @@ namespace Manual2AR
             var symbol=AppTheme.Rect(row,"Chapter Icon",new Vector2(.025f,.25f),new Vector2(.08f,.75f)).gameObject.AddComponent<AppIconGraphic>();symbol.symbol=AppIcon.Info;symbol.raycastTarget=false;
             TextAt(row,label,new Vector2(.105f,.02f),new Vector2(.975f,.98f),21);
         }
+        bool ChapterDone(string id){return Current?.chapter_completion!=null&&Array.Exists(Current.chapter_completion,c=>c.state_id==id&&c.completed);}
+        void ChapterRow(RectTransform parent,UnboxingStep step){
+            bool selected=step.id==run.state_id,done=ChapterDone(step.id);var row=Frame("Chapter "+step.id,parent,Vector2.zero,Vector2.one);row.gameObject.AddComponent<LayoutElement>().preferredHeight=76;
+            row.GetComponent<Image>().color=selected?new Color(.04f,.31f,.39f):Panel;
+            var state=TextAt(row,done?"✓":"○",new Vector2(.01f,.06f),new Vector2(.08f,.94f),27);state.color=done?AppTheme.SuccessGreen:AppTheme.Muted;state.alignment=TextAnchor.MiddleCenter;
+            TextAt(row,step.title,new Vector2(.09f,.06f),new Vector2(.66f,.94f),21);
+            ButtonAt(row,"图文",new Vector2(step.spatial_mode=="marker"?.68f:.82f,.15f),new Vector2(step.spatial_mode=="marker"?.81f:.99f,.85f),()=>{CloseModal();StartCoroutine(BrowseStep(step.id,null));});
+            if(step.spatial_mode=="marker")ButtonAt(row,"空间指导",new Vector2(.82f,.15f),new Vector2(.99f,.85f),()=>{CloseModal();StartCoroutine(OpenSpatialChapter(step.id));});
+        }
+        IEnumerator OpenSpatialChapter(string id){yield return BrowseStep(id,null);if(run!=null&&run.state_id==id)OpenSpatial();}
+        void RefreshChapterNavigation(){
+            for(int i=0;i<progress.Length;i++){
+                bool selected=i==run.step_index,done=ChapterDone(task.steps[i].id);var text=progress[i];
+                text.text=(done?"✓ ":"")+(i+1);text.color=done?AppTheme.SuccessGreen:selected?Cyan:AppTheme.Muted;
+                var frame=text.transform.parent;var image=frame.GetComponent<AppRoundedImage>();image.radius=12;
+                image.color=selected?new Color(.04f,.31f,.39f):Color.clear;image.raycastTarget=true;
+                var button=frame.GetComponent<Button>();if(button==null)button=frame.gameObject.AddComponent<Button>();button.targetGraphic=image;button.onClick.RemoveAllListeners();int index=i;button.onClick.AddListener(()=>{if(!busy)StartCoroutine(BrowseStep(task.steps[index].id,null));});
+            }
+        }
         void BuildSubsteps()
         {
             foreach(Transform child in substepTabs){child.gameObject.SetActive(false);Destroy(child.gameObject);}
-            var steps=Current.substeps??new UnboxingSubstep[0];substepTabs.gameObject.SetActive(steps.Length>0);
-            var scroll=body.parent.parent.GetComponent<RectTransform>();scroll.anchorMax=new Vector2(.975f,steps.Length>0?.75f:.87f);
-            if(steps.Length==0)return;
+            var steps=Current.substeps??new UnboxingSubstep[0];substepTabs.gameObject.SetActive(steps.Length>1);
+            var scroll=body.parent.parent.GetComponent<RectTransform>();scroll.anchorMax=new Vector2(.975f,steps.Length>1?.66f:.79f);
+            if(steps.Length<2)return;
             var dropdown=AppDropdown.Create(substepTabs,"Substep selector",new Vector2(0,.08f),new Vector2(1,.92f));
             var names=new List<string>();int selected=0;
-            for(int i=0;i<steps.Length;i++){names.Add("分步骤 "+(i+1)+(string.IsNullOrEmpty(steps[i].display_title)?"":" · "+steps[i].display_title));if(steps[i].id==Current.selected_substep_id)selected=i;}
-            dropdown.AddOptions(names);dropdown.SetValueWithoutNotify(selected);dropdown.RefreshShownValue();
-            dropdown.onValueChanged.AddListener(index=>{if(busy){dropdown.SetValueWithoutNotify(selected);return;}StartCoroutine(BrowseStep(run.state_id,steps[index].id));});
+            for(int i=0;i<steps.Length;i++){names.Add((steps[i].locked?"待解锁 · ":"")+"分步骤 "+(i+1)+" / "+steps.Length+(string.IsNullOrEmpty(steps[i].display_title)?"":" · "+steps[i].display_title));if(steps[i].id==Current.selected_substep_id)selected=i;}
+            dropdown.AddOptions(names);dropdown.SetValueWithoutNotify(selected);dropdown.RefreshShownValue();dropdown.captionText.color=Cyan;
+            dropdown.onValueChanged.AddListener(index=>{if(busy||steps[index].locked){dropdown.SetValueWithoutNotify(selected);if(steps[index].locked)notice.text=Current.u7_sequence?.message??"请先拍照检查底座";return;}StartCoroutine(BrowseStep(run.state_id,steps[index].id));});
         }
         IEnumerator BrowseStep(string state,string substep)
         {
             if(busy||run==null)yield break;busy=true;string error=null;var sent=run;
             yield return Request(Api+sent.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=sent.state_id,revision=sent.revision,target_state_id=state,substep_id=substep}),
                 (raw,e)=>{error=e;var incoming=e==null?ParseRun(raw):null;if(incoming!=null)Apply(incoming);});
-            busy=false;if(error!=null)notice.text="切换未成功，请返回任务列表后重试。";
+            busy=false;if(error!=null)notice.text=state=="U7"?"请先完成底座安装并通过拍照检查，再进入第二步。":"切换未成功，请稍后重试。";
         }
         protected override void Update()
         {
@@ -153,11 +165,13 @@ namespace Manual2AR
             cancelChild.gameObject.SetActive(!string.IsNullOrEmpty(Current.parent_run_id)&&Current.can_cancel);
             cancelChild.interactable=!busy;
             if(Free){
-                primary.gameObject.SetActive(active&&!run.completed&&(run.channel=="vision"||Array.IndexOf(Current.user_marked_step_ids??new string[0],run.state_id)<0));
-                primary.GetComponentInChildren<Text>().text=run.channel=="vision"?"拍照，获取参考意见":"标记本章已操作（可选）";
-                next.interactable=active&&!busy&&!run.completed;back.interactable=active&&!busy&&run.can_back;
+                primary.gameObject.SetActive(active&&!run.completed&&captureDialog.activeSelf&&run.channel=="vision");
+                textCompletion.gameObject.SetActive(active&&!run.completed&&Current.spatial_guidance?.available!=true);textCompletion.interactable=!busy&&!ChapterDone(run.state_id);textCompletion.GetComponentInChildren<Text>().text=ChapterDone(run.state_id)?"✓ 本章已完成":"已完成本章";
+                primary.GetComponentInChildren<Text>().text=run.state_id=="U7"&&Current.u7_sequence!=null?(Current.selected_substep_id=="U7-S1"?"拍照检查底座并解锁下一步":"检查料盘支架安装"):"拍照，获取参考意见";
+                next.interactable=active&&!busy&&!run.completed&&(!(run.state_id=="U7"&&Current.selected_substep_id=="U7-S1")||Current.u7_sequence==null||Current.u7_sequence.base_approved);back.interactable=active&&!busy&&run.can_back;
                 if(notice.text.Contains("HTTP ")||notice.text.Contains("同步进度"))notice.text="请求未完成，请重试；仍有问题可返回任务列表后重试。";
             }
+            if(!Free)textCompletion.gameObject.SetActive(false);
             if(!Free&&active&&run.state_id=="P3"&&!run.can_advance)primary.GetComponentInChildren<Text>().text="我已完成耗材准备，确认";
         }
         protected override IEnumerator Connect(bool reset)
@@ -205,7 +219,7 @@ namespace Manual2AR
             }
             notice.text=run.completed?"指导记录已保存。":run.can_advance?"本步已完成。":visual?"左侧对照官方示例，右侧拍摄并查看检查结果。":"先阅读左侧操作说明，完成后确认。";
             if(Free){
-                for(int i=0;i<progress.Length;i++){progress[i].text=(i+1).ToString();progress[i].color=i==run.step_index?Cyan:new Color(.5f,.6f,.7f);}
+                RefreshChapterNavigation();
                 count.text=run.completed?"本次浏览已结束":"第 "+(run.step_index+1)+" / "+run.step_count+" 章";
                 captureHelp.text=run.capture_instruction;cameraCaption.text=frozen?"最近一次拍摄的照片":"相机预览";
                 result.text="尚未拍照。完成本章操作后可询问 AI，也可直接查看其他章节。";result.color=new Color(.74f,.82f,.9f);
@@ -218,7 +232,14 @@ namespace Manual2AR
                 manualHelp.text=run.completed?"已结束本次教程浏览。你可以从步骤总览重新查看任意章节。":"本章无需拍照。\n请按左侧说明操作，可自由切换章节。";
                 if(Array.IndexOf(incoming.user_marked_step_ids??new string[0],run.state_id)>=0)manualHelp.text+="\n\n你已将本章标记为已操作。";
                 next.GetComponentInChildren<Text>().text=run.step_index==run.step_count-1?"结束本次浏览":"下一章 →";
-                notice.text=run.completed?"本次浏览记录已保存。":"可随时从步骤总览跳转；拍照建议不影响浏览。";
+                notice.text=run.completed?"学习进度已保存。":"可从步骤总览或顶部章节切换。";
+            }
+            photoEntry.GetComponentInChildren<Text>().text="拍照参考（可选）";
+            if(Free&&run.state_id=="U7"&&incoming.u7_sequence!=null){
+                bool first=incoming.selected_substep_id=="U7-S1";notice.text=incoming.u7_sequence.message;photoEntry.GetComponentInChildren<Text>().text=first?"检查底座 / 解锁下一步":"拍照检查支架安装";
+                primary.GetComponentInChildren<Text>().text=first?"拍照检查底座并解锁下一步":"检查料盘支架安装";
+                next.GetComponentInChildren<Text>().text=first?"下一步：安装料盘支架 →":"下一章 →";
+                if(first&&!incoming.u7_sequence.base_approved)result.text="先安装灰色底座，拍清底座及两颗螺丝；通过后开放安装料盘支架。\n"+result.text;
             }
             captureHelp.text=ReadableText(captureHelp.text).Replace("；","；\n");manualHelp.text=ReadableText(manualHelp.text);result.text=ReadableText(result.text);
             LayoutLesson();LayoutTeachingPanels();StartCoroutine(FinishTextLayout(++textLayoutGeneration));
@@ -251,6 +272,7 @@ namespace Manual2AR
         IEnumerator ResumeSpatial(Spatial.ActionUnit unit){
             root.gameObject.SetActive(true);busy=true;BindTaskBack();
             // Return to the matching official chapter/substep; no check is implied.
+            yield return Request(Api+run.run_id,"GET",null,(raw,error)=>{if(error==null)Apply(ParseRun(raw));});
             bool navigate=unit!=null&&(run.state_id!=unit.chapter_id||(Current.selected_substep_id??"")!=(unit.substep_id??""));
             string path=Api+run.run_id+(navigate?"/browse":"");
             string command=navigate?JsonUtility.ToJson(new GuidanceBrowse{state_id=run.state_id,revision=run.revision,target_state_id=unit.chapter_id,substep_id=string.IsNullOrEmpty(unit.substep_id)?null:unit.substep_id}):null;
@@ -278,7 +300,7 @@ namespace Manual2AR
         {
             if(busy||!connected)return;
             if(entry.variants.Length==1){StartSelected(entry.id,entry.default_variant);return;}
-            CloseModal();modal=Frame("选择打印入口",root,new Vector2(.20f,.22f),new Vector2(.80f,.76f)).gameObject;
+            CloseModal();modal=Frame("选择打印入口",root,new Vector2(.20f,.22f),new Vector2(.80f,.76f)).gameObject;AppModalBackdrop.Attach(modal);
             TextAt(modal.transform,entry.id=="a1_mini_standalone_unboxing_v1"?"选择开箱版本":"选择打印方式",new Vector2(.06f,.76f),new Vector2(.94f,.95f),28).color=Cyan;
             for(int i=0;i<entry.variants.Length;i++){
                 var variant=entry.variants[i];float y=.48f-i*.22f;
@@ -289,7 +311,7 @@ namespace Manual2AR
         void StartSelected(string taskId,string variant)
         {
             if(Current!=null&&(Current.status=="running"||Current.status=="waiting_child"||!string.IsNullOrEmpty(Current.parent_run_id))){
-                CloseModal();modal=Frame("切换指导",root,new Vector2(.20f,.27f),new Vector2(.80f,.73f)).gameObject;
+                CloseModal();modal=Frame("切换指导",root,new Vector2(.20f,.27f),new Vector2(.80f,.73f)).gameObject;AppModalBackdrop.Attach(modal);
                 TextAt(modal.transform,"开始新任务将结束当前指导，已有记录保留。是否继续？",new Vector2(.07f,.35f),new Vector2(.93f,.90f),26);
                 ButtonAt(modal.transform,"结束当前指导并开始",new Vector2(.05f,.07f),new Vector2(.62f,.24f),()=>{CloseModal();StartCoroutine(BeginSelected(taskId,variant,true));});
                 ButtonAt(modal.transform,"取消",new Vector2(.68f,.07f),new Vector2(.95f,.24f),CloseModal);
@@ -334,7 +356,7 @@ namespace Manual2AR
         }
         void RetryDialog()
         {
-            CloseModal();modal=Frame("设备重试",root,new Vector2(.20f,.27f),new Vector2(.80f,.73f)).gameObject;
+            CloseModal();modal=Frame("设备重试",root,new Vector2(.20f,.27f),new Vector2(.80f,.73f)).gameObject;AppModalBackdrop.Attach(modal);
             TextAt(modal.transform,"请先按打印机提示选择重试。确认后，本应用返回对应操作步骤，并清除受影响的核验记录。",new Vector2(.06f,.35f),new Vector2(.94f,.91f),25);
             ButtonAt(modal.transform,"已在设备选择重试",new Vector2(.04f,.06f),new Vector2(.64f,.23f),()=>{CloseModal();StartCoroutine(TaskAction("retry",true));});
             ButtonAt(modal.transform,"取消",new Vector2(.70f,.06f),new Vector2(.96f,.23f),CloseModal);
@@ -348,7 +370,7 @@ namespace Manual2AR
         }
         protected override void CloseModal()
         {
-            base.CloseModal();if(modalTexture!=null){Destroy(modalTexture);modalTexture=null;}
+            CloseWiki();base.CloseModal();if(modalTexture!=null){Destroy(modalTexture);modalTexture=null;}
         }
         protected override void EnlargeReference()
         {
@@ -356,7 +378,7 @@ namespace Manual2AR
             var uv=referenceImage.uvRect;if(uv==new Rect(0,0,1,1)){base.EnlargeReference();return;}
             CloseModal();int w=Mathf.RoundToInt(referenceTexture.width*uv.width),h=Mathf.RoundToInt(referenceTexture.height*uv.height);
             modalTexture=new Texture2D(w,h,TextureFormat.RGB24,false);modalTexture.SetPixels(referenceTexture.GetPixels(Mathf.RoundToInt(referenceTexture.width*uv.x),Mathf.RoundToInt(referenceTexture.height*uv.y),w,h));modalTexture.Apply();
-            modal=Frame("查看官方动图当前帧",root,new Vector2(.04f,.08f),new Vector2(.96f,.91f)).gameObject;
+            modal=Frame("查看官方动图当前帧",root,new Vector2(.04f,.08f),new Vector2(.96f,.91f)).gameObject;AppModalBackdrop.Attach(modal);
             var picture=Rect("官方当前帧",modal.transform,new Vector2(.03f,.14f),new Vector2(.97f,.97f)).gameObject.AddComponent<RawImage>();picture.texture=modalTexture;
             var fit=picture.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=(float)w/h;
             ButtonAt(modal.transform,"返回动图",new Vector2(.70f,.02f),new Vector2(.97f,.10f),CloseModal);

@@ -64,6 +64,19 @@ def sync(c):
     fonts.mkdir(parents=True,exist_ok=True)
     for name in ['NotoSansCJKsc-Regular.otf','OFL.txt']:
         shutil.copyfile(store.path('ui.font').parent/name, fonts/name)
+    # Portable, verified runtime assets; no Blender installation or SDK is required by Unity.
+    from manual2ar.visuals.library import VisualAssetLibrary
+    library=VisualAssetLibrary(store.path('visual.guidance.catalog'))
+    visual=ROOT/'apps/unity/Manual2AR/Assets/Manual2AR/Resources/VisualGuidance'
+    if visual.exists():shutil.rmtree(visual)
+    visual.mkdir(parents=True)
+    shutil.copyfile(library.path,visual/'catalog.json')
+    for asset in library.catalog.assets:
+        target=visual/asset.mesh.path;target.parent.mkdir(exist_ok=True)
+        shutil.copyfile(library.path.parent/asset.mesh.path,target)
+    refs=store.path('task.unboxing.spatial').parent/'vision'
+    dest=visual/'references';dest.mkdir(exist_ok=True)
+    for name in ['base_reference.jpg','holder_reference.jpg','installation_reference.jpg']:shutil.copyfile(refs/name,dest/name)
     print('统一公开配置与教学资料已生成；未导出凭据。')
 
 

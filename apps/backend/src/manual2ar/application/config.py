@@ -8,7 +8,7 @@ from . import ROOT
 
 MODULES = ('learning', 'guidance', 'inspection')
 TUNABLE = {'cpu_tracking','cutie_tracking','performance','inspection','verification','sessions','logging',
-           'minimum_confidence','maximum_mask_iou','segmentation'}
+           'minimum_confidence','maximum_mask_iou','segmentation','localization'}
 
 
 def merge_settings(defaults, overrides):
@@ -101,6 +101,7 @@ def for_module(c, name):
     value['vlm'] = {**value['vlm'], **c['vlm'], 'model': c['modules'][name]['model']}
     value['runtime_dir'] = str(resolve(c['paths']['runtime']))
     value['resources_dir'] = str(resolve(c['paths'].get('resources','resources')))
+    if name=='guidance':value['gpu_connection_file']=str(resolve(c['gpu']['connection_file']))
     if name != 'guidance':
         value['segmentation']['default_provider'] = c['modules'][name]['provider']
         value['cutie_tracking']['connection_file'] = str(resolve(c['gpu']['connection_file']))

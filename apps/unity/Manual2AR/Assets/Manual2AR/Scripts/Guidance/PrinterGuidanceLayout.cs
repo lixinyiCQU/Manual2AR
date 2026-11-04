@@ -6,7 +6,7 @@ namespace Manual2AR {
     /// <summary>Reading and optional capture surfaces; task logic lives in the controller.</summary>
     public sealed partial class PrinterGuidanceController {
         GameObject captureDialog,cameraSettings,cameraEmpty;
-        Button photoEntry;
+        Button photoEntry,textCompletion;Text chapterHeading;
 
         protected override void BuildUI(){
             var canvas=new GameObject("Operation guidance",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));
@@ -23,10 +23,11 @@ namespace Manual2AR {
             restart=ButtonAt(root,"重新开始",new Vector2(.83f,.845f),new Vector2(.975f,.89f),ResetDialog);
 
             instructionCard=Frame("操作说明与参考",root,new Vector2(.025f,.14f),new Vector2(.425f,.83f));
-            TextAt(instructionCard,"本章指导",new Vector2(.035f,.90f),new Vector2(.965f,.98f),21).color=Cyan;
+            TextAt(instructionCard,"本章指导",new Vector2(.035f,.93f),new Vector2(.965f,.99f),21).color=Cyan;
+            chapterHeading=TextAt(instructionCard,"",new Vector2(.035f,.79f),new Vector2(.965f,.92f),32);chapterHeading.fontStyle=FontStyle.Bold;chapterHeading.resizeTextForBestFit=true;chapterHeading.resizeTextMinSize=25;chapterHeading.resizeTextMaxSize=32;
             body=Scroll(instructionCard,new Vector2(.025f,.025f),new Vector2(.975f,.87f));
             body.parent.parent.GetComponent<Image>().color=Color.clear;
-            substepTabs=Rect("分步骤切换",instructionCard,new Vector2(.035f,.77f),new Vector2(.965f,.87f));substepTabs.gameObject.SetActive(false);
+            substepTabs=Rect("分步骤切换",instructionCard,new Vector2(.035f,.68f),new Vector2(.965f,.77f));substepTabs.gameObject.SetActive(false);
             referencePanel=Frame("官方参考图",root,new Vector2(.445f,.14f),new Vector2(.975f,.83f));
             TextAt(referencePanel,"官方参考图",new Vector2(.03f,.92f),new Vector2(.97f,.985f),21).color=Cyan;
             referenceArea=Rect("Reference viewport",referencePanel,new Vector2(.025f,.12f),new Vector2(.975f,.91f));referenceArea.gameObject.AddComponent<RectMask2D>();
@@ -44,6 +45,7 @@ namespace Manual2AR {
             back=ButtonAt(root,"← 上一步",new Vector2(.025f,.025f),new Vector2(.16f,.075f),()=>StartCoroutine(Command("back")));
             recheck=ButtonAt(root,"重新检查本章",new Vector2(.175f,.025f),new Vector2(.34f,.075f),()=>StartCoroutine(Command("recheck")));recheck.gameObject.SetActive(false);
             next=ButtonAt(root,"下一步 →",new Vector2(.775f,.025f),new Vector2(.975f,.075f),()=>StartCoroutine(Command("advance")));
+            textCompletion=ButtonAt(root,"已完成本章",new Vector2(.355f,.025f),new Vector2(.685f,.075f),()=>{if(!busy&&run!=null)StartCoroutine(Confirm());});textCompletion.gameObject.SetActive(false);
             primary.interactable=next.interactable=back.interactable=recheck.interactable=false;
             BuildCaptureDialog();
             taskMenu=AppTaskMenu.Create(root,"Operation Task Catalog","操作指导","Bambu Lab A1 mini · 选择操作任务");catalogPanel=taskMenu.Root.gameObject;catalogStatus=taskMenu.Status;
@@ -52,11 +54,12 @@ namespace Manual2AR {
         }
 
         void BuildCaptureDialog(){
-            var shade=Rect("Photo reference dialog",root,Vector2.zero,Vector2.one);shade.gameObject.AddComponent<Image>().color=new Color(.005f,.015f,.025f,.97f);captureDialog=shade.gameObject;
+            var shade=Rect("Photo reference dialog",root,Vector2.zero,Vector2.one);shade.gameObject.AddComponent<Image>().color=new Color(.005f,.015f,.025f,.97f);captureDialog=shade.gameObject;AppModalBackdrop.Attach(captureDialog);
             var panel=Frame("拍摄与核验",shade,new Vector2(.025f,.06f),new Vector2(.975f,.925f));cameraPanel=panel.gameObject;
             TextAt(panel,"拍照参考",new Vector2(.025f,.91f),new Vector2(.60f,.985f),30).color=Color.white;
             startCamera=AppTheme.Button(panel,"启动摄像头",new Vector2(.025f,.825f),new Vector2(.29f,.895f),()=>StartCoroutine(StartCamera()),AppIcon.Camera,true);
             live=AppTheme.Button(panel,"重新取景",new Vector2(.31f,.825f),new Vector2(.53f,.895f),ShowLive,AppIcon.SwitchCamera);
+            AppTheme.Button(panel,"返回教学",new Vector2(.59f,.915f),new Vector2(.745f,.98f),ClosePhotoReference,AppIcon.Back);
             AppTheme.Button(panel,"镜头设置",new Vector2(.76f,.915f),new Vector2(.975f,.98f),OpenCameraSettings,AppIcon.Camera);
             cameraArea=Frame("当前图像",panel,new Vector2(.025f,.12f),new Vector2(.625f,.805f));cameraArea.gameObject.AddComponent<RectMask2D>();
             cameraRect=Rect("Current frame",cameraArea,new Vector2(.5f,.5f),new Vector2(.5f,.5f));cameraImage=cameraRect.gameObject.AddComponent<RawImage>();cameraImage.raycastTarget=false;
@@ -72,7 +75,7 @@ namespace Manual2AR {
             var response=Scroll(panel,new Vector2(.65f,.20f),new Vector2(.975f,.49f));responseArea=response.parent.parent.GetComponent<RectTransform>();responseArea.GetComponent<Image>().color=Color.clear;
             result=FlowText(response,"本次检查结果",24,AppTheme.Muted);
             TextAt(panel,"拍照建议仅供参考，不影响章节浏览",new Vector2(.66f,.025f),new Vector2(.97f,.075f),18).color=AppTheme.Muted;
-            var options=Frame("镜头设置",shade,new Vector2(.20f,.25f),new Vector2(.80f,.78f));cameraSettings=options.gameObject;
+            var options=Frame("镜头设置",shade,new Vector2(.20f,.25f),new Vector2(.80f,.78f));cameraSettings=options.gameObject;AppModalBackdrop.Attach(cameraSettings);
             TextAt(options,"镜头设置",new Vector2(.05f,.80f),new Vector2(.95f,.96f),30);
             TextAt(options,"选择摄像头",new Vector2(.05f,.67f),new Vector2(.95f,.78f),23).color=Cyan;
             devices=DropdownAt(options,new Vector2(.05f,.53f),new Vector2(.95f,.66f));

@@ -23,6 +23,7 @@ class VisualClient:
         self.calls.append(args)
         if self.block:self.block[0].set();self.block[1].wait(5)
         if self.error:raise RuntimeError('HTTP 401 PRIVATE-REMOTE-CONTENT')
+        if 'inspection_id' not in args['schema'].get('properties',{}):return {'status':self.status,'confidence':self.confidence,'evidence':'受控输出：可见安装符合。','next_action':'可继续。'}
         node=re.search(r'观察点[=：]([A-Z]\d+-C\d+)',args['prompt']).group(1)
         return {'status':self.status,'matched_step_id':node.split('-')[0],'inspection_id':node,
                 'evidence':'受控输出：当前要求的区域清楚可见。','confidence':self.confidence,
@@ -64,7 +65,7 @@ def capture(v):
     return {**cmd(v),'inspection_id':v['pending_id'],'client_frame_id':max(0,v['last_client_frame_id'])+1,
             'image_base64':base64.b64encode(raw).decode(),'source_sha256':hashlib.sha256(raw).hexdigest()}
 def tick(client,v):
-    if v.get('navigation_policy')=='free':return advance(client,v)
+    if v.get('navigation_policy')=='free' and not(v['state_id']=='U7' and v.get('selected_substep_id')=='U7-S1' and not v.get('u7_sequence',{}).get('base_approved')):return advance(client,v)
     if not v['pending_id']:return advance(client,v)
     if v['channel']=='manual':return confirm(client,v)
     r=client.post(url(v,'verify'),json=capture(v));assert r.status_code==200,r.text
@@ -86,7 +87,7 @@ def test_registered_variants_complete_independently(guide,task,variant,count):
     client,fake,_,_=guide;v=start(client,task,variant)
     assert v['step_count']==count and v['task_id']==task
     finished=finish(client,v);assert finished['status']=='completed'
-    assert len(fake.calls)==(1 if task==LOAD else 0)
+    assert len(fake.calls)==(1 if task in (LOAD,UNBOX) else 0)
     assert client.get(url(finished,'report')).status_code==200
 
 

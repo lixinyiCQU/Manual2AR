@@ -420,11 +420,11 @@ Text status,sourceLabel,focusTitle;
             float scale=Mathf.Min(imageArea.rect.width/w,imageArea.rect.height/h);content.sizeDelta=new Vector2(w*scale,h*scale);content.localEulerAngles=Vector3.zero;content.localScale=Vector3.one;
         }
 
-        void CloseModal(){detailGeneration++;if(modal!=null)Destroy(modal);modal=null;}
+        void CloseModal(){detailGeneration++;if(modal!=null){modal.SetActive(false);Destroy(modal);}modal=null;}
         RectTransform Modal(string title,bool article=false)
         {
             CloseModal();modal=Rect("Modal shade",root,Vector2.zero,Vector2.one).gameObject;
-            modal.AddComponent<AppRoundedImage>().color=new Color(0,.015f,.04f,.90f);
+            modal.AddComponent<AppRoundedImage>().color=new Color(0,.015f,.04f,.90f);AppModalBackdrop.Attach(modal);
             var panel=Frame("Detail panel",modal.transform,article?new Vector2(.09f,.06f):new Vector2(.25f,.18f),article?new Vector2(.91f,.94f):new Vector2(.75f,.82f));
             TextAt(panel,title,new Vector2(.025f,.915f),new Vector2(.91f,.99f),article?30:26);
             ButtonAt(panel,"×",new Vector2(.94f,.92f),new Vector2(.985f,.985f),CloseModal);

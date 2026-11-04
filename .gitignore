@@ -37,3 +37,5 @@ apps/unity/Manual2AR/Assets/StreamingAssets/*
 # Explicitly imported third-party assets for local experiments only
 apps/unity/Manual2AR/Assets/Manual2AR/Resources/GuidanceLocal/
 apps/unity/Manual2AR/Assets/Manual2AR/Resources/GuidanceLocal.meta
+apps/unity/Manual2AR/Assets/Manual2AR/Resources/VisualGuidance/
+apps/unity/Manual2AR/Assets/Manual2AR/Resources/VisualGuidance.meta

@@ -1,0 +1,589 @@
+{
+  "schema_version": "manual2ar-asset-recipe-v1",
+  "palette": {
+    "metal": [
+      0.78,
+      0.84,
+      0.89,
+      1
+    ],
+    "grip": [
+      0.06,
+      0.24,
+      0.3,
+      1
+    ],
+    "tool": [
+      1,
+      0.67,
+      0.2,
+      1
+    ],
+    "motion": [
+      0.08,
+      0.84,
+      0.95,
+      1
+    ],
+    "part": [
+      0.88,
+      0.94,
+      0.96,
+      1
+    ]
+  },
+  "assets": [
+    {
+      "id": "tool.hex_driver",
+      "label": "内六角工具示意",
+      "category": "tool",
+      "nominal_axis_m": 0.09,
+      "anchors": [
+        {
+          "id": "working_tip",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "grip",
+          "position_m": [
+            0,
+            -0.08,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "tighten",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": 360,
+              "end": 0.65
+            },
+            {
+              "kind": "opacity",
+              "start": 0.65,
+              "end": 0.85,
+              "from_value": 1,
+              "to_value": 0
+            }
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "id": "shaft",
+          "shape": "rod",
+          "a": [
+            0,
+            -0.07,
+            0
+          ],
+          "b": [
+            0,
+            0,
+            0
+          ],
+          "radius": 0.0018,
+          "sides": 6,
+          "color": "metal"
+        },
+        {
+          "id": "grip",
+          "shape": "box",
+          "position": [
+            0,
+            -0.083,
+            0
+          ],
+          "size": [
+            0.012,
+            0.03,
+            0.012
+          ],
+          "bevel": 0.002,
+          "color": "grip"
+        },
+        {
+          "id": "collar",
+          "shape": "rod",
+          "a": [
+            0,
+            -0.072,
+            0
+          ],
+          "b": [
+            0,
+            -0.066,
+            0
+          ],
+          "radius": 0.004,
+          "sides": 12,
+          "color": "tool"
+        },
+        {
+          "id": "stripe",
+          "shape": "box",
+          "position": [
+            0,
+            -0.084,
+            0.006
+          ],
+          "size": [
+            0.005,
+            0.017,
+            0.001
+          ],
+          "bevel": 0.0003,
+          "color": "tool"
+        }
+      ]
+    },
+    {
+      "id": "motion.turn_arrow",
+      "label": "拧紧方向",
+      "category": "movement",
+      "nominal_axis_m": 0.03,
+      "anchors": [
+        {
+          "id": "axis",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "turn",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": 360,
+              "end": 0.65
+            },
+            {
+              "kind": "opacity",
+              "start": 0.65,
+              "end": 0.85,
+              "from_value": 1,
+              "to_value": 0
+            }
+          ]
+        }
+      ],
+      "parts": [
+        {
+          "id": "arc",
+          "shape": "arc",
+          "radius": 0.014,
+          "width": 0.0022,
+          "depth": 0.0015,
+          "start_deg": 25,
+          "end_deg": 310,
+          "color": "tool"
+        },
+        {
+          "id": "head",
+          "shape": "arrow_head",
+          "position": [
+            0.01268831,
+            0,
+            0.00591666
+          ],
+          "size": 0.006,
+          "angle_deg": 25,
+          "color": "tool"
+        }
+      ]
+    },
+    {
+      "id": "highlight.target_ring",
+      "label": "操作接触点",
+      "category": "highlight",
+      "nominal_axis_m": 0.03,
+      "anchors": [
+        {
+          "id": "contact",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "parts": [
+        {
+          "id": "ring",
+          "shape": "arc",
+          "radius": 0.013,
+          "width": 0.0012,
+          "depth": 0.0008,
+          "start_deg": 0,
+          "end_deg": 360,
+          "color": "motion"
+        }
+      ]
+    },
+    {
+      "id": "part.spool_holder_proxy",
+      "label": "料盘支架方向示意模型",
+      "category": "movement",
+      "nominal_axis_m": 0.06,
+      "anchors": [
+        {
+          "id": "guide_reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "slide",
+          "tracks": [
+            {
+              "kind": "path",
+              "start": 0.08,
+              "end": 0.82,
+              "easing": "smoothstep"
+            },
+            {
+              "kind": "opacity",
+              "start": 0.86,
+              "end": 1,
+              "from_value": 1,
+              "to_value": 0.12
+            }
+          ]
+        },
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "parts": [
+        {
+          "id": "mount",
+          "shape": "box",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            0.034,
+            0.012
+          ],
+          "bevel": 0.002,
+          "color": "part"
+        },
+        {
+          "id": "arm",
+          "shape": "box",
+          "position": [
+            0.026,
+            -0.008,
+            0
+          ],
+          "size": [
+            0.05,
+            0.012,
+            0.012
+          ],
+          "bevel": 0.002,
+          "color": "part"
+        },
+        {
+          "id": "brace",
+          "shape": "rod",
+          "a": [
+            0.004,
+            0.012,
+            0
+          ],
+          "b": [
+            0.043,
+            -0.008,
+            0
+          ],
+          "radius": 0.003,
+          "sides": 6,
+          "color": "part"
+        },
+        {
+          "id": "spindle",
+          "shape": "rod",
+          "a": [
+            0.047,
+            -0.008,
+            0
+          ],
+          "b": [
+            0.085,
+            -0.008,
+            0
+          ],
+          "radius": 0.004,
+          "sides": 12,
+          "color": "part"
+        },
+        {
+          "id": "end_cap",
+          "shape": "rod",
+          "a": [
+            0.084,
+            -0.008,
+            0
+          ],
+          "b": [
+            0.087,
+            -0.008,
+            0
+          ],
+          "radius": 0.008,
+          "sides": 16,
+          "color": "motion"
+        },
+        {
+          "id": "guide_mark",
+          "shape": "box",
+          "position": [
+            -0.0065,
+            0,
+            0
+          ],
+          "size": [
+            0.001,
+            0.024,
+            0.009
+          ],
+          "bevel": 0.0002,
+          "color": "motion"
+        }
+      ]
+    },
+    {
+      "id": "motion.slide_arrow",
+      "label": "滑入方向",
+      "category": "movement",
+      "nominal_axis_m": 0.055,
+      "anchors": [
+        {
+          "id": "tip",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "parts": [
+        {
+          "id": "arrow",
+          "shape": "arrow",
+          "color": "motion"
+        }
+      ]
+    },
+    {
+      "id": "part.screw_proxy",
+      "label": "固定螺丝示意",
+      "category": "highlight",
+      "nominal_axis_m": 0.012,
+      "anchors": [
+        {
+          "id": "head_face",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "parts": [
+        {
+          "id": "head",
+          "shape": "rod",
+          "a": [
+            0,
+            0,
+            0
+          ],
+          "b": [
+            0,
+            0.002,
+            0
+          ],
+          "radius": 0.0034,
+          "sides": 16,
+          "color": "metal"
+        },
+        {
+          "id": "socket",
+          "shape": "rod",
+          "a": [
+            0,
+            -0.0002,
+            0
+          ],
+          "b": [
+            0,
+            0.0001,
+            0
+          ],
+          "radius": 0.0015,
+          "sides": 6,
+          "color": "grip"
+        },
+        {
+          "id": "shaft",
+          "shape": "rod",
+          "a": [
+            0,
+            0.002,
+            0
+          ],
+          "b": [
+            0,
+            0.012,
+            0
+          ],
+          "radius": 0.0015,
+          "sides": 12,
+          "color": "metal"
+        }
+      ]
+    }
+  ],
+  "presentations": [
+    {
+      "id": "u7.holder_base",
+      "label": "对准螺丝并拧紧",
+      "duration_seconds": 1.2,
+      "orientation_policy": "authored_axis_marker_roll",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "026a3a3c147bd8b28d5bf414"
+      ],
+      "layers": [
+        {
+          "id": "tool",
+          "asset_id": "tool.hex_driver",
+          "clip_id": "tighten",
+          "anchor": "end",
+          "extent_ratio": 1.15,
+          "minimum_extent_m": 0.055,
+          "maximum_extent_m": 0.12
+        },
+        {
+          "id": "turn",
+          "asset_id": "motion.turn_arrow",
+          "clip_id": "turn",
+          "anchor": "end",
+          "extent_ratio": 0.4,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.04,
+          "reverse_with_rotation": true
+        },
+        {
+          "id": "contact",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.3,
+          "minimum_extent_m": 0.018,
+          "maximum_extent_m": 0.026
+        },
+        {
+          "id": "screw",
+          "asset_id": "part.screw_proxy",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.22,
+          "minimum_extent_m": 0.012,
+          "maximum_extent_m": 0.02
+        }
+      ]
+    },
+    {
+      "id": "u7.holder_slide",
+      "label": "沿导向边从上向下滑入",
+      "duration_seconds": 1.2,
+      "orientation_policy": "authored_axis_marker_roll",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "layers": [
+        {
+          "id": "moving_holder",
+          "asset_id": "part.spool_holder_proxy",
+          "clip_id": "slide",
+          "anchor": "start",
+          "extent_ratio": 0.85,
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.06,
+          "opacity": 0.8,
+          "rotation_degrees": [
+            0,
+            0,
+            180
+          ],
+          "printer_rotation_degrees": [
+            90,
+            0,
+            180
+          ]
+        },
+        {
+          "id": "destination",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.6,
+          "minimum_extent_m": 0.02,
+          "maximum_extent_m": 0.035,
+          "opacity": 0.8
+        },
+        {
+          "id": "direction",
+          "asset_id": "motion.slide_arrow",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.8,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.055,
+          "opacity": 0.65
+        }
+      ]
+    }
+  ]
+}

@@ -40,6 +40,8 @@ def prepare(raw,anchors,folder):
 def failure(folder,error):
     # Never persist request headers, keys, image data URLs or arbitrary error text.
     value={'error_type':type(error).__name__,'code':str(getattr(error,'code','invalid_response'))}
+    response=getattr(error,'response',None)
+    if response is not None and isinstance(getattr(response,'status_code',None),int):value['http_status']=response.status_code
     if isinstance(error,ValidationError):
         value['validation']=[{'path':list(e['loc']),'type':e['type']} for e in error.errors(include_input=False,include_url=False)]
     write(folder/'error.json',value)

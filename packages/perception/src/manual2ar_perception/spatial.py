@@ -64,26 +64,43 @@ def ray(pixel, transform, matrix, distortion):
     return origin, direction / np.linalg.norm(direction)
 
 
-def triangulate(first_pixels, first_pose, second_pixels, second_pose, matrix, distortion):
-    """Two explicitly authored endpoints; reject weak baseline and inconsistent clicks."""
-    result, errors, angles = [], [], []
-    for p, q in zip(first_pixels, second_pixels):
-        a, u = ray(p, first_pose, matrix, distortion)
-        b, v = ray(q, second_pose, matrix, distortion)
-        angle = float(np.degrees(np.arccos(np.clip(np.dot(u, v), -1, 1))))
-        if angle < 5 or angle > 100:
-            raise ValueError('两次视角差太小；保持标记不动，将摄像头横移约 15–25 厘米后重新取景。')
-        distances = np.linalg.lstsq(np.stack([u, -v], axis=1), b - a, rcond=None)[0]
-        if min(distances) <= .03:
-            raise ValueError('目标在相机后方，请重新选点。')
-        point = (a + distances[0] * u + b + distances[1] * v) / 2
-        if np.linalg.norm(point) > 1:
-            raise ValueError('目标距离标记超过一米，请将标记靠近操作区域。')
-        error = max(float(np.linalg.norm(project([point], pose, matrix, distortion)[0] - pixel))
-                    for pose, pixel in [(first_pose, p), (second_pose, q)])
-        if error > 3:
-            raise ValueError('两次选点不能对应同一位置，请重新选择同一对起点和终点。')
-        result.append(point.tolist()); errors.append(error); angles.append(angle)
+def triangulate(first_pixels, first_pose, second_pixels, second_pose, matrix, distortion, diagnostics=None):
+    """Reconstruct corresponding points; optionally retain every point's rejection metrics."""
+    result, errors, angles, failures = [], [], [], []
+    for index, (p, q) in enumerate(zip(first_pixels, second_pixels)):
+        record = {'point_index': index, 'first_pixel': np.asarray(p).tolist(), 'second_pixel': np.asarray(q).tolist()}
+        if diagnostics is not None:
+            diagnostics.append(record)
+        try:
+            a, u = ray(p, first_pose, matrix, distortion)
+            b, v = ray(q, second_pose, matrix, distortion)
+            angle = float(np.degrees(np.arccos(np.clip(np.dot(u, v), -1, 1))))
+            record['ray_angle_deg'] = angle
+            if angle < 5 or angle > 100:
+                raise ValueError('两次视角差不适合重建；保持标记不动，将摄像头横移约 15–25 厘米后重新取景。')
+            distances = np.linalg.lstsq(np.stack([u, -v], axis=1), b - a, rcond=None)[0]
+            record['ray_depths_m'] = distances.tolist()
+            if min(distances) <= .03:
+                raise ValueError('重建点位于相机后方或过近；请检查选点与标记位姿。')
+            point = (a + distances[0] * u + b + distances[1] * v) / 2
+            record['point_m'] = point.tolist()
+            if np.linalg.norm(point) > 1:
+                raise ValueError('目标距离标记超过一米，请将标记靠近操作区域。')
+            projections = [project([point], pose, matrix, distortion)[0] for pose in (first_pose, second_pose)]
+            per_view = [float(np.linalg.norm(pixel - projected)) for pixel, projected in zip((p, q), projections)]
+            error = max(per_view)
+            record.update(reprojected_pixels=[v.tolist() for v in projections], reprojection_px=per_view)
+            if error > 3:
+                raise ValueError(f'两视角重投影偏差 {error:.1f} 像素，超过 3 像素；可能涉及选点、相机标定或标记位姿，请检查后重新取景。')
+            result.append(point.tolist()); errors.append(error); angles.append(angle)
+            record['accepted'] = True
+        except ValueError as error:
+            record.update(accepted=False, error=str(error))
+            failures.append(f'第 {index + 1} 点：{error}')
+            if diagnostics is None:
+                raise ValueError(failures[0]) from None
+    if failures:
+        raise ValueError(failures[0])
     length = float(np.linalg.norm(np.asarray(result[1]) - result[0]))
     if not .008 <= length <= .4:
         raise ValueError('方向线应长于 8 毫米且短于 40 厘米。')
@@ -142,3 +159,9 @@ def visual_geometry(points,kind,transform,matrix,distortion):
         projected=project(lines.reshape(-1,3),transform,matrix,distortion).reshape(-1,2,2)
         result['tool_lines']=[{'a':pixel(a),'b':pixel(b)} for a,b in projected]
     return result
+
+
+def rotation(degrees):
+    if len(degrees)!=3 or not np.all(np.isfinite(degrees)) or any(abs(d)>180 for d in degrees):raise ValueError('XYZ angles must be within -180..180 degrees')
+    x,y,z=np.deg2rad(degrees);cx,cy,cz=np.cos([x,y,z]);sx,sy,sz=np.sin([x,y,z])
+    return np.array([[cz,-sz,0],[sz,cz,0],[0,0,1]])@np.array([[cy,0,sy],[0,1,0],[-sy,0,cy]])@np.array([[1,0,0],[0,cx,-sx],[0,sx,cx]])

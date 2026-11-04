@@ -47,3 +47,24 @@ def test_installed_wiki_article_renders_with_packaged_chinese_font(tmp_path):
         assert result['state']=='ready',result
         assert result['tiles'] and (store.wiki.render_folder(identity)/'0000.jpg').is_file()
     finally:store.wiki.close()
+
+
+def test_guidance_url_resolves_to_the_shared_offline_wiki_without_external_fetch(tmp_path):
+    from fastapi.testclient import TestClient
+    from manual2ar.modules.learning.server import create_app
+    c=json.loads((ROOT/'configs/app.example.json').read_text())
+    if not resolve(c['paths']['wiki_archive']).is_file():pytest.skip('Official snapshot not installed')
+    c['paths']['runtime']=str(tmp_path/'runs');c['paths']['cache']=str(tmp_path/'cache')
+    config=for_module(c,'learning');store=KnowledgeStore(config)
+    class NoVLM:
+        def chat_structured(self,**kwargs):raise AssertionError('Opening the official Wiki must not call VLM')
+    try:
+        with TestClient(create_app(config,NoVLM(),store)) as client:
+            url='https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo'
+            response=client.get('/api/learning/wiki/resolve',params={'url':url+'#test-anchor'})
+            assert response.status_code==200,response.text
+            source=response.json();assert source['page_id']==store.wiki.by_url[url] and source['anchor']=='test-anchor'
+            assert source['url'].startswith('/api/learning/wiki/pages/')
+            assert client.get('/api/learning/wiki/resolve',params={'url':'https://example.com/not-in-snapshot'}).status_code==404
+            assert client.get('/api/learning/wiki/resolve',params={'url':'file:///etc/passwd'}).status_code==404
+    finally:store.wiki.close()

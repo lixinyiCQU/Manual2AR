@@ -13,6 +13,7 @@ import sys
 import tempfile
 import time
 import uuid
+from datetime import datetime,timezone
 from urllib.parse import urlsplit
 
 import httpx
@@ -23,6 +24,8 @@ from tools.build.inference_bundle import gpu_bundle
 from deploy.colab.worker import private_json
 
 CLI_VERSION='0.7.5'
+REMOTE_LOG_DEFAULTS={'enabled':True,'path':'/content/drive/MyDrive/Manual2AR/logs','interval_seconds':15}
+DIAGNOSTIC_DEFAULTS={'suite':'session_lifecycle','session_name':'manual2ar-diagnostics','duration_minutes':30,'sample_seconds':15}
 
 
 def load_config(path=None):
@@ -52,6 +55,19 @@ def validate_config(c):
         raise ValueError('remote_root must be a dedicated directory directly under /content')
     for key,lo,hi in [('startup_timeout_seconds',60,7200),('poll_seconds',1,60)]:
         if type(c[key]) is not int or not lo<=c[key]<=hi:raise ValueError('Invalid '+key)
+    interval=c.get('monitor_seconds',30)
+    if type(interval) is not int or not 15<=interval<=300:raise ValueError('monitor_seconds must be between 15 and 300')
+    remote=c.get('remote_logs',REMOTE_LOG_DEFAULTS)
+    if set(remote)!={'enabled','path','interval_seconds'} or type(remote['enabled']) is not bool:raise ValueError('Invalid remote_logs')
+    p=PurePosixPath(remote['path'])
+    if not p.is_relative_to('/content/drive/MyDrive') or '..' in p.parts:raise ValueError('Remote logs must be inside Google Drive')
+    if type(remote['interval_seconds']) is not int or not 5<=remote['interval_seconds']<=300:raise ValueError('Invalid remote log interval')
+    diagnostic=c.get('diagnostics',DIAGNOSTIC_DEFAULTS)
+    from deploy.colab.diagnostics import SUITES
+    if set(diagnostic)!=set(DIAGNOSTIC_DEFAULTS) or diagnostic['suite'] not in SUITES:raise ValueError('Unsupported diagnostic suite')
+    if not re.fullmatch(r'[a-z][a-z0-9-]{0,47}',diagnostic['session_name']) or diagnostic['session_name']==c['session_name']:raise ValueError('Diagnostic runtime must have its own name')
+    for k,lo,hi in [('duration_minutes',1,120),('sample_seconds',5,300)]:
+        if type(diagnostic[k]) is not int or not lo<=diagnostic[k]<=hi:raise ValueError('Invalid diagnostic '+k)
     if c['public_url']:validate_url(c['public_url'])
     drive=c['drive_cache'];p=PurePosixPath(drive['path'])
     if set(drive)!={'enabled','path','cache_environment'}:raise ValueError('Unknown Drive cache field')
@@ -67,7 +83,7 @@ def validate_config(c):
         if type(value) is not bool:raise ValueError('Invalid inference switch')
     # No API key or service token belongs in the orchestration config.
     if set(c)-{'schema_version','session_name','gpu','auth','client_oauth_config','cli_version','remote_root',
-               'startup_timeout_seconds','poll_seconds','public_url','drive_cache','inference'}:
+               'startup_timeout_seconds','poll_seconds','monitor_seconds','public_url','drive_cache','inference','remote_logs','diagnostics'}:
         raise ValueError('Unknown Colab configuration field')
 
 
@@ -155,6 +171,8 @@ class CLI:
                 raise RuntimeError('Colab 当前无法分配 '+self.config['gpu']+' GPU（503 Service Unavailable）；请稍后重试。无需重新登录，不会自动升级 GPU')
             if 'appears to be lost (404/401)' in output:
                 raise RuntimeError('本项目 Colab 运行时连接已失效，CLI 已清除失效记录；再次启动会申请新的运行时')
+            if command[0]=='drivemount':
+                raise RuntimeError('Google Drive 挂载未完成；如终端提示授权，请在浏览器完成此次授权后回任务终端按 Enter。Google 登录与 Drive 授权是两个步骤，其他错误见日志')
             raise RuntimeError('Colab '+command[0]+' 未完成；如需要授权，请运行「Colab: 登录 Google」。其他错误见本地日志。')
         return result
 
@@ -227,7 +245,7 @@ class Orchestrator:
         self.connection=resolve(self.app['gpu']['connection_file']);self.cli=cli or CLI(c,self.cache,self.log)
 
     def log(self,text):
-        with (self.logs/'launcher.log').open('a') as stream:stream.write(redact(text)+'\n')
+        with (self.logs/'launcher.log').open('a') as stream:stream.write(datetime.now(timezone.utc).isoformat()+' '+redact(text)+'\n')
 
     def stage(self,state,message):
         print(message,flush=True);self.log(message)
@@ -255,7 +273,7 @@ class Orchestrator:
                 self.cli.run(['new','-s',self.c['session_name'],'--gpu',self.c['gpu']],timeout=180)
                 if not self.cli.record():raise RuntimeError('CLI 未记录成功分配的项目会话')
             else:self.stage('reusing','2/6 复用本项目现有 Colab 会话…')
-            if self.c['drive_cache']['enabled']:
+            if self.c['drive_cache']['enabled'] or self.c.get('remote_logs',REMOTE_LOG_DEFAULTS)['enabled']:
                 self.stage('mounting','挂载 Drive 缓存；如出现 Google 授权，请在终端完成…')
                 self.cli.run(['drivemount','-s',self.c['session_name']],interactive=True)
             self.stage('uploading','3/6 打包并上传推理源码；不上传 API Key、Wiki 或现场图片…')
@@ -263,6 +281,7 @@ class Orchestrator:
                 tmp=Path(tmp);bundle=gpu_bundle();remote_zip='/content/'+self.c['session_name']+'-source.zip'
                 self.cli.run(['upload','-s',self.c['session_name'],str(bundle),remote_zip])
                 options={k:self.c[k] for k in ['inference','drive_cache','public_url']}
+                options['remote_logs']=self.c.get('remote_logs',REMOTE_LOG_DEFAULTS)
                 options['options_sha256']=hashlib.sha256(json.dumps(options,sort_keys=True).encode()).hexdigest()
                 options['bundle_sha256']=hashlib.sha256(bundle.read_bytes()).hexdigest()
                 options['dispatch_id']=uuid.uuid4().hex
@@ -290,6 +309,10 @@ class Orchestrator:
                         last=state.get('stage');self.stage('starting','远端进度：'+str(last))
                     if state['state']=='ready':
                         if any(state.get(k)!=options[k] for k in ['bundle_sha256','options_sha256']):raise RuntimeError('收到另一版本的部署状态，拒绝覆盖连接')
+                        retention=state.get('remote_logs',{})
+                        if retention:
+                            private_json(self.logs/'remote-retention.json',retention)
+                            print('远端日志留存：'+retention.get('state','unknown')+'；'+retention.get('destination',''),flush=True)
                         break
                     self.sleep(self.c['poll_seconds'])
                 else:raise TimeoutError('启动等待超时；远端任务可能仍在运行，再次启动会尝试复用，不会额外申请 GPU')
@@ -304,24 +327,15 @@ class Orchestrator:
                         if attempt==3 or (status is not None and status not in (502,503,504)):raise
                         self.stage('validating','等待新建 HTTPS 连接可达，再次检查…');self.sleep(3)
                 private_json(self.logs/'installation.json',{'session':self.c['session_name'],
+                    'installed_at':datetime.now(timezone.utc).isoformat(),
+                    'runtime_id':(self.cli.record() or {}).get('endpoint'),
                     'connection_sha256':hashlib.sha256(self.connection.read_bytes()).hexdigest(),
                     'bundle_sha256':options['bundle_sha256']})
             self.stage('ready','6/6 GPU 就绪，连接文件已自动更新。请在 Unity 中重新开始识别；旧跟踪会话不可继续复用。')
 
     def status(self):
-        print('本项目会话：'+self.c['session_name'])
-        if not self.cli.record():print('本地没有本项目运行时记录；不会自动创建 GPU。');return
-        self.cli.run(['status','-s',self.c['session_name']])
-        if not self.cli.record():print('本项目运行时已回收；未自动重新分配。');return
-        receipt=self.logs/'installation.json'
-        current=hashlib.sha256(self.connection.read_bytes()).hexdigest() if self.connection.is_file() else None
-        if not receipt.is_file() or json.loads(receipt.read_text()).get('connection_sha256')!=current:
-            print('当前后端连接尚未确认为本次 Colab 部署；请启动 GPU，成功后会自动更新。');return
-        if not self.connection.is_file():print('运行时存在，但尚未安装通过验证的服务连接。');return
-        try:
-            health=self.checker(json.loads(self.connection.read_text()))
-            print('GPU HTTP 服务可用；模型已加载：'+str(health.get('models_loaded',False)))
-        except Exception:print('GPU HTTP 服务暂不可达或尚未就绪；可查看日志或重新启动。')
+        from .colab_monitor import observe,display
+        display(observe(self))
 
     def stop_service(self):
         with self.locked():
@@ -381,7 +395,7 @@ class Orchestrator:
 
 def main():
     os.umask(0o077)
-    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['setup','login','start','status','stop-service','release','logs']);parser.add_argument('--config',type=Path)
+    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['setup','login','start','start-watch','watch','diagnose','test-runtime','release-diagnostic','status','stop-service','release','logs']);parser.add_argument('--config',type=Path)
     args=parser.parse_args()
     try:
         if sys.platform!='linux':raise RuntimeError('请在 VS Code 的 WSL 窗口打开项目；官方 CLI 不支持原生 Windows')
@@ -389,9 +403,18 @@ def main():
         if args.command=='setup':host.cli.setup();print('Colab 工具已安装；所有参数只需编辑 configs/colab.local.json。')
         elif args.command=='login':
             with host.locked():host.cli.setup();host.cli.run(['sessions'],interactive=True)
+        elif args.command in ('watch','start-watch','diagnose'):
+            from .colab_monitor import watch,diagnose
+            if args.command=='diagnose':diagnose(host)
+            else:
+                if args.command=='start-watch':host.start()
+                watch(host)
+        elif args.command in ('test-runtime','release-diagnostic'):
+            from .colab_diagnostics import experiment
+            experiment(host,release=args.command=='release-diagnostic')
         else:getattr(host,{'stop-service':'stop_service','logs':'collect_logs'}.get(args.command,args.command))()
     except KeyboardInterrupt:
-        print('本地等待已取消。远端可能仍在准备；再次启动可复用，或明确停止并释放。');raise SystemExit(130)
+        print('本地等待或监控已取消；此操作不会停止或释放远端 GPU。');raise SystemExit(130)
     except Exception as error:
         message='Colab 操作未完成：'+redact(str(error))
         if 'host' in locals():host.stage('failed',message)

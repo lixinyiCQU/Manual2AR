@@ -105,14 +105,14 @@ else:
         if tunnel.poll() is not None:break
         time.sleep(.5)
     if not public_url:raise RuntimeError('临时隧道失败，请查看 tunnel.log。')
-connection=BASE/'cutie.connection.local.json'
+connection=BASE/'inference.connection.local.json'
 connection.write_text(json.dumps(dict(url=public_url,api_token=config['api_token'],protocol='manual2ar-learning-cutie-v2'),indent=2));connection.chmod(0o600)
 print('服务地址：',public_url)
 print('将连接文件放在本地 configs/inference.connection.local.json；不要提交Git或公开token。')
 try:
     from google.colab import files
     files.download(str(connection))
-except ImportError:print('请从Jupyter文件浏览器下载 cutie.connection.local.json。')
+except ImportError:print('请从Jupyter文件浏览器下载 inference.connection.local.json。')
 ''')
     md('''## 使用与停止
 

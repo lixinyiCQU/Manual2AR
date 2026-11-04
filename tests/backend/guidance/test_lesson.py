@@ -63,3 +63,14 @@ def test_changed_source_cannot_silently_keep_old_editorial_classification(guide)
     p=deepcopy(run['presentation']);p['instruction']+='源文本已变化'
     with pytest.raises(ValueError,match='source changed'):
         service.lessons.compose('standalone_unboxing','U1','',p,engine.task)
+
+
+def test_applicability_is_preserved_in_one_supplement_instead_of_scope_card(guide):
+    c,_,service,_=guide;run=browse(c,start(c,UNBOX),'U7','U7-S1');lesson=run['presentation']['lesson']
+    assert not any(section['kind']=='scope' for section in lesson['sections'])
+    notes=[section for section in lesson['sections'] if section['kind']=='note'];assert len(notes)==1
+    _,engine,_=service.parts(run['run_id'])
+    card=service.lessons.bundle['cards']['standalone_unboxing/U7/U7-S1']
+    original=[block['text'] for block in card['blocks'] if block['kind']=='scope']
+    assert original and all(text in texts(lesson,'note') for text in original)
+    assert lesson['source_sha256']==card['source_sha256']

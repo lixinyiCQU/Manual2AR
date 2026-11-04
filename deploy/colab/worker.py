@@ -68,7 +68,7 @@ def read(path, default=None):
 def stop(root):
     root=Path(root);state=read(root/'worker-processes.local.json',{})
     # Stop installation first so it cannot launch a new service after this action.
-    for role in ['launcher','tunnel','service']:
+    for role in ['launcher','tunnel','service','recorder']:
         stop_owned(state.get(role))
     (root/'inference.connection.local.json').unlink(missing_ok=True)
     private_json(root/'status.json',{'state':'stopped','stage':'stopped'})
@@ -155,7 +155,8 @@ def run(root):
         private_json(root/'inference.connection.local.json',{
             'url':public,'api_token':config['api_token'],'protocol':health['protocol']})
         private_json(root/'status.json',{'state':'ready','stage':'ready','bundle_sha256':options['bundle_sha256'],
-            'options_sha256':options['options_sha256'],'models_loaded':True})
+            'options_sha256':options['options_sha256'],'models_loaded':True,
+            'remote_logs':read(root/'retention-status.json',{})})
     except BaseException as error:
         # Preserve a useful private log, but status/host receipts contain no token.
         detail=redact(type(error).__name__+': '+str(error),root)
@@ -165,6 +166,7 @@ def run(root):
         (root/'inference.connection.local.json').unlink(missing_ok=True)
         private_json(root/'status.json',{'state':'failed','stage':stage,
                      'error_type':type(error).__name__,'error_message':detail[-4000:]})
+        stop_owned(state.get('recorder'))
         raise
 
 
@@ -181,6 +183,8 @@ def launch(root, options):
         if same:return 'preparing'
         raise RuntimeError('A different deployment is preparing; stop it before retrying')
     stop(root)
+    from deploy.colab.retention import start_recorder
+    start_recorder(root,options.get('remote_logs',{'enabled':False}))
     private_json(root/'launch-options.json',options)
     private_json(root/'status.json',{'state':'starting','stage':'queued',
         'bundle_sha256':options['bundle_sha256'],'options_sha256':options['options_sha256']})

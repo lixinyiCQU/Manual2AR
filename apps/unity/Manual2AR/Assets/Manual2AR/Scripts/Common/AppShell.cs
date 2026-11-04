@@ -47,8 +47,10 @@ namespace Manual2AR {
   public static void BindTeachingBack(){ResolveDirectEntry();BindBack("返回教学首页",()=>Open("Welcome"));}
   public static void BindBack(string label,Action action,Func<bool> allowed=null){
    Ensure();instance.EnsureUI();instance.backAction=action;instance.canBack=allowed;instance.backLabel=label;
+   var rect=(RectTransform)instance.back.transform;rect.anchorMin=new Vector2(.805f,.939f);rect.anchorMax=new Vector2(.975f,.988f);
    instance.back.gameObject.SetActive(true);instance.back.gameObject.name=label;instance.back.GetComponentInChildren<Text>().text=label;
   }
+  public static void PlaceBack(Vector2 min,Vector2 max){Ensure();instance.EnsureUI();var rect=(RectTransform)instance.back.transform;rect.anchorMin=min;rect.anchorMax=max;}
   public static void HideBack(){Ensure();instance.EnsureUI();instance.backAction=null;instance.canBack=null;instance.back.gameObject.SetActive(false);}
   public static void GoBack(){if(instance!=null&&!instance.changing&&(instance.canBack==null||instance.canBack()))instance.backAction?.Invoke();}
   void Update(){EnsureUI();if(back!=null)back.interactable=!changing&&(canBack==null||canBack());}

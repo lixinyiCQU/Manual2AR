@@ -1,0 +1,20 @@
+{
+  "schema_version":"manual2ar-visual-style-v1",
+  "id":"clear-instruction-v1",
+  "purpose":"Simple, readable teaching proxies; no manufacturing tolerances or photorealistic detail",
+  "units":"metres",
+  "coordinate_convention":"right_handed_xyz_metres_functional_origin_positive_y",
+  "palette":{"metal":[0.78,0.84,0.89,1],"grip":[0.06,0.24,0.30,1],"tool":[1,0.67,0.20,1],"motion":[0.08,0.84,0.95,1],"part":[0.88,0.94,0.96,1]},
+  "categories":{
+    "highlight":"Cyan contact ring or local spotlight; never claim a segmentation contour from a proxy",
+    "movement":"Cyan direction plus a pale part proxy, loop along an explicitly authored path",
+    "gesture":"Future simplified hand with explicit contact/grip anchors; no realistic skin texture",
+    "tool":"Metal shaft, dark grip, amber action accent; origin is the working tip",
+    "context":"Future spatial text/timer cards with the application font and accessible contrast"
+  },
+  "limits":{"maximum_triangles_per_asset":2400,"maximum_layers_per_presentation":8,"maximum_example_duration_seconds":10},
+  "materials":"Flat colours, mild bevels, no textures or transparency-dependent fine detail",
+  "animation":"Looped illustration only; positive-Y axis rotation is authored in asset coordinates; no required turn count or torque",
+  "placement":"Functional origin and action axis must be explicit; unobserved roll/depth is not inferred from a generated mesh",
+  "visibility":"Hide on missing/stale reference; photo review never advances the tutorial; no real-world occlusion without measured depth"
+}

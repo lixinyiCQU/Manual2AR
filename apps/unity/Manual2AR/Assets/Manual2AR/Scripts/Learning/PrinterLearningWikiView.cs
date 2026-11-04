@@ -33,11 +33,11 @@ namespace Manual2AR
             var button=r.gameObject.AddComponent<Button>();button.targetGraphic=img;button.onClick.AddListener(()=>action());
             TextAt(r,label,new Vector2(.04f,.04f),new Vector2(.96f,.96f)).alignment=TextAnchor.MiddleCenter;return button;
         }
-        public void Initialize(RectTransform panel,Font usedFont,string backendUrl,LearningSource source,Action exit)
+        public void Initialize(RectTransform panel,Font usedFont,string backendUrl,LearningSource source,Action exit,string exitLabel="返回更多信息")
         {
             font=usedFont;backend=backendUrl.TrimEnd('/');
             status=TextAt(panel,"正在准备离线 Wiki……",new Vector2(.025f,.865f),new Vector2(.97f,.915f),18);
-            ButtonAt(panel,"返回更多信息",new Vector2(.025f,.025f),new Vector2(.24f,.09f),exit);
+            ButtonAt(panel,exitLabel,new Vector2(.025f,.025f),new Vector2(.24f,.09f),exit);
             ButtonAt(panel,"上一篇",new Vector2(.265f,.025f),new Vector2(.40f,.09f),()=>{
                 if(history.Count>0){var previous=history.Pop();Open(previous.page_id,previous.anchor,false);}
             });

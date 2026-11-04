@@ -62,7 +62,7 @@
         "command": "bash",
         "args": [
           "run.sh",
-          "colab-start"
+          "colab-start-watch"
         ],
         "options": {
           "cwd": "${workspaceFolder:Manual2AR}"
@@ -147,6 +147,90 @@
         "args": [
           "run.sh",
           "colab-release"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 持续监控",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-watch"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 诊断连接与进程",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-diagnose"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 无模型诊断实验",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-test-runtime"
+        ],
+        "options": {
+          "cwd": "${workspaceFolder:Manual2AR}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "clear": false
+        },
+        "runOptions": {
+          "instanceLimit": 1
+        }
+      },
+      {
+        "label": "Colab: 释放诊断运行时",
+        "type": "process",
+        "command": "bash",
+        "args": [
+          "run.sh",
+          "colab-release-diagnostic"
         ],
         "options": {
           "cwd": "${workspaceFolder:Manual2AR}"

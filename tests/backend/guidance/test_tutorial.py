@@ -102,3 +102,12 @@ def test_tutorial_uses_vlm_only_and_does_not_segment_returned_boxes(guide):
     view=response.json();assert view['observations'][0]['segmentation']=='no_annotation'
     image=client.get(view['observations'][0]['image_url']).content
     assert image==next((folder/v['run_id']).glob('*/input.jpg')).read_bytes()
+
+
+def test_completion_distinguishes_manual_text_from_spatial_verification(guide):
+    c,_,_,_=guide;v=start(c,UNBOX)
+    def done(value,id):return next(v for v in value['chapter_completion'] if v['state_id']==id)['completed']
+    assert not done(v,'U1');v=confirm(c,v);assert done(v,'U1')
+    v=browse(c,v,'U4')
+    assert c.post(url(v,'confirm'),json={**cmd(v),'inspection_id':v['pending_id'],'confirmed':True}).status_code==409
+    assert not done(c.get(url(v)).json(),'U4')

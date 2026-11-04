@@ -65,6 +65,10 @@ class LessonPresenter:
                 if normalized in seen:continue
                 seen.add(normalized);blocks.append(deepcopy(block))
             if blocks:sections.append({'kind':kind,'title':TITLES[kind],'blocks':blocks})
+        # Scope remains source-bound, but is now supplementary reading rather than a separate card.
+        supplement=[block for section in sections if section['kind'] in ('scope','note') for block in section['blocks']]
+        sections=[section for section in sections if section['kind'] not in ('scope','note')]
+        if supplement:sections.append({'kind':'note','title':'补充说明','blocks':supplement})
         return {'schema_version':'manual2ar-lesson-v1','reviewed':True,'revision':self.bundle['revision'],
             'chapter_title':presentation['title'].strip().rstrip('。：：'),
             'step_title':card['step_title'],'sections':sections,'source_sha256':card['source_sha256']}

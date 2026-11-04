@@ -1,0 +1,138 @@
+{
+  "holder.base": {
+    "action_id": "holder.base",
+    "legend": [
+      {
+        "id": "tool",
+        "kind": "model",
+        "asset_id": "tool.hex_driver",
+        "label": "内六角扳手",
+        "color": [
+          0.48,
+          0.8,
+          1
+        ],
+        "terms": [
+          "内六角扳手"
+        ]
+      },
+      {
+        "id": "screw",
+        "kind": "model",
+        "asset_id": "part.screw_proxy",
+        "label": "底座螺丝",
+        "color": [
+          1,
+          0.83,
+          0.4
+        ],
+        "terms": [
+          "底座螺丝"
+        ]
+      },
+      {
+        "id": "rotation",
+        "kind": "model",
+        "asset_id": "motion.turn_arrow",
+        "label": "拧紧方向",
+        "color": [
+          1,
+          0.65,
+          0.3
+        ],
+        "terms": []
+      },
+      {
+        "id": "base",
+        "kind": "highlight",
+        "component_id": "spool_holder_base",
+        "label": "支架底座高亮",
+        "color": [
+          0.12,
+          0.8,
+          0.88
+        ],
+        "terms": [
+          "支架底座",
+          "底座导槽"
+        ]
+      }
+    ],
+    "instruction": {
+      "adverbial": "在支架底座上",
+      "actor_mode": "tool",
+      "actor": "内六角扳手",
+      "action": "拧紧",
+      "object": "两颗底座螺丝",
+      "acceptance": "使底座贴合并固定"
+    }
+  },
+  "holder.slide": {
+    "action_id": "holder.slide",
+    "legend": [
+      {
+        "id": "holder",
+        "kind": "model",
+        "asset_id": "part.spool_holder_proxy",
+        "label": "料盘支架示意",
+        "color": [
+          1,
+          0.78,
+          0.27
+        ],
+        "terms": [
+          "料盘支架"
+        ]
+      },
+      {
+        "id": "path",
+        "kind": "model",
+        "asset_id": "motion.slide_arrow",
+        "label": "向下滑入方向",
+        "color": [
+          0.58,
+          0.95,
+          0.65
+        ],
+        "terms": []
+      },
+      {
+        "id": "base",
+        "kind": "highlight",
+        "component_id": "spool_holder_base",
+        "label": "支架底座高亮",
+        "color": [
+          0.12,
+          0.8,
+          0.88
+        ],
+        "terms": [
+          "支架底座",
+          "底座导槽"
+        ]
+      },
+      {
+        "id": "material",
+        "kind": "highlight",
+        "component_id": "external_spool_holder",
+        "label": "料盘支架高亮",
+        "color": [
+          1,
+          0.78,
+          0.27
+        ],
+        "terms": [
+          "料盘支架"
+        ]
+      }
+    ],
+    "instruction": {
+      "adverbial": "对准底座导槽",
+      "actor_mode": "moving_object",
+      "actor": "料盘支架",
+      "action": "滑入",
+      "object": "支架底座",
+      "acceptance": "直至滑到底部"
+    }
+  }
+}

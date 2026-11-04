@@ -165,6 +165,9 @@ def test_derived_notebook_keeps_original_sources_and_parameters(tmp_path):
     all_code = '\n'.join(''.join(c['source']) for c in result['cells'] if c['cell_type'] == 'code')
     assert 'CUTIE_PRECISION = "float16"' in all_code
     assert 'drive.mount' in all_code and 'GPU_PYTHON=drive_cache.prepare' in all_code
+    assert 'USE_DRIVE_CACHE = False' in all_code and 'PERSIST_REMOTE_LOGS = False' in all_code
+    assert "connection=BASE/'inference.connection.local.json'" in all_code
+    assert "processes['tunnel']" in all_code and "processes['service']" in all_code
     for cell in result['cells']:
         if cell['cell_type'] != 'code':
             continue

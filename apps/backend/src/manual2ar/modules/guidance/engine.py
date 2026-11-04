@@ -34,6 +34,8 @@ class Run:
     completed: bool = False
     closed: bool = False
     results: dict = field(default_factory=dict)
+    u7_checks: dict = field(default_factory=dict)
+    spatial_checks: dict = field(default_factory=dict)
     last_frame: int = -1
     last_active: float = field(default_factory=monotonic)
     lock: object = field(default_factory=threading.Lock)

@@ -59,7 +59,7 @@ def test_bed_tightening_never_calls_vlm_or_claims_torque_verified(app):
 
 def test_authoring_one_new_position_does_not_authorize_unconfirmed_old_positions(app):
     s=app.state.spatial;profiles(s,{'holder.slide':fixture_target()})
-    identity=s.begin(Begin(camera_id='test-webcam',reuse_targets=False))['session_id'];session=s.sessions[identity]
+    identity=s.begin(Begin(visual_client_revision="machine-workframe-v1",camera_id='test-webcam',reuse_targets=False))['session_id'];session=s.sessions[identity];session.u7_checks={'base':{'status':'completed','basis':'controlled geometry fixture'}}
     candidate=uuid.uuid4().hex;session.candidates[candidate]={**fixture_target(),'action_id':'purge.slide','target_id':'main'}
     s.save(identity,Save(candidate_id=candidate,confirmed=True))
     with TestClient(app) as c:
@@ -73,7 +73,7 @@ def test_authoring_one_new_position_does_not_authorize_unconfirmed_old_positions
 def test_user_reported_toolhead_movement_invalidates_related_points_persistently(app):
     s=app.state.spatial;rig=profiles(s,{key:fixture_target() for key in ['toolhead.tie','toolhead.slide','holder.slide']});original=rig.read_bytes()
     with TestClient(app) as c:
-        api=begin(c,'camera',reuse_targets=True)
+        api=begin(c,'camera',u7_fixture_verified=True,reuse_targets=True)
         for i in [1,2]:assert c.post(api+'/frames',json=frame(number=i,action='toolhead.tie')).status_code==200
         identity=api.rsplit('/',1)[-1];candidate=uuid.uuid4().hex
         s.sessions[identity].candidates[candidate]={**fixture_target(),'action_id':'toolhead.tie','target_id':'main','target_epoch':''}
@@ -91,7 +91,7 @@ def test_user_reported_toolhead_movement_invalidates_related_points_persistently
     assert rig.read_bytes()==original
     restarted=create_app(s.config,NoVLM())
     with TestClient(restarted) as c:
-        api=begin(c,'camera',reuse_targets=True)
+        api=begin(c,'camera',u7_fixture_verified=True,reuse_targets=True)
         assert c.post(api+'/frames',json=frame(action='toolhead.tie')).json()['state']=='relocation_required'
 
 

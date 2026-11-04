@@ -30,9 +30,10 @@ def frame(raw=None,number=1,action='purge.slide',**extra):
                 source_sha256=hashlib.sha256(raw).hexdigest(),action_id=action),**extra}
 
 
-def begin(client,mode='replay',**extra):
-    result=client.post('/api/guidance/spatial/sessions',json=dict(camera_id='test-webcam',mode=mode,**extra))
+def begin(client,mode='replay',u7_fixture_verified=False,**extra):
+    result=client.post('/api/guidance/spatial/sessions',json=dict(camera_id='test-webcam',mode=mode,visual_client_revision='machine-workframe-v1',**extra))
     assert result.status_code==201,result.text
+    if u7_fixture_verified:client.app.state.spatial.sessions[result.json()['session_id']].u7_checks={'base':{'status':'completed','basis':'controlled geometry fixture'}}
     return '/api/guidance/spatial/sessions/'+result.json()['session_id']
 
 
@@ -89,8 +90,8 @@ def test_real_camera_never_uses_guessed_intrinsics_or_targets(app):
         assert client.post(api+'/calibration',json={}).status_code==422
         assert client.post(api+'/frames',json=frame(number=2,source_sha256='0'*64)).status_code==409
         # A still-valid frame cannot silently be checked with another action's prompt.
-        mismatch=client.post(api+'/verify',json={'action_id':'holder.slide','client_frame_id':1})
-        assert mismatch.status_code==409 and '其他动作' in mismatch.json()['detail']
+        mismatch=client.post(api+'/verify',json={'action_id':'holder.base','client_frame_id':1})
+        assert mismatch.status_code==409 and '重新拍摄' in mismatch.json()['detail']
 
 
 def test_contract_rejects_stale_frames_wrong_resolution_unknown_actions_and_nonfinite_pixels(app):
@@ -107,7 +108,7 @@ def test_contract_rejects_stale_frames_wrong_resolution_unknown_actions_and_nonf
 
 def test_explicit_two_view_authoring_and_confirmed_profile_reuse(app,tmp_path):
     service=app.state.spatial
-    start=service.begin(Begin(camera_id='real-camera'));identity=start['session_id'];s=service.sessions[identity]
+    start=service.begin(Begin(visual_client_revision="machine-workframe-v1",camera_id='real-camera'));identity=start['session_id'];s=service.sessions[identity]
     s.calibration=calibration();s.mode='camera';s.size=(960,720)
     a=np.diag([1.,-1.,-1.,1.]);a[:3,3]=[-.13,.02,.6];b=a.copy();b[:3,3]=[.13,.02,.6]
     points=[[.07,.03,.01],[.08,-.045,.025]];c=calibration();matrix=np.array(c['matrix']);distortion=np.array(c['distortion'])
@@ -121,7 +122,7 @@ def test_explicit_two_view_authoring_and_confirmed_profile_reuse(app,tmp_path):
     profile=json.loads(service.profile('rigs','a1-mini').read_text())
     assert np.allclose(profile['purge.slide']['points_m'],points,atol=.0001)
     assert len(list((tmp_path/'guidance-spatial/runs'/identity).rglob('view-*.jpg')))==2
-    again=service.begin(Begin(camera_id='real-camera'))
+    again=service.begin(Begin(visual_client_revision="machine-workframe-v1",camera_id='real-camera'))
     assert again['has_saved_targets'] and not again['target_reuse_confirmed']
     service.pin(identity,1)
     assert s.pinned==[1]
@@ -143,7 +144,7 @@ def test_official_action_provenance_and_printable_dimensions(app):
 
 def test_calibration_solves_diverse_views_and_binds_capture_resolution(app):
     from manual2ar.modules.guidance.spatial.printing import PATTERN,SQUARE
-    service=app.state.spatial;identity=service.begin(Begin(camera_id='calibrated-camera'))['session_id'];s=service.sessions[identity]
+    service=app.state.spatial;identity=service.begin(Begin(visual_client_revision="machine-workframe-v1",camera_id='calibrated-camera'))['session_id'];s=service.sessions[identity]
     s.size=(960,720);c=calibration();matrix=np.array(c['matrix']);distortion=np.zeros(5)
     objects=np.zeros((PATTERN[0]*PATTERN[1],3),np.float32);objects[:,:2]=np.mgrid[:9,:6].T.reshape(-1,2)*SQUARE
     for i in range(18):
@@ -161,7 +162,7 @@ def test_calibration_solves_diverse_views_and_binds_capture_resolution(app):
 
 def test_chessboard_capture_requires_full_grid_and_different_view(app):
     from manual2ar.modules.guidance.spatial.printing import PATTERN
-    service=app.state.spatial;identity=service.begin(Begin(camera_id='checkerboard'))['session_id'];s=service.sessions[identity]
+    service=app.state.spatial;identity=service.begin(Begin(visual_client_revision="machine-workframe-v1",camera_id='checkerboard'))['session_id'];s=service.sessions[identity]
     image=np.full((720,960,3),255,np.uint8)
     for y in range(7):
         for x in range(10):
@@ -172,21 +173,20 @@ def test_chessboard_capture_requires_full_grid_and_different_view(app):
     with pytest.raises(HTTPException,match='太相似'):service.add_sample(s,image)
 
 
-def test_optional_check_reuses_v1_chapter_prompt_and_identity_without_progress_mutation(tmp_path):
+def test_optional_u7_check_only_assesses_visible_final_state_without_progress_mutation(tmp_path):
     class Client:
         call=None
         def chat_structured(self,**kw):
             self.call=kw
-            return {'status':'completed','matched_step_id':'U7','inspection_id':'U7-C1',
-                'evidence':'底座贴合，支架已滑入。','confidence':.9,'next_action':'可继续查看教程。','component_boxes_0_1000':[]}
+            return {'status':'completed','evidence':'支架已连接到立柱。','confidence':.9,'next_action':'可继续查看教程。'}
     config=for_module(load(),'guidance');config['runtime_dir']=str(tmp_path);config['vlm']['api_key']='local-test-only'
     spy=Client();app=create_app(config,spy)
     with TestClient(app) as client:
-        api=begin(client,'camera');reply=client.post(api+'/frames',json=frame(action='holder.slide')).json()
+        api=begin(client,'camera',u7_fixture_verified=True);reply=client.post(api+'/frames',json=frame(action='holder.slide')).json()
         result=client.post(api+'/verify',json={'action_id':'holder.slide','client_frame_id':1})
         assert result.status_code==200,result.text
         assert result.json()['advisory_only'] and result.json()['source_sha256']==reply['source_sha256']
-        assert len(spy.call['images_base64'])==1 and 'U7-C1' in spy.call['prompt']
+        assert len(spy.call['images_base64'])==2 and '最终可见安装状态' in spy.call['prompt']
         assert len(app.state.guidance.meta)==0
 
 
@@ -213,7 +213,7 @@ def test_saved_primary_target_survives_upgrade_and_occlusion_without_reauthoring
     path=service.profile('rigs','a1-mini');path.parent.mkdir(parents=True);path.write_text(json.dumps(original));before=path.read_bytes()
     camera=service.profile('cameras','test-webcam');camera.parent.mkdir(parents=True);camera.write_text(json.dumps(calibration()))
     with TestClient(app) as client:
-        api=begin(client,'camera',reuse_targets=True)
+        api=begin(client,'camera',u7_fixture_verified=True,reuse_targets=True)
         result=client.post(api+'/frames',json=frame(action='holder.slide')).json()
         assert result['target_configured'] and result['target_ready'] and result['target_id']=='main'
         assert result['visual']['label']=='支架滑入方向'

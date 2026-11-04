@@ -1,4 +1,4 @@
-"""Source-bound action discovery and learning records; never tutorial completion.
+"""Source-bound action discovery, records and explicitly sourced chapter completion.
 
 The tutorial owns chapter navigation; spatial providers own positioning. This
 bridge binds their identities without making a replay or animation a visual pass.
@@ -14,6 +14,7 @@ class UnboxingExperience:
         self.guidance = guidance
         self.plan = ResourceStore.configured(guidance.config).json('task.unboxing.spatial')
         _, task = guidance.registry.resolve(self.plan['task_id'], self.plan['variant_id'])
+        task.spatial_chapters={a['chapter_id'] for a in self.plan['actions']}
         self.actions = {}
         for original in self.plan['actions']:
             action = deepcopy(original)
@@ -51,8 +52,20 @@ class UnboxingExperience:
             'scope_label': 'Windows 摄像头 · 有标记空间指导' if chapter_actions else '官方图文指导',
             'learning_records': getattr(run, 'spatial_learning', []),
             'record_url': '/api/guidance/runs/' + run.id + '/report'}
+        completion=[]
         for chapter in value['task_info']['steps']:
-            chapter['spatial_mode'] = 'marker' if any(a['chapter_id'] == chapter['id'] for a in all_actions) else 'official'
+            spatial=any(a['chapter_id']==chapter['id'] for a in all_actions)
+            chapter['spatial_mode']='marker' if spatial else 'official'
+            if spatial and chapter['id']=='U7':
+                from . import u7_sequence
+                done=u7_sequence.state(run)['holder_approved']
+            elif spatial:
+                state=next(v for v in engine.task.document.states if v.state_id==chapter['id'])
+                observed=getattr(run,'spatial_checks',{}).get(chapter['id'])
+                done=observed.get('status')=='completed' if observed is not None else all(run.results.get(n.inspection_id,{}).get('status')=='completed' and run.results.get(n.inspection_id,{}).get('channel')=='vision' for n in state.observation_nodes)
+            else:done=chapter['id'] in getattr(run,'tutorial_marks',{})
+            completion.append({'state_id':chapter['id'],'completed':bool(done),'source':'visual_verification' if spatial else 'user_confirmation'})
+        value['chapter_completion']=completion
         return value
 
     def record(self, context, session_id, mode, action, target_id, name, details=None):
@@ -70,6 +83,8 @@ class UnboxingExperience:
                     'chapter_id': action['chapter_id'], 'substep_id': action['substep_id'],
                     'target_id': target_id, 'event': name, 'at': datetime.now(timezone.utc).isoformat(),
                     'operation_verified': False, **(details or {})}
+                if name=='chapter_advice' and mode=='camera' and details:
+                    run.spatial_checks[action['chapter_id']]={'status':details.get('advice_status','uncertain'),'source_sha256':details.get('source_sha256','')}
                 run.spatial_learning.append(item)
                 # Bound the response; full records remain in append-only events.jsonl.
                 run.spatial_learning = run.spatial_learning[-100:]
@@ -77,3 +92,15 @@ class UnboxingExperience:
                 engine.save(run)
             finally:
                 run.lock.release()
+
+    def u7_progress(self,context,callback=None):
+        from . import u7_sequence as sequence
+        with self.guidance.lock:
+            self.context(context['tutorial_run_id']);_,engine,run=self.guidance.parts(context['tutorial_run_id'])
+            engine.acquire(run)
+            try:
+                result=callback(run) if callback else sequence.state(run)
+                if callback:
+                    run.revision+=1;engine.event(run,'u7.sequence_changed',sequence.state(run));engine.save(run)
+                return result
+            finally:run.lock.release()

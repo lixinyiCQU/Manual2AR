@@ -42,6 +42,11 @@ class Session:
     targets: dict
     context: dict = field(default_factory=dict)
     locating:bool=False
+    orientations:dict=field(default_factory=dict)
+    u7_checks:dict=field(default_factory=dict)
+    machine_frame:dict|None=None
+    machine_candidates:dict=field(default_factory=dict)
+    motion_parameters:dict=field(default_factory=dict)
     lock: object = field(default_factory=threading.RLock)
     frames: OrderedDict = field(default_factory=OrderedDict)
     samples: list = field(default_factory=list)
@@ -61,13 +66,29 @@ class SpatialService:
         self.experience = experience
         self.config, self.registry, self.client = config, registry, client
         self.store = ResourceStore.configured(config)
+        from manual2ar.visuals.library import VisualAssetLibrary
+        self.asset_library=VisualAssetLibrary(self.store.path('visual.guidance.catalog'))
         self.plan = experience.catalog() if experience else self.store.json('task.unboxing.spatial')
         self.actions = {a['action_id']: a for a in self.plan['actions']}
+        from .display import DisplayCatalog
+        self.displays=DisplayCatalog(self.store.path('task.unboxing.spatial').parent/'display.json',self.asset_library,self.actions)
         self.root = Path(config['runtime_dir']) / 'guidance-spatial'
         self.sessions = {}; self.lock = threading.RLock();self.profile_lock=threading.RLock();self.rig_validity={}
+        reference_root=self.store.path("task.unboxing.spatial").parent/"vision"
+        manifest=json.loads((reference_root/"references.json").read_text())["references"]
+        self.references={}
+        for key,value in manifest.items():
+            raw=(reference_root/value["file"]).read_bytes()
+            if hashlib.sha256(raw).hexdigest()!=value["sha256"]:raise ValueError("U7 reference hash mismatch")
+            self.references[key]=raw
+        from .part_tracking import PartTracking
+        self.part_tracking=PartTracking(config,client,self.references,self.part_event)
+        from .machine import MachineGuidance
+        self.machine=MachineGuidance(self)
 
     def catalog(self):
         return {**self.plan, 'visual_revision':'mesh-loop-v2', 'marker_id': MARKER_ID, 'marker_length_m': MARKER_LENGTH,
+                'asset_library':self.asset_library.descriptor(),'display_profiles':self.displays.bundle(),'required_client_revision':'machine-workframe-v1',
                 'print_url': '/api/guidance/spatial/print.pdf', 'calibration_minimum_views': 12,
                 'profile_note': '标记与打印机必须保持刚性固定；移动标记或打印机可动部件后请重新设置作用点。'}
 
@@ -76,13 +97,21 @@ class SpatialService:
                 'capture_contract':'manual2ar-capture-v1','visual_contract':'manual2ar-spatial-visual-v1',
                 'active_providers':['desktop_rgb','synthetic'],'reserved_providers':['arkit'],
                 'native_ar_available':False,'depth_required':False,
+                'asset_presentation_contract':'manual2ar-visual-presentation-v1',
+                'machine_frame_contract':'manual2ar-machine-frame-v1',
+                'motion_contract':'manual2ar-teaching-motion-v1',
+                'machine_control_available':False,
                 'placement_method':'calibrated_marker_and_explicit_two_view_authoring',
                 'render_identity':'client_frame_id + source_sha256; upright_unmirrored pixels',
                 'coordinate_convention':self.plan['coordinate_convention']}
 
     def profile(self, name, identity):return self.root / 'profiles' / name / (identity + '.json')
 
+    @staticmethod
+    def store_profile(path,value):atomic_json(path,value)
+
     def begin(self, command):
+        if command.mode=="camera" and command.visual_client_revision!="machine-workframe-v1":raise HTTPException(409,"当前前端是旧版本，请使用资产库演示目录中的启动教学系统.cmd。")
         context = self.experience.context(command.tutorial_run_id) if command.tutorial_run_id and self.experience else {}
         with self.lock:expired=[k for k,s in self.sessions.items() if time.monotonic()-s.touched>1200]
         for identity in expired:self.close(identity)
@@ -97,6 +126,12 @@ class SpatialService:
                 calibration, targets = replay_calibration(), replay_targets(self.actions)
             session = Session(identity, command.camera_id, command.rig_id, command.mode,
                               command.reuse_targets or command.mode == 'replay', calibration, targets)
+            session.orientations=read(self.profile('orientations',command.rig_id)) or {}
+            machine=self.machine.load(command.rig_id) if command.mode!='replay' else None
+            session.saved_machine=machine
+            session.machine_frame=machine if session.reuse else None
+            from manual2ar_contracts.machine_frame import MotionParameters
+            session.motion_parameters={k:MotionParameters.model_validate(v).model_dump() for k,v in (read(self.profile('motions',command.rig_id)) or {}).items()}
             session.context = context
             session.authorized=set(targets) if session.reuse else set()
             if command.mode!='replay':
@@ -104,9 +139,20 @@ class SpatialService:
                     if command.rig_id not in self.rig_validity:self.rig_validity[command.rig_id]=read(self.profile('rig-validity',command.rig_id)) or {}
                     session.invalidated=self.rig_validity[command.rig_id]
             self.sessions[identity] = session
-            self.event(session, 'session.begin', {'mode': command.mode, 'reuse_targets': session.reuse})
+            self.event(session, 'session.begin', {'mode': command.mode, 'reuse_targets': session.reuse,'client_visual_revision':command.visual_client_revision})
             return {'session_id': identity, 'calibrated': calibration is not None, 'mode': command.mode,
-                    'has_saved_targets': bool(targets), 'target_reuse_confirmed': session.reuse, 'tutorial_context': context}
+                    'has_saved_targets': bool(targets) or bool(machine),'has_saved_machine_frame':bool(machine),'u7_sequence':self.u7_progress(session), 'target_reuse_confirmed': session.reuse, 'tutorial_context': context}
+
+    def reuse_saved(self,identity):
+        with self.session(identity) as session:
+            frame=session.frames.get(session.last)
+            if session.mode!='camera' or not session.calibration or not frame or not frame['pose'] or time.monotonic()-frame['at']>5:
+                raise HTTPException(409,'请让固定定位标记清晰入镜，再确认开始。')
+            if not session.targets:raise HTTPException(409,'没有作用点缓存，请先配置空间锚点。')
+            session.authorized=set(session.targets);session.reuse=True
+            session.machine_frame=self.machine.load(session.rig)
+            self.event(session,'preflight.confirmed',{'client_frame_id':session.last,'source_sha256':frame['sha256'],'machine_frame_id':(session.machine_frame or {}).get('frame_id','')})
+            return {'status':'ready','machine_frame':session.machine_frame}
 
     @contextmanager
     def session(self, identity):
@@ -125,10 +171,11 @@ class SpatialService:
             f.write(json.dumps({'event':name,'time':time.time(),'visual_revision':'mesh-loop-v2',**s.context,**data},ensure_ascii=False)+'\n')
 
     def close(self, identity):
+        self.part_tracking.cancel(identity)
         with self.lock:s=self.sessions.pop(identity,None)
         if s:
             with s.lock:
-                s.closed=True;s.frames.clear();s.samples.clear();s.candidates.clear()
+                s.closed=True;s.frames.clear();s.samples.clear();s.candidates.clear();s.machine_candidates.clear()
                 self.event(s,'session.close',{})
 
     def action(self, identity):
@@ -149,13 +196,14 @@ class SpatialService:
             raw=base64.b64decode(request.image_base64,validate=True)
             if hashlib.sha256(raw).hexdigest()!=request.source_sha256:raise HTTPException(409,'图像校验失败，请重新取景。')
             with Image.open(io.BytesIO(raw)) as image:
-                if image.format!='JPEG' or not 320<=image.width<=1280 or not 240<=image.height<=960:
-                    raise ValueError('JPEG must be between 320x240 and 1280x960')
+                if image.format!='JPEG' or not 160<=image.width<=1280 or not 160<=image.height<=1280:
+                    raise ValueError('JPEG sides must be between 160 and 1280')
                 image.load();pixels=np.asarray(image.convert('RGB'))[:,:,::-1].copy()
         except HTTPException:raise
         except Exception:raise HTTPException(422,'图像无效，请使用摄像头原始拍摄画面。') from None
         h,w=pixels.shape[:2]
         with self.session(identity) as s:
+            self.require_u7(s,action['action_id'])
             snapshot=request.snapshot
             if snapshot:
                 if snapshot.provider_id!=('synthetic' if s.mode=='replay' else 'desktop_rgb'):
@@ -166,12 +214,14 @@ class SpatialService:
             if s.size and s.size!=(w,h):raise HTTPException(409,'画幅已变化，请重新启动空间指导并标定当前画幅。')
             s.size=(w,h);s.last=request.client_frame_id
             target=s.targets.get(key) if key in s.authorized and key not in s.invalidated else None
+            motion=self.machine.motion(s,action)
             result={'session_id':identity,'action_id':action['action_id'],'client_frame_id':s.last,
                     'target_id':request.target_id,'target_label':instance['label'],
                     'source_sha256':request.source_sha256,'width':w,'height':h,'lines':[],
                     'state':'camera_calibration_required','sample_count':len(s.samples),'pose':None,
                     'target_ready':False,'target_configured':bool(target) or (key in s.invalidated and key in s.targets),
-                    'requires_relocation':key in s.invalidated,'calibrated':False,'visual':None}
+                    'requires_relocation':key in s.invalidated,'calibrated':False,'visual':None,'companion_visuals':[],
+                    'machine_frame':s.machine_frame,'motion_parameters':motion,'machine_axes':[],'u7_sequence':self.u7_progress(s)}
             if request.calibration_sample:
                 self.add_sample(s,pixels);result['sample_count']=len(s.samples)
             calibration=s.calibration
@@ -181,34 +231,73 @@ class SpatialService:
                     result['state']='calibration_resolution_mismatch'
                 else:
                     result['calibrated']=True
+                    result['orientation']=s.orientations.get(key,{'rotation_degrees':[0,0,0],'rotation_sign':1})
                     matrix,distortion=np.array(calibration['matrix']),np.array(calibration['distortion'])
                     pose,status=detect_pose(pixels,matrix,distortion)
                     result['state']=status
                     if pose:
+                        from .orientation import axes
+                        result['reference_axes']=axes(np.zeros(3),np.eye(3),pose['transform'],matrix,distortion,.035)
+                        if s.machine_frame:
+                            transform=np.array(s.machine_frame['marker_from_machine']).reshape(4,4)
+                            try:result['machine_axes']=axes(transform[:3,3],transform[:3,:3],pose['transform'],matrix,distortion,.05)
+                            except ValueError:pass
                         result['pose']={'matrix':pose['transform'].flatten().tolist(),
                             'reprojection_px':pose['reprojection_px'],
                             'corners':[{'x':float(p[0]),'y':float(p[1])} for p in pose['corners']]}
                         if target and target.get('marker_length_m')==MARKER_LENGTH and target.get('marker_id')==MARKER_ID:
                             try:
-                                lines=np.asarray(guide_lines(target['points_m'],action['kind']))
+                                from .machine import effective_points
+                                points,_=effective_points(target['points_m'],action,s.machine_frame,motion)
+                                lines=np.asarray(guide_lines(points,action['kind']))
                                 projected=project(lines.reshape(-1,3),pose['transform'],matrix,distortion).reshape(-1,2,2)
                                 if np.any(projected[:,:,0]<0) or np.any(projected[:,:,0]>w) or np.any(projected[:,:,1]<0) or np.any(projected[:,:,1]>h):
                                     result['state']='target_outside_view'
                                 else:
                                     result['lines']=[{'a':{'x':float(a[0]),'y':float(a[1])},'b':{'x':float(b[0]),'y':float(b[1])}} for a,b in projected]
-                                    result['visual']=compose(action,instance['label'],target['points_m'],pose['transform'],matrix,distortion)
+                                    result['visual']=compose(action,instance['label'],points,pose['transform'],matrix,distortion,self.asset_library,s.orientations.get(key),s.machine_frame,motion)
+                                    if action['action_id'] in self.displays.profiles:
+                                        result['visual']['display']=self.displays.at(action['action_id'],points[1]);result['visual']['text_labels']=[]
                                     result['target_ready']=True
+                                    result['companion_visuals']=[]
+                                    if action['action_id']=='holder.base':
+                                        for other in action['target_instances']:
+                                            _,_,other_key=self.target(action['action_id'],other['id'])
+                                            saved=s.targets.get(other_key)
+                                            if other_key==key or other_key not in s.authorized or other_key in s.invalidated or not saved:continue
+                                            if saved.get('marker_id')!=MARKER_ID or saved.get('marker_length_m')!=MARKER_LENGTH:continue
+                                            try:
+                                                second,_=effective_points(saved['points_m'],action,s.machine_frame,motion)
+                                                xy=project(second,pose['transform'],matrix,distortion)
+                                                if np.any(xy[:,0]<0) or np.any(xy[:,0]>w) or np.any(xy[:,1]<0) or np.any(xy[:,1]>h):continue
+                                                result['companion_visuals'].append(compose(action,other['label'],second,pose['transform'],matrix,distortion,self.asset_library,s.orientations.get(other_key),s.machine_frame,motion))
+                                            except ValueError:continue
                             except ValueError:result['state']='target_outside_view'
                         else:result['state']='relocation_required' if key in s.invalidated else 'target_setup_required'
+            for companion in result.get('companion_visuals',[]):
+                if action['action_id'] in self.displays.profiles:companion['text_labels']=[]
             s.frames[s.last]={'raw':raw,'pose':pose,'size':(w,h),'sha256':request.source_sha256,'at':time.monotonic(),'action_id':action['action_id'],'target_id':request.target_id,'target_epoch':s.invalidated.get(key,''),'snapshot':snapshot.model_dump() if snapshot else None}
             while len(s.frames)>80:
                 oldest=next(k for k in s.frames if k not in s.pinned)
                 del s.frames[oldest]
             # No unbounded per-frame images on disk; retain only explicit authoring/check evidence.
             result['processing_ms']=round((time.perf_counter()-started)*1000,2)
+            cached=s.targets.get(key) if key not in s.invalidated else None
+            preview=None
+            if pose and cached and cached.get('marker_id')==MARKER_ID and cached.get('marker_length_m')==MARKER_LENGTH:
+                try:
+                    xy=project([cached['points_m'][1]],pose['transform'],matrix,distortion)[0]
+                    if 0<=xy[0]<w and 0<=xy[1]<h:preview={'x':float(xy[0]),'y':float(xy[1])}
+                except ValueError:pass
+            result['preflight']={'has_cached_target':bool(cached),'has_cached_machine':bool(s.machine_frame or getattr(s,'saved_machine',None)),
+                'marker_visible':pose is not None,'can_start':bool(preview),'anchor':preview}
             self.event(s,'frame', {**{k:result[k] for k in ['client_frame_id','source_sha256','action_id','target_id','state','processing_ms']},
                 'pose':result['pose'],'capture_snapshot':snapshot.model_dump() if snapshot else None,'target_anchor':result['visual']['anchor'] if result['visual'] else None,
-                'asset_id':(result['visual'].get('asset') or {}).get('asset_id') if result['visual'] else None})
+                'asset_id':(result['visual'].get('asset') or {}).get('asset_id') if result['visual'] else None,
+                'presentation_id':(result['visual'].get('presentation') or {}).get('presentation_id') if result['visual'] else None,
+                'machine_frame_id':s.machine_frame['frame_id'] if s.machine_frame else None,
+                'motion_parameters':motion,
+                'catalog_sha256':self.asset_library.sha256})
             return result
 
     def pin(self,identity,frame_id):
@@ -250,6 +339,7 @@ class SpatialService:
     def author(self,identity,request):
         _,instance,key=self.target(request.action_id,request.target_id)
         with self.session(identity) as s:
+            self.require_u7(s,request.action_id)
             if s.mode!='camera' or not s.calibration:raise HTTPException(409,'请先为真实摄像头完成标定。')
             first,second=s.frames.get(request.first_frame),s.frames.get(request.second_frame)
             if first is None or second is None or not first['pose'] or not second['pose']:
@@ -301,6 +391,7 @@ class SpatialService:
     def interaction(self,identity,request):
         action,_,_=self.target(request.action_id,request.target_id)
         with self.session(identity) as s:
+            self.require_u7(s,request.action_id)
             if request.event_id in s.event_ids:return {'status':'recorded','duplicate':True}
             if request.client_frame_id:
                 frame=s.frames.get(request.client_frame_id)
@@ -342,6 +433,7 @@ class SpatialService:
         return result
 
     def verify(self,identity,request):
+        if self.action(request.action_id)["chapter_id"]=="U7":return self.verify_u7(identity,request)
         action,_,_=self.target(request.action_id,request.target_id)
         if action.get('verification_mode')=='manual':raise HTTPException(409,'本章由用户对照官方说明人工确认，视觉不能判断螺丝松紧；本次未调用 VLM。')
         with self.session(identity) as s:
@@ -382,6 +474,9 @@ class SpatialService:
                 'client_frame_id':request.client_frame_id,'advisory_only':True,**reply.model_dump()}
 
     def locate(self,identity,request):
+        if self.action(request.action_id)["chapter_id"]=="U7":
+            frame=self.photo_frame(identity,request)
+            return self.part_tracking.begin(identity,frame)
         action,instance,_=self.target(request.action_id,request.target_id)
         with self.session(identity) as s:
             if s.mode=='replay':raise HTTPException(409,'模拟场景不调用现场部件识别。')
@@ -409,3 +504,62 @@ class SpatialService:
             return {**result,'session_id':identity,'source_sha256':sha,'client_frame_id':request.client_frame_id}
         finally:
             with s.lock:s.locating=False
+
+    def photo_frame(self,identity,request):
+        with self.session(identity) as session:
+            if session.mode=='replay':raise HTTPException(409,'合成回放不能调用现场视觉检查。')
+            self.require_u7(session,request.action_id)
+            frame=session.frames.get(request.client_frame_id)
+            if not frame or time.monotonic()-frame['at']>60 or frame['action_id']!=request.action_id or frame.get('target_id','main')!=request.target_id:raise HTTPException(409,'请重新拍摄当前步骤。')
+            return {**frame,'client_frame_id':request.client_frame_id}
+
+    def part_event(self,job,name,data):
+        with self.lock:session=self.sessions.get(job.session_id)
+        if session and not session.closed:self.event(session,name,{'job_id':job.identity,**data})
+
+    def verify_u7(self,identity,request):
+        frame=self.photo_frame(identity,request)
+        if not self.config['vlm']['api_key'].strip():raise HTTPException(503,'请在配置文件填写 API Key。')
+        folder=self.root/'runs'/identity/('installation-'+uuid.uuid4().hex);folder.mkdir(parents=True)
+        from .u7_vision import installation
+        from .vision_context import failure
+        started=time.perf_counter()
+        from .u7_vision import base_installation
+        from .. import u7_sequence as sequence
+        with self.session(identity) as current:token=self.u7_progress(current,lambda owner:sequence.start(owner,request.action_id))
+        try:answer=base_installation(self.client,self.config,frame['raw'],self.references['base'],folder) if request.action_id=='holder.base' else installation(self.client,self.config,frame['raw'],self.references['installation'],folder)
+        except Exception as error:
+            failure(folder,error)
+            with self.session(identity) as current:self.u7_progress(current,lambda owner:sequence.finish(owner,request.action_id,token,{'status':'uncertain','evidence':'视觉服务暂不可用，请重新检查。'}))
+            raise HTTPException(502,'安装参考暂不可用，请稍后重新拍摄。') from None
+        with self.session(identity) as session:
+            progress=self.u7_progress(session,lambda owner:sequence.finish(owner,request.action_id,token,{**answer,'source_sha256':frame['sha256'],'frame_id':request.client_frame_id}))
+            self.event(session,'installation.checked',{'client_frame_id':request.client_frame_id,'source_sha256':frame['sha256'],'status':answer['status'],'scope':'visible_final_installation','elapsed_ms':round((time.perf_counter()-started)*1000)})
+        return {**answer,'action_id':request.action_id,'target_id':request.target_id,'source_sha256':frame['sha256'],'client_frame_id':request.client_frame_id,'u7_sequence':progress,'advisory_only':request.action_id!='holder.base','scope':'visible_base_installation' if request.action_id=='holder.base' else 'visible_final_installation'}
+
+    def orient(self,identity,request):
+        from .orientation import rotation
+        try:rotation(request.rotation_degrees)
+        except ValueError as error:raise HTTPException(422,str(error)) from None
+        _,_,key=self.target(request.action_id,request.target_id)
+        with self.session(identity) as session:
+            self.require_u7(session,request.action_id)
+            if key not in session.authorized or key in session.invalidated:raise HTTPException(409,'请先确认当前作用点，再调整 XYZ 姿态。')
+            value={'rotation_degrees':request.rotation_degrees,'rotation_sign':request.rotation_sign}
+            with self.profile_lock:
+                path=self.profile('orientations',session.rig);saved=json.loads(path.read_text()) if path.is_file() else {};saved[key]=value
+                if session.mode!='replay':atomic_json(path,saved)
+                session.orientations[key]=value
+            self.event(session,'orientation.saved',{'action_id':request.action_id,'target_id':request.target_id,**value})
+            return value
+
+    def u7_progress(self,session,callback=None):
+        from .. import u7_sequence as sequence
+        if session.context and self.experience:
+            value=self.experience.u7_progress(session.context,callback)
+            return {**value,'enforced':False,'message':'合成回放仅展示动作，不解锁实机安装。'} if callback is None and session.mode=='replay' else value
+        return callback(session) if callback else sequence.state(session,enforced=session.mode!='replay')
+
+    def require_u7(self,session,action_id):
+        from ..u7_sequence import MESSAGE
+        if session.mode!='replay' and action_id=='holder.slide' and not self.u7_progress(session)['base_approved']:raise HTTPException(409,MESSAGE)

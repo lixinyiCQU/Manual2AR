@@ -9,6 +9,14 @@ def main():
     for identity in store.entries:
         if not store.path(identity).is_file():raise ValueError('Missing resource: '+identity)
     tasks=TaskRegistry(for_module(config,'guidance'))
+    from manual2ar.visuals.library import VisualAssetLibrary
+    library=VisualAssetLibrary(store.path('visual.guidance.catalog'))
+    for action in store.json('task.unboxing.spatial')['actions']:
+        if 'machine_motion' in action:
+            from manual2ar_contracts.machine_frame import MotionParameters
+            MotionParameters.model_validate(action['machine_motion'])
+        identity=action.get('visual_guidance',{}).get('presentation_id')
+        if identity and identity not in library.presentations:raise ValueError('Unknown visual presentation')
     archive=resolve(config['paths']['wiki_archive'])
     manifest=store.json('source.bambu_wiki.manifest')
     if archive.is_file():

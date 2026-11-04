@@ -24,9 +24,49 @@ class DelayedTracker(FakeTracker):
         self.shared_masks[key]=mask
         return key,self.result(key)
 
+def install_u7_fixture(app):
+    """Only this controlled test server exposes seeding; production never imports this module."""
+    import numpy as np
+    from manual2ar.modules.guidance.spatial.simulation import calibration,targets
+    from manual2ar_contracts.machine_frame import MachineFrame
+    from tests.backend.guidance.test_u7_parts import GPU,VLM
+    spatial=app.state.modules['guidance'].state.spatial
+    original=spatial.part_tracking.vlm
+    recognition_count=0;next_failure={}
+    class PartsClient:
+        def chat_structured(self,**kwargs):
+            nonlocal recognition_count
+            if 'parts' in kwargs['schema'].get('properties',{}):
+                recognition_count+=1
+                if next_failure.pop('recognition',False):raise ValueError('Controlled recognition failure')
+                return VLM().chat_structured(**kwargs)
+            if next_failure.pop('verification',False):return VLM('not_completed').chat_structured(**kwargs)
+            return original.chat_structured(**kwargs)
+    spatial.client=PartsClient();spatial.part_tracking.vlm=spatial.client;spatial.part_tracking.client_factory=GPU
+    # The fixture client reads a connection descriptor, but GPU above performs no network I/O.
+    connection=Path(spatial.config['runtime_dir'])/'controlled-gpu.json';connection.parent.mkdir(parents=True,exist_ok=True);connection.write_text('{}');spatial.part_tracking.config={**spatial.part_tracking.config,'gpu_connection_file':str(connection)}
+    @app.post('/test/spatial/next-failure')
+    def fail_next(command:dict):
+        assert command['kind'] in ('recognition','verification')
+        next_failure[command['kind']]=True;return {'ready':True}
+    @app.get('/test/spatial/recognition-count')
+    def count():return {'count':recognition_count}
+    @app.post('/test/spatial/seed')
+    def seed(command:dict):
+        camera_id=command['camera_id']
+        if not isinstance(camera_id,str) or len(camera_id)!=24 or any(c not in '0123456789abcdef' for c in camera_id):raise ValueError('Invalid fixture camera')
+        spatial.store_profile(spatial.profile('cameras',camera_id),calibration())
+        spatial.store_profile(spatial.profile('rigs','a1-mini'),targets(spatial.actions))
+        spatial.store_profile(spatial.profile('machines','a1-mini'),MachineFrame(marker_id=23,marker_length_m=.08,marker_from_machine=np.eye(4).ravel().tolist(),frame_id='a'*32,source_frame_sha256=['b'*64,'c'*64],quality={}).model_dump())
+        spatial.rig_validity.pop('a1-mini',None);spatial.profile('rig-validity','a1-mini').unlink(missing_ok=True)
+        return {'status':'seeded'}
+
+
 if __name__=='__main__':
     c=configuration(Path(tempfile.mkdtemp(prefix='manual2ar-controlled-')))
     real=load();c['paths']['wiki_archive']=real['paths']['wiki_archive']
     c['gpu']['connection_file']=str(Path(c['paths']['runtime']).parent/'missing-gpu.connection.local.json')
     c['backend'].update(public_url='http://127.0.0.1:18010',port=18010)
-    uvicorn.run(create_app(c,{'learning':ComponentVLM(),'guidance':VisualClient(),'inspection':FakeVLM()},tracker_factory=lambda _:DelayedTracker()),host='0.0.0.0',port=18010)
+    app=create_app(c,{'learning':ComponentVLM(),'guidance':VisualClient(),'inspection':FakeVLM()},tracker_factory=lambda _:DelayedTracker())
+    install_u7_fixture(app)
+    uvicorn.run(app,host='0.0.0.0',port=18010)

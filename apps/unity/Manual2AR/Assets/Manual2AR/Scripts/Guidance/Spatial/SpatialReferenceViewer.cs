@@ -6,9 +6,9 @@ namespace Manual2AR.Spatial {
  public sealed class SpatialReferenceViewer:MonoBehaviour {
   public static SpatialReferenceViewer Open(Transform parent,Texture texture,string caption){
    var shade=AppTheme.Rect(parent,"Enlarged spatial reference",Vector2.zero,Vector2.one);
-   var canvas=shade.gameObject.AddComponent<Canvas>();canvas.overrideSorting=true;canvas.sortingOrder=600;shade.gameObject.AddComponent<GraphicRaycaster>();
+   var canvas=shade.gameObject.AddComponent<Canvas>();canvas.overrideSorting=true;canvas.sortingOrder=620;shade.gameObject.AddComponent<GraphicRaycaster>();
    var viewer=shade.gameObject.AddComponent<SpatialReferenceViewer>();
-   var background=shade.gameObject.AddComponent<Image>();background.color=new Color(0,0,0,.85f);
+   var background=shade.gameObject.AddComponent<Image>();background.color=new Color(0,0,0,.85f);AppModalBackdrop.Attach(shade.gameObject);
    var dismiss=shade.gameObject.AddComponent<Button>();dismiss.targetGraphic=background;dismiss.transition=Selectable.Transition.None;dismiss.onClick.AddListener(viewer.Close);
    var panel=AppTheme.Panel(shade,"Reference photo dialog",new Vector2(.04f,.04f),new Vector2(.96f,.96f));
    AppTheme.Label(panel,caption,new Vector2(.025f,.925f),new Vector2(.72f,.985f),26,AppTheme.TargetCyan);

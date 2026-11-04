@@ -32,5 +32,10 @@
   "display": {
     "width": 1920,
     "height": 1080
+  },
+  "localization": {
+    "initialization_timeout_seconds": 90,
+    "tracking_timeout_seconds": 8,
+    "target_fps": 5
   }
 }

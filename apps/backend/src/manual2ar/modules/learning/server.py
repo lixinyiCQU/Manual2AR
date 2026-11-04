@@ -140,6 +140,13 @@ def create_app(config,client=None,knowledge_store=None):
         except KeyError:raise HTTPException(404,'页面不在当前离线快照中')
 
 
+    @app.get('/api/learning/wiki/resolve')
+    def wiki_resolve(url:str):
+        from urllib.parse import urlsplit,unquote
+        if len(url)>2048:raise HTTPException(422,'官方资料链接过长')
+        try:return knowledge.wiki.destination(url,unquote(urlsplit(url).fragment))
+        except (KeyError,ValueError):raise HTTPException(404,'该指南不在当前离线快照中') from None
+
     @app.get('/api/learning/wiki/pages/{identity}/html',response_class=HTMLResponse)
     def wiki_html(identity:str):
         wiki_page(identity)

@@ -235,24 +235,24 @@ namespace Manual2AR
         }
         protected void Sources()
         {
-            if(run==null)return;CloseModal();modal=Frame("官方来源",root,new Vector2(.10f,.10f),new Vector2(.90f,.90f)).gameObject;
+            if(run==null)return;CloseModal();modal=Frame("官方来源",root,new Vector2(.10f,.10f),new Vector2(.90f,.90f)).gameObject;AppModalBackdrop.Attach(modal);
             var sheet=Scroll(modal.transform,new Vector2(.03f,.17f),new Vector2(.97f,.95f));
             Paragraph(sheet,"本步官方原文证据",29,Cyan);
             foreach(var source in run.presentation.sources??new UnboxingSource[0])Paragraph(sheet,source.text+"\n来源："+source.url+"\n采集："+source.captured_at+"\n引用："+source.id,20,Color.white);
             ButtonAt(modal.transform,"打开官方页面",new Vector2(.04f,.035f),new Vector2(.58f,.12f),()=>{if(run.presentation.sources.Length>0)Application.OpenURL(run.presentation.sources[0].url);});
             ButtonAt(modal.transform,"关闭",new Vector2(.65f,.035f),new Vector2(.96f,.12f),CloseModal);
         }
-        protected virtual void CloseModal(){if(modal!=null){Destroy(modal);modal=null;}}
+        protected virtual void CloseModal(){if(modal!=null){modal.SetActive(false);Destroy(modal);modal=null;}}
         protected virtual void EnlargeReference()
         {
-            if(referenceTexture==null)return;CloseModal();modal=Frame("查看参考图",root,new Vector2(.04f,.08f),new Vector2(.96f,.91f)).gameObject;
+            if(referenceTexture==null)return;CloseModal();modal=Frame("查看参考图",root,new Vector2(.04f,.08f),new Vector2(.96f,.91f)).gameObject;AppModalBackdrop.Attach(modal);
             var image=Rect("Official photo",modal.transform,new Vector2(.03f,.14f),new Vector2(.97f,.97f)).gameObject.AddComponent<RawImage>();
             image.texture=referenceTexture;image.raycastTarget=false;var fit=image.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=(float)referenceTexture.width/referenceTexture.height;
             ButtonAt(modal.transform,"关闭参考图",new Vector2(.70f,.02f),new Vector2(.97f,.10f),CloseModal);
         }
         protected void ResetDialog()
         {
-            if(busy)return;CloseModal();modal=Frame("重新开始",root,new Vector2(.23f,.28f),new Vector2(.77f,.72f)).gameObject;
+            if(busy)return;CloseModal();modal=Frame("重新开始",root,new Vector2(.23f,.28f),new Vector2(.77f,.72f)).gameObject;AppModalBackdrop.Attach(modal);
             TextAt(modal.transform,"重新开始将建立新的指导记录。已有日志保留；当前进度不再继续。",new Vector2(.07f,.35f),new Vector2(.93f,.9f),25);
             ButtonAt(modal.transform,"重新开始",new Vector2(.06f,.08f),new Vector2(.55f,.26f),()=>{CloseModal();StartCoroutine(Connect(true));});
             ButtonAt(modal.transform,"取消",new Vector2(.62f,.08f),new Vector2(.94f,.26f),CloseModal);
@@ -276,9 +276,9 @@ namespace Manual2AR
         }
         protected void BuildProgress(int total)
         {
-            if(progress!=null)foreach(var text in progress){text.gameObject.SetActive(false);Destroy(text.gameObject);}
+            if(progress!=null)foreach(var text in progress){var target=text.transform.parent.name=="Chapter navigation"?text.transform.parent.gameObject:text.gameObject;target.SetActive(false);Destroy(target);}
             progress=new Text[total];float width=.94f/Mathf.Max(1,total);
-            for(int i=0;i<total;i++){progress[i]=TextAt(root,""+(i+1),new Vector2(.03f+i*width,.895f),new Vector2(.03f+(i+1)*width,.928f),22);progress[i].alignment=TextAnchor.MiddleCenter;}
+            for(int i=0;i<total;i++){var frame=AppTheme.Panel(root,"Chapter navigation",new Vector2(.03f+i*width,.895f),new Vector2(.03f+(i+1)*width-.004f,.938f));frame.GetComponent<Image>().color=Color.clear;progress[i]=TextAt(frame,""+(i+1),Vector2.zero,Vector2.one,22);progress[i].alignment=TextAnchor.MiddleCenter;}
         }
         protected abstract void BuildUI();
         public IEnumerator ReleaseModule(){

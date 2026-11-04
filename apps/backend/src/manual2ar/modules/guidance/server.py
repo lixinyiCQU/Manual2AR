@@ -59,6 +59,7 @@ def create_app(config, client=None, log_root=None):
     async def lifespan(app):
         yield
         for identity in list(spatial.sessions):spatial.close(identity)
+        spatial.part_tracking.shutdown()
         for identity in list(service.meta):service.close(identity)
     app = FastAPI(title='Manual2AR 模块二：操作指导',lifespan=lifespan)
     app.state.guidance = service

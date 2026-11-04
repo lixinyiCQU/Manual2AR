@@ -314,10 +314,10 @@ namespace Manual2AR {
   }
   IEnumerator PerformanceReceipt(InspectionRender data){performancePending=true;try{yield return SendEvent("frontend.performance",data);}finally{performancePending=false;}}
   void MaybeOfferOcclusion(){if(latest!=null&&latest.public_result!=null&&latest.public_result.requires_occlusion_confirmation&&offeredOcclusionCheck!=latest.check_id){offeredOcclusionCheck=latest.check_id;ShowOcclusionDialog();}}
-  void CloseOcclusionDialog(){if(occlusionDialog!=null){Destroy(occlusionDialog);occlusionDialog=null;}modalCheck=modalSha="";}
+  void CloseOcclusionDialog(){if(occlusionDialog!=null){occlusionDialog.SetActive(false);Destroy(occlusionDialog);occlusionDialog=null;}modalCheck=modalSha="";}
   void ShowOcclusionDialog(){
    if(latest==null||latest.public_result==null||!latest.public_result.requires_occlusion_confirmation||inspectionInProgress)return;CloseOcclusionDialog();modalCheck=latest.check_id;modalSha=latest.public_result.inspection_source_sha256;
-   var dim=Rect("Occlusion Confirmation",root,Vector2.zero,Vector2.one);occlusionDialog=dim.gameObject;dim.gameObject.AddComponent<Image>().color=new Color(0,0,0,.72f);
+   var dim=Rect("Occlusion Confirmation",root,Vector2.zero,Vector2.one);occlusionDialog=dim.gameObject;dim.gameObject.AddComponent<Image>().color=new Color(0,0,0,.72f);AppModalBackdrop.Attach(occlusionDialog);
    var card=Panel(dim,"人工确认",new Vector2(.23f,.25f),new Vector2(.77f,.75f));
    var title=TextAt(card,"打印头遮挡左上角",new Vector2(.055f,.77f),new Vector2(.945f,.94f),36,Color.white);title.fontStyle=FontStyle.Bold;
    TextAt(card,"可见板面未见明显异物或残料。\n\n打印头挡住的区域无法由摄像头确认。请确认这是打印头的正常遮挡，且您已人工确认板面无异物或残料。",new Vector2(.055f,.25f),new Vector2(.945f,.75f),29,Color.white);
