@@ -14,11 +14,11 @@ SOURCES=('deploy/__init__.py','deploy/common/files.py','deploy/colab/environment
 def bundle_bytes():
     stream=io.BytesIO()
     with zipfile.ZipFile(stream,'w',zipfile.ZIP_DEFLATED) as archive:
-        for name in SOURCES:archive.writestr(name,(ROOT/name).read_bytes())
+        for name in SOURCES:archive.writestr(zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0)),(ROOT/name).read_bytes(),compress_type=zipfile.ZIP_DEFLATED)
     return stream.getvalue()
 
 
-def build():
+def build(destination=None):
     cells=[]
     def cell(kind,text):
         value={'cell_type':kind,'metadata':{},'source':text.splitlines(True)}
@@ -67,7 +67,10 @@ print('观察已在后台开始；本单元返回不是测试结束。请查看 
     cell('code',"print((ROOT/'retention-status.json').read_text())\n")
     value={'nbformat':4,'nbformat_minor':5,'metadata':{'accelerator':'GPU',
         'colab':{'name':'Manual2AR_Diagnostics.ipynb'},'kernelspec':{'display_name':'Python 3','language':'python','name':'python3'}},'cells':cells}
-    target=ROOT/'deploy/colab/Manual2AR_Diagnostics.ipynb'
+    if destination is None:
+        from manual2ar.application.config import load,resolve
+        destination=resolve(load()['paths']['builds'])/'Manual2AR_Diagnostics.ipynb'
+    target=Path(destination);target.parent.mkdir(parents=True,exist_ok=True)
     target.write_text(json.dumps(value,ensure_ascii=False,indent=1)+'\n');return target
 
 if __name__=='__main__':print(build())

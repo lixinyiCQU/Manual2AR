@@ -41,6 +41,7 @@ class Job:
     targets:list=field(default_factory=list)
     last_raw:bytes=b''
     last_masks:dict=field(default_factory=dict)
+    future:object=None
 
 
 class PartTracking:
@@ -60,14 +61,19 @@ class PartTracking:
                 self.cancel(session,current.identity)
         identity=uuid.uuid4().hex;folder=Path(self.config['runtime_dir'])/'guidance-spatial/runs'/session/('parts-'+identity);folder.mkdir(parents=True,exist_ok=True)
         job=Job(identity,session,folder,frame['raw'],frame['client_frame_id'],frame['sha256'],action_id=frame.get('action_id','holder.slide'))
-        with self.lock:self.jobs[session]=job
-        self.pool.submit(self._initialize,job)
+        with self.lock:
+            self.jobs[session]=job
+            job.future=self.pool.submit(self._initialize,job)
         return self.status(session,identity)
 
     def _initialize(self,job):
         started=time.perf_counter();client=None
         try:
+            with job.lock:
+                if job.cancelled:return
             self.event(job,'parts.recognition_started',{})
+            with job.lock:
+                if job.cancelled:return
             answer=identify(self.vlm,self.config,job.raw,self.references['base'],self.references['holder'],job.folder,action_id=job.action_id)
             if job.action_id=='holder.base':
                 for part in answer.parts:
@@ -84,15 +90,21 @@ class PartTracking:
             self.event(job,'parts.segmentation_started',{'objects':len(targets)})
             job.targets=targets
             try:
+                with job.lock:
+                    if job.cancelled:return
                 with self.lock: cooling_down=time.monotonic()<self.gpu_retry_at
                 if cooling_down:raise ConnectionError('GPU retry cooldown')
                 connection=json.loads(Path(self.config['gpu_connection_file']).read_text())
                 client=self.client_factory(connection,timeout=2)
                 client.health()
+                with job.lock:
+                    if job.cancelled:return
                 client.http.timeout=self.config['localization']['initialization_timeout_seconds']
                 masks,metrics=client.start(job.raw,targets)
                 client.http.timeout=self.config['localization']['tracking_timeout_seconds']
             except Exception as error:
+                with job.lock:
+                    if job.cancelled:return
                 if client:self.pool.submit(self._close,job,client)
                 client,masks,metrics=self._cpu_fallback(job,error,job.raw)
             image=cv2.imdecode(np.frombuffer(job.raw,np.uint8),cv2.IMREAD_COLOR);job.shape=image.shape[:2]
@@ -205,7 +217,9 @@ class PartTracking:
                 if job and (expected_identity is None or job.identity==expected_identity):
                     registry.pop(session);removed[job.identity]=job
             for job in removed.values():
-                with job.lock:job.cancelled=True;client=job.client;job.client=None
+                with job.lock:
+                    job.cancelled=True;client=job.client;job.client=None
+                    if job.future:job.future.cancel()
                 if client:self.pool.submit(self._close,job,client)
 
     @staticmethod

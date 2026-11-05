@@ -101,7 +101,7 @@ def package(c):
     with (target/'START_HERE_ZH.md').open('a',encoding='utf-8') as guide:
         guide.write('\n开箱指导：Welcome → 操作指导 → 打印机开箱 → 外挂料盘／单机；U4—U7 可进入空间指导。\n'
                     '选择相机；有有效位置时自动循环示意。首次实机使用先完成相机标定和作用点设置。\n'
-                    '完整说明见源码 docs/MODULE_TWO_UNBOXING_PROTOTYPE.md。\n')
+                    '完整说明见源码 docs/OPERATIONS.md。\n')
     archive = output / 'Manual2AR-Unity.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
         for p in sorted(target.rglob('*')):

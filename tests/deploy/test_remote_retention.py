@@ -66,8 +66,8 @@ def test_diagnostic_package_contains_only_audited_standard_library_sources(tmp_p
     subprocess.run([sys.executable,'-I','-c','import sys;sys.path.insert(0,'+repr(str(tmp_path))+');from deploy.colab.diagnostics import SUITES;assert "session_lifecycle" in SUITES'],check=True,capture_output=True)
 
 
-def test_diagnostic_notebook_compiles_and_uses_same_runtime_package():
-    p=build();notebook=json.loads(p.read_text());payload=None
+def test_diagnostic_notebook_compiles_and_uses_same_runtime_package(tmp_path):
+    p=build(tmp_path/'Manual2AR_Diagnostics.ipynb');notebook=json.loads(p.read_text());payload=None
     import ast
     for cell in notebook['cells']:
         if cell['cell_type']!='code':continue
@@ -151,3 +151,11 @@ def test_task_launches_only_diagnostic_alias_and_never_installs_connection(tmp_p
     assert any(c[0]=='new' and c[2]=='manual2ar-diagnostics' for c in cli.calls)
     assert not any('manual2ar-integrated' in c for c in cli.calls)
     assert not list(tmp_path.rglob('inference.connection.local.json'))
+
+
+def test_diagnostic_notebook_is_reproducible_and_does_not_write_source(tmp_path):
+    output=tmp_path/'builds/diagnostic.ipynb'
+    before=(ROOT/'deploy/colab/Manual2AR_Diagnostics.ipynb').exists()
+    first=build(output).read_bytes();second=build(output).read_bytes()
+    assert first==second
+    assert (ROOT/'deploy/colab/Manual2AR_Diagnostics.ipynb').exists()==before

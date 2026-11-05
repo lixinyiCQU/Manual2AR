@@ -7,7 +7,7 @@
 ## 第一次使用
 
 1. 在 **VS Code 的 WSL 窗口**中打开仓库里的 `Manual2AR.code-workspace`，允许工作区任务运行。工作区应显示名为 Manual2AR 的文件夹。
-2. 选择菜单 **终端 → 运行任务 → Colab: 初始化工具**。第一次会复制 `configs/colab.example.json` 为私有 `configs/colab.local.json`，并安装独立 CLI 环境。当前工作站已经完成此项。
+2. 选择菜单 **终端 → 运行任务 → Colab: 初始化工具**。第一次会复制 `configs/colab.example.json` 为私有 `configs/colab.local.json`，并安装独立 CLI 环境。本机是否完成以当前配置和登录状态为准。
 3. 运行任务 **Colab: 登录 Google**。在终端提供的链接中登录，批准 Google 授权，将 Google 页面显示的授权码粘贴回同一个 VS Code 终端。不要发送到聊天或写入项目配置。
 4. 运行 **Colab: 启动 GPU**。首次准备依赖与权重需要等待，终端显示阶段进度；成功后自动进入持续监控，终端保持运行。
 5. 看到 **6/6 GPU 就绪** 后，启动本地业务后端、在 Unity 开始新的识别。连接文件已经写入 `configs/app.local.json` 的 `gpu.connection_file` 所指定位置，默认 `configs/inference.connection.local.json`。
@@ -55,7 +55,7 @@ Windows Colab 扩展和 WSL CLI 不共享登录状态；扩展已登录仍可能
 
 同一个运行时重复启动会尝试复用已经准备的环境。跨运行时缓存只有开启 Drive 并成功授权挂载后才生效；默认不会保存现场图像到 Drive。
 
-远端持续日志、诊断笔记本、Run Task 入口与新增诊断项的说明见 [Colab 诊断指南](COLAB_DIAGNOSTICS.md)。业务留存自下次部署开始生效；旧配置使用默认值，不必复制密钥或手动移动日志。
+远端留存与诊断源码位于 `deploy/colab/{retention,diagnostics}.py`，按需生成的笔记本入口见 [使用说明](OPERATIONS.md)。业务留存自下次部署开始生效；旧配置使用默认值，不必复制密钥或手动移动日志。
 
 ## 运行中监控与会话消失
 
@@ -104,14 +104,4 @@ bash run.sh colab-release
 
 官方参考：[Colab CLI](https://github.com/googlecolab/google-colab-cli)、[VS Code Colab 指南](https://github.com/googlecolab/colab-vscode/wiki/User-Guide)、[Colab 使用限制](https://research.google.com/colaboratory/faq.html)。
 
-## 当前验收范围
-
-2026-11-02 修复 Drive 缓存恢复：按已锁定的推理依赖逐项离线安装，不再重新解析 Cutie 中未使用的训练依赖；配置原子替换，日志在启动子进程前捕获待脱敏凭据，避免配置写入期间的 JSON 读取错误终止安装。相关部署测试 50 项通过，完整回归 225 项通过。Notebook 和推理源码包已同步更新；远端是否就绪以启动任务的 `6/6` 及健康检查为准。
-
-修复版本已在现有 T4 完成真实启动，返回 `6/6 GPU 就绪` 并更新本地连接。远端 94 个锁定依赖通过 `pip --dry-run --ignore-installed --no-index --no-deps` 验证，无需获取额外训练依赖。尚未以全新运行时完整复测跨 VM 的缓存恢复，也未在此次修复中操作 Unity 进行画面验收。
-
-本地最近一次完整回归为 219 项通过。官方 CLI 已实际安装，命令参数、缺少授权时退出、失败保留连接、远端失败日志留存和错误分类均已检查。
-
-2026-11-02：用户已完成授权并实际到达源码上传与远端环境准备阶段，但环境准备失败。排查时原运行时已失效，无法恢复当时的远端安装日志；两次重新申请 T4 均收到分配接口 `503 Service Unavailable`，因此尚未完成真实 GPU 服务启动、Drive 挂载和公网推理验收。不能据此推断原环境失败是哪个依赖造成的。
-
-现在环境准备失败会自动收集远端日志到 `paths.runtime/colab/remote-*`，并在终端显示经过脱敏的错误摘要；全部日志无法下载时会明确报错。运行时失效后已有本地日志保留。遇到 GPU 分配 503，稍后重新运行「Colab: 启动 GPU」即可，无需反复登录或手动改换 GPU；准备失败时先查看终端中的实际依赖错误。原连接文件仅在新服务健康检查通过后才更新。
+诊断笔记本是按需生成的构建产物：`bash run.sh diagnostics-notebook` 输出到 `paths.builds/Manual2AR_Diagnostics.ipynb`，不写回源码目录。历史部署验收记录已归档，不作为当前服务存活的证据。

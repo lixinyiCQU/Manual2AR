@@ -16,6 +16,7 @@ import urllib.request
 from manual2ar.application.config import load,resolve
 from manual2ar.application.manage import package
 from manual2ar.paths import ROOT
+from .desktop_provenance import project_inputs, check_inputs, seal_build
 
 
 def main():
@@ -26,6 +27,7 @@ def main():
     project=args.project.absolute()
     if project==ROOT or project.is_relative_to(ROOT):raise ValueError('Validation project must be outside source worktree')
     package(config);project.mkdir(parents=True,exist_ok=True)
+    inputs=project_inputs(ROOT/'apps/unity/Manual2AR')
     for name in ['Assets','Packages','ProjectSettings']:
         if (project/name).exists():shutil.rmtree(project/name)
         shutil.copytree(builds/'Manual2AR'/name,project/name)
@@ -66,10 +68,14 @@ def main():
         # Production player uses actual operator configuration, not controlled provider URLs.
         for file in (builds/'Manual2AR/Assets/StreamingAssets').glob('*.json'):
             shutil.copyfile(file,project/'Assets/StreamingAssets'/file.name)
-        player=project/'Player';player.mkdir(exist_ok=True)
+        check_inputs(ROOT,project,inputs)
+        player=project/'Player'
+        if player.exists():shutil.rmtree(player)
+        player.mkdir()
         result=subprocess.run([str(args.unity),'-batchmode','-quit','-projectPath',win(project),'-executeMethod','WindowsPlayerBuild.Build',
             '--manual2ar-output',win(player/'Manual2AR.exe'),'-logFile',win(output/'build.log')],timeout=600)
         if result.returncode:raise RuntimeError('Windows build failed; see build.log')
+        seal_build(ROOT,project,player,inputs,json.loads((validation/'success.json').read_text()))
         target=builds/'Manual2AR-Windows'
         if target.exists():shutil.rmtree(target)
         shutil.copytree(player,target)

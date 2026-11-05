@@ -108,6 +108,52 @@ def test_cancellation_discards_a_late_vlm_result(app):
         assert c.get(api+'/parts/'+job).status_code==409 and len(GPU.instances)==count
 
 
+def test_cancelled_queued_job_never_calls_vlm(app):
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    service=app.state.spatial;spy=VLM();setup(service,spy);tracker=service.part_tracking
+    tracker.pool.shutdown(wait=True);tracker.pool=ThreadPoolExecutor(max_workers=1)
+    entered=threading.Event();release=threading.Event()
+    def block():entered.set();release.wait(5)
+    blocker=tracker.pool.submit(block);assert entered.wait(1)
+    try:
+        with TestClient(app) as c:
+            api=begin(c,'camera',u7_fixture_verified=True);c.post(api+'/frames',json=frame(action='holder.slide'))
+            identity=c.post(api+'/locate',json={'action_id':'holder.slide','client_frame_id':1}).json()['job_id']
+            job=tracker._job(api.split('/')[-1],identity)
+            assert not job.future.running()
+            c.delete(api+'/parts');assert job.future.cancelled()
+            release.set();blocker.result(timeout=2)
+            assert spy.calls==[] and c.get(api+'/parts/'+identity).status_code==409
+    finally:release.set()
+
+
+def test_cancelled_worker_entry_skips_identification(app,tmp_path,monkeypatch):
+    from manual2ar.modules.guidance.spatial.part_tracking import Job
+    tracker=app.state.spatial.part_tracking
+    monkeypatch.setattr('manual2ar.modules.guidance.spatial.part_tracking.identify',lambda *a,**k:pytest.fail('Cancelled job called VLM'))
+    job=Job('a'*32,'b'*32,tmp_path,b'',1,'c'*64,cancelled=True)
+    tracker._initialize(job)
+    assert not list(tmp_path.iterdir())
+
+
+def test_cancel_during_gpu_health_does_not_start_segmentation(app):
+    import threading
+    entered=threading.Event();release=threading.Event()
+    class SlowHealth(GPU):
+        def health(self):entered.set();release.wait(5);return {'available':True}
+    service=app.state.spatial;setup(service,VLM());service.part_tracking.client_factory=SlowHealth
+    try:
+        with TestClient(app) as c:
+            api=begin(c,'camera',u7_fixture_verified=True);c.post(api+'/frames',json=frame(action='holder.slide'))
+            identity=c.post(api+'/locate',json={'action_id':'holder.slide','client_frame_id':1}).json()['job_id']
+            job=service.part_tracking._job(api.split('/')[-1],identity)
+            assert entered.wait(2)
+            client=GPU.instances[-1];c.delete(api+'/parts');release.set();job.future.result(timeout=2)
+            assert client.closed and client.targets is None
+    finally:release.set()
+
+
 def test_final_installation_check_does_not_segment_or_demand_hidden_screws(app):
     service=app.state.spatial;spy=VLM('not_completed');setup(service,spy)
     with TestClient(app) as c:
