@@ -8,16 +8,16 @@ namespace Manual2AR {
   readonly Text[] rows=new Text[3];readonly AppIconGraphic[] rowIcons=new AppIconGraphic[3];
   AppIconGraphic bannerIcon;Font font;
   bool unclassifiedVisible,partialVisible,lastKnownPending;
-  static readonly Color Cyan=new Color(.13f,.83f,.92f),Green=new Color(.22f,.9f,.66f),Red=new Color(1,.34f,.3f),Amber=new Color(1,.75f,.35f),Muted=new Color(.67f,.77f,.85f);
+  static readonly Color Cyan=AppTheme.TargetCyan,Green=AppTheme.SuccessGreen,Red=AppTheme.ErrorRed,Amber=AppTheme.WarningAmber,Muted=AppTheme.Muted;
   public string Status {get;private set;}
   public bool Visible {get{return panel!=null&&panel.gameObject.activeInHierarchy;}}
   RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max){var g=new GameObject(name,typeof(RectTransform));g.transform.SetParent(parent,false);var r=g.GetComponent<RectTransform>();r.anchorMin=min;r.anchorMax=max;r.offsetMin=r.offsetMax=Vector2.zero;return r;}
   RectTransform Card(string name,Transform parent,Vector2 min,Vector2 max,Color color){var r=Rect(name,parent,min,max);var g=r.gameObject.AddComponent<AppRoundedImage>();g.radius=20;g.color=color;return r;}
   Text TextAt(Transform parent,string name,Vector2 min,Vector2 max,int size,Color color,bool bold=false){var r=Rect(name,parent,min,max);var t=r.gameObject.AddComponent<Text>();t.font=font;t.fontSize=size;t.fontStyle=bold?FontStyle.Bold:FontStyle.Normal;t.color=color;t.supportRichText=false;t.raycastTarget=false;t.alignment=TextAnchor.MiddleLeft;t.verticalOverflow=VerticalWrapMode.Truncate;return t;}
   AppIconGraphic Icon(Transform parent,AppIcon symbol,Vector2 min,Vector2 max,Color color){var r=Rect("状态图标",parent,min,max);var icon=r.gameObject.AddComponent<AppIconGraphic>();icon.symbol=symbol;icon.color=color;icon.raycastTarget=false;return icon;}
-  public void Initialize(RectTransform cameraContent,Transform screenUiRoot,Font typeface){
+  public void Initialize(RectTransform cameraContent,Transform screenUiRoot,Font typeface,AppWorkspace workspace){
    font=typeface;
-   panel=Card("Inspection Results",screenUiRoot,new Vector2(.735f,.15f),new Vector2(.975f,.775f),new Color(.025f,.07f,.115f));
+   panel=workspace.Aside;
    var title=TextAt(panel,"检查结果",new Vector2(.07f,.88f),new Vector2(.93f,.98f),32,Cyan,true);title.text="检查结果";
    var line=Rect("分隔线",panel,new Vector2(.07f,.875f),new Vector2(.93f,.877f));line.gameObject.AddComponent<Image>().color=new Color(.13f,.4f,.5f);
    headline=TextAt(panel,"结果标题",new Vector2(.07f,.76f),new Vector2(.93f,.86f),32,Cyan,true);
@@ -25,10 +25,10 @@ namespace Manual2AR {
    var divider=Rect("建议分隔线",panel,new Vector2(.07f,.325f),new Vector2(.93f,.327f));divider.gameObject.AddComponent<Image>().color=new Color(.13f,.25f,.33f);
    var label=TextAt(panel,"操作提示",new Vector2(.07f,.25f),new Vector2(.93f,.32f),25,Muted);label.text="操作提示";
    actionText=TextAt(panel,"操作建议",new Vector2(.07f,.055f),new Vector2(.93f,.25f),27,Color.white);
-   badge=Card("Inspection State",screenUiRoot,new Vector2(.54f,.922f),new Vector2(.715f,.975f),new Color(.035f,.18f,.22f));badgeText=TextAt(badge,"状态",new Vector2(.08f,0),new Vector2(.95f,1),26,Cyan,true);badgeText.alignment=TextAnchor.MiddleCenter;
-   banner=Card("Inspection Status Banner",screenUiRoot,new Vector2(.025f,.025f),new Vector2(.715f,.13f),new Color(.035f,.17f,.21f));
+   badge=Card("Inspection State",workspace.HeaderActions,Vector2.zero,Vector2.one,new Color(.035f,.18f,.22f));badge.gameObject.AddComponent<LayoutElement>().preferredHeight=AppTheme.ButtonHeight;badgeText=TextAt(badge,"状态",new Vector2(.08f,0),new Vector2(.95f,1),26,Cyan,true);badgeText.alignment=TextAnchor.MiddleCenter;
+   banner=Card("Inspection Status Banner",workspace.FooterLeft,Vector2.zero,Vector2.one,new Color(.035f,.17f,.21f));var bannerSize=banner.gameObject.AddComponent<LayoutElement>();bannerSize.preferredHeight=AppTheme.ButtonHeight;bannerSize.flexibleWidth=1;
    bannerIcon=Icon(banner,AppIcon.Info,new Vector2(.025f,.23f),new Vector2(.068f,.77f),Cyan);
-   bannerText=TextAt(banner,"检查提示",new Vector2(.09f,.1f),new Vector2(.97f,.9f),30,Cyan,true);
+   bannerText=TextAt(banner,"检查提示",new Vector2(.09f,.1f),new Vector2(.97f,.9f),AppTheme.CaptionSize,Cyan,true);
    Clear();
   }
   void Style(string status,string title,string badgeValue,string bannerValue,Color color){

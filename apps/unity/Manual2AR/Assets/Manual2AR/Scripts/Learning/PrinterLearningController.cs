@@ -29,7 +29,7 @@ namespace Manual2AR
         readonly List<Selectable> busyControls=new List<Selectable>();
         WebCamTexture webcam;Texture2D pairedFrame,spareFrame;CameraFraming framing;AppAspectSelector aspectSelector;
         readonly Dictionary<string,Texture2D> referencePhotos=new Dictionary<string,Texture2D>();
-        RawImage preview;RectTransform root,imageArea,content,labelRoot,focusSheet;
+        RawImage preview;RectTransform root,imageArea,content,labelRoot,focusSheet;AppWorkspace workspace;
         GameObject listPanel,focusPanel,modal;PrinterLearningOverlay overlay;Font font;
         int cameraIndex=-1;string activeProvider="sam31_cutie";
 Text status,sourceLabel,focusTitle;
@@ -421,50 +421,14 @@ Text status,sourceLabel,focusTitle;
         }
 
         void CloseModal(){detailGeneration++;if(modal!=null){modal.SetActive(false);Destroy(modal);}modal=null;}
-        RectTransform Modal(string title,bool article=false)
-        {
-            CloseModal();modal=Rect("Modal shade",root,Vector2.zero,Vector2.one).gameObject;
-            modal.AddComponent<AppRoundedImage>().color=new Color(0,.015f,.04f,.90f);AppModalBackdrop.Attach(modal);
-            var panel=Frame("Detail panel",modal.transform,article?new Vector2(.09f,.06f):new Vector2(.25f,.18f),article?new Vector2(.91f,.94f):new Vector2(.75f,.82f));
-            TextAt(panel,title,new Vector2(.025f,.915f),new Vector2(.91f,.99f),article?30:26);
-            ButtonAt(panel,"×",new Vector2(.94f,.92f),new Vector2(.985f,.985f),CloseModal);
-            return panel;
+        RectTransform Modal(string title,bool article=false){
+            CloseModal();var dialog=AppDialog.Open(root,"Learning dialog",title,article?AppDialogSize.Large:AppDialogSize.Standard,CloseModal);modal=dialog.gameObject;return dialog.Panel;
         }
-        RectTransform Scroll(Transform parent,Vector2 min,Vector2 max)
-        {
-            var area=Rect("Scroll",parent,min,max);var scroll=area.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;
-            var viewport=Rect("Viewport",area,Vector2.zero,new Vector2(.97f,1));viewport.gameObject.AddComponent<RectMask2D>();viewport.gameObject.AddComponent<AppRoundedImage>().color=Color.clear;
-            var sheet=Rect("Content",viewport,new Vector2(0,1),new Vector2(1,1));sheet.pivot=new Vector2(.5f,1);
-            var layout=sheet.gameObject.AddComponent<VerticalLayoutGroup>();layout.spacing=12;layout.padding=new RectOffset(10,18,12,20);layout.childControlHeight=true;layout.childControlWidth=true;layout.childForceExpandHeight=false;
-            var fitter=sheet.gameObject.AddComponent<ContentSizeFitter>();fitter.verticalFit=ContentSizeFitter.FitMode.PreferredSize;
-            scroll.viewport=viewport;scroll.content=sheet;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=38;
-            var bar=Rect("Scrollbar",area,new Vector2(.98f,0),Vector2.one);var track=bar.gameObject.AddComponent<AppRoundedImage>();track.color=new Color(.05f,.16f,.23f,1);
-            var scrollbar=bar.gameObject.AddComponent<Scrollbar>();scrollbar.direction=Scrollbar.Direction.BottomToTop;
-            var handle=Rect("Handle",bar,Vector2.zero,Vector2.one);var graphic=handle.gameObject.AddComponent<AppRoundedImage>();graphic.color=new Color(.15f,.65f,.75f,.85f);
-            scrollbar.handleRect=handle;scrollbar.targetGraphic=graphic;scroll.verticalScrollbar=scrollbar;scroll.verticalScrollbarVisibility=ScrollRect.ScrollbarVisibility.AutoHide;return sheet;
-        }
-        void Paragraph(Transform parent,string text,int size=21,Color? color=null)
-        {
-            var o=new GameObject("Paragraph",typeof(RectTransform),typeof(Text),typeof(LayoutElement));o.transform.SetParent(parent,false);
-            var t=o.GetComponent<Text>();t.font=font;t.text=CjkText(text);t.fontSize=size;t.supportRichText=false;t.raycastTarget=false;t.lineSpacing=1.12f;t.color=color??Color.white;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Overflow;
-            var le=o.GetComponent<LayoutElement>();le.minHeight=32;le.preferredHeight=-1;
-        }
-        // Legacy uGUI can treat a long unspaced Chinese run as one word. Add
-        // invisible break opportunities in presentation only; source data stays verbatim.
-        static string CjkText(string text)
-        {
-            if(string.IsNullOrEmpty(text))return text;
-            var output=new StringBuilder(text.Length*2);
-            for(int i=0;i<text.Length;i++){
-                output.Append(text[i]);
-                if(i+1<text.Length&&text[i]>=0x3400&&text[i]<=0x9fff&&text[i+1]>=0x3400&&text[i+1]<=0x9fff)output.Append('\u200b');
-            }
-            return output.ToString();
-        }
+        RectTransform Scroll(Transform parent,Vector2 min,Vector2 max){return AppContent.Scroll(parent,"Reading content",min,max);}
+        void Paragraph(Transform parent,string text,int size=AppTheme.BodySize,Color? color=null){AppContent.Paragraph(parent,text,size,color);}
         void RowButton(Transform parent,string text,Action action)
         {
-            var r=Rect("Action",parent,Vector2.zero,Vector2.one);r.gameObject.AddComponent<LayoutElement>().preferredHeight=64;
-            var b=MakeButton(r,text,action,19);b.GetComponent<Image>().color=new Color(.025f,.20f,.28f,1);
+            var button=AppTheme.Button(parent,text,Vector2.zero,Vector2.one,action,AppIcon.Info);button.gameObject.AddComponent<LayoutElement>().preferredHeight=AppTheme.ButtonHeight;
         }
         void ShowLibrary()
         {
@@ -529,72 +493,45 @@ Text status,sourceLabel,focusTitle;
             texture.filterMode=FilterMode.Bilinear;texture.wrapMode=TextureWrapMode.Clamp;referencePhotos[source.id]=texture;target.texture=texture;target.GetComponent<AspectRatioFitter>().aspectRatio=texture.width/(float)texture.height;
         }
 
-        RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max)
-        {
-            var o=new GameObject(name,typeof(RectTransform));o.transform.SetParent(parent,false);var r=o.GetComponent<RectTransform>();r.anchorMin=min;r.anchorMax=max;r.offsetMin=r.offsetMax=Vector2.zero;return r;
-        }
-        RectTransform Frame(string name,Transform parent,Vector2 min,Vector2 max)
-        {
-            var r=Rect(name,parent,min,max);r.gameObject.AddComponent<AppRoundedImage>().color=Panel;var outline=r.gameObject.AddComponent<Outline>();outline.effectColor=new Color(0,.72f,.9f,.8f);outline.effectDistance=new Vector2(1.5f,-1.5f);return r;
-        }
-        Text TextAt(Transform parent,string value,Vector2 min,Vector2 max,int size=23)
-        {
-            var r=Rect("Text",parent,min,max);var t=r.gameObject.AddComponent<Text>();t.font=font;t.fontSize=size;t.text=value;t.color=Color.white;t.alignment=TextAnchor.MiddleLeft;
-            t.raycastTarget=false;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Truncate;return t;
-        }
-        Button MakeButton(RectTransform r,string label,Action action,int size=23)
-        {
-            var image=r.gameObject.AddComponent<AppRoundedImage>();image.color=Panel;var border=r.gameObject.AddComponent<Outline>();border.effectColor=new Color(0,.6f,.8f,.8f);
-            var button=r.gameObject.AddComponent<Button>();button.targetGraphic=image;button.onClick.AddListener(()=>action());
-            var text=TextAt(r,label,new Vector2(.04f,.06f),new Vector2(.96f,.94f),size);text.alignment=TextAnchor.MiddleCenter;return button;
-        }
-        Button ButtonAt(Transform parent,string label,Vector2 min,Vector2 max,Action action,bool gated=false)
-        {var b=MakeButton(Rect(label,parent,min,max),label,action);if(gated)busyControls.Add(b);return b;}
-
+        RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max){return AppTheme.Rect(parent,name,min,max);}
+        RectTransform Frame(string name,Transform parent,Vector2 min,Vector2 max){return AppTheme.Panel(parent,name,min,max);}
+        Text TextAt(Transform parent,string value,Vector2 min,Vector2 max,int size=AppTheme.BodySize){return AppTheme.Label(parent,value,min,max,size);}
+        Button ButtonAt(Transform parent,string label,Vector2 min,Vector2 max,Action action,bool gated=false){var button=AppTheme.Button(parent,label,min,max,action);if(gated)busyControls.Add(button);return button;}
         void BuildPartList()
         {
             if(listPanel==null)return;
-            foreach(Transform t in listPanel.transform)Destroy(t.gameObject);rowLabels.Clear();rowBackgrounds.Clear();int i=0;
+            foreach(Transform t in listPanel.transform)Destroy(t.gameObject);rowLabels.Clear();rowBackgrounds.Clear();
+            TextAt(listPanel.transform,"部件列表",new Vector2(.04f,.91f),new Vector2(.96f,.99f),AppTheme.BodySize);
+            var list=Scroll(listPanel.transform,new Vector2(.025f,.025f),new Vector2(.975f,.90f));
             foreach(var c in knowledge.cards){if(string.IsNullOrEmpty(c.target_id))continue;string target=c.target_id;
-                float top=.91f-i*.105f;var r=Rect(c.name,listPanel.transform,new Vector2(.04f,top-.093f),new Vector2(.96f,top));
-                var b=MakeButton(r,c.name+"\n<color=#8CA8BD>点击了解</color>",()=>SelectPart(target),21);
-                var color=PrinterLearningOverlay.ComponentColor(target);r.GetComponent<Outline>().effectColor=color;
-                var accent=Rect("Component color",r,new Vector2(0,0),new Vector2(.015f,1)).gameObject.AddComponent<AppRoundedImage>();accent.color=color;accent.raycastTarget=false;
-                rowLabels[target]=b.GetComponentInChildren<Text>();rowBackgrounds[target]=r.GetComponent<Image>();i++;}
-            TextAt(listPanel.transform,"部件列表 · 点击名称高亮",new Vector2(.04f,.93f),new Vector2(.96f,.99f),23);
+                var button=AppTheme.Button(list,c.name+"\n<color=#8CA8BD>点击了解</color>",Vector2.zero,Vector2.one,()=>SelectPart(target));
+                var entry=button.gameObject.AddComponent<LayoutElement>();entry.preferredHeight=76;
+                var label=button.GetComponentInChildren<Text>();label.supportRichText=true;
+                var color=PrinterLearningOverlay.ComponentColor(target);var accent=Rect("Component color",button.transform,new Vector2(0,.1f),new Vector2(.012f,.9f)).gameObject.AddComponent<AppRoundedImage>();accent.color=color;accent.raycastTarget=false;
+                rowLabels[target]=label;rowBackgrounds[target]=button.GetComponent<Image>();
+            }
         }
-        void BuildUI()
-        {
-            if(FindObjectOfType<EventSystem>()==null)new GameObject("Learning EventSystem",typeof(EventSystem),typeof(StandaloneInputModule));
-            var canvas=new GameObject("Learning UI",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));canvas.transform.SetParent(transform,false);
-            var surface=canvas.GetComponent<Canvas>();surface.renderMode=RenderMode.ScreenSpaceOverlay;surface.pixelPerfect=true;
-            var scaler=canvas.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;AppTheme.Attach(canvas.GetComponent<RectTransform>());
-            root=canvas.GetComponent<RectTransform>();Rect("Background",root,Vector2.zero,Vector2.one).gameObject.AddComponent<AppRoundedImage>().color=Navy;
-            TextAt(root,"Manual2AR / 3D打印机教学系统",new Vector2(.025f,.936f),new Vector2(.67f,.992f),34);
-            TextAt(root,"部件认知",new Vector2(.70f,.936f),new Vector2(.87f,.992f),26);
-            ButtonAt(root,"启动摄像头",new Vector2(.025f,.845f),new Vector2(.205f,.91f),()=>StartCoroutine(UserAction(OpenCamera())),true);
-            ButtonAt(root,"切换摄像头",new Vector2(.22f,.845f),new Vector2(.37f,.91f),()=>StartCoroutine(UserAction(SwitchCamera())),true);
-            ButtonAt(root,"识别 / 重新识别",new Vector2(.385f,.845f),new Vector2(.605f,.91f),()=>StartCoroutine(UserAction(Recognize(false))),true);
-            clearButton=ButtonAt(root,"清除标注",new Vector2(.62f,.845f),new Vector2(.78f,.91f),()=>StartCoroutine(Clear()));
-            ButtonAt(root,"整机介绍",new Vector2(.795f,.845f),new Vector2(.975f,.91f),ShowLibrary);
-            aspectSelector=framing.AddSelector(root,new Vector2(.025f,.775f),new Vector2(.66f,.83f),index=>StartCoroutine(UserAction(ChangeFraming(index))));
-            imageArea=Frame("Image viewport",root,new Vector2(.025f,.15f),new Vector2(.66f,.76f));imageArea.gameObject.AddComponent<RectMask2D>();
+        void BuildUI(){
+            root=AppWorkspace.Canvas(transform,"Learning UI");workspace=new AppWorkspace(root,"模块一 · 部件认知");
+            var controls=new AppCameraBar(workspace.Tools,framing,()=>StartCoroutine(UserAction(OpenCamera())),()=>StartCoroutine(UserAction(SwitchCamera())),index=>StartCoroutine(UserAction(ChangeFraming(index))));
+            busyControls.Add(controls.Start);busyControls.Add(controls.Switch);aspectSelector=controls.Aspect;
+            var recognize=AppTheme.Button(workspace.FooterRight,"识别 / 重新识别",Vector2.zero,Vector2.one,()=>StartCoroutine(UserAction(Recognize(false))),AppIcon.Inspect,true);busyControls.Add(recognize);AppActionBar.Add(workspace.FooterRight,recognize);
+            clearButton=AppTheme.Button(workspace.FooterRight,"清除标注",Vector2.zero,Vector2.one,()=>StartCoroutine(Clear()),AppIcon.Clear);AppActionBar.Add(workspace.FooterRight,clearButton);
+            var info=AppTheme.Button(workspace.HeaderActions,"整机介绍",Vector2.zero,Vector2.one,ShowLibrary,AppIcon.Info);AppActionBar.Add(workspace.HeaderActions,info);
+            imageArea=workspace.Main;imageArea.gameObject.AddComponent<RectMask2D>();
             content=Rect("Paired frame and masks",imageArea,new Vector2(.5f,.5f),new Vector2(.5f,.5f));
-            preview=Rect("Frame",content,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();preview.raycastTarget=false;preview.color=Color.white;
+            preview=Rect("Frame",content,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();preview.raycastTarget=false;preview.color=AppTheme.PanelBackground;AppMediaEmptyState.Attach(imageArea,preview,"启动摄像头，查看设备");
             labelRoot=Rect("Clickable labels",imageArea,Vector2.zero,Vector2.one);overlay=gameObject.AddComponent<PrinterLearningOverlay>();overlay.Initialize(content,labelRoot,font,SelectPart);
-            var side=Frame("Part panel",root,new Vector2(.69f,.15f),new Vector2(.975f,.82f));
-            listPanel=Rect("All parts",side,Vector2.zero,Vector2.one).gameObject;BuildPartList();
+            var side=workspace.Aside;listPanel=Rect("All parts",side,Vector2.zero,Vector2.one).gameObject;BuildPartList();
             focusPanel=Rect("Selected part",side,Vector2.zero,Vector2.one).gameObject;
-            focusTitle=TextAt(focusPanel.transform,"",new Vector2(.055f,.90f),new Vector2(.95f,.985f),28);
+            focusTitle=TextAt(focusPanel.transform,"",new Vector2(.055f,.90f),new Vector2(.95f,.985f),AppTheme.TitleSize);
             focusSheet=Scroll(focusPanel.transform,new Vector2(.03f,.15f),new Vector2(.97f,.89f));
-            ButtonAt(focusPanel.transform,"返回列表",new Vector2(.045f,.035f),new Vector2(.39f,.115f),ShowAll);
-            ButtonAt(focusPanel.transform,"更多信息",new Vector2(.43f,.035f),new Vector2(.955f,.115f),()=>{
-                if(byTarget.TryGetValue(selected,out var c))ShowRelated(c);else ShowDeviceMore();
-            });focusPanel.SetActive(false);
-            sourceLabel=TextAt(root,"启动摄像头，或点击部件名称阅读介绍。",new Vector2(.025f,.105f),new Vector2(.72f,.145f),20);
-            status=TextAt(root,"",new Vector2(.025f,.025f),new Vector2(.73f,.08f),22);
-            var version=TextAt(root,"Manual2AR · 部件认知",new Vector2(.75f,.025f),new Vector2(.975f,.08f),18);version.alignment=TextAnchor.MiddleRight;version.color=new Color(.56f,.71f,.8f);
+            ButtonAt(focusPanel.transform,"返回列表",new Vector2(.045f,.035f),new Vector2(.43f,.115f),ShowAll);
+            ButtonAt(focusPanel.transform,"更多信息",new Vector2(.47f,.035f),new Vector2(.955f,.115f),()=>{if(byTarget.TryGetValue(selected,out var c))ShowRelated(c);else ShowDeviceMore();});focusPanel.SetActive(false);
+            sourceLabel=TextAt(root,"",Vector2.zero,Vector2.zero,AppTheme.CaptionSize);sourceLabel.gameObject.SetActive(false);
+            status=TextAt(workspace.FooterLeft,"启动摄像头，或选择部件阅读介绍。",Vector2.zero,Vector2.one,AppTheme.CaptionSize);AppReadableText.Attach(status);
         }
+
         public IEnumerator ReleaseModule(){
             interaction.TryBeginClear();trackingActive=false;if(inferenceRequest!=null)inferenceRequest.Abort();StopAllCoroutines();StopCamera();
             var identity=runId;runId=null;

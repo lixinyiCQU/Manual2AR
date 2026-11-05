@@ -9,13 +9,13 @@ namespace Manual2AR {
     /// <summary>Width-based CJK wrapping, independent of Unity's word-sized CJK runs.
     /// Canonical text is retained so resize/reflow never accumulates hard line breaks.</summary>
     [RequireComponent(typeof(Text))]
-    public sealed class LessonReadableText:MonoBehaviour {
+    public sealed class AppReadableText:MonoBehaviour {
         Text label;string source="",rendered="";float width=-1,scale=-1;int size;FontStyle style;Font lastFont;
         readonly Dictionary<string,float> advances=new Dictionary<string,float>();
         readonly TextGenerator metrics=new TextGenerator();
         public string Source {get{return source;}}
-        public static LessonReadableText Attach(Text text){
-            var reader=text.GetComponent<LessonReadableText>();if(reader==null)reader=text.gameObject.AddComponent<LessonReadableText>();
+        public static AppReadableText Attach(Text text){
+            var reader=text.GetComponent<AppReadableText>();if(reader==null)reader=text.gameObject.AddComponent<AppReadableText>();
             reader.label=text;reader.source=Prepare(text.text);reader.rendered=text.text;reader.Reflow(true);return reader;
         }
         public static string Prepare(string text){

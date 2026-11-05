@@ -32,7 +32,8 @@ def main():
         if (project/name).exists():shutil.rmtree(project/name)
         shutil.copytree(builds/'Manual2AR'/name,project/name)
     editor=project/'Assets/Editor';editor.mkdir(parents=True,exist_ok=True)
-    shutil.copyfile(ROOT/'tests/unity/ProductValidation.cs',editor/'ProductValidation.cs')
+    for name in ['ProductValidation.cs','UiGalleryValidation.cs']:
+        shutil.copyfile(ROOT/'tests/unity'/name,editor/name)
     shutil.copyfile(ROOT/'tools/build/WindowsPlayerBuild.cs',editor/'WindowsPlayerBuild.cs')
     def override(value):
         if isinstance(value,dict):

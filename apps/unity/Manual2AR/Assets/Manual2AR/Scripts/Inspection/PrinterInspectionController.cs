@@ -13,7 +13,7 @@ namespace Manual2AR {
   static readonly Color Background=new Color(.018f,.04f,.08f),Card=AppTheme.PanelBackground,Accent=AppTheme.TargetCyan,Muted=new Color(.65f,.75f,.83f);
   CameraFraming framing;AppAspectSelector aspectSelector;AppTaskMenu taskMenu;
   Font font;RectTransform root,viewport,content;GameObject menu,page;RawImage picture,mask;Material maskMaterial;Text connection,notice;
-  PrinterInspectionPresentation presentation;
+  PrinterInspectionPresentation presentation;AppWorkspace workspace;
   int cameraIndex=-1;Button inspect,start,switchCamera,records,clear;
   readonly List<Button> taskButtons=new List<Button>();readonly List<bool> taskAvailability=new List<bool>();readonly List<GameObject> boxes=new List<GameObject>(),objectLabels=new List<GameObject>();
   readonly Stack<GameObject> boxPool=new Stack<GameObject>(),labelPool=new Stack<GameObject>();
@@ -317,13 +317,12 @@ namespace Manual2AR {
   void CloseOcclusionDialog(){if(occlusionDialog!=null){occlusionDialog.SetActive(false);Destroy(occlusionDialog);occlusionDialog=null;}modalCheck=modalSha="";}
   void ShowOcclusionDialog(){
    if(latest==null||latest.public_result==null||!latest.public_result.requires_occlusion_confirmation||inspectionInProgress)return;CloseOcclusionDialog();modalCheck=latest.check_id;modalSha=latest.public_result.inspection_source_sha256;
-   var dim=Rect("Occlusion Confirmation",root,Vector2.zero,Vector2.one);occlusionDialog=dim.gameObject;dim.gameObject.AddComponent<Image>().color=new Color(0,0,0,.72f);AppModalBackdrop.Attach(occlusionDialog);
-   var card=Panel(dim,"人工确认",new Vector2(.23f,.25f),new Vector2(.77f,.75f));
-   var title=TextAt(card,"打印头遮挡左上角",new Vector2(.055f,.77f),new Vector2(.945f,.94f),36,Color.white);title.fontStyle=FontStyle.Bold;
-   TextAt(card,"可见板面未见明显异物或残料。\n\n打印头挡住的区域无法由摄像头确认。请确认这是打印头的正常遮挡，且您已人工确认板面无异物或残料。",new Vector2(.055f,.25f),new Vector2(.945f,.75f),29,Color.white);
-   ButtonAt(card,"稍后确认",new Vector2(.055f,.07f),new Vector2(.35f,.21f),()=>CloseOcclusionDialog());
-   ButtonAt(card,"已人工检查，确认通过",new Vector2(.39f,.07f),new Vector2(.945f,.21f),()=>{Schedule(UserAction.ApproveOcclusion);});
+   var dialog=AppDialog.Open(root,"Occlusion Confirmation","打印头遮挡左上角",AppDialogSize.Standard,CloseOcclusionDialog);occlusionDialog=dialog.gameObject;var card=dialog.Panel;
+   var text=TextAt(card,"可见板面未见明显异物或残料。\n\n打印头挡住的区域无法由摄像头确认。请确认这是打印头的正常遮挡，且您已人工确认板面无异物或残料。",new Vector2(.055f,.25f),new Vector2(.945f,.80f),AppTheme.BodySize,Color.white);AppReadableText.Attach(text);
+   ButtonAt(card,"稍后确认",new Vector2(.055f,.07f),new Vector2(.35f,.21f),CloseOcclusionDialog);
+   AppTheme.Button(card,"已人工检查，确认通过",new Vector2(.39f,.07f),new Vector2(.945f,.21f),()=>Schedule(UserAction.ApproveOcclusion),AppIcon.Check,true);
   }
+
   IEnumerator ApproveOcclusion(){
    if(busy||run==null||latest==null||modalCheck!=latest.check_id||string.IsNullOrEmpty(modalSha))yield break;
    busy=true;int owner=inspectionRevision;string identity=run.run_id,check=modalCheck,sha=modalSha;InspectionConfirmationReply reply=null;
@@ -334,48 +333,35 @@ namespace Manual2AR {
    latest.decision=reply.decision;latest.public_result=reply.public_result;presentation.ShowResult(reply.public_result,null);ShowNotice("人工确认已记录，本次检查通过。");
   }
   void BuildUI(){
-   var canvas=new GameObject("Manual2AR Inspection UI",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));var renderer=canvas.GetComponent<Canvas>();renderer.renderMode=RenderMode.ScreenSpaceOverlay;renderer.pixelPerfect=true;renderer.sortingOrder=100;
-   var scaler=canvas.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;root=canvas.GetComponent<RectTransform>();AppTheme.Attach(root);canvas.AddComponent<Image>().color=Background;
-   if(EventSystem.current==null)new GameObject("EventSystem",typeof(EventSystem),typeof(StandaloneInputModule));
-   page=Rect("打印板检查",root,Vector2.zero,Vector2.one).gameObject;
-   var heading=TextAt(page.transform,"打印板检查",new Vector2(.025f,.925f),new Vector2(.50f,.982f),38,Color.white);heading.fontStyle=FontStyle.Bold;
-   var caption=TextAt(page.transform,"模块三 · 打印状态检查",new Vector2(.025f,.89f),new Vector2(.50f,.927f),22,Muted);
-   var controls=Panel(page.transform,"Inspection Controls",new Vector2(.025f,.795f),new Vector2(.715f,.88f));
-   start=ActionButton(controls,"启动摄像头",new Vector2(.015f,.13f),new Vector2(.295f,.87f),AppIcon.Camera,()=>Schedule(UserAction.StartCamera));
-   switchCamera=ActionButton(controls,"切换摄像头",new Vector2(.315f,.13f),new Vector2(.595f,.87f),AppIcon.SwitchCamera,()=>Schedule(UserAction.SwitchCamera));
-   inspect=ActionButton(controls,"检查 / 重新检查",new Vector2(.615f,.13f),new Vector2(.985f,.87f),AppIcon.Inspect,()=>Schedule(UserAction.Inspect),true);
-   aspectSelector=framing.AddSelector(page.transform,new Vector2(.025f,.73f),new Vector2(.715f,.782f),index=>StartCoroutine(ChangeFraming(index)));
-   var cameraCard=Panel(page.transform,"Camera Card",new Vector2(.025f,.15f),new Vector2(.715f,.715f));
-   viewport=Rect("Camera Stage",cameraCard,new Vector2(.006f,.012f),new Vector2(.994f,.988f));viewport.gameObject.AddComponent<RectMask2D>();
+   root=AppWorkspace.Canvas(transform,"Manual2AR Inspection UI",100);
+   page=Rect("打印板检查",root,Vector2.zero,Vector2.one).gameObject;workspace=new AppWorkspace(page.transform,"模块三 · 打印板检查");
+   var controls=new AppCameraBar(workspace.Tools,framing,()=>Schedule(UserAction.StartCamera),()=>Schedule(UserAction.SwitchCamera),index=>StartCoroutine(ChangeFraming(index)));
+   start=controls.Start;switchCamera=controls.Switch;aspectSelector=controls.Aspect;
+   inspect=ActionButton(workspace.FooterRight,"检查 / 重新检查",Vector2.zero,Vector2.one,AppIcon.Inspect,()=>Schedule(UserAction.Inspect),true);AppActionBar.Add(workspace.FooterRight,inspect);
+   records=ActionButton(workspace.FooterRight,"保存记录",Vector2.zero,Vector2.one,AppIcon.Save,()=>Schedule(UserAction.Save));AppActionBar.Add(workspace.FooterRight,records);
+   clear=ActionButton(workspace.FooterRight,"清除标注",Vector2.zero,Vector2.one,AppIcon.Clear,()=>Schedule(UserAction.Clear));AppActionBar.Add(workspace.FooterRight,clear);
+   var cameraCard=workspace.Main;
+   viewport=Rect("Camera Stage",cameraCard,Vector2.zero,Vector2.one);viewport.gameObject.AddComponent<RectMask2D>();
    content=Rect("Camera Pixels And Inspection Masks",viewport,new Vector2(.5f,.5f),new Vector2(.5f,.5f));
-   picture=Rect("原图",content,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();picture.raycastTarget=false;picture.color=Color.black;
+   picture=Rect("原图",content,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();picture.raycastTarget=false;picture.color=AppTheme.PanelBackground;AppMediaEmptyState.Attach(viewport,picture,"正在等待摄像头画面");
    mask=Rect("分割高亮",content,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();mask.raycastTarget=false;var shader=Resources.Load<Shader>("PrinterInspectionMask");if(shader==null)throw new Exception("Missing inspection shader");maskMaterial=new Material(shader);maskMaterial.SetFloat("_UseLabels",1);maskMaterial.SetFloat("_LabelOpacity",1);mask.material=maskMaterial;mask.gameObject.SetActive(false);
-   presentation=gameObject.AddComponent<PrinterInspectionPresentation>();presentation.Initialize(content,page.transform,font);
-   displayMode=TextAt(cameraCard,"实时相机",new Vector2(.02f,.91f),new Vector2(.35f,.98f),22,Color.white);
-   liveInset=Panel(viewport,"Live Camera Inset",new Vector2(.73f,.02f),new Vector2(.99f,.29f)).gameObject;liveInset.GetComponent<AppRoundedImage>().color=new Color(.015f,.055f,.08f,.98f);
-   var insetPixels=Rect("实时小预览",liveInset.transform,new Vector2(.02f,.14f),new Vector2(.98f,.98f));var liveRect=Rect("Camera",insetPixels,new Vector2(.5f,.5f),new Vector2(.5f,.5f));livePreview=liveRect.gameObject.AddComponent<RawImage>();livePreview.raycastTarget=false;TextAt(liveInset.transform,"实时相机",new Vector2(.04f,.01f),new Vector2(.98f,.15f),20,Color.white);liveInset.SetActive(false);
-   occlusionReview=ButtonAt(page.transform,"确认遮挡区域",new Vector2(.75f,.16f),new Vector2(.96f,.215f),()=>Schedule(UserAction.ReviewOcclusion));occlusionReview.gameObject.SetActive(false);
-
-   records=ActionButton(page.transform,"保存记录",new Vector2(.735f,.045f),new Vector2(.85f,.11f),AppIcon.Save,()=>Schedule(UserAction.Save));
-   clear=ActionButton(page.transform,"清除标注",new Vector2(.86f,.045f),new Vector2(.975f,.11f),AppIcon.Clear,()=>Schedule(UserAction.Clear));
-   notice=ScreenText(page.transform,"操作提示",new Vector2(.85f,.14f),Vector2.zero,new Vector2(450,45),"",25,Accent);notice.gameObject.SetActive(false);
+   presentation=gameObject.AddComponent<PrinterInspectionPresentation>();presentation.Initialize(content,page.transform,font,workspace);
+   displayMode=TextAt(cameraCard,"实时相机",new Vector2(.02f,.91f),new Vector2(.35f,.98f),AppTheme.CaptionSize,Color.white);
+   liveInset=Panel(viewport,"Live Camera Inset",new Vector2(.73f,.02f),new Vector2(.99f,.29f)).gameObject;
+   var insetPixels=Rect("实时小预览",liveInset.transform,new Vector2(.02f,.14f),new Vector2(.98f,.98f));var liveRect=Rect("Camera",insetPixels,new Vector2(.5f,.5f),new Vector2(.5f,.5f));livePreview=liveRect.gameObject.AddComponent<RawImage>();livePreview.raycastTarget=false;TextAt(liveInset.transform,"实时相机",new Vector2(.04f,.01f),new Vector2(.98f,.15f),AppTheme.CaptionSize,Color.white);liveInset.SetActive(false);
+   occlusionReview=ButtonAt(workspace.Aside,"确认遮挡区域",new Vector2(.07f,.02f),new Vector2(.93f,.10f),()=>Schedule(UserAction.ReviewOcclusion));occlusionReview.gameObject.SetActive(false);
+   notice=ScreenText(page.transform,"操作提示",new Vector2(.85f,.14f),Vector2.zero,new Vector2(450,45),"",AppTheme.CaptionSize,Accent);notice.gameObject.SetActive(false);
    taskMenu=AppTaskMenu.Create(root,"Inspection Task Catalog","打印状态检查","Bambu Lab A1 mini · 选择检查项目");menu=taskMenu.Root.gameObject;connection=taskMenu.Status;page.SetActive(false);
-
   }
-  Button ActionButton(Transform parent,string label,Vector2 min,Vector2 max,AppIcon symbol,Action action,bool primary=false){
-   var r=Panel(parent,label,min,max);var graphic=r.GetComponent<AppRoundedImage>();graphic.color=primary?new Color(.045f,.43f,.56f):new Color(.045f,.16f,.24f);
-   var button=r.gameObject.AddComponent<Button>();button.targetGraphic=graphic;var colors=button.colors;colors.highlightedColor=new Color(.6f,.9f,1);colors.pressedColor=new Color(.35f,.75f,.85f);colors.disabledColor=new Color(.42f,.5f,.56f,.85f);button.colors=colors;button.onClick.AddListener(()=>action());
-   var iconRect=Rect("操作图标",r,new Vector2(.06f,.2f),new Vector2(.21f,.8f));var icon=iconRect.gameObject.AddComponent<AppIconGraphic>();icon.symbol=symbol;icon.color=Color.white;icon.raycastTarget=false;
-   var text=TextAt(r,label,new Vector2(.26f,.03f),new Vector2(.97f,.97f),label.Length>6?28:30,Color.white);text.alignment=TextAnchor.MiddleCenter;text.fontStyle=FontStyle.Bold;
-   return button;
-  }
+  Button ActionButton(Transform parent,string label,Vector2 min,Vector2 max,AppIcon symbol,Action action,bool primary=false){return AppTheme.Button(parent,label,min,max,action,symbol,primary);}
   Text ScreenText(Transform parent,string name,Vector2 anchor,Vector2 position,Vector2 size,string value,int fontSize,Color color){
    var r=Rect(name,parent,anchor,anchor);r.pivot=anchor;r.anchoredPosition=position;r.sizeDelta=size;var text=r.gameObject.AddComponent<Text>();text.text=value;text.font=font;text.fontSize=fontSize;text.alignment=TextAnchor.MiddleCenter;text.color=color;text.raycastTarget=false;text.supportRichText=false;return text;
   }
-  RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max){var go=new GameObject(name,typeof(RectTransform));go.transform.SetParent(parent,false);var r=go.GetComponent<RectTransform>();r.anchorMin=min;r.anchorMax=max;r.offsetMin=r.offsetMax=Vector2.zero;return r;}
-  RectTransform Panel(Transform parent,string name,Vector2 min,Vector2 max){var r=Rect(name,parent,min,max);r.gameObject.AddComponent<AppRoundedImage>().color=Card;var line=r.gameObject.AddComponent<Outline>();line.effectDistance=new Vector2(1,-1);line.effectColor=new Color(.07f,.23f,.32f);return r;}
-  Text TextAt(Transform parent,string value,Vector2 min,Vector2 max,int size,Color color){var r=Rect("Text",parent,min,max);var text=r.gameObject.AddComponent<Text>();text.font=font;text.fontSize=size;text.color=color;text.text=value;text.supportRichText=false;text.raycastTarget=false;text.verticalOverflow=VerticalWrapMode.Truncate;return text;}
-  Button ButtonAt(Transform parent,string label,Vector2 min,Vector2 max,Action action){var r=Panel(parent,label,min,max);var b=r.gameObject.AddComponent<Button>();b.targetGraphic=r.GetComponent<Graphic>();b.onClick.AddListener(()=>action());var t=TextAt(r,label,new Vector2(.025f,.025f),new Vector2(.975f,.975f),27,Color.white);t.alignment=TextAnchor.MiddleCenter;return b;}
+  RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max){return AppTheme.Rect(parent,name,min,max);}
+  RectTransform Panel(Transform parent,string name,Vector2 min,Vector2 max){return AppTheme.Panel(parent,name,min,max);}
+  Text TextAt(Transform parent,string value,Vector2 min,Vector2 max,int size,Color color){return AppTheme.Label(parent,value,min,max,size,color);}
+  Button ButtonAt(Transform parent,string label,Vector2 min,Vector2 max,Action action){return AppTheme.Button(parent,label,min,max,action);}
+
 
 
   public IEnumerator ReleaseModule(){

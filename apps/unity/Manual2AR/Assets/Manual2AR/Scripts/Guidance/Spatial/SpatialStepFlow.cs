@@ -22,7 +22,7 @@ namespace Manual2AR.Spatial {
    else if(!state.has_cached_target)status.text="已找到标记，请配置当前步骤的空间锚点";
    else if(!ready)status.text="请让操作位置入镜";
    else status.text="准备就绪，请在操作位置点击开始";
-   checkResult.text=ready?"已找到缓存的操作位置。确认标记与打印机未发生相对移动，再点击画面上的开始按钮。":!reply.calibrated?"打开空间锚点配置，完成相机标定。":"保持打印机和标记固定，调整相机让标记及操作区域同时入镜。";
+   if(string.IsNullOrEmpty(verificationFeedback))checkResult.text=ready?"已找到缓存的操作位置。确认标记与打印机未发生相对移动，再点击画面上的开始按钮。":!reply.calibrated?"打开空间锚点配置，完成相机标定。":"保持打印机和标记固定，调整相机让标记及操作区域同时入镜。";
   }
   IEnumerator StartPrepared(){
    if(session==null||last?.preflight==null||!last.preflight.can_start||changing)yield break;
@@ -34,8 +34,8 @@ namespace Manual2AR.Spatial {
   void ShowStepIntroduction(bool startAfterClose){
    if(plan==null)return;int version=epoch;
    var panel=PhotoPanel(Current.title);
-   var text=ScrollText(panel,"Official step instruction",new Vector2(.05f,.53f),new Vector2(.95f,.85f),26);text.text=AppTheme.Readable(Current.instruction);
-   var slot=AppTheme.Rect(panel,"Official reference",new Vector2(.15f,.20f),new Vector2(.85f,.52f));var img=AppTheme.Rect(slot,"Step reference image",Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();img.color=Color.white;
+   var text=ScrollText(panel,"Official step instruction",new Vector2(.05f,.69f),new Vector2(.95f,.85f),29);text.text=AppTheme.Readable(Current.instruction);
+   var slot=AppTheme.Rect(panel,"Official reference",new Vector2(.15f,.20f),new Vector2(.85f,.66f));var img=AppTheme.Rect(slot,"Step reference image",Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();img.color=Color.white;
    if(referenceTexture!=null){img.texture=referenceTexture;var fit=img.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=referenceTexture.width/(float)referenceTexture.height;}else ReferenceExample(slot,Current.action_id=="holder.base"?"base_reference":"installation_reference",Vector2.zero,Vector2.one);
    var caption=AppTheme.Label(panel,"官方图 "+(referenceIndex+1)+" / "+Current.reference_images.Length,new Vector2(.20f,.135f),new Vector2(.80f,.19f),21,AppTheme.Muted);caption.alignment=TextAnchor.MiddleCenter;
    AppTheme.Button(panel,"上一图",new Vector2(.025f,.28f),new Vector2(.145f,.39f),()=>StartCoroutine(ChangeIntroReference(-1,img,caption,version)),AppIcon.Back);

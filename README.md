@@ -40,6 +40,7 @@ GPU 使用 SAM3.1 首帧分割与 Cutie 跟踪；不可用时可回退本机 Ope
 
 - [使用与交付](docs/OPERATIONS.md)
 - [架构与模块边界](docs/ARCHITECTURE.md)
+- [公共 UI 契约与组件](docs/UI_CONTRACT.md)
 - [教学视觉资产](docs/VISUAL_ASSET_LIBRARY.md)
 - [空间文字与图例契约](docs/GUIDANCE_DISPLAY_CONTRACT.md)
 - [工作坐标及动作参数](docs/PRINTER_WORK_COORDINATES.md)

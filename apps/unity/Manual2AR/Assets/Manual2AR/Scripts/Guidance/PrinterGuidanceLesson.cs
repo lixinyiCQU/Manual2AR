@@ -42,10 +42,10 @@ namespace Manual2AR {
             return panel;
         }
 
-        void SectionHeading(RectTransform parent,string title,Color color,bool warning){
+        void SectionHeading(RectTransform parent,string title,Color color,AppIcon? symbol){
             var row=Rect(title,parent,Vector2.zero,Vector2.one);row.gameObject.AddComponent<LayoutElement>().preferredHeight=38;
             float left=0;
-            if(warning){var icon=Rect("注意图标",row,new Vector2(0,.15f),new Vector2(.06f,.85f)).gameObject.AddComponent<AppIconGraphic>();icon.symbol=AppIcon.Warning;icon.color=color;icon.raycastTarget=false;left=.085f;}
+            if(symbol.HasValue){var icon=Rect("注意图标",row,new Vector2(0,.15f),new Vector2(.06f,.85f)).gameObject.AddComponent<AppIconGraphic>();icon.symbol=symbol.Value;icon.color=color;icon.raycastTarget=false;left=.085f;}
             var text=TextAt(row,title,new Vector2(left,0),Vector2.one,25);text.color=color;text.fontStyle=FontStyle.Bold;
         }
 
@@ -53,7 +53,7 @@ namespace Manual2AR {
             bool caution=section.kind=="caution"||section.kind=="precondition";
             bool scope=section.kind=="scope";
             var panel=ReadingGroup(section.title,caution?(Color?)new Color(.16f,.105f,.045f):(scope||section.kind=="action")?(Color?)new Color(.035f,.14f,.19f):null);
-            SectionHeading(panel,section.title,caution?CautionInk:Cyan,caution);
+            SectionHeading(panel,section.title,caution?CautionInk:Cyan,caution?(AppIcon?)AppIcon.Warning:section.kind=="action"?(AppIcon?)AppIcon.Tool:null);
             int number=0;
             foreach(var block in section.blocks){
                 if(section.kind=="action")NumberedInstruction(panel,++number,block.text);

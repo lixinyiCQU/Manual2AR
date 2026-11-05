@@ -29,7 +29,7 @@ def project_inputs(project):
 def check_inputs(root, project, expected):
     current = project_inputs(Path(root) / 'apps/unity/Manual2AR')
     compiled = project_inputs(project)
-    helpers = {'Assets/Editor/ProductValidation.cs', 'Assets/Editor/WindowsPlayerBuild.cs'}
+    helpers = {'Assets/Editor/ProductValidation.cs', 'Assets/Editor/UiGalleryValidation.cs', 'Assets/Editor/WindowsPlayerBuild.cs'}
     extra = set(compiled) - set(expected)
     if (not expected or current != expected or any(compiled.get(k) != v for k, v in expected.items())
             or any(k not in helpers and not k.endswith('.meta') for k in extra)):

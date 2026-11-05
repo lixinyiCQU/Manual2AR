@@ -52,6 +52,7 @@ git worktree list
 | GPU 服务 | `apps/inference/src/manual2ar_inference/app.py` 及 `engines/` |
 | CPU 算法与几何 | `packages/perception/src/manual2ar_perception/` |
 | Unity 通用界面、导航、相机裁切 | `apps/unity/Manual2AR/Assets/Manual2AR/Scripts/Common/` |
+| 公共页面／相机工具栏／弹窗／中文正文 | `Scripts/Common/{AppWorkspace,AppActionBar,AppCameraBar,AppDialog,AppContent,AppReadableText}.cs`；规范见 `docs/UI_CONTRACT.md` |
 | Unity 三个模块 | `Scripts/Learning/`、`Scripts/Guidance/`、`Scripts/Inspection/` |
 | 空间交互状态、相机、分割结果、文字 | `Scripts/Guidance/Spatial/`，尤其 `SpatialGuidanceController`、`SpatialPartWorkflow`、`SpatialStepFlow` |
 | 资产目录、统一动画采样、Windows／原生世界适配器 | `Scripts/VisualGuidance/`；后端 `manual2ar/visuals/library.py` |
@@ -79,6 +80,9 @@ git worktree list
 - 底座步骤：相机预检查 → 用户确认缓存场景 → 官方说明 → 自动识别底座 → 有效分割就绪后播放动画。
 - 核验底座可见安装通过后，用户确认才进入滑入支架步骤；不是看到动画就算通过。
 - 支架步骤先展示图文，再提示底座与支架同时入镜；必须手动点“识别部件”，不自动拍照。
+- 章节页和视觉工作区共用 `AppWorkspace`，按钮组使用 `AppActionBar`；不要复制布局坐标或恢复定时主题扫描。
+- 章节页顶部显示总览／返回任务列表，底部左侧为 AR／拍照核验入口，右侧为等宽章节导航；空间配置栏默认收起，仅显式配置时展开。
+- 安装核验未通过仅显示右栏反馈，红色底色缓慢闪烁三次后保持；通过使用紧凑弹窗，不能因 UI 精简跳过用户确认。
 - “检查安装”不终止仍有效的跟踪。重新识别建立候选，新候选可用才替换旧跟踪；失败保留仍可用的旧跟踪。
 - 实际跟踪失败、退出、切换动作／画幅或重设位置仍需终止旧链路，不保留伪实时掩码。
 - 场景文字只保留固定左上角图例及目标旁的祈使式操作指令。图例无指导内容时隐藏，同一部件颜色一致；核验状态在侧栏／弹窗。
@@ -194,3 +198,5 @@ git worktree add -b agent/<topic> ../Manual2AR-<topic> HEAD
 - 诊断 Notebook 已实际导出到仓库外，源码目录未被重新写入生成副本。
 
 本机日志：`runs/asset-library/core-cleanup-tests.log`、`core-cleanup-resources.log`、`core-cleanup-diagnostics-export.log`，均相对于配置的数据根目录。归档和冻结补丁的 SHA256／基线／源码清单记录于 `handoff/snapshot.json`。后续修改需重新核对，不沿用这组计数。
+
+当前公共 UI 已接入资料首页、部件认知、图文教学、拍照核验、空间指导和打印检查。受控验证：四场景 0 个运行时错误；两种模板 × 三个尺寸的六张组件预览通过；U7 顺序、核验失败保留跟踪及模块三结果展示通过。证据：`builds/asset-library/validation-spatial-20261105-140551/`。构建绑定 327 个 Unity 输入和 252 个运行文件；12 项构建来源校验测试通过。没有调用真实 VLM／GPU，也没有进行摄像头硬件、Windows 全部 DPI 或移动端安全区域验收。

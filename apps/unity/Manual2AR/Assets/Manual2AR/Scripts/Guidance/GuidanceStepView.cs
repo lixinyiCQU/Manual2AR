@@ -235,35 +235,37 @@ namespace Manual2AR
         }
         protected void Sources()
         {
-            if(run==null)return;CloseModal();modal=Frame("官方来源",root,new Vector2(.10f,.10f),new Vector2(.90f,.90f)).gameObject;AppModalBackdrop.Attach(modal);
-            var sheet=Scroll(modal.transform,new Vector2(.03f,.17f),new Vector2(.97f,.95f));
+            if(run==null)return;var panel=OpenModal("官方来源",AppDialogSize.Large);
+            var sheet=Scroll(panel,new Vector2(.03f,.17f),new Vector2(.97f,.83f));
             Paragraph(sheet,"本步官方原文证据",29,Cyan);
             foreach(var source in run.presentation.sources??new UnboxingSource[0])Paragraph(sheet,source.text+"\n来源："+source.url+"\n采集："+source.captured_at+"\n引用："+source.id,20,Color.white);
-            ButtonAt(modal.transform,"打开官方页面",new Vector2(.04f,.035f),new Vector2(.58f,.12f),()=>{if(run.presentation.sources.Length>0)Application.OpenURL(run.presentation.sources[0].url);});
-            ButtonAt(modal.transform,"关闭",new Vector2(.65f,.035f),new Vector2(.96f,.12f),CloseModal);
+            ButtonAt(panel,"打开官方页面",new Vector2(.04f,.035f),new Vector2(.58f,.12f),()=>{if(run.presentation.sources.Length>0)Application.OpenURL(run.presentation.sources[0].url);});
+            ButtonAt(panel,"关闭",new Vector2(.65f,.035f),new Vector2(.96f,.12f),CloseModal);
         }
+        protected RectTransform OpenModal(string heading,AppDialogSize size=AppDialogSize.Standard){CloseModal();var dialog=AppDialog.Open(root,heading,heading,size,CloseModal);modal=dialog.gameObject;return dialog.Panel;}
         protected virtual void CloseModal(){if(modal!=null){modal.SetActive(false);Destroy(modal);modal=null;}}
         protected virtual void EnlargeReference()
         {
-            if(referenceTexture==null)return;CloseModal();modal=Frame("查看参考图",root,new Vector2(.04f,.08f),new Vector2(.96f,.91f)).gameObject;AppModalBackdrop.Attach(modal);
-            var image=Rect("Official photo",modal.transform,new Vector2(.03f,.14f),new Vector2(.97f,.97f)).gameObject.AddComponent<RawImage>();
+            if(referenceTexture==null)return;CloseModal();var dialog=AppDialog.Open(root,"查看参考图","官方参考图",AppDialogSize.Large,CloseModal);modal=dialog.gameObject;
+            var area=Rect("Photo area",dialog.Panel,new Vector2(.03f,.04f),new Vector2(.97f,.83f));area.gameObject.AddComponent<RectMask2D>();
+            var image=Rect("Official photo",area,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();
             image.texture=referenceTexture;image.raycastTarget=false;var fit=image.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=(float)referenceTexture.width/referenceTexture.height;
-            ButtonAt(modal.transform,"关闭参考图",new Vector2(.70f,.02f),new Vector2(.97f,.10f),CloseModal);
         }
+
         protected void ResetDialog()
         {
-            if(busy)return;CloseModal();modal=Frame("重新开始",root,new Vector2(.23f,.28f),new Vector2(.77f,.72f)).gameObject;AppModalBackdrop.Attach(modal);
-            TextAt(modal.transform,"重新开始将建立新的指导记录。已有日志保留；当前进度不再继续。",new Vector2(.07f,.35f),new Vector2(.93f,.9f),25);
-            ButtonAt(modal.transform,"重新开始",new Vector2(.06f,.08f),new Vector2(.55f,.26f),()=>{CloseModal();StartCoroutine(Connect(true));});
-            ButtonAt(modal.transform,"取消",new Vector2(.62f,.08f),new Vector2(.94f,.26f),CloseModal);
+            if(busy)return;var panel=OpenModal("重新开始",AppDialogSize.Compact);
+            TextAt(panel,"重新开始将建立新的指导记录。已有日志保留；当前进度不再继续。",new Vector2(.07f,.35f),new Vector2(.93f,.80f),25);
+            ButtonAt(panel,"重新开始",new Vector2(.06f,.08f),new Vector2(.55f,.26f),()=>{CloseModal();StartCoroutine(Connect(true));});
+            ButtonAt(panel,"取消",new Vector2(.62f,.08f),new Vector2(.94f,.26f),CloseModal);
         }
-        protected RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max){var o=new GameObject(name,typeof(RectTransform));o.transform.SetParent(parent,false);var r=o.GetComponent<RectTransform>();r.anchorMin=min;r.anchorMax=max;r.offsetMin=r.offsetMax=Vector2.zero;return r;}
-        protected RectTransform Frame(string name,Transform parent,Vector2 min,Vector2 max){var r=Rect(name,parent,min,max);r.gameObject.AddComponent<AppRoundedImage>().color=Panel;var border=r.gameObject.AddComponent<Outline>();border.effectColor=Cyan*.7f;return r;}
-        protected Text TextAt(Transform parent,string value,Vector2 min,Vector2 max,int size=23){var r=Rect("Text",parent,min,max);var t=r.gameObject.AddComponent<Text>();t.font=font;t.fontSize=size;t.text=value;t.color=Color.white;t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Truncate;return t;}
-        protected Button ButtonAt(Transform parent,string label,Vector2 min,Vector2 max,Action action){var r=Frame(label,parent,min,max);var b=r.gameObject.AddComponent<Button>();b.targetGraphic=r.GetComponent<Image>();b.onClick.AddListener(()=>action());var t=TextAt(r,label,new Vector2(.03f,.03f),new Vector2(.97f,.97f));t.alignment=TextAnchor.MiddleCenter;t.resizeTextForBestFit=true;t.resizeTextMinSize=12;t.resizeTextMaxSize=23;return b;}
+        protected RectTransform Rect(string name,Transform parent,Vector2 min,Vector2 max){return AppTheme.Rect(parent,name,min,max);}
+        protected RectTransform Frame(string name,Transform parent,Vector2 min,Vector2 max){return AppTheme.Panel(parent,name,min,max);}
+        protected Text TextAt(Transform parent,string value,Vector2 min,Vector2 max,int size=AppTheme.BodySize){return AppTheme.Label(parent,value,min,max,size);}
+        protected Button ButtonAt(Transform parent,string label,Vector2 min,Vector2 max,Action action){return AppTheme.Button(parent,label,min,max,action);}
         protected void Paragraph(string value,int size,Color color){Paragraph(body,value,size,color);}
-        protected virtual void Paragraph(RectTransform parent,string value,int size,Color color){var o=new GameObject("Paragraph",typeof(RectTransform),typeof(Text),typeof(LayoutElement));o.transform.SetParent(parent,false);var t=o.GetComponent<Text>();t.font=font;t.fontSize=size;t.color=color;t.text=value;t.raycastTarget=false;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Overflow;}
-        protected RectTransform Scroll(Transform parent,Vector2 min,Vector2 max){var area=Rect("Scroll",parent,min,max);area.gameObject.AddComponent<AppRoundedImage>().color=Panel;var scroll=area.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;var viewport=Rect("Viewport",area,Vector2.zero,Vector2.one);viewport.gameObject.AddComponent<RectMask2D>();var content=Rect("Content",viewport,new Vector2(0,1),new Vector2(1,1));content.pivot=new Vector2(.5f,1);var layout=content.gameObject.AddComponent<VerticalLayoutGroup>();layout.padding=new RectOffset(12,12,8,16);layout.spacing=16;layout.childControlHeight=true;layout.childControlWidth=true;layout.childForceExpandHeight=false;content.gameObject.AddComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;scroll.viewport=viewport;scroll.content=content;return content;}
+        protected virtual void Paragraph(RectTransform parent,string value,int size,Color color){AppContent.Paragraph(parent,value,size,color);}
+        protected RectTransform Scroll(Transform parent,Vector2 min,Vector2 max){return AppContent.Scroll(parent,"Reading content",min,max);}
         protected Dropdown DropdownAt(Transform parent,Vector2 min,Vector2 max)
         {
             var r=Frame("Camera selector",parent,min,max);var d=r.gameObject.AddComponent<Dropdown>();d.targetGraphic=r.GetComponent<Image>();d.captionText=TextAt(r,"",new Vector2(.03f,.02f),new Vector2(.97f,.98f),19);
@@ -274,7 +276,7 @@ namespace Manual2AR
             var check=Rect("Check",item,new Vector2(.01f,.1f),new Vector2(.02f,.9f));toggle.graphic=check.gameObject.AddComponent<AppRoundedImage>();toggle.graphic.color=Cyan;
             d.itemText=TextAt(item,"",new Vector2(.04f,0),Vector2.one,19);d.template=template;scroll.viewport=viewport;scroll.content=sheet;template.gameObject.SetActive(false);return d;
         }
-        protected void BuildProgress(int total)
+        protected virtual void BuildProgress(int total)
         {
             if(progress!=null)foreach(var text in progress){var target=text.transform.parent.name=="Chapter navigation"?text.transform.parent.gameObject:text.gameObject;target.SetActive(false);Destroy(target);}
             progress=new Text[total];float width=.94f/Mathf.Max(1,total);

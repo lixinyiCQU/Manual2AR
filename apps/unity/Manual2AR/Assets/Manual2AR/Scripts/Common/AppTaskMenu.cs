@@ -11,8 +11,8 @@ namespace Manual2AR {
   RectTransform list,row;int count;
   public static AppTaskMenu Create(Transform parent,string name,string title,string subtitle){
    var view=new AppTaskMenu();view.Root=AppTheme.Rect(parent,name,Vector2.zero,Vector2.one);view.Root.gameObject.AddComponent<Image>().color=AppTheme.Background;
-   AppTheme.Label(view.Root,title,new Vector2(.05f,.90f),new Vector2(.76f,.98f),39);
-   AppTheme.Label(view.Root,subtitle,new Vector2(.05f,.82f),new Vector2(.67f,.90f),25,AppTheme.Muted);
+   AppTheme.Label(view.Root,title,new Vector2(.05f,.90f),new Vector2(.76f,.98f),AppTheme.TitleSize);
+   AppTheme.Label(view.Root,subtitle,new Vector2(.05f,.82f),new Vector2(.67f,.90f),AppTheme.BodySize,AppTheme.Muted);
    var area=AppTheme.Rect(view.Root,"Task List",new Vector2(.05f,.15f),new Vector2(.95f,.80f));var scroll=area.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=40;
    var viewport=AppTheme.Rect(area,"Viewport",Vector2.zero,new Vector2(.975f,1));viewport.gameObject.AddComponent<RectMask2D>();
    view.list=AppTheme.Rect(viewport,"Cards",new Vector2(0,1),Vector2.one);view.list.pivot=new Vector2(.5f,1);

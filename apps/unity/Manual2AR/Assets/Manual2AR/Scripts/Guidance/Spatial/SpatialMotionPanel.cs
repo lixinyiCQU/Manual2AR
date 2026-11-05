@@ -5,10 +5,8 @@ namespace Manual2AR.Spatial {
  /// <summary>Explicit motion parameters in a registered printer frame, no automatic pose estimation.</summary>
  public static class SpatialMotionPanel {
   public static GameObject Open(Transform parent,MotionParameters source,bool rotary,bool hasFrame,Action<MotionParameters> save,Action setup){
-   var shade=AppTheme.Rect(parent,"Teaching motion modal",Vector2.zero,Vector2.one);var canvas=shade.gameObject.AddComponent<Canvas>();canvas.overrideSorting=true;canvas.sortingOrder=610;shade.gameObject.AddComponent<GraphicRaycaster>();shade.gameObject.AddComponent<Image>().color=new Color(0,0,0,.8f);AppModalBackdrop.Attach(shade.gameObject);
-   var panel=AppTheme.Panel(shade,"Teaching motion",new Vector2(.18f,.16f),new Vector2(.82f,.86f));
+   var dialog=AppDialog.Open(parent,"Teaching motion modal","动作参数 · 打印机工作坐标",AppDialogSize.Large,null);var shade=(RectTransform)dialog.transform;var panel=dialog.Panel;
    var value=JsonUtility.FromJson<MotionParameters>(JsonUtility.ToJson(source));
-   AppTheme.Label(panel,"动作参数 · 打印机工作坐标",new Vector2(.04f,.90f),new Vector2(.96f,.99f),29,AppTheme.TargetCyan);
    AppTheme.Label(panel,hasFrame?"机架 O / XYZ 已固定；同一动作共用参数。":"尚未建立打印机坐标；两点模式沿用原设置。",new Vector2(.05f,.82f),new Vector2(.95f,.90f),23,AppTheme.Muted);
    Button enable=null;Action refresh=()=>enable.GetComponentInChildren<Text>().text=value.enabled?"坐标模式：打印机 XYZ":"坐标模式：原有两点方向";
    enable=AppTheme.Button(panel,"",new Vector2(.05f,.73f),new Vector2(.64f,.81f),()=>{value.enabled=!value.enabled;refresh();},AppIcon.Inspect);refresh();

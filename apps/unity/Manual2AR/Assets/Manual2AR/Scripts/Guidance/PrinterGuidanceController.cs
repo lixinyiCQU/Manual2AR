@@ -36,7 +36,7 @@ namespace Manual2AR
         {
             base.Start();if(settings!=null)Screen.SetResolution(settings.ui_width,settings.ui_height,FullScreenMode.Windowed);
         }
-        static string ReadableText(string value){return LessonReadableText.Prepare(value);}
+        static string ReadableText(string value){return AppReadableText.Prepare(value);}
         void RefreshForDisplayScale()
         {
             if(root==null||body==null||fittingText)return;
@@ -55,28 +55,20 @@ namespace Manual2AR
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(body);Canvas.ForceUpdateCanvases();
         }
-        protected override void Paragraph(RectTransform parent,string value,int size,Color color)
-        {
-            var o=new GameObject("Paragraph",typeof(RectTransform),typeof(Text),typeof(LayoutElement));o.transform.SetParent(parent,false);
-            var t=o.GetComponent<Text>();t.font=font;t.fontSize=size;t.text=ReadableText(value);t.color=color;t.supportRichText=false;t.raycastTarget=false;
-            t.lineSpacing=1.35f;t.horizontalOverflow=HorizontalWrapMode.Overflow;t.verticalOverflow=VerticalWrapMode.Overflow;
-            LessonReadableText.Attach(t);
-            o.GetComponent<LayoutElement>().minHeight=size*1.3f;
-        }
-        static void SetAnchors(RectTransform rect,float left,float bottom,float right,float top){rect.anchorMin=new Vector2(left,bottom);rect.anchorMax=new Vector2(right,top);}
+        protected override void Paragraph(RectTransform parent,string value,int size,Color color){AppContent.Paragraph(parent,value,size,color);}
+        static void SetAnchors(RectTransform rect,float left,float bottom,float right,float top){AppWorkspace.Place(rect,left,bottom,right,top);}
         void ShowOverview(bool entering)
         {
             if(task==null)return;ClosePhotoReference();StopCamera();CloseModal();
-            modal=Frame("步骤总览",root,new Vector2(.035f,.09f),new Vector2(.965f,.93f)).gameObject;AppModalBackdrop.Attach(modal);
-            TextAt(modal.transform,task.title,new Vector2(.035f,.89f),new Vector2(.965f,.98f),31).color=Color.white;
-            var outline=Scroll(modal.transform,new Vector2(.025f,.14f),new Vector2(.61f,.87f));
+            var dialog=AppDialog.Open(root,"步骤总览",task.title,AppDialogSize.Large,CloseModal);modal=dialog.gameObject;var overview=dialog.Panel;
+            var outline=Scroll(overview,new Vector2(.025f,.14f),new Vector2(.61f,.83f));
             Paragraph(outline,"教程章节 · "+task.steps.Length+" 章",24,Cyan);
             foreach(var step in task.steps){
                 var selected=step;string state=step.id;
                 if(Free)ChapterRow(outline,selected);
                 else Paragraph(outline,step.title,21,Color.white);
             }
-            var official=Scroll(modal.transform,new Vector2(.63f,.34f),new Vector2(.975f,.87f));
+            var official=Scroll(overview,new Vector2(.63f,.34f),new Vector2(.975f,.83f));
             Paragraph(official,"关于本教程",24,Cyan);Paragraph(official,task.scope,21,Color.white);
             foreach(var requirement in task.entry_requirements??new string[0])Paragraph(official,requirement,20,new Color(1,.82f,.5f));
             if(Free)Paragraph(official,"图文章节完成后请手动确认；空间指导完成视觉核验后显示绿色勾选。",20,Color.white);
@@ -84,11 +76,11 @@ namespace Manual2AR
             string sourceUrl=source!=null?source.url:(task.official_sections!=null&&task.official_sections.Length>0?task.official_sections[0].url:"");
             Paragraph(official,source!=null?source.title:"Bambu Lab 官方指南",21,Cyan);
             if(!string.IsNullOrEmpty(sourceUrl)){
-                ButtonAt(modal.transform,"查看官方指南",new Vector2(.65f,.125f),new Vector2(.95f,.20f),()=>StartCoroutine(OpenOfficialWiki(sourceUrl)));
+                ButtonAt(overview,"查看官方指南",new Vector2(.65f,.125f),new Vector2(.95f,.20f),()=>StartCoroutine(OpenOfficialWiki(sourceUrl)));
             }
 
 
-            ButtonAt(modal.transform,entering?"开始浏览教程":"返回当前章节",new Vector2(.65f,.025f),new Vector2(.95f,.10f),CloseModal);
+            ButtonAt(overview,entering?"开始浏览教程":"返回当前章节",new Vector2(.65f,.025f),new Vector2(.95f,.10f),CloseModal);
             EnhanceScrolls();
         }
         void EnhanceScrolls()
@@ -161,7 +153,7 @@ namespace Manual2AR
             primary.gameObject.SetActive(active&&!run.can_advance&&!run.completed);
             next.interactable=active&&!busy&&run.can_advance;back.interactable=active&&!busy&&run.can_back&&!run.completed;
             recheck.interactable=active&&!busy&&!run.completed;
-            restart.gameObject.SetActive(string.IsNullOrEmpty(Current.parent_run_id));
+            restart.gameObject.SetActive(false);
             cancelChild.gameObject.SetActive(!string.IsNullOrEmpty(Current.parent_run_id)&&Current.can_cancel);
             cancelChild.interactable=!busy;
             if(Free){
@@ -232,16 +224,17 @@ namespace Manual2AR
                 manualHelp.text=run.completed?"已结束本次教程浏览。你可以从步骤总览重新查看任意章节。":"本章无需拍照。\n请按左侧说明操作，可自由切换章节。";
                 if(Array.IndexOf(incoming.user_marked_step_ids??new string[0],run.state_id)>=0)manualHelp.text+="\n\n你已将本章标记为已操作。";
                 next.GetComponentInChildren<Text>().text=run.step_index==run.step_count-1?"结束本次浏览":"下一章 →";
-                notice.text=run.completed?"学习进度已保存。":"可从步骤总览或顶部章节切换。";
+                notice.text=run.completed?"学习进度已保存。":"";
             }
-            photoEntry.GetComponentInChildren<Text>().text="拍照参考（可选）";
+            photoEntry.GetComponentInChildren<Text>().text="拍照核验";
             if(Free&&run.state_id=="U7"&&incoming.u7_sequence!=null){
-                bool first=incoming.selected_substep_id=="U7-S1";notice.text=incoming.u7_sequence.message;photoEntry.GetComponentInChildren<Text>().text=first?"检查底座 / 解锁下一步":"拍照检查支架安装";
+                bool first=incoming.selected_substep_id=="U7-S1";notice.text=incoming.u7_sequence.message;photoEntry.GetComponentInChildren<Text>().text="拍照核验";
                 primary.GetComponentInChildren<Text>().text=first?"拍照检查底座并解锁下一步":"检查料盘支架安装";
                 next.GetComponentInChildren<Text>().text=first?"下一步：安装料盘支架 →":"下一章 →";
                 if(first&&!incoming.u7_sequence.base_approved)result.text="先安装灰色底座，拍清底座及两颗螺丝；通过后开放安装料盘支架。\n"+result.text;
             }
             captureHelp.text=ReadableText(captureHelp.text).Replace("；","；\n");manualHelp.text=ReadableText(manualHelp.text);result.text=ReadableText(result.text);
+            count.gameObject.SetActive(false);notice.gameObject.SetActive(!Free&&!string.IsNullOrEmpty(notice.text));
             LayoutLesson();LayoutTeachingPanels();StartCoroutine(FinishTextLayout(++textLayoutGeneration));
             if(overviewRuns.Add(incoming.run_id))ShowOverview(true);
         }
@@ -300,21 +293,20 @@ namespace Manual2AR
         {
             if(busy||!connected)return;
             if(entry.variants.Length==1){StartSelected(entry.id,entry.default_variant);return;}
-            CloseModal();modal=Frame("选择打印入口",root,new Vector2(.20f,.22f),new Vector2(.80f,.76f)).gameObject;AppModalBackdrop.Attach(modal);
-            TextAt(modal.transform,entry.id=="a1_mini_standalone_unboxing_v1"?"选择开箱版本":"选择打印方式",new Vector2(.06f,.76f),new Vector2(.94f,.95f),28).color=Cyan;
+            var panel=OpenModal(entry.id=="a1_mini_standalone_unboxing_v1"?"选择开箱版本":"选择打印方式");
             for(int i=0;i<entry.variants.Length;i++){
                 var variant=entry.variants[i];float y=.48f-i*.22f;
-                ButtonAt(modal.transform,variant.title,new Vector2(.06f,y),new Vector2(.94f,y+.16f),()=>{CloseModal();StartSelected(entry.id,variant.id);});
+                ButtonAt(panel,variant.title,new Vector2(.06f,y),new Vector2(.94f,y+.16f),()=>{CloseModal();StartSelected(entry.id,variant.id);});
             }
-            ButtonAt(modal.transform,"取消",new Vector2(.60f,.025f),new Vector2(.94f,.17f),CloseModal);
+            ButtonAt(panel,"取消",new Vector2(.60f,.025f),new Vector2(.94f,.17f),CloseModal);
         }
         void StartSelected(string taskId,string variant)
         {
             if(Current!=null&&(Current.status=="running"||Current.status=="waiting_child"||!string.IsNullOrEmpty(Current.parent_run_id))){
-                CloseModal();modal=Frame("切换指导",root,new Vector2(.20f,.27f),new Vector2(.80f,.73f)).gameObject;AppModalBackdrop.Attach(modal);
-                TextAt(modal.transform,"开始新任务将结束当前指导，已有记录保留。是否继续？",new Vector2(.07f,.35f),new Vector2(.93f,.90f),26);
-                ButtonAt(modal.transform,"结束当前指导并开始",new Vector2(.05f,.07f),new Vector2(.62f,.24f),()=>{CloseModal();StartCoroutine(BeginSelected(taskId,variant,true));});
-                ButtonAt(modal.transform,"取消",new Vector2(.68f,.07f),new Vector2(.95f,.24f),CloseModal);
+                var panel=OpenModal("切换指导",AppDialogSize.Compact);
+                TextAt(panel,"开始新任务将结束当前指导，已有记录保留。是否继续？",new Vector2(.07f,.35f),new Vector2(.93f,.80f),26);
+                ButtonAt(panel,"结束当前指导并开始",new Vector2(.05f,.07f),new Vector2(.62f,.24f),()=>{CloseModal();StartCoroutine(BeginSelected(taskId,variant,true));});
+                ButtonAt(panel,"取消",new Vector2(.68f,.07f),new Vector2(.95f,.24f),CloseModal);
             }else StartCoroutine(BeginSelected(taskId,variant,false));
         }
         IEnumerator BeginSelected(string taskId,string variant,bool endOld)
@@ -356,10 +348,10 @@ namespace Manual2AR
         }
         void RetryDialog()
         {
-            CloseModal();modal=Frame("设备重试",root,new Vector2(.20f,.27f),new Vector2(.80f,.73f)).gameObject;AppModalBackdrop.Attach(modal);
-            TextAt(modal.transform,"请先按打印机提示选择重试。确认后，本应用返回对应操作步骤，并清除受影响的核验记录。",new Vector2(.06f,.35f),new Vector2(.94f,.91f),25);
-            ButtonAt(modal.transform,"已在设备选择重试",new Vector2(.04f,.06f),new Vector2(.64f,.23f),()=>{CloseModal();StartCoroutine(TaskAction("retry",true));});
-            ButtonAt(modal.transform,"取消",new Vector2(.70f,.06f),new Vector2(.96f,.23f),CloseModal);
+            var panel=OpenModal("设备重试",AppDialogSize.Compact);
+            TextAt(panel,"请先按打印机提示选择重试。确认后，本应用返回对应操作步骤，并清除受影响的核验记录。",new Vector2(.06f,.35f),new Vector2(.94f,.91f),25);
+            ButtonAt(panel,"已在设备选择重试",new Vector2(.04f,.06f),new Vector2(.64f,.23f),()=>{CloseModal();StartCoroutine(TaskAction("retry",true));});
+            ButtonAt(panel,"取消",new Vector2(.70f,.06f),new Vector2(.96f,.23f),CloseModal);
         }
         IEnumerator CancelChild()
         {
@@ -376,12 +368,11 @@ namespace Manual2AR
         {
             if(referenceTexture==null)return;
             var uv=referenceImage.uvRect;if(uv==new Rect(0,0,1,1)){base.EnlargeReference();return;}
-            CloseModal();int w=Mathf.RoundToInt(referenceTexture.width*uv.width),h=Mathf.RoundToInt(referenceTexture.height*uv.height);
+            var panel=OpenModal("官方动图当前帧",AppDialogSize.Large);int w=Mathf.RoundToInt(referenceTexture.width*uv.width),h=Mathf.RoundToInt(referenceTexture.height*uv.height);
             modalTexture=new Texture2D(w,h,TextureFormat.RGB24,false);modalTexture.SetPixels(referenceTexture.GetPixels(Mathf.RoundToInt(referenceTexture.width*uv.x),Mathf.RoundToInt(referenceTexture.height*uv.y),w,h));modalTexture.Apply();
-            modal=Frame("查看官方动图当前帧",root,new Vector2(.04f,.08f),new Vector2(.96f,.91f)).gameObject;AppModalBackdrop.Attach(modal);
-            var picture=Rect("官方当前帧",modal.transform,new Vector2(.03f,.14f),new Vector2(.97f,.97f)).gameObject.AddComponent<RawImage>();picture.texture=modalTexture;
+            var picture=Rect("官方当前帧",panel,new Vector2(.03f,.14f),new Vector2(.97f,.83f)).gameObject.AddComponent<RawImage>();picture.texture=modalTexture;
             var fit=picture.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=(float)w/h;
-            ButtonAt(modal.transform,"返回动图",new Vector2(.70f,.02f),new Vector2(.97f,.10f),CloseModal);
+            ButtonAt(panel,"返回动图",new Vector2(.70f,.02f),new Vector2(.97f,.10f),CloseModal);
         }
         protected override IEnumerator LoadReference()
         {

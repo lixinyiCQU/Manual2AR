@@ -81,10 +81,11 @@ public static class ProductValidation {
   UnityEngine.Object.Destroy(source);UnityEngine.Object.Destroy(go);return passed;
  }
  static IEnumerator Scenario(){
+  yield return UiGalleryValidation.Run(Folder);
   Check(AppTheme.Readable("打印状态检查").IndexOf((char)0x200b)>=0,"Chinese wrapping missing");
   Check(AppTheme.Font!=null&&AppTheme.Font.HasCharacter('学'),"Embedded Chinese font not available");
-  string dense=LessonReadableText.Wrap(new string('中',40),8,t=>t.Length);var wrappedLines=dense.Split('\n');Check(wrappedLines.Length==5,"Chinese text has premature word-run breaks");foreach(string line in wrappedLines)Check(line.Length==8,"Chinese row leaves unexplained short lines");
-  string protectedWords=LessonReadableText.Wrap(LessonReadableText.Prepare("安装 M3-12 螺丝，料管为 520 mm。"),12,t=>t.Length);Check(protectedWords.Contains("M3-12")&&protectedWords.Contains("520\u00a0mm"),"Model names or units were split");
+  string dense=AppReadableText.Wrap(new string('中',40),8,t=>t.Length);var wrappedLines=dense.Split('\n');Check(wrappedLines.Length==5,"Chinese text has premature word-run breaks");foreach(string line in wrappedLines)Check(line.Length==8,"Chinese row leaves unexplained short lines");
+  string protectedWords=AppReadableText.Wrap(AppReadableText.Prepare("安装 M3-12 螺丝，料管为 520 mm。"),12,t=>t.Length);Check(protectedWords.Contains("M3-12")&&protectedWords.Contains("520\u00a0mm"),"Model names or units were split");
   foreach(string line in protectedWords.Split('\n'))Check(!line.StartsWith("，")&&!line.StartsWith("。"),"Punctuation starts a rendered line");
 
   Check(WindowsLocalBootstrap.IsNetworkPath(@"\\wsl.localhost\Ubuntu\demo\Manual2AR_Data"),"WSL UNC path was not identified");
@@ -127,8 +128,8 @@ public static class ProductValidation {
   var guidance=UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>();yield return Wait(()=>(bool)Field(guidance,"connected"),"Guidance not connected");NoDiagnostics();CheckBack("返回教学首页");yield return Shot("06-guidance-catalog.png");
   guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BeginSelected","a1_mini_standalone_unboxing_v1","standalone_unboxing",false));yield return Wait(()=>Field(guidance,"run")!=null,"Unboxing did not start");NoDiagnostics();yield return Shot("07-guidance-overview.png");Check(((GameObject)Field(guidance,"modal")).GetComponent<AppModalBackdrop>().Ready,"Overview has no blurred backdrop");
   var overview=(GameObject)Field(guidance,"modal");ClickText(overview,"查看官方指南");
-  yield return Wait(()=>Field(guidance,"wikiDialog")!=null&&((GameObject)Field(guidance,"wikiDialog")).GetComponent<PrinterLearningWikiView>()!=null,"Guidance did not open embedded Wiki");
-  var wiki=((GameObject)Field(guidance,"wikiDialog")).GetComponent<PrinterLearningWikiView>();yield return Wait(()=>Field(wiki,"document")!=null,"Embedded unboxing Wiki did not render",90);yield return Shot("ui-01-embedded-wiki.png");
+  yield return Wait(()=>Field(guidance,"wikiDialog")!=null&&((GameObject)Field(guidance,"wikiDialog")).GetComponentInChildren<PrinterLearningWikiView>()!=null,"Guidance did not open embedded Wiki");
+  var wiki=((GameObject)Field(guidance,"wikiDialog")).GetComponentInChildren<PrinterLearningWikiView>();yield return Wait(()=>Field(wiki,"document")!=null,"Embedded unboxing Wiki did not render",90);yield return Shot("ui-01-embedded-wiki.png");
   Check(((GameObject)Field(guidance,"wikiDialog")).GetComponent<AppModalBackdrop>().Ready,"Nested Wiki has no focus backdrop");Invoke(guidance,"CloseWiki");Check(overview.activeSelf,"Closing Wiki lost the step overview");
   Invoke(guidance,"CloseModal");yield return Shot("08-guidance-step.png");
   var manualCompletion=(Button)Field(guidance,"textCompletion");yield return Wait(()=>manualCompletion.gameObject.activeSelf&&manualCompletion.interactable,"Text chapter has no manual completion action");manualCompletion.onClick.Invoke();
@@ -139,6 +140,13 @@ public static class ProductValidation {
   var tutorial=(GuidanceRun)Field(guidance,"run");GuidanceRun spatialChapter=null;
   yield return Call(origin+"/api/guidance/runs/"+tutorial.run_id+"/browse","POST",JsonUtility.ToJson(new GuidanceBrowse{state_id=tutorial.state_id,revision=tutorial.revision,target_state_id="U3"}),raw=>tutorial=JsonUtility.FromJson<GuidanceRun>(raw));
   Invoke(guidance,"Apply",tutorial);Invoke(guidance,"CloseModal");yield return Wait(()=>Field(guidance,"referenceTexture")!=null,"Lesson reference missing");
+  Check(!((Text)Field(guidance,"count")).gameObject.activeSelf&&!((Button)Field(guidance,"restart")).gameObject.activeSelf,"Obsolete chapter count/restart visible");
+  Check(!((Text)Field(guidance,"notice")).gameObject.activeSelf,"Redundant chapter switching hint visible");
+  var overviewButton=(Button)Field(guidance,"overviewButton");var shellBack=(Button)Field(UnityEngine.Object.FindObjectOfType<AppShell>(),"back");
+  var headerActions=((AppWorkspace)Field(guidance,"workspace")).HeaderActions;
+  Check(headerActions.anchorMin.y==AppWorkspace.BackMin.y&&Mathf.Abs(((RectTransform)shellBack.transform).rect.height-AppTheme.ButtonHeight)<1,"Overview is not in the shared header slot");
+  var footerBack=(RectTransform)((Button)Field(guidance,"back")).transform;var footerDone=(RectTransform)((Button)Field(guidance,"textCompletion")).transform;var footerNext=(RectTransform)((Button)Field(guidance,"next")).transform;
+  Check(footerBack.parent==((AppWorkspace)Field(guidance,"workspace")).FooterRight&&Mathf.Abs(footerNext.rect.height-AppTheme.ButtonHeight)<1,"Footer does not use the common task action bar");
   var lessonPicture=(RectTransform)Field(guidance,"referencePanel");Check(readingCard.anchorMax.x<lessonPicture.anchorMin.x,"Instructions overlap official figure");
   Check(!((GameObject)Field(guidance,"captureDialog")).activeSelf,"Optional camera controls clutter the reading page");
   Check(!((Button)Field(guidance,"previousPhoto")).gameObject.activeSelf&&!((Button)Field(guidance,"nextPhoto")).gameObject.activeSelf,"Single image has redundant arrows");
@@ -149,7 +157,7 @@ public static class ProductValidation {
   var cameraPicture=(RawImage)Field(guidance,"cameraImage");var photoPreviewTexture=new Texture2D(2,2,TextureFormat.RGB24,false);ImageConversion.LoadImage(photoPreviewTexture,bytes);cameraPicture.texture=photoPreviewTexture;Invoke(guidance,"LayoutTeachingPanels");
   Check(!((GameObject)Field(guidance,"cameraEmpty")).activeSelf,"Empty-camera hint covers the preview");
   var photoArea=(RectTransform)Field(guidance,"cameraArea");Check(photoArea.rect.width>900&&photoArea.rect.height>500,"Photo preview is still squeezed");
-  Check(((Button)Field(guidance,"primary")).transform.parent==((GameObject)Field(guidance,"cameraPanel")).transform,"Capture action is outside its dialog");
+  Check(((Button)Field(guidance,"primary")).transform.parent==((AppWorkspace)Field(guidance,"captureWorkspace")).FooterRight,"Capture action is outside its dialog");
   ((Text)Field(guidance,"result")).text="本次拍照参考 · 建议调整\n请将配件分组摆放，并补拍尚未清楚入镜的部分。\n可对照官方参考图继续操作。";yield return Shot("lesson-03-photo-preview.png");Invoke(guidance,"Apply",tutorial);CheckBack("返回教学");
   Invoke(guidance,"OpenCameraSettings");CheckBack("返回拍照参考");yield return Shot("lesson-04-camera-settings.png");AppShell.GoBack();CheckBack("返回教学");AppShell.GoBack();CheckBack("返回任务列表");
   Check(!((GameObject)Field(guidance,"captureDialog")).activeSelf,"Photo dialog did not close");UnityEngine.Object.Destroy(photoPreviewTexture);
@@ -162,9 +170,9 @@ public static class ProductValidation {
    var content=(RectTransform)Field(guidance,"body");bool actionSection=false,cautionSection=false;
    foreach(Transform child in content){if(child.name=="操作指导")actionSection=true;if(child.name=="注意事项"||child.name=="操作前注意")cautionSection=true;}
    Check(actionSection&&cautionSection,"Operation and caution sections were not separated");
-   foreach(Transform child in content){if(child.name=="操作指导")Check(child.GetComponent<AppRoundedImage>()!=null,"Action instructions have no distinct card");foreach(var label in child.GetComponentsInChildren<Text>())Check(!label.text.Contains("当前分步骤"),"Redundant substep count remains in content");}
+   foreach(Transform child in content){if(child.name=="操作指导"){Check(child.GetComponent<AppRoundedImage>()!=null,"Action instructions have no distinct card");Check(Array.Exists(child.GetComponentsInChildren<AppIconGraphic>(),icon=>icon.symbol==AppIcon.Tool),"Action instructions lack tool icon");}foreach(var label in child.GetComponentsInChildren<Text>())Check(!label.text.Contains("当前分步骤"),"Redundant substep count remains in content");}
    var chapterTitle=(Text)Field(guidance,"chapterHeading");Check(chapterTitle.transform.parent==(Transform)Field(guidance,"instructionCard"),"Chapter title is not at top of the teaching card");
-   foreach(var reader in content.GetComponentsInChildren<LessonReadableText>()){
+   foreach(var reader in content.GetComponentsInChildren<AppReadableText>()){
     var label=reader.GetComponent<Text>();Check(label.horizontalOverflow==HorizontalWrapMode.Overflow,"Unity word wrapping still overrides reviewed reading flow");
     Check(reader.Source.Replace("\u00a0"," ").IndexOf("\u200b")<0,"Canonical reading source contains invisible break runs");
    }
@@ -178,6 +186,7 @@ public static class ProductValidation {
   Check(((Button)Field(guidance,"spatialEntry")).gameObject.activeSelf,"U6 has no spatial entry");Invoke(guidance,"OpenSpatial");
   var spatial=UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>();
   yield return Wait(()=>Field(spatial,"plan")!=null,"Spatial plan missing");
+  Check(!((RectTransform)Field(spatial,"setupBar")).gameObject.activeSelf,"Setup controls visible before explicit configuration");
   var spatialPlan=(Manual2AR.Spatial.Plan)Field(spatial,"plan");Check(spatialPlan.actions.Length==10&&spatialPlan.chapters.Length==4,"Unboxing extension catalog missing");
   spatial.StartCoroutine((IEnumerator)Invoke(spatial,"BeginSession","replay",false));
   yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).target_ready,"Spatial replay missing");
@@ -186,7 +195,7 @@ public static class ProductValidation {
   foreach(var toolbarName in new[]{"摄像头管理","动画管理","空间锚点配置","官方图文指导"}){
    Button toolbarButton=null;foreach(var candidateButton in spatial.GetComponentsInChildren<Button>())if(candidateButton.gameObject.name==toolbarName)toolbarButton=candidateButton;
    Check(toolbarButton!=null,"Toolbar action missing: "+toolbarName);var toolbarBounds=new Vector3[4];((RectTransform)toolbarButton.transform).GetWorldCorners(toolbarBounds);
-   Check(Mathf.Abs(toolbarBounds[0].y-topNavigationBounds[0].y)<1&&Mathf.Abs((toolbarBounds[2]-toolbarBounds[0]).x-(topNavigationBounds[2]-topNavigationBounds[0]).x)<1&&Mathf.Abs((toolbarBounds[2]-toolbarBounds[0]).y-(topNavigationBounds[2]-topNavigationBounds[0]).y)<1,"Top toolbar actions have different sizes or rows");
+   Check(Mathf.Abs(toolbarBounds[0].y-topNavigationBounds[0].y)<1&&Mathf.Abs((toolbarBounds[2]-toolbarBounds[0]).x-(topNavigationBounds[2]-topNavigationBounds[0]).x)<1&&Mathf.Abs((toolbarBounds[2]-toolbarBounds[0]).y-(topNavigationBounds[2]-topNavigationBounds[0]).y)<1,"Top toolbar actions have different sizes or rows: "+toolbarName+" "+toolbarBounds[0]+" "+toolbarBounds[2]+" vs "+topNavigationBounds[0]+" "+topNavigationBounds[2]);
   }
   Check(!((Text)Field(spatial,"status")).gameObject.activeInHierarchy,"Redundant right-side status is still visible");var firstSpatial=(Manual2AR.Spatial.Reply)Field(spatial,"last");
   yield return Wait(()=>Field(spatial,"referenceTexture")!=null,"Official reference disappeared during session start");
@@ -279,7 +288,7 @@ public static class ProductValidation {
   Check(showsContext,"Scene imperative did not show tool, action and object");
   Canvas.ForceUpdateCanvases();foreach(var sceneContext in spatial.GetComponentsInChildren<Text>())if(Plain(sceneContext.text).Contains("用内六角扳手拧紧"))Check(sceneContext.preferredHeight<=sceneContext.rectTransform.rect.height+1,"Context state line is clipped by CJK line height");
   yield return Shot("u7-context-information.png");
-  string readySource=((Text)Field(spatial,"authorHelp")).GetComponent<LessonReadableText>().Source;
+  string readySource=((Text)Field(spatial,"authorHelp")).GetComponent<AppReadableText>().Source;
   Check(!((Text)Field(spatial,"title")).gameObject.activeSelf&&!((Text)Field(spatial,"modeLabel")).gameObject.activeSelf,"Spatial debug header remains visible");
   Check(((Manual2AR.Spatial.SpatialTextRenderer)Field(spatial,"textRenderer")).VisibleCount>0,"Metric text annotations missing");
   foreach(var text in spatial.GetComponentsInChildren<Text>())Check(!text.text.Contains("我已操作"),"Manual completion remains in spatial guidance");
@@ -329,13 +338,13 @@ public static class ProductValidation {
   Invoke(spatial,"ShowMotionSettings");Check(GameObject.Find("Action management")==null,"Unready camera opened an action blocker");
   spatial.GetType().GetField("last",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(spatial,lastBefore);
   var emptyPanel=Manual2AR.Spatial.SpatialActionPanel.Open((RectTransform)Field(spatial,"root"),null,new Manual2AR.VisualGuidance.VisualPresentation(),true,false,value=>{},()=>{});
-  Button closeEmpty=null;foreach(var button in emptyPanel.GetComponentsInChildren<Button>())if(button.GetComponentInChildren<Text>().text.Replace(((char)0x200b).ToString(),"")=="关闭")closeEmpty=button;
+  Button closeEmpty=null;foreach(var button in emptyPanel.GetComponentsInChildren<Button>())if(button.gameObject.name=="关闭")closeEmpty=button;
   Check(closeEmpty!=null,"Empty action panel has no exit");yield return Shot("actions-02-not-ready.png");closeEmpty.onClick.Invoke();yield return null;Check(emptyPanel==null,"Empty panel did not close");
   var firstInstance=axisReply.visual.presentation.instances[0];
   var oldMotion=new Manual2AR.Spatial.MotionParameters{components=new[]{null,new Manual2AR.Spatial.ComponentMotion{id=firstInstance.id,rotation_degrees=null,offset_mm=null}}};
   var repairedPanel=Manual2AR.Spatial.SpatialActionPanel.Open((RectTransform)Field(spatial,"root"),oldMotion,axisReply.visual.presentation,true,true,value=>{},()=>{});
   Check(repairedPanel.GetComponentsInChildren<Slider>().Length==3,"Legacy component axes did not get valid defaults");
-  repairedPanel.GetComponent<Manual2AR.Spatial.ActionPanelEscape>().Close();yield return null;Check(repairedPanel==null,"Action escape did not release the blocker");
+  repairedPanel.GetComponent<AppDialog>().Close();yield return null;Check(repairedPanel==null,"Action escape did not release the blocker");
   var captions=(Manual2AR.Spatial.SpatialFeedbackView)Field(spatial,"visionFeedback");
   var textRoot=((Text)Field(spatial,"stepHeader")).transform.parent.GetComponent<RectTransform>();
   Check(textRoot.GetComponentsInChildren<Image>().Length==0&&textRoot.sizeDelta.y<=70,"Teaching hints still use large panels");
@@ -452,7 +461,9 @@ public static class ProductValidation {
   Check(!((Manual2AR.Spatial.SpatialPlayback)Field(spatial,"playback")).Available,"VLM-only boxes enabled animation before segmentation");
   readyFlag.SetValue(spatial,true);Invoke(spatial,"RenderFrame",Field(spatial,"latestBytes"),Field(spatial,"latestReply"));yield return Shot("flow-03-base-guidance.png");
   ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&Field(spatial,"photoPrompt")!=null,"Base verification did not show confirmation");
-  Check(((Manual2AR.Spatial.Plan)Field(spatial,"plan")).actions[(int)Field(spatial,"actionIndex")].action_id=="holder.base","Base verification advanced without user confirmation");yield return Shot("flow-base-confirmation.png");
+  Check(((Manual2AR.Spatial.Plan)Field(spatial,"plan")).actions[(int)Field(spatial,"actionIndex")].action_id=="holder.base","Base verification advanced without user confirmation");var successPanel=((GameObject)Field(spatial,"photoPrompt")).transform.Find("Photo guidance") as RectTransform;
+  Check(successPanel!=null&&successPanel.anchorMax.y-successPanel.anchorMin.y<=.41f,"Success dialog remains oversized");
+  Check(Array.Exists(successPanel.GetComponentsInChildren<Text>(),t=>t.fontSize>=31),"Success dialog text is too small");yield return Shot("flow-base-confirmation.png");
   ClickText((GameObject)Field(spatial,"photoPrompt"),"确认完成");yield return Wait(()=>((Manual2AR.Spatial.Plan)Field(spatial,"plan")).actions[(int)Field(spatial,"actionIndex")].action_id=="holder.slide"&&Field(spatial,"photoPrompt")!=null,"Confirmed base did not advance to holder step");
   int requestsBeforeManual=0,requestsAfterManual=0;
   yield return Call(origin+"/test/spatial/recognition-count","GET",null,raw=>requestsBeforeManual=JsonUtility.FromJson<RecognitionCounter>(raw).count);
@@ -461,7 +472,7 @@ public static class ProductValidation {
   yield return Wait(()=>((Manual2AR.Spatial.Reply)Field(spatial,"last")).client_frame_id>=manualWaitFrame+3,"Manual recognition waiting stopped camera preview");
   yield return Call(origin+"/test/spatial/recognition-count","GET",null,raw=>requestsAfterManual=JsonUtility.FromJson<RecognitionCounter>(raw).count);
   Check(requestsBeforeManual==requestsAfterManual&&!(bool)Field(spatial,"locating")&&!(bool)Field(spatial,"partsDisplayActive")&&!(bool)Field(spatial,"semanticReady"),"Holder entry took a photo without user action");
-  Check(((Text)Field(spatial,"checkResult")).GetComponent<LessonReadableText>().Source.Contains("同时入镜"),"Holder entry did not explain manual framing: "+((Text)Field(spatial,"checkResult")).GetComponent<LessonReadableText>().Source);yield return Shot("flow-04-manual-photo-ready.png");
+  Check(((Text)Field(spatial,"checkResult")).GetComponent<AppReadableText>().Source.Contains("同时入镜"),"Holder entry did not explain manual framing: "+((Text)Field(spatial,"checkResult")).GetComponent<AppReadableText>().Source);yield return Shot("flow-04-manual-photo-ready.png");
   ((Button)Field(spatial,"locateButton")).onClick.Invoke();yield return Wait(()=>(bool)Field(spatial,"partsDisplayActive")&&!(bool)Field(spatial,"locating"),"Manual two-part recognition did not finish");
   yield return Call(origin+"/test/spatial/recognition-count","GET",null,raw=>requestsAfterManual=JsonUtility.FromJson<RecognitionCounter>(raw).count);
   Check(requestsAfterManual==requestsBeforeManual+1,"Manual capture did not make exactly one VLM recognition request");yield return Shot("flow-04-holder-guidance.png");
@@ -470,18 +481,21 @@ public static class ProductValidation {
   ((Button)Field(spatial,"locateButton")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"locating"),"Failed replacement did not finish");
   Check((string)Field(spatial,"partsJob")==stableJob&&(bool)Field(spatial,"partsDisplayActive"),"Failed recognition erased the active tracker");
   yield return Call(origin+"/test/spatial/next-failure","POST","{\"kind\":\"verification\"}",raw=>{});
-  ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&Field(spatial,"photoPrompt")!=null,"Negative installation check did not finish");
-  Invoke(spatial,"ClosePhotoPrompt");int preservedFrame=((Manual2AR.Spatial.Reply)Field(spatial,"last")).client_frame_id;
+  ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&(bool)Field(spatial,"verificationFailed"),"Negative installation check did not reach sidebar");
+  Check(Field(spatial,"photoPrompt")==null,"Negative installation check opened a blocking dialog");
+  Check(((Image)Field(spatial,"feedbackBackground")).color!=Color.clear,"Negative feedback has no red surface");
+  int preservedFrame=((Manual2AR.Spatial.Reply)Field(spatial,"last")).client_frame_id;
   yield return Wait(()=>((Manual2AR.Spatial.Reply)Field(spatial,"last")).client_frame_id>preservedFrame+2,"Tracking froze after negative verification");
-  Check((string)Field(spatial,"partsJob")==stableJob&&(bool)Field(spatial,"partsDisplayActive"),"Installation verdict cleared tracking");yield return Shot("flow-tracking-survives-vlm-failure.png");
-  ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&Field(spatial,"photoPrompt")!=null,"Final holder verification did not finish");Invoke(spatial,"ClosePhotoPrompt");AppShell.GoBack();
+  Check((string)Field(spatial,"partsJob")==stableJob&&(bool)Field(spatial,"partsDisplayActive"),"Installation verdict cleared tracking");
+  Check(((Text)Field(spatial,"checkResult")).GetComponent<AppReadableText>().Source.Contains("安装核验"),"Tracking overwrote the negative feedback");yield return Shot("flow-tracking-survives-vlm-failure.png");
+  ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&Field(spatial,"photoPrompt")!=null,"Final holder verification did not finish");Check(!(bool)Field(spatial,"verificationFailed")&&((Image)Field(spatial,"feedbackBackground")).color==Color.clear,"Successful recheck retained error highlighting");Invoke(spatial,"ClosePhotoPrompt");AppShell.GoBack();
   yield return Wait(()=>UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>()==null&&!(bool)Field(guidance,"busy"),"Automatic flow did not return to tutorial");
   var completedTutorial=(GuidanceRun)Field(guidance,"run");Check(Array.Exists(completedTutorial.chapter_completion,c=>c.state_id=="U7"&&c.completed),"Verified spatial chapter was not marked complete");
   Invoke(guidance,"ShowOverview",false);yield return Shot("flow-05-completed-overview.png");foreach(var label in ((GameObject)Field(guidance,"modal")).GetComponentsInChildren<Text>())Check(!label.text.Contains("已浏览")&&!label.text.Contains("查看学习记录"),"Debug learning record remains in overview");Invoke(guidance,"CloseModal");
   guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BeginSelected","a1_mini_first_print_external_v1","first_print_sd",true));
   yield return Wait(()=>Field(guidance,"run") is GuidanceRun firstPrint&&firstPrint.task_id=="a1_mini_first_print_external_v1"&&!(bool)Field(guidance,"busy"),"First-print task did not survive the UI change");Invoke(guidance,"CloseModal");
   bool hasManualRequirement=false;foreach(var paragraph in ((RectTransform)Field(guidance,"body")).GetComponentsInChildren<Text>())if(paragraph.text.Replace(((char)0x200b).ToString(),"").Contains("完成后请确认"))hasManualRequirement=true;
-  Check(hasManualRequirement,"Gated manual task lost its confirmation requirement");Check(((Button)Field(guidance,"primary")).transform.parent==(RectTransform)Field(guidance,"root"),"Manual confirmation is hidden in photo dialog");yield return Shot("lesson-05-first-print.png");
+  Check(hasManualRequirement,"Gated manual task lost its confirmation requirement");Check(((Button)Field(guidance,"primary")).transform.parent==((AppWorkspace)Field(guidance,"workspace")).FooterRight,"Manual confirmation is hidden in photo dialog");yield return Shot("lesson-05-first-print.png");
   CheckBack("返回任务列表");AppShell.GoBack();yield return null;Check(SceneManager.GetActiveScene().name=="PrinterGuidance"&&((GameObject)Field(guidance,"catalogPanel")).activeSelf,"Guidance skipped its task catalog");CheckBack("返回教学首页");
   AppShell.GoBack();yield return Wait(()=>!AppShell.Changing&&SceneManager.GetActiveScene().name=="Welcome","Guidance did not release");
   AppShell.Open("PrinterInspection");yield return Wait(()=>!AppShell.Changing&&UnityEngine.Object.FindObjectOfType<PrinterInspectionController>()!=null,"Inspection did not open");
@@ -510,7 +524,7 @@ public static class ProductValidation {
   welcome=UnityEngine.Object.FindObjectOfType<WelcomeController>();yield return Wait(()=>welcome!=null&&Field(welcome,"catalog")!=null,"Welcome missing");Invoke(welcome,"Library");
   Check(AppShell.SelectedService==null,"Cannot return to service library");yield return Shot("12-return-library.png");
   Check(UnityEngine.Object.FindObjectsOfType<AppShell>().Length==1,"Duplicate application shell");Check(errors==0,"Runtime errors");
-  File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true,\"spatial_replay\":true,\"spatial_metric_geometry\":true,\"spatial_pixel_picking\":true,\"spatial_reference_loaded\":true,\"spatial_preserves_tutorial_progress\":true,\"u7_composite_assets\":true,\"clockwise_from_tool_handle\":true,\"xyz_orientation_modal\":true,\"two_part_photo_guidance\":true,\"tracked_image_proxy\":true,\"wrong_frame_mask_rejected\":true,\"concurrent_masks_proxy_animation\":true,\"parameterized_rotation\":true,\"motion_parameter_panel\":true,\"three_point_coordinate_wizard\":true,\"u7_sequence_verified_unlock\":true,\"component_action_management\":true,\"empty_action_modal_recovery\":true,\"frameless_marker_captions\":true,\"unified_spatial_toolbar\":true,\"manual_holder_capture\":true,\"legible_spatial_text\":true,\"fixed_model_legend\":true,\"legend_lifecycle_and_colors\":true,\"tracking_survives_vlm_failure\":true,\"imperative_display_contract\":true,\"bidirectional_arrowhead\":true,\"u7_preflight_auto_guidance\":true,\"metric_text_annotations\":true,\"u7_contextual_information\":true,\"visual_completion_overview\":true,\"modal_blur_backdrop\":true,\"embedded_guidance_wiki\":true,\"chapter_card_layout\":true}");
+  File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true,\"spatial_replay\":true,\"spatial_metric_geometry\":true,\"spatial_pixel_picking\":true,\"spatial_reference_loaded\":true,\"spatial_preserves_tutorial_progress\":true,\"u7_composite_assets\":true,\"clockwise_from_tool_handle\":true,\"xyz_orientation_modal\":true,\"two_part_photo_guidance\":true,\"tracked_image_proxy\":true,\"wrong_frame_mask_rejected\":true,\"concurrent_masks_proxy_animation\":true,\"parameterized_rotation\":true,\"motion_parameter_panel\":true,\"three_point_coordinate_wizard\":true,\"u7_sequence_verified_unlock\":true,\"component_action_management\":true,\"empty_action_modal_recovery\":true,\"frameless_marker_captions\":true,\"unified_spatial_toolbar\":true,\"manual_holder_capture\":true,\"legible_spatial_text\":true,\"fixed_model_legend\":true,\"legend_lifecycle_and_colors\":true,\"tracking_survives_vlm_failure\":true,\"imperative_display_contract\":true,\"bidirectional_arrowhead\":true,\"u7_preflight_auto_guidance\":true,\"metric_text_annotations\":true,\"u7_contextual_information\":true,\"visual_completion_overview\":true,\"modal_blur_backdrop\":true,\"embedded_guidance_wiki\":true,\"chapter_card_layout\":true,\"guidance_footer_layout\":true,\"nonmodal_verification_failure\":true,\"compact_step_dialogs\":true,\"shared_workspace_contract\":true,\"ui_gallery_sizes\":3}");
   SessionState.SetBool(Key,false);EditorApplication.Exit(0);
  }
 }

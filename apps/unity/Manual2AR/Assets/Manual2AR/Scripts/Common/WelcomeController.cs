@@ -17,10 +17,7 @@ namespace Manual2AR {
   Text status;RectTransform root,body;AppSettings settings;AppServiceCatalog catalog;bool connecting;float nextRefresh;
   void Start(){
    Application.targetFrameRate=60;
-   var go=new GameObject("Manual2AR Welcome UI",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));root=(RectTransform)go.transform;
-   go.GetComponent<Canvas>().renderMode=RenderMode.ScreenSpaceOverlay;
-   var scale=go.GetComponent<CanvasScaler>();scale.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scale.referenceResolution=new Vector2(1920,1080);scale.matchWidthOrHeight=.5f;
-   go.AddComponent<Image>().color=AppTheme.Background;
+   root=AppWorkspace.Canvas(transform,"Manual2AR Welcome UI");
    try{settings=JsonUtility.FromJson<AppSettings>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,"App.json")));}catch(Exception){}
    try{catalog=JsonUtility.FromJson<AppServiceCatalog>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,"Services.json")));}catch(Exception){}
    Render();StartCoroutine(Connect());
@@ -36,19 +33,13 @@ namespace Manual2AR {
    if(body!=null){body.gameObject.SetActive(false);Destroy(body.gameObject);}
    body=AppTheme.Rect(root,"Welcome Content",Vector2.zero,Vector2.one);
    var service=AppShell.SelectedService;
-   AppTheme.Label(body,"Manual2AR",new Vector2(.055f,.89f),new Vector2(.60f,.97f),44);
+   AppTheme.Label(body,"Manual2AR",new Vector2(.055f,.89f),new Vector2(.60f,.97f),AppTheme.TitleSize);
    status=AppTheme.Label(body,"",new Vector2(.70f,.90f),new Vector2(.945f,.96f),22,AppTheme.Muted);status.alignment=TextAnchor.MiddleRight;
    if(service==null)BuildLibrary();else BuildWorkspace(service);
   }
-  RectTransform Scroll(Transform parent,string name,Vector2 min,Vector2 max){
-   var area=AppTheme.Rect(parent,name,min,max);var view=area.gameObject.AddComponent<ScrollRect>();view.horizontal=false;view.movementType=ScrollRect.MovementType.Clamped;view.scrollSensitivity=35;
-   var viewport=AppTheme.Rect(area,"Viewport",Vector2.zero,Vector2.one);viewport.gameObject.AddComponent<RectMask2D>();
-   var content=AppTheme.Rect(viewport,"Content",new Vector2(0,1),Vector2.one);content.pivot=new Vector2(.5f,1);
-   var layout=content.gameObject.AddComponent<VerticalLayoutGroup>();layout.spacing=20;layout.padding=new RectOffset(4,4,4,10);layout.childControlHeight=true;layout.childForceExpandHeight=false;
-   content.gameObject.AddComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;view.viewport=viewport;view.content=content;return content;
-  }
+  RectTransform Scroll(Transform parent,string name,Vector2 min,Vector2 max){return AppContent.Scroll(parent,name,min,max);}
   void BuildLibrary(){
-   AppTheme.Label(body,"您的设备教学资料库",new Vector2(.055f,.80f),new Vector2(.93f,.88f),39);
+   AppTheme.Label(body,"您的设备教学资料库",new Vector2(.055f,.80f),new Vector2(.93f,.88f),AppTheme.TitleSize);
    AppTheme.Label(body,"选择已导入的资料，进入对应设备的教学服务。",new Vector2(.055f,.72f),new Vector2(.945f,.80f),26,AppTheme.Muted);
    var list=Scroll(body,"Service List",new Vector2(.055f,.20f),new Vector2(.945f,.69f));
    if(catalog==null||catalog.services==null||catalog.services.Length==0){AppTheme.Label(list,"暂未加载教学资料，请稍后再试。",Vector2.zero,Vector2.one,27);return;}
@@ -64,7 +55,7 @@ namespace Manual2AR {
   }
   void BuildWorkspace(AppService service){
    AppTheme.Label(body,service.teaching_title,new Vector2(.055f,.82f),new Vector2(.94f,.89f),26,AppTheme.Muted);
-   AppTheme.Label(body,service.headline,new Vector2(.055f,.69f),new Vector2(.94f,.79f),43);
+   AppTheme.Label(body,service.headline,new Vector2(.055f,.69f),new Vector2(.94f,.79f),AppTheme.TitleSize);
    AppTheme.Label(body,service.introduction,new Vector2(.055f,.61f),new Vector2(.94f,.69f),27,AppTheme.Muted);
    var list=Scroll(body,"Module Cards",new Vector2(.055f,.21f),new Vector2(.945f,.59f));
    var items=service.modules??new AppModuleCard[0];

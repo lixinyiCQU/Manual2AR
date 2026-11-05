@@ -22,14 +22,31 @@ namespace Manual2AR.Spatial {
    AppTheme.Button(panel,"相机及工作坐标设置",new Vector2(.08f,.12f),new Vector2(.66f,.23f),()=>{ClosePhotoPrompt();setupExplicit=true;SetSetupVisible(true);},AppIcon.Inspect);
    AppTheme.Button(panel,"返回",new Vector2(.70f,.12f),new Vector2(.92f,.23f),ClosePhotoPrompt,AppIcon.Back);
   }
+  Image feedbackBackground;bool verificationFailed;float feedbackStarted;
+  void ResetCheckFeedback(){
+   verificationFeedback="";verificationFailed=false;
+   if(feedbackBackground!=null)feedbackBackground.color=Color.clear;
+   if(checkResult!=null)checkResult.color=Color.white;
+  }
+  void ShowCheckFailure(){
+   verificationFailed=true;feedbackStarted=Time.unscaledTime;
+   checkResult.text=verificationFeedback;checkResult.color=new Color(1,.88f,.85f);
+   var scroll=feedbackBackground.GetComponent<ScrollRect>();Canvas.ForceUpdateCanvases();scroll.verticalNormalizedPosition=1;
+   RefreshCheckHighlight();
+  }
+  void RefreshCheckHighlight(){
+   if(!verificationFailed||feedbackBackground==null)return;
+   float elapsed=Time.unscaledTime-feedbackStarted;
+   // Three gentle pulses, then retain a steady error surface until the next check.
+   float strength=elapsed<4.5f?.17f+.09f*(1-Mathf.Cos(elapsed*Mathf.PI*2/1.5f)):.17f;
+   feedbackBackground.color=Color.Lerp(AppTheme.PanelBackground,AppTheme.ErrorRed,strength);
+  }
   void ShowCheckFeedback(Check result){
-   bool passed=result.status=="completed";var panel=PhotoPanel(passed?"本步检查通过":"需要调整后重新检查");
-   feedbackPinned=true;
-   panel.GetComponent<Image>().color=Color.Lerp(AppTheme.PanelBackground,passed?AppTheme.SuccessGreen:AppTheme.ErrorRed,.12f);
-   var border=panel.gameObject.AddComponent<UnityEngine.UI.Outline>();border.effectColor=passed?AppTheme.SuccessGreen:AppTheme.ErrorRed;border.effectDistance=new Vector2(3,-3);
-   var text=ScrollText(panel,"Visible installation feedback",new Vector2(.05f,.25f),new Vector2(.95f,.80f),28);
+   if(result.status!="completed"){ShowCheckFailure();return;}
+   var panel=PhotoPanel("本步检查通过",true);feedbackPinned=true;
+   var text=ScrollText(panel,"Visible installation feedback",new Vector2(.06f,.28f),new Vector2(.94f,.80f),30);
    text.text=AppTheme.Readable(result.evidence+"\n\n"+result.next_action);
-   AppTheme.Button(panel,"继续调整",new Vector2(.3f,.06f),new Vector2(.7f,.20f),ClosePhotoPrompt,AppIcon.Back,true);
+   AppTheme.Button(panel,"继续指导",new Vector2(.25f,.07f),new Vector2(.75f,.23f),ClosePhotoPrompt,AppIcon.Check,true);
   }
  }
 }

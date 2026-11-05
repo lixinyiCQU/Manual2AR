@@ -6,9 +6,7 @@ namespace Manual2AR {
   GameObject wikiDialog;int wikiGeneration;
   IEnumerator OpenOfficialWiki(string url){
    CloseWiki();int version=wikiGeneration;
-   var panel=Frame("Official offline Wiki",root,new Vector2(.055f,.045f),new Vector2(.945f,.95f));wikiDialog=panel.gameObject;AppModalBackdrop.Attach(wikiDialog);
-   TextAt(panel,"官方 Wiki 指南",new Vector2(.025f,.92f),new Vector2(.86f,.99f),30);
-   ButtonAt(panel,"关闭",new Vector2(.88f,.925f),new Vector2(.98f,.99f),CloseWiki);
+   var dialog=AppDialog.Open(root,"Official offline Wiki","官方 Wiki 指南",AppDialogSize.Large,CloseWiki);wikiDialog=dialog.gameObject;var panel=dialog.Panel;
    var message=TextAt(panel,"正在打开离线指南…",new Vector2(.05f,.40f),new Vector2(.95f,.65f),26);
    yield return Request("/api/learning/wiki/resolve?url="+Uri.EscapeDataString(url),"GET",null,(raw,error)=>{
     if(wikiDialog==null||version!=wikiGeneration)return;

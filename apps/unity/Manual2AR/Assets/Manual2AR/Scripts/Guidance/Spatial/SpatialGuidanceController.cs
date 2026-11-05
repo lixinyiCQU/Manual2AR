@@ -12,13 +12,13 @@ namespace Manual2AR.Spatial {
  /// <summary>Optional view, owns its camera/session and never mutates tutorial progress.</summary>
  public sealed partial class SpatialGuidanceController:MonoBehaviour,IAppModule {
   const string Api="/api/guidance/spatial";
-  RectTransform root,viewport,referenceArea,infoCard;RawImage image,reference;SpatialOverlay overlay;SpatialAssetGraphic assetGraphic,companionGraphic;SpatialFeedbackView visionFeedback;Text stepHeader;SpatialCamera cameraOwner;SpatialReferenceViewer referenceViewer;
+  AppWorkspace workspace;RectTransform root,viewport,referenceArea,infoCard;RawImage image,reference;SpatialOverlay overlay;SpatialAssetGraphic assetGraphic,companionGraphic;SpatialFeedbackView visionFeedback;Text stepHeader;SpatialCamera cameraOwner;SpatialReferenceViewer referenceViewer;
   ISpatialFrameSource frameSource;string tutorialRunId="",initialAction="";int pendingInteractions;
   Text title,instruction,status,authorHelp,checkResult,referenceCaption,modeLabel;Button setup,sample,solve,verify,cancel,locateButton;bool locating,locationPreview;UnityWebRequest localizationRequest;
   Dropdown referenceDropdown;bool backendReady;readonly HashSet<UnityWebRequest> requests=new HashSet<UnityWebRequest>();
   readonly SpatialPlayback playback=new SpatialPlayback();
   SpatialLegend legend;SpatialTextRenderer textRenderer;string vlmBrief="";SpatialActionBar actionBar;SpatialCallout callout;SpatialPickLabels pickLabels;RectTransform setupBar;
-  bool setupVisible=true,setupExplicit,trackingInterrupted,authorBusy;int targetIndex,authorGeneration;float lastPresentedAt,lastRequestMs,presentationFps;
+  bool setupVisible,setupExplicit,trackingInterrupted,authorBusy;int targetIndex,authorGeneration;float lastPresentedAt,lastRequestMs,presentationFps;
   Plan plan;Session session;Reply last;Texture2D displayed,referenceTexture;Action done;string origin,cameraSignature,mode="camera",candidate;
   U7Sequence u7Sequence=new U7Sequence();
   int actionIndex,referenceIndex,referenceGeneration,epoch,sequence,replayIndex,cameraIndex,authorStage,firstFrame,secondFrame;
@@ -53,7 +53,7 @@ namespace Manual2AR.Spatial {
    verify.GetComponentInChildren<Text>().text=Current.verification_mode=="manual"?"确认完成":"检查安装";
    BuildActionTabs();
    StartCoroutine(LoadReference());
-   verificationFeedback="";vlmBrief="";semanticReady=false;if(continuing)StartCoroutine(EnterSelectedStep(epoch));
+   ResetCheckFeedback();vlmBrief="";semanticReady=false;if(continuing)StartCoroutine(EnterSelectedStep(epoch));
   }
   void SelectChapter(string chapter){int index=Array.FindIndex(plan.actions,a=>a.chapter_id==chapter);if(index>=0)Select(index);}
   void BuildActionTabs(){
@@ -65,7 +65,7 @@ namespace Manual2AR.Spatial {
   void SelectTarget(int index){
    if(changing||plan==null||index==targetIndex)return;targetIndex=index;epoch++;last=null;CancelAuthor();playback.Reset();trackingInterrupted=false;stickyUntil=0;callout.Hide();ClearGraphics();BuildTargets();RefreshHelp();SendInteraction("target_selected");
   }
-  void SetSetupVisible(bool value){setupVisible=value;setupBar.gameObject.SetActive(value);actionBar.Root.gameObject.SetActive(true);if(viewport!=null)((RectTransform)viewport.parent).anchorMin=new Vector2(.025f,value?.105f:.025f);if(infoCard!=null)infoCard.anchorMin=new Vector2(.74f,value?.105f:.025f);}
+  void SetSetupVisible(bool value){setupVisible=value;setupBar.gameObject.SetActive(value);actionBar.Root.gameObject.SetActive(true);workspace.SetFooterVisible(value);workspace.FooterLeft.gameObject.SetActive(false);workspace.FooterRight.gameObject.SetActive(false);}
   void ExitSetup(){CancelAuthor();setupExplicit=false;SetSetupVisible(false);Message("已返回空间指导");}
   IEnumerator LoadReference(){
    CloseReference();reference.texture=null;reference.color=Color.clear;
@@ -80,7 +80,7 @@ namespace Manual2AR.Spatial {
    }
   }
   IEnumerator BeginSession(string selectedMode,bool reuse){
-   if(changing||plan==null)yield break;if(!backendReady){Message("后端版本未更新，请重启后端");yield break;}changing=true;guidedStarted=false;semanticReady=false;startAtTarget.gameObject.SetActive(false);epoch++;CancelAuthor();last=null;playback.Reset();trackingInterrupted=false;callout.Hide();ClearGraphics();setupExplicit=false;SetSetupVisible(true);
+   if(changing||plan==null)yield break;if(!backendReady){Message("后端版本未更新，请重启后端");yield break;}changing=true;ResetCheckFeedback();guidedStarted=false;semanticReady=false;startAtTarget.gameObject.SetActive(false);epoch++;CancelAuthor();last=null;playback.Reset();trackingInterrupted=false;callout.Hide();ClearGraphics();setupExplicit=false;SetSetupVisible(false);
    yield return DropSession();mode=selectedMode;frameSource.Close();string failure=null;
    if(mode=="camera"){
     yield return frameSource.Open(cameraIndex,e=>failure=e);
@@ -97,12 +97,12 @@ namespace Manual2AR.Spatial {
    else Message(mode=="replay"?"模拟回放已启动。":session.calibrated?"将已打印的定位标记固定到打印机刚性部位，让标记与操作区域同时入镜。":"首次使用：打印标定纸，在不同位置与倾角采集至少 12 张棋盘，再计算标定。");
   }
   void ShowReuse(){
-   var panel=AppTheme.Panel(root,"Reuse saved target confirmation",new Vector2(.16f,.35f),new Vector2(.84f,.72f));AppModalBackdrop.Attach(panel.gameObject);
-   AppTheme.Label(panel,"已有作用点设置。\n只有定位标记、打印机及相关安装区域均未发生相对移动时才可沿用。移动过标记或 X 轴等可动部件，请重新设置。",new Vector2(.04f,.35f),new Vector2(.96f,.94f),27);
-   AppTheme.Button(panel,"沿用位置 · 标记未移动",new Vector2(.04f,.08f),new Vector2(.59f,.28f),()=>{Destroy(panel.gameObject);StartCoroutine(BeginSession("camera",true));},AppIcon.Check,true);
-   AppTheme.Button(panel,"重新设置",new Vector2(.62f,.08f),new Vector2(.96f,.28f),()=>Destroy(panel.gameObject),AppIcon.Inspect);
-   panel.SetAsLastSibling();
+   var dialog=AppDialog.Open(root,"Reuse saved target confirmation","核对已保存位置",AppDialogSize.Standard,null);var panel=dialog.Panel;
+   var text=AppTheme.Label(panel,"已有作用点设置。\n\n只有定位标记、打印机及相关安装区域均未发生相对移动时才可沿用。移动过标记或 X 轴等可动部件，请重新设置。",new Vector2(.05f,.32f),new Vector2(.95f,.81f),AppTheme.BodySize);AppReadableText.Attach(text);
+   AppTheme.Button(panel,"沿用位置 · 标记未移动",new Vector2(.04f,.08f),new Vector2(.59f,.23f),()=>{dialog.Close();StartCoroutine(BeginSession("camera",true));},AppIcon.Check,true);
+   AppTheme.Button(panel,"重新设置",new Vector2(.62f,.08f),new Vector2(.96f,.23f),dialog.Close,AppIcon.Inspect);
   }
+
   IEnumerator Stream(){
    while(!closed){
     if(changing||session==null||frozen){yield return null;continue;}
@@ -158,6 +158,7 @@ namespace Manual2AR.Spatial {
   }}
   void Update(){
    if(root==null)return;
+   RefreshCheckHighlight();
    if(GuidedFlow&&!guidedStarted&&last!=null)RefreshPreparation(last);
    bool active=session!=null&&!changing;
    sample.interactable=solve.interactable=active&&mode=="camera"&&authorStage==0&&!locating&&!locationPreview;
@@ -276,13 +277,13 @@ namespace Manual2AR.Spatial {
   IEnumerator Verify(){
    if(plan!=null&&Current.verification_mode=="manual"){if(session==null){Message("可返回原教程进行人工确认，或先启动演示会话。");yield break;}MarkOperation();checkResult.text="已记录人工确认；没有调用 AI 判断螺丝松紧。";yield break;}
    if(session==null||last==null||checking)yield break;checking=true;int version=epoch;var command=new Verify{action_id=Current.action_id,target_id=TargetId,client_frame_id=last.client_frame_id};string sha=last.source_sha256;
-   checkResult.text="正在查看安装区域…";
+   ResetCheckFeedback();checkResult.text="正在查看安装区域…";
    yield return Request(Api+"/sessions/"+session.session_id+"/verify","POST",JsonUtility.ToJson(command),(raw,error)=>{
-    if(version!=epoch)return;if(error!=null){checkResult.text=AppTheme.Readable(error);return;}
+    if(version!=epoch)return;if(error!=null){verificationFeedback=AppTheme.Readable(error);ShowCheckFailure();return;}
     var result=JsonUtility.FromJson<Check>(raw);if(result.action_id!=command.action_id||result.source_sha256!=sha||result.client_frame_id!=command.client_frame_id)return;
     if(result.u7_sequence!=null){u7Sequence=result.u7_sequence;BuildActionTabs();}
+    verificationFeedback=AppTheme.Readable("安装核验 · "+(result.status=="completed"?"可见状态符合":(result.status=="wrong_operation"||result.status=="not_completed")?"尚未完成":"需要补充画面")+"\n\n"+result.evidence+"\n\n"+result.next_action);checkResult.text=verificationFeedback;
     if(Current.chapter_id=="U7"&&result.status=="completed"){if(Current.action_id=="holder.base")ShowBaseCompleted();else ShowCompleted();}else ShowCheckFeedback(result);
-    verificationFeedback=AppTheme.Readable("安装核验 · "+(result.status=="completed"?"可见状态符合":(result.status=="wrong_operation"||result.status=="not_completed")?"尚未完成":"需要补充画面")+" · "+result.evidence+" "+result.next_action);checkResult.text=verificationFeedback;
    },150);checking=false;
   }
   IEnumerator Request(string path,string method,string body,Action<string,string> result,int timeout=10){

@@ -5,30 +5,25 @@ using UnityEngine.UI;
 namespace Manual2AR {
     /// <summary>Reading and optional capture surfaces; task logic lives in the controller.</summary>
     public sealed partial class PrinterGuidanceController {
-        GameObject captureDialog,cameraSettings,cameraEmpty;
-        Button photoEntry,textCompletion;Text chapterHeading;
+        GameObject captureDialog,cameraSettings,cameraEmpty;AppWorkspace workspace,captureWorkspace;
+        Button photoEntry,textCompletion,overviewButton;Text chapterHeading;
 
         protected override void BuildUI(){
-            var canvas=new GameObject("Operation guidance",typeof(RectTransform),typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));
-            canvas.GetComponent<Canvas>().renderMode=RenderMode.ScreenSpaceOverlay;canvas.GetComponent<Canvas>().pixelPerfect=true;
-            var scaler=canvas.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(1920,1080);scaler.matchWidthOrHeight=.5f;
-            root=canvas.GetComponent<RectTransform>();AppTheme.Attach(root);canvas.AddComponent<AppRoundedImage>().color=Navy;
-            if(UnityEngine.EventSystems.EventSystem.current==null)new GameObject("EventSystem",typeof(UnityEngine.EventSystems.EventSystem),typeof(UnityEngine.EventSystems.StandaloneInputModule));
-            title=TextAt(root,"模块二 · 操作指导",new Vector2(.025f,.94f),new Vector2(.62f,.995f),30);title.color=Color.white;
-            count=TextAt(root,"",new Vector2(.64f,.94f),new Vector2(.79f,.995f),21);BuildProgress(12);
-            ButtonAt(root,"步骤总览",new Vector2(.025f,.845f),new Vector2(.18f,.89f),()=>ShowOverview(false));
-            spatialEntry=AppTheme.Button(root,"进入空间指导",new Vector2(.19f,.845f),new Vector2(.40f,.89f),OpenSpatial,AppIcon.Inspect,true);spatialEntry.gameObject.SetActive(false);
-            cancelChild=ButtonAt(root,"结束子任务并返回",new Vector2(.19f,.845f),new Vector2(.55f,.89f),()=>StartCoroutine(CancelChild()));cancelChild.gameObject.SetActive(false);
-            photoEntry=AppTheme.Button(root,"拍照参考（可选）",new Vector2(.60f,.845f),new Vector2(.815f,.89f),OpenPhotoReference,AppIcon.Camera);photoEntry.gameObject.SetActive(false);
-            restart=ButtonAt(root,"重新开始",new Vector2(.83f,.845f),new Vector2(.975f,.89f),ResetDialog);
+            root=AppWorkspace.Canvas(transform,"Operation guidance");workspace=new AppWorkspace(root,"模块二 · 操作指导",AppWorkspaceKind.Reading);title=workspace.Title;
+            count=TextAt(root,"",new Vector2(.64f,.94f),new Vector2(.79f,.995f),21);count.gameObject.SetActive(false);BuildProgress(12);
+            overviewButton=AppTheme.Button(workspace.HeaderActions,"步骤总览",Vector2.zero,Vector2.one,()=>ShowOverview(false),AppIcon.Info);AppActionBar.Add(workspace.HeaderActions,overviewButton);
+            spatialEntry=AppTheme.Button(root,"进入AR指导",new Vector2(.025f,.025f),new Vector2(.195f,.085f),OpenSpatial,AppIcon.Inspect,true);spatialEntry.gameObject.SetActive(false);
+            cancelChild=ButtonAt(root,"结束子任务并返回",new Vector2(.385f,.025f),new Vector2(.555f,.085f),()=>StartCoroutine(CancelChild()));cancelChild.gameObject.SetActive(false);
+            photoEntry=AppTheme.Button(root,"拍照核验",new Vector2(.205f,.025f),new Vector2(.375f,.085f),OpenPhotoReference,AppIcon.Camera);photoEntry.gameObject.SetActive(false);
+            restart=ButtonAt(root,"重新开始",new Vector2(.83f,.845f),new Vector2(.975f,.89f),ResetDialog);restart.gameObject.SetActive(false);
 
-            instructionCard=Frame("操作说明与参考",root,new Vector2(.025f,.14f),new Vector2(.425f,.83f));
+            instructionCard=workspace.Main;
             TextAt(instructionCard,"本章指导",new Vector2(.035f,.93f),new Vector2(.965f,.99f),21).color=Cyan;
             chapterHeading=TextAt(instructionCard,"",new Vector2(.035f,.79f),new Vector2(.965f,.92f),32);chapterHeading.fontStyle=FontStyle.Bold;chapterHeading.resizeTextForBestFit=true;chapterHeading.resizeTextMinSize=25;chapterHeading.resizeTextMaxSize=32;
             body=Scroll(instructionCard,new Vector2(.025f,.025f),new Vector2(.975f,.87f));
             body.parent.parent.GetComponent<Image>().color=Color.clear;
             substepTabs=Rect("分步骤切换",instructionCard,new Vector2(.035f,.68f),new Vector2(.965f,.77f));substepTabs.gameObject.SetActive(false);
-            referencePanel=Frame("官方参考图",root,new Vector2(.445f,.14f),new Vector2(.975f,.83f));
+            referencePanel=workspace.Aside;
             TextAt(referencePanel,"官方参考图",new Vector2(.03f,.92f),new Vector2(.97f,.985f),21).color=Cyan;
             referenceArea=Rect("Reference viewport",referencePanel,new Vector2(.025f,.12f),new Vector2(.975f,.91f));referenceArea.gameObject.AddComponent<RectMask2D>();
             referenceRect=Rect("Reference image",referenceArea,new Vector2(.5f,.5f),new Vector2(.5f,.5f));referenceImage=referenceRect.gameObject.AddComponent<RawImage>();
@@ -40,12 +35,14 @@ namespace Manual2AR {
             placeholder=Rect("Unused lesson placeholder",root,Vector2.zero,Vector2.zero).gameObject;placeholder.SetActive(false);
             manualPanel=Rect("Manual context",root,Vector2.zero,Vector2.zero).gameObject;manualHelp=TextAt(manualPanel.transform,"",Vector2.zero,Vector2.one,24);manualPanel.SetActive(false);
             actionsPanel=Frame("后续操作",root,new Vector2(.025f,.14f),new Vector2(.425f,.35f)).gameObject;actionsPanel.SetActive(false);
-            primary=ButtonAt(root,"确认完成",new Vector2(.355f,.025f),new Vector2(.685f,.075f),Primary);
+            primary=ButtonAt(root,"确认完成",new Vector2(.625f,.025f),new Vector2(.795f,.085f),Primary);
             notice=TextAt(root,"正在读取配置……",new Vector2(.025f,.085f),new Vector2(.975f,.13f),18);notice.color=AppTheme.Muted;
-            back=ButtonAt(root,"← 上一步",new Vector2(.025f,.025f),new Vector2(.16f,.075f),()=>StartCoroutine(Command("back")));
+            back=ButtonAt(root,"← 上一步",new Vector2(.445f,.025f),new Vector2(.615f,.085f),()=>StartCoroutine(Command("back")));
             recheck=ButtonAt(root,"重新检查本章",new Vector2(.175f,.025f),new Vector2(.34f,.075f),()=>StartCoroutine(Command("recheck")));recheck.gameObject.SetActive(false);
-            next=ButtonAt(root,"下一步 →",new Vector2(.775f,.025f),new Vector2(.975f,.075f),()=>StartCoroutine(Command("advance")));
-            textCompletion=ButtonAt(root,"已完成本章",new Vector2(.355f,.025f),new Vector2(.685f,.075f),()=>{if(!busy&&run!=null)StartCoroutine(Confirm());});textCompletion.gameObject.SetActive(false);
+            next=ButtonAt(root,"下一步 →",new Vector2(.805f,.025f),new Vector2(.975f,.085f),()=>StartCoroutine(Command("advance")));
+            textCompletion=ButtonAt(root,"已完成本章",new Vector2(.625f,.025f),new Vector2(.795f,.085f),()=>{if(!busy&&run!=null)StartCoroutine(Confirm());});textCompletion.gameObject.SetActive(false);
+            AppActionBar.Add(workspace.FooterLeft,spatialEntry);AppActionBar.Add(workspace.FooterLeft,photoEntry);AppActionBar.Add(workspace.FooterLeft,cancelChild);
+            AppActionBar.Add(workspace.FooterRight,back);AppActionBar.Add(workspace.FooterRight,primary);AppActionBar.Add(workspace.FooterRight,textCompletion);AppActionBar.Add(workspace.FooterRight,next);
             primary.interactable=next.interactable=back.interactable=recheck.interactable=false;
             BuildCaptureDialog();
             taskMenu=AppTaskMenu.Create(root,"Operation Task Catalog","操作指导","Bambu Lab A1 mini · 选择操作任务");catalogPanel=taskMenu.Root.gameObject;catalogStatus=taskMenu.Status;
@@ -53,51 +50,49 @@ namespace Manual2AR {
             AppShell.BindTeachingBack();EnhanceScrolls();Canvas.willRenderCanvases+=RefreshForDisplayScale;
         }
 
+        protected override void BuildProgress(int total){
+            base.BuildProgress(total);if(workspace==null)return;
+            float width=1f/Mathf.Max(1,total);
+            for(int i=0;i<progress.Length;i++){var tab=progress[i].transform.parent as RectTransform;tab.SetParent(workspace.Tools,false);AppWorkspace.Place(tab,i*width,.12f,(i+1)*width-.004f,.88f);}
+        }
+
         void BuildCaptureDialog(){
-            var shade=Rect("Photo reference dialog",root,Vector2.zero,Vector2.one);shade.gameObject.AddComponent<Image>().color=new Color(.005f,.015f,.025f,.97f);captureDialog=shade.gameObject;AppModalBackdrop.Attach(captureDialog);
-            var panel=Frame("拍摄与核验",shade,new Vector2(.025f,.06f),new Vector2(.975f,.925f));cameraPanel=panel.gameObject;
-            TextAt(panel,"拍照参考",new Vector2(.025f,.91f),new Vector2(.60f,.985f),30).color=Color.white;
-            startCamera=AppTheme.Button(panel,"启动摄像头",new Vector2(.025f,.825f),new Vector2(.29f,.895f),()=>StartCoroutine(StartCamera()),AppIcon.Camera,true);
-            live=AppTheme.Button(panel,"重新取景",new Vector2(.31f,.825f),new Vector2(.53f,.895f),ShowLive,AppIcon.SwitchCamera);
-            AppTheme.Button(panel,"返回教学",new Vector2(.59f,.915f),new Vector2(.745f,.98f),ClosePhotoReference,AppIcon.Back);
-            AppTheme.Button(panel,"镜头设置",new Vector2(.76f,.915f),new Vector2(.975f,.98f),OpenCameraSettings,AppIcon.Camera);
-            cameraArea=Frame("当前图像",panel,new Vector2(.025f,.12f),new Vector2(.625f,.805f));cameraArea.gameObject.AddComponent<RectMask2D>();
+            var dialog=AppDialog.Open(root,"Photo reference dialog","拍照核验",AppDialogSize.Large,ClosePhotoReference);captureDialog=dialog.gameObject;var panel=dialog.Panel;cameraPanel=panel.gameObject;
+            var content=Rect("Capture workspace",panel,new Vector2(.01f,.015f),new Vector2(.99f,.85f));captureWorkspace=new AppWorkspace(content,"拍照核验");captureWorkspace.Title.gameObject.SetActive(false);captureWorkspace.HeaderActions.gameObject.SetActive(false);
+            var controls=new AppCameraBar(captureWorkspace.Tools,framing,()=>StartCoroutine(StartCamera()),OpenCameraSettings,ChangeFraming);startCamera=controls.Start;aspectSelector=controls.Aspect;
+            controls.Switch.GetComponentInChildren<Text>().text="镜头设置";
+            cameraArea=captureWorkspace.Main;cameraArea.gameObject.AddComponent<RectMask2D>();
             cameraRect=Rect("Current frame",cameraArea,new Vector2(.5f,.5f),new Vector2(.5f,.5f));cameraImage=cameraRect.gameObject.AddComponent<RawImage>();cameraImage.raycastTarget=false;
-            cameraEmpty=Rect("Camera start guidance",cameraArea,new Vector2(.10f,.15f),new Vector2(.90f,.85f)).gameObject;
-            var icon=AppTheme.Rect(cameraEmpty.transform,"Camera icon",new Vector2(.43f,.53f),new Vector2(.57f,.78f)).gameObject.AddComponent<AppIconGraphic>();icon.symbol=AppIcon.Camera;icon.color=AppTheme.Muted;icon.raycastTarget=false;
-            var empty=TextAt(cameraEmpty.transform,"启动摄像头后，这里显示实时取景\n点击拍照时才提交当前图像",new Vector2(.05f,.20f),new Vector2(.95f,.48f),26);empty.alignment=TextAnchor.MiddleCenter;empty.color=AppTheme.Muted;
-            cameraCaption=TextAt(panel,"",new Vector2(.025f,.035f),new Vector2(.625f,.105f),21);cameraCaption.color=AppTheme.Muted;
-            TextAt(panel,"拍摄指导",new Vector2(.66f,.825f),new Vector2(.97f,.89f),23).color=Cyan;
-            var guide=Scroll(panel,new Vector2(.65f,.595f),new Vector2(.975f,.815f));guide.parent.parent.GetComponent<Image>().color=Color.clear;
-            captureHelp=FlowText(guide,"拍摄指导正文",24,Color.white);
-            checkTarget=TextAt(panel,"",Vector2.zero,Vector2.zero,18);checkTarget.gameObject.SetActive(false);
-            TextAt(panel,"本次拍照反馈",new Vector2(.66f,.50f),new Vector2(.97f,.565f),23).color=Cyan;
-            var response=Scroll(panel,new Vector2(.65f,.20f),new Vector2(.975f,.49f));responseArea=response.parent.parent.GetComponent<RectTransform>();responseArea.GetComponent<Image>().color=Color.clear;
-            result=FlowText(response,"本次检查结果",24,AppTheme.Muted);
-            TextAt(panel,"拍照建议仅供参考，不影响章节浏览",new Vector2(.66f,.025f),new Vector2(.97f,.075f),18).color=AppTheme.Muted;
-            var options=Frame("镜头设置",shade,new Vector2(.20f,.25f),new Vector2(.80f,.78f));cameraSettings=options.gameObject;AppModalBackdrop.Attach(cameraSettings);
-            TextAt(options,"镜头设置",new Vector2(.05f,.80f),new Vector2(.95f,.96f),30);
-            TextAt(options,"选择摄像头",new Vector2(.05f,.67f),new Vector2(.95f,.78f),23).color=Cyan;
-            devices=DropdownAt(options,new Vector2(.05f,.53f),new Vector2(.95f,.66f));
-            TextAt(options,"拍摄画幅",new Vector2(.05f,.36f),new Vector2(.95f,.49f),23).color=Cyan;
-            aspectSelector=framing.AddSelector(options,new Vector2(.05f,.22f),new Vector2(.95f,.35f),ChangeFraming);
+            cameraEmpty=AppMediaEmptyState.Attach(cameraArea,cameraImage,"启动摄像头；点击拍照后提交当前画面");
+            cameraCaption=TextAt(captureWorkspace.FooterLeft,"",Vector2.zero,Vector2.one,AppTheme.CaptionSize);cameraCaption.color=AppTheme.Muted;
+            live=AppTheme.Button(captureWorkspace.FooterRight,"重新取景",Vector2.zero,Vector2.one,ShowLive,AppIcon.SwitchCamera);AppActionBar.Add(captureWorkspace.FooterRight,live);
+            var side=captureWorkspace.Aside;
+            TextAt(side,"拍摄指导",new Vector2(.05f,.90f),new Vector2(.95f,.98f),AppTheme.BodySize).color=Cyan;
+            var guide=Scroll(side,new Vector2(.03f,.58f),new Vector2(.97f,.89f));captureHelp=FlowText(guide,"拍摄指导正文",AppTheme.BodySize,Color.white);
+            checkTarget=TextAt(side,"",Vector2.zero,Vector2.zero,AppTheme.CaptionSize);checkTarget.gameObject.SetActive(false);
+            TextAt(side,"本次核验反馈",new Vector2(.05f,.48f),new Vector2(.95f,.56f),AppTheme.BodySize).color=Cyan;
+            var response=Scroll(side,new Vector2(.03f,.04f),new Vector2(.97f,.47f));responseArea=response.parent.parent.GetComponent<RectTransform>();result=FlowText(response,"本次检查结果",AppTheme.BodySize,AppTheme.Muted);
+            var lens=AppDialog.Open(dialog.transform,"Camera settings","镜头设置",AppDialogSize.Standard,CloseCameraSettings);var options=lens.Panel;cameraSettings=lens.gameObject;
+            TextAt(options,"选择摄像头",new Vector2(.05f,.65f),new Vector2(.95f,.78f),AppTheme.BodySize).color=Cyan;
+            devices=DropdownAt(options,new Vector2(.05f,.48f),new Vector2(.95f,.64f));
+            TextAt(options,"画幅可在拍照页顶部调整；切换后需重新拍照。",new Vector2(.05f,.27f),new Vector2(.95f,.44f),AppTheme.BodySize).color=AppTheme.Muted;
             AppTheme.Button(options,"完成设置",new Vector2(.60f,.04f),new Vector2(.95f,.16f),CloseCameraSettings,AppIcon.Check,true);
             cameraSettings.SetActive(false);captureDialog.SetActive(false);
         }
 
         Text FlowText(RectTransform parent,string name,int size,Color color){
             var o=new GameObject(name,typeof(RectTransform),typeof(Text),typeof(LayoutElement));o.transform.SetParent(parent,false);
-            var text=o.GetComponent<Text>();text.font=font;text.fontSize=size;text.color=color;text.lineSpacing=1.3f;text.supportRichText=false;text.raycastTarget=false;text.verticalOverflow=VerticalWrapMode.Overflow;LessonReadableText.Attach(text);return text;
+            var text=o.GetComponent<Text>();text.font=font;text.fontSize=size;text.color=color;text.lineSpacing=1.3f;text.supportRichText=false;text.raycastTarget=false;text.verticalOverflow=VerticalWrapMode.Overflow;AppReadableText.Attach(text);return text;
         }
 
         void LayoutLesson(){
             bool pictures=run.presentation.images!=null&&run.presentation.images.Length>0;
             bool actions=Current.available_actions!=null&&Current.available_actions.Length>0;
-            SetAnchors(instructionCard,(pictures||actions) ? .025f : .16f,actions&&pictures?.37f:.14f,(pictures||actions) ? .425f : .84f,.83f);
-            SetAnchors(referencePanel,.445f,.14f,.975f,.83f);
-            SetAnchors(actionsPanel.GetComponent<RectTransform>(),pictures?.025f:.445f,.14f,pictures?.425f:.975f,pictures?.35f:.83f);
-            primary.transform.SetParent(cameraPanel.activeSelf?cameraPanel.transform:root,false);
-            SetAnchors(primary.GetComponent<RectTransform>(),cameraPanel.activeSelf?.66f:.355f,cameraPanel.activeSelf?.10f:.025f,cameraPanel.activeSelf?.97f:.685f,cameraPanel.activeSelf?.18f:.075f);
+            workspace.SetReadingContent(pictures||actions);
+            if(actions&&pictures)instructionCard.anchorMin=new Vector2(.025f,.37f);
+            SetAnchors(actionsPanel.GetComponent<RectTransform>(),pictures?.025f:.445f,.13f,pictures?.425f:.975f,pictures?.35f:.815f);
+            if(cameraPanel.activeSelf)AppActionBar.Add(captureWorkspace.FooterRight,primary);
+            else{AppActionBar.Add(workspace.FooterRight,primary);primary.transform.SetSiblingIndex(1);}
             manualPanel.SetActive(false);placeholder.SetActive(false);
             if(!cameraPanel.activeSelf)ClosePhotoReference();
             if(captureDialog.activeSelf){if(cameraSettings.activeSelf)AppShell.BindBack("返回拍照参考",CloseCameraSettings,()=>!starting);else BindCaptureBack();}
