@@ -3,7 +3,7 @@ using UnityEngine.UI;
 namespace Manual2AR.Spatial {
  public sealed partial class SpatialGuidanceController {
   void ShowCameraSettings(){
-   if(changing||checking||authorStage>0){Message("请先完成当前操作");return;}
+   if(changing||checking||authorStage>0||automaticBusy){Message("请先完成当前操作");return;}
    var panel=PhotoPanel("摄像头管理");
    AppTheme.Label(panel,"画幅改变后会重新建立相机会话，请使用对应标定。",new Vector2(.06f,.67f),new Vector2(.94f,.82f),25);
    aspectSelector=AppAspectSelector.Create(panel,new Vector2(.06f,.45f),new Vector2(.94f,.62f),ChooseAspect);aspectSelector.Select(aspectIndex);
@@ -11,7 +11,7 @@ namespace Manual2AR.Spatial {
    AppTheme.Button(panel,"切换镜头",new Vector2(.52f,.24f),new Vector2(.94f,.39f),()=>{cameraIndex++;ClosePhotoPrompt();StartCoroutine(BeginSession("camera",false));},AppIcon.SwitchCamera);
    AppTheme.Button(panel,"完成",new Vector2(.30f,.04f),new Vector2(.70f,.18f),ClosePhotoPrompt,AppIcon.Check);
   }
-  void ShowAnchorSetup(){
+  void ShowManualAnchorSetup(){
    if(plan==null||session==null||changing||checking||locating){Message("请先启动相机并完成当前操作");return;}
    var panel=PhotoPanel("空间锚点配置");
    var targets=Current.target_instances??new TargetInstance[0];

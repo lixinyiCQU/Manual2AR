@@ -16,12 +16,16 @@ class MachineFrame(Strict):
     marker_length_m:float=Field(gt=0,le=1)
     marker_from_machine:list[float]=Field(min_length=16,max_length=16)
     frame_id:str=Field(pattern=r'^[a-f0-9]{32}$')
-    source_frame_sha256:list[str]=Field(min_length=2,max_length=2)
+    source_frame_sha256:list[str]=Field(min_length=1,max_length=2)
+    placement_method:Literal['manual_two_view','printed_reference']='manual_two_view'
+    reference_profile_id:str=Field(default='',max_length=80)
     quality:dict[str,float]
     illustrative_only:Literal[True]=True
 
     @model_validator(mode='after')
     def rigid(self):
+        if len(self.source_frame_sha256)!=(1 if self.placement_method=='printed_reference' else 2):raise ValueError('Evidence count differs from placement method')
+        if self.placement_method=='printed_reference' and not self.reference_profile_id:raise ValueError('Printed reference requires its profile ID')
         if any(not re.fullmatch('[a-f0-9]{64}',value) for value in self.source_frame_sha256):raise ValueError('Invalid source image identity')
         t=np.asarray(self.marker_from_machine).reshape(4,4);r=t[:3,:3]
         if not np.allclose(t[3],[0,0,0,1]) or not np.allclose(r.T@r,np.eye(3),atol=1e-6) or not np.isclose(np.linalg.det(r),1,atol=1e-6) or np.linalg.norm(t[:3,3])>1:

@@ -38,7 +38,7 @@ namespace Manual2AR.Spatial {
    Plan incoming=null;
    yield return Request(Api+"/config","GET",null,(raw,error)=>{if(error!=null){Message(error);return;}incoming=JsonUtility.FromJson<Plan>(raw);});
    if(incoming==null)yield break;
-   backendReady=incoming.visual_revision=="mesh-loop-v2"&&incoming.required_client_revision=="machine-workframe-v1";
+   backendReady=incoming.automatic_configuration&&incoming.visual_revision=="mesh-loop-v2"&&incoming.required_client_revision=="machine-workframe-v1";
    if(!backendReady){Message("后端版本未更新，请重启后端");checkResult.text="请先关闭旧后端，再运行启动后端.cmd，返回图文后重新进入。";yield break;}
    backendReady=Manual2AR.VisualGuidance.VisualAssetLibrary.Matches(incoming.asset_library);
    if(!backendReady){Message("教学资产与后端版本不一致");checkResult.text="请启动资产库工作树的后端，并使用同一版本的前端。";yield break;}
@@ -158,15 +158,15 @@ namespace Manual2AR.Spatial {
   }}
   void Update(){
    if(root==null)return;
-   RefreshCheckHighlight();
-   if(GuidedFlow&&!guidedStarted&&last!=null)RefreshPreparation(last);
+   RefreshCheckHighlight();RefreshPlacementRepair();
+   if(GuidedFlow&&!guidedStarted&&last!=null&&!automaticActive)RefreshPreparation(last);
    bool active=session!=null&&!changing;
    sample.interactable=solve.interactable=active&&mode=="camera"&&authorStage==0&&!locating&&!locationPreview;
    setup.interactable=active&&!authorBusy&&!locating&&!locationPreview&&mode=="camera"&&last!=null&&last.calibrated;
-   verify.interactable=(!GuidedFlow||guidedStarted)&&active&&!checking&&!locating&&!locationPreview&&authorStage==0&&(Current.verification_mode=="manual"||(mode=="camera"&&last!=null));
-   locateButton.interactable=(!GuidedFlow||guidedStarted)&&active&&mode=="camera"&&!checking&&authorStage==0&&last!=null&&!locating;
+   verify.interactable=!automaticActive&&(!GuidedFlow||guidedStarted)&&active&&!checking&&!locating&&!locationPreview&&authorStage==0&&(Current.verification_mode=="manual"||(mode=="camera"&&last!=null));
+   locateButton.interactable=!automaticActive&&(!GuidedFlow||guidedStarted)&&active&&mode=="camera"&&!checking&&authorStage==0&&last!=null&&!locating;
    cancel.interactable=!changing;
-   actionBar.Refresh(changing||authorStage>0||locating||locationPreview,active);
+   actionBar.Refresh(changing||authorStage>0||locating||automaticBusy||locationPreview,active);
    playback.Tick(Time.unscaledDeltaTime);
    overlay.progress=playback.Progress;if(playback.State=="playing")overlay.SetVerticesDirty();
    RefreshAsset();
@@ -253,7 +253,7 @@ namespace Manual2AR.Spatial {
    }
   }
   bool AuthorReplyCurrent(int version,string identity){return !closed&&version==authorGeneration&&session!=null&&session.session_id==identity;}
-  void CancelAuthor(){StopParts();if(localizationRequest!=null)try{localizationRequest.Abort();}catch(ObjectDisposedException){}localizationRequest=null;locating=false;authorGeneration++;authorBusy=false;authorStage=0;authorMachine=false;if(overlay!=null)overlay.MaximumPicks=2;candidate=null;frozen=false;locationPreview=false;if(locateButton!=null)locateButton.GetComponentInChildren<Text>().text="识别部件";if(overlay!=null){overlay.accepting=false;ClearGraphics();}if(setup!=null)setup.GetComponentInChildren<Text>().text="设置起终点";RefreshHelp();}
+  void CancelAuthor(){CancelAutomatic();StopParts();if(localizationRequest!=null)try{localizationRequest.Abort();}catch(ObjectDisposedException){}localizationRequest=null;locating=false;authorGeneration++;authorBusy=false;authorStage=0;authorMachine=false;if(overlay!=null)overlay.MaximumPicks=2;candidate=null;frozen=false;locationPreview=false;if(locateButton!=null)locateButton.GetComponentInChildren<Text>().text="识别部件";if(overlay!=null){overlay.accepting=false;ClearGraphics();}if(setup!=null)setup.GetComponentInChildren<Text>().text="设置起终点";RefreshHelp();}
   IEnumerator Locate(){
    if(locationPreview){locationPreview=false;frozen=false;modeLabel.text="Windows 摄像头 · 有标记空间指导";ClearGraphics();locateButton.GetComponentInChildren<Text>().text="识别部件";Message("已恢复实时空间指导。");yield break;}
    if(session==null||last==null||locating||mode!="camera")yield break;
@@ -303,6 +303,6 @@ namespace Manual2AR.Spatial {
   public IEnumerator ReleaseModule(){closed=true;AbortRequests();StopAllCoroutines();frameSource.Close();var old=session;session=null;if(old!=null)using(var delete=UnityWebRequest.Delete(origin+Api+"/sessions/"+old.session_id)){delete.timeout=5;yield return delete.SendWebRequest();}}
   bool U7Locked {get{return u7Sequence!=null&&u7Sequence.enforced&&!u7Sequence.base_approved;}}
   IEnumerator RefreshU7Sequence(){yield return Request(Api+"/sequence"+(string.IsNullOrEmpty(tutorialRunId)?"":"?tutorial_run_id="+tutorialRunId),"GET",null,(raw,error)=>{if(error==null)u7Sequence=JsonUtility.FromJson<U7Sequence>(raw);});}
-  void OnDestroy(){closed=true;Canvas.willRenderCanvases-=RefreshCallout;AbortRequests();if(displayed!=null)Destroy(displayed);if(referenceTexture!=null)Destroy(referenceTexture);partsView?.Clear();}
+  void OnDestroy(){CancelAutomatic();closed=true;Canvas.willRenderCanvases-=RefreshCallout;AbortRequests();if(displayed!=null)Destroy(displayed);if(referenceTexture!=null)Destroy(referenceTexture);partsView?.Clear();}
  }
 }

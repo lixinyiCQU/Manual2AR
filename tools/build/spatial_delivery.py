@@ -2,13 +2,22 @@
 import hashlib
 import json
 import os
+from pathlib import Path
 import shutil
 import subprocess
 from manual2ar.application.config import load,resolve
 from manual2ar.paths import ROOT
-from manual2ar.modules.guidance.spatial.printing import sheets
+from manual2ar.modules.guidance.spatial.printing import sheets,workboard
 from manual2ar.application.manage import sync
 from .desktop_provenance import verify_build, repository_sources, PROOF, fingerprint
+
+
+def export_backend_launcher(target,worktree,backend_url,distribution_hint):
+    target=Path(target)
+    shutil.copyfile(ROOT/'deploy/windows/Start-Backend.ps1',target/'Start-Backend.ps1')
+    descriptor={'worktree':str(worktree),'backend_url':backend_url,'distribution_hint':distribution_hint}
+    (target/'backend.launch.json').write_text(json.dumps(descriptor,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    (target/'启动后端.cmd').write_bytes(b'@echo off\r\nsetlocal\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Backend.ps1"\r\nif errorlevel 1 pause\r\n')
 
 
 def main():
@@ -16,6 +25,7 @@ def main():
     sync(config)
     build=verify_build(ROOT,target)
     (target/'空间定位与相机标定.pdf').write_bytes(sheets())
+    (target/'A1-mini工作坐标板.pdf').write_bytes(workboard())
     # Historical audits are archived outside source and are not user-facing delivery files.
     for name in ['实测审计与更新.md','开箱扩展说明.md','模块二开箱原型.md','U4视觉指导.md',
                  'U7实测说明.md','U7测试审计与更新.md','U7视觉资产库使用说明.md','U7资产实测审计.md',
@@ -26,9 +36,7 @@ def main():
     launcher=b'@echo off\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Desktop.ps1"'
     (target/'启动空间演示.cmd').write_bytes(launcher+b' -SpatialDemo\r\nif errorlevel 1 pause\r\n')
     (target/'启动教学系统.cmd').write_bytes(launcher+b'\r\nif errorlevel 1 pause\r\n')
-    distro=os.environ.get('WSL_DISTRO_NAME','Ubuntu')
-    if any(c in distro for c in '"\r\n'):raise ValueError('Invalid WSL distribution name')
-    (target/'启动后端.cmd').write_bytes(('@echo off\r\nwsl.exe -d "'+distro+'" --cd "'+str(ROOT)+'" bash run.sh start\r\npause\r\n').encode('utf-8'))
+    export_backend_launcher(target,ROOT,config['backend']['public_url'],os.environ.get('WSL_DISTRO_NAME',''))
     sources=repository_sources(ROOT)
     committed=not subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()
     proof_path=builds/'validation-camera-fix/hardware-proof.json'

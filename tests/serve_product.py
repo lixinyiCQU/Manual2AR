@@ -45,10 +45,25 @@ def install_u7_fixture(app):
     spatial.client=PartsClient();spatial.part_tracking.vlm=spatial.client;spatial.part_tracking.client_factory=GPU
     # The fixture client reads a connection descriptor, but GPU above performs no network I/O.
     connection=Path(spatial.config['runtime_dir'])/'controlled-gpu.json';connection.parent.mkdir(parents=True,exist_ok=True);connection.write_text('{}');spatial.part_tracking.config={**spatial.part_tracking.config,'gpu_connection_file':str(connection)}
+    # Deterministic feature provider for the real configuration UI; no external model calls.
+    from manual2ar.modules.guidance.spatial import automatic_vision
+    def controlled_features(client,config,raw,reference,folder):
+        import cv2
+        from manual2ar_perception.spatial import detect_pose,project
+        image=cv2.imdecode(np.frombuffer(raw,np.uint8),cv2.IMREAD_COLOR)
+        calib=calibration();matrix=np.array(calib['matrix']);dist=np.array(calib['distortion'])
+        pose,status=detect_pose(image,matrix,dist)
+        if pose is None:raise ValueError('Controlled marker missing')
+        names=['screw_upper','screw_lower','guide_top','guide_bottom']
+        points=[[.04,.05,.18],[.04,.05,.15],[.055,.05,.19],[.055,.05,.14]]
+        if next_failure.get('guide_absent',0)>0:
+            next_failure['guide_absent']-=1;names=names[:2];points=points[:2]
+        return dict(zip(names,project(points,pose['transform'],matrix,dist).tolist())),'Controlled functional points'
+    automatic_vision.observe=controlled_features
     @app.post('/test/spatial/next-failure')
     def fail_next(command:dict):
-        assert command['kind'] in ('recognition','verification')
-        next_failure[command['kind']]=True;return {'ready':True}
+        assert command['kind'] in ('recognition','verification','guide_absent')
+        next_failure[command['kind']]=2 if command['kind']=='guide_absent' else True;return {'ready':True}
     @app.get('/test/spatial/recognition-count')
     def count():return {'count':recognition_count}
     @app.post('/test/spatial/seed')

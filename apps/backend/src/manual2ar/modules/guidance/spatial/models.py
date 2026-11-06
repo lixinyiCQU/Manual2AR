@@ -87,3 +87,15 @@ class MotionCommand(Strict):
 
 class ReuseSaved(Strict):
     confirmed:Literal[True]
+
+
+class PrintedReference(Strict):
+    client_frame_id:int=Field(ge=1)
+    placement_confirmed:Literal[True]
+
+
+class AutomaticPair(Strict):
+    action_id:Literal['holder.base','holder.slide']
+    first_view:str=Field(pattern=r'^[a-f0-9]{32}$')
+    second_view:str=Field(pattern=r'^[a-f0-9]{32}$')
+    second_frame:int=Field(ge=1)

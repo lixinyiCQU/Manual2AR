@@ -45,11 +45,30 @@ class InstallationObservation(BaseModel):
     next_action:str=Field(max_length=500)
 
 
+def normalize_parts(reply):
+    # Accept only the observed equivalent keyed shape; all semantics/geometry still pass the strict schema.
+    ids=('spool_holder_base','external_spool_holder')
+    if isinstance(reply,dict) and set(reply)=={*ids,'next_action'} and all(isinstance(reply[k],dict) for k in ids):
+        parts=[]
+        for identity in ids:
+            value=dict(reply[identity])
+            if 'component_id' in value and value['component_id']!=identity:return reply
+            value['component_id']=identity;parts.append(value)
+        reply={'parts':parts,'next_action':reply['next_action']}
+    if isinstance(reply,dict) and isinstance(reply.get('parts'),list):
+        reply={**reply,'parts':[dict(p) if isinstance(p,dict) else p for p in reply['parts']]}
+        for part in reply['parts']:
+            if isinstance(part,dict):
+                for key in ('axis_start_0_1000','axis_end_0_1000'):
+                    if key in part and part[key] is None:part[key]=[]
+    return reply
+
+
 PARTS_PROMPT='''请在第一张当前照片中分别找到 Bambu Lab A1 mini 的两个真实部件，不判断安装完成：
 1. spool_holder_base：Z轴立柱侧面的灰色或深灰色小矩形底座，通常可见上下两颗黑色螺丝。它不是白色塑料件，也不是整条金属立柱。第二张官方局部图展示该底座。
 2. external_spool_holder：可拆卸的白色料盘支架，带三角支撑、长圆柱料盘轴及端部圆盘。它可能放在打印机旁的桌面、拿在手上，也可能已安装；不要把立柱、工具头、线束、料卷或旁边蓝色装置当作它。第三张官方局部图展示该支架。
 两部件可分开摆放，不要求接触。已装支架可能挡住底座，底座不可见时返回 unseen，不能编造它的位置。所有框、前景点及轴点都必须用第一张原图的左上角原点、0..1000坐标；第二三张仅用于外观参考。bbox=[left,top,right,bottom]，前景点必须位于真实可见材料上。
-支架可见时，若能辨认，axis_start取三角支撑的安装接合端，axis_end取料盘轴自由端的圆盘；这是二维方向提示，不是三维姿态。无法辨认方向则两者都留空。底座不需要轴点。对每个部件返回 found/unseen/uncertain，不能因为用户标定点或另一部件存在就断言 found。用简短中文描述证据及补拍指导。'''
+支架可见时，若能辨认，axis_start取三角支撑的安装接合端，axis_end取料盘轴自由端的圆盘；这是二维方向提示，不是三维姿态。无法辨认方向则两者都留空。底座不需要轴点。对每个部件返回 found/unseen/uncertain，不能因为用户标定点或另一部件存在就断言 found。用简短中文描述证据及补拍指导。输出根对象必须是 {"parts":[两部件对象],"next_action":"简短建议"}；每个对象包含 component_id；不可用轴点写空数组，不写 null。'''
 
 INSTALL_PROMPT='''只判断第一张当前照片中 A1 mini 外挂料盘支架的最终可见安装状态，不找螺丝位置、不分割、不判断扭矩：
 completed：白色料盘支架已从立柱上的安装位置伸出，安装端与打印机立柱的底座区域有清楚可见的连接，形态与第二张官方安装示例一致，且无明显脱离或大幅倾斜。底座会被装好的支架遮住，不要求看见底座螺丝、隐藏插槽、卡扣或细微缝隙。
@@ -64,7 +83,7 @@ def identify(client,config,raw,reference_base,reference_holder,folder,action_id=
     prompt=PARTS_PROMPT+('\n当前是安装底座步骤：只定位灰色双螺丝底座；白色支架返回 unseen，下一步给出简短的底座安装指导。' if action_id=='holder.base' else '\n当前是滑入支架步骤：分别高亮灰色底座与白色料盘支架，指导用户对准导向槽从上往下滑入。')
     (folder/'input.jpg').write_bytes(raw);(folder/'prompt.txt').write_text(prompt)
     reply=client.chat_structured(prompt=prompt,schema=PartsObservation.model_json_schema(),images_base64=images,max_tokens=2000)
-    write(folder/'model_reply.json',reply);answer=PartsObservation.model_validate(reply)
+    write(folder/'model_reply.json',reply);answer=PartsObservation.model_validate(normalize_parts(reply))
     minimum=config['verification']['minimum_confidence']
     for p in answer.parts:
         if p.confidence<minimum:p.status='uncertain';p.bbox_0_1000=[];p.foreground_point_0_1000=[];p.axis_start_0_1000=[];p.axis_end_0_1000=[]

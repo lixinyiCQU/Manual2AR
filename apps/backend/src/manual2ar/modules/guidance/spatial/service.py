@@ -41,6 +41,8 @@ class Session:
     calibration: dict | None
     targets: dict
     context: dict = field(default_factory=dict)
+    automatic_views:dict=field(default_factory=dict)
+    automatic_candidate:dict|None=None
     locating:bool=False
     orientations:dict=field(default_factory=dict)
     u7_checks:dict=field(default_factory=dict)
@@ -85,11 +87,14 @@ class SpatialService:
         self.part_tracking=PartTracking(config,client,self.references,self.part_event)
         from .machine import MachineGuidance
         self.machine=MachineGuidance(self)
+        from .automatic import AutomaticGuidance
+        self.automatic=AutomaticGuidance(self)
 
     def catalog(self):
         return {**self.plan, 'visual_revision':'mesh-loop-v2', 'marker_id': MARKER_ID, 'marker_length_m': MARKER_LENGTH,
                 'asset_library':self.asset_library.descriptor(),'display_profiles':self.displays.bundle(),'required_client_revision':'machine-workframe-v1',
                 'print_url': '/api/guidance/spatial/print.pdf', 'calibration_minimum_views': 12,
+                'automatic_configuration':True,
                 'profile_note': '标记与打印机必须保持刚性固定；移动标记或打印机可动部件后请重新设置作用点。'}
 
     def capabilities(self):
@@ -101,7 +106,7 @@ class SpatialService:
                 'machine_frame_contract':'manual2ar-machine-frame-v1',
                 'motion_contract':'manual2ar-teaching-motion-v1',
                 'machine_control_available':False,
-                'placement_method':'calibrated_marker_and_explicit_two_view_authoring',
+                'placement_method':'printed_reference_and_vlm_two_view_or_manual_authoring',
                 'render_identity':'client_frame_id + source_sha256; upright_unmirrored pixels',
                 'coordinate_convention':self.plan['coordinate_convention']}
 
@@ -214,11 +219,14 @@ class SpatialService:
             if s.size and s.size!=(w,h):raise HTTPException(409,'画幅已变化，请重新启动空间指导并标定当前画幅。')
             s.size=(w,h);s.last=request.client_frame_id
             target=s.targets.get(key) if key in s.authorized and key not in s.invalidated else None
+            if action['action_id']=='holder.slide' and not target and key not in s.targets:
+                target=self.automatic.slide_reference(s)
             motion=self.machine.motion(s,action)
             result={'session_id':identity,'action_id':action['action_id'],'client_frame_id':s.last,
                     'target_id':request.target_id,'target_label':instance['label'],
                     'source_sha256':request.source_sha256,'width':w,'height':h,'lines':[],
                     'state':'camera_calibration_required','sample_count':len(s.samples),'pose':None,
+                    'placement_method':(target or {}).get('placement_method','manual_two_view' if target else ''),'placement_note':(target or {}).get('placement_note',''),
                     'target_ready':False,'target_configured':bool(target) or (key in s.invalidated and key in s.targets),
                     'requires_relocation':key in s.invalidated,'calibrated':False,'visual':None,'companion_visuals':[],
                     'machine_frame':s.machine_frame,'motion_parameters':motion,'machine_axes':[],'u7_sequence':self.u7_progress(s)}
@@ -276,13 +284,15 @@ class SpatialService:
                         else:result['state']='relocation_required' if key in s.invalidated else 'target_setup_required'
             for companion in result.get('companion_visuals',[]):
                 if action['action_id'] in self.displays.profiles:companion['text_labels']=[]
-            s.frames[s.last]={'raw':raw,'pose':pose,'size':(w,h),'sha256':request.source_sha256,'at':time.monotonic(),'action_id':action['action_id'],'target_id':request.target_id,'target_epoch':s.invalidated.get(key,''),'snapshot':snapshot.model_dump() if snapshot else None}
+            s.frames[s.last]={'raw':raw,'pose':pose,'size':(w,h),'sha256':request.source_sha256,'at':time.monotonic(),'action_id':action['action_id'],'target_id':request.target_id,'target_epoch':s.invalidated.get(key,''),'snapshot':snapshot.model_dump() if snapshot else None,'number':s.last}
             while len(s.frames)>80:
                 oldest=next(k for k in s.frames if k not in s.pinned)
                 del s.frames[oldest]
             # No unbounded per-frame images on disk; retain only explicit authoring/check evidence.
             result['processing_ms']=round((time.perf_counter()-started)*1000,2)
             cached=s.targets.get(key) if key not in s.invalidated else None
+            if action['action_id']=='holder.slide' and not cached and key not in s.targets:
+                cached=self.automatic.slide_reference(s,authorized=False)
             preview=None
             if pose and cached and cached.get('marker_id')==MARKER_ID and cached.get('marker_length_m')==MARKER_LENGTH:
                 try:
@@ -296,7 +306,7 @@ class SpatialService:
                 'asset_id':(result['visual'].get('asset') or {}).get('asset_id') if result['visual'] else None,
                 'presentation_id':(result['visual'].get('presentation') or {}).get('presentation_id') if result['visual'] else None,
                 'machine_frame_id':s.machine_frame['frame_id'] if s.machine_frame else None,
-                'motion_parameters':motion,
+                'motion_parameters':motion,'placement_method':result['placement_method'],
                 'catalog_sha256':self.asset_library.sha256})
             return result
 

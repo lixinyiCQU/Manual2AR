@@ -258,3 +258,17 @@ def test_failed_reidentification_and_verification_preserve_active_tracker(app):
         tracked=c.post(api+'/parts/'+first+'/frames',json={'action_id':'holder.slide','client_frame_id':2})
         assert tracked.status_code==200 and tracked.json()['phase']=='tracking' and tracked.json()['overlay_png_base64']
         c.delete(api+'/parts');assert c.get(api+'/parts/'+first).status_code==409
+
+
+def test_equivalent_keyed_reply_is_normalized_without_relaxing_identity_or_geometry():
+    import pytest
+    from pydantic import ValidationError
+    from manual2ar.modules.guidance.spatial.u7_vision import normalize_parts,PartsObservation
+    point=dict(status='found',confidence=.95,evidence='visible',bbox_0_1000=[100,100,200,200],foreground_point_0_1000=[150,150],axis_start_0_1000=None,axis_end_0_1000=None)
+    reply={'spool_holder_base':dict(point),'external_spool_holder':dict(point),'next_action':'对准底座'}
+    assert len(PartsObservation.model_validate(normalize_parts(reply)).parts)==2
+    assert reply['spool_holder_base']['axis_start_0_1000'] is None
+    reply['spool_holder_base']['component_id']='external_spool_holder'
+    with pytest.raises(ValidationError):PartsObservation.model_validate(normalize_parts(reply))
+    del reply['spool_holder_base']['component_id'];reply['spool_holder_base']['foreground_point_0_1000']=[999,999]
+    with pytest.raises(ValidationError):PartsObservation.model_validate(normalize_parts(reply))

@@ -35,3 +35,28 @@ def sheets():
         draw.text((800, 2510), 'This line must measure 100 mm', fill='black');pages.append(page)
     stream=io.BytesIO();pages[0].save(stream,'PDF',resolution=254,save_all=True,append_images=pages[1:])
     return stream.getvalue()
+
+
+def workboard():
+    """Same ID/size as V1; explicit flat-board placement makes marker XYZ the teaching work frame."""
+    page=Image.new('RGB',(2100,2970),'white');d=ImageDraw.Draw(page)
+    d.font=ImageFont.load_default(size=33)
+    page.paste(Image.fromarray(marker_image()).resize((800,800),Image.Resampling.NEAREST),(650,1000))
+    d.text((140,130),'Manual2AR | A1 mini work-coordinate board v1',fill='black')
+    d.text((140,210),'PRINT 100% / ACTUAL SIZE. Black square = 80 x 80 mm.',fill='black')
+    d.text((140,285),'Fix FLAT, face up, to a rigid surface beside the printer.',fill='black')
+    d.text((140,360),'Align +X with printer X; +Y points towards printer REAR.',fill='black')
+    def arrow(a,b,color):
+        d.line((*a,*b),fill=color,width=12)
+        import math
+        angle=math.atan2(b[1]-a[1],b[0]-a[0])
+        for delta in (-.5,.5):d.line((*b,b[0]-55*math.cos(angle+delta),b[1]-55*math.sin(angle+delta)),fill=color,width=12)
+    arrow((1050,900),(1050,630),(0,135,50));d.text((1110,650),'+Y REAR',fill=(0,120,40))
+    arrow((1520,1400),(1880,1400),(200,30,30));d.text((1550,1460),'+X RIGHT',fill=(180,20,20))
+    d.text((450,1920),'O = marker centre | +Z = UP, out of paper',fill=(30,65,180))
+    d.text((310,2050),'This edge faces printer FRONT. Keep board and printer fixed.',fill='black')
+    d.text((260,2180),'Teaching frame only. Not a firmware zero or motion command.',fill='black')
+    d.line((550,2450,1550,2450),fill='black',width=4)
+    for x in (550,1550):d.line((x,2420,x,2480),fill='black',width=4)
+    d.text((620,2520),'Measure this line: exactly 100 mm',fill='black')
+    stream=io.BytesIO();page.save(stream,'PDF',resolution=254);return stream.getvalue()

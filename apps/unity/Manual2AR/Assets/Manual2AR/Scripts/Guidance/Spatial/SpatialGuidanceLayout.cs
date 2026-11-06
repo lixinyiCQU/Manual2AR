@@ -40,6 +40,7 @@ namespace Manual2AR.Spatial {
    checkResult=Feedback(card);feedbackBackground=checkResult.transform.parent.parent.parent.GetComponent<Image>();checkResult.text="可选拍照，查看位置或安装建议。";
    locateButton=AppTheme.Button(card,"识别部件",new Vector2(.04f,.015f),new Vector2(.48f,.078f),ShowLocateCapture,AppIcon.Inspect);
    verify=AppTheme.Button(card,"检查安装",new Vector2(.52f,.015f),new Vector2(.96f,.078f),ShowVerifyCapture,AppIcon.Camera);
+   repairPlacement=AppTheme.Button(card,"补充动画定位",new Vector2(.04f,.095f),new Vector2(.96f,.18f),ShowAnchorSetup,AppIcon.Inspect);repairPlacement.gameObject.SetActive(false);
    status=AppTheme.Label(card,"",Vector2.zero,Vector2.zero,22,AppTheme.TargetCyan);status.gameObject.SetActive(false);
    setupBar=AppTheme.Rect(root,"Spatial Setup",new Vector2(.025f,.025f),new Vector2(.975f,.105f));
    AppTheme.Button(setupBar,"打印标定纸",new Vector2(0,0),new Vector2(.16f,1),()=>Application.OpenURL(origin+Api+"/print.pdf"),AppIcon.Save);

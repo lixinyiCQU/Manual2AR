@@ -8,18 +8,19 @@ namespace Manual2AR.Spatial {
   bool guidedStarted,semanticReady,stepRequestBusy,introRefBusy,feedbackPinned;string verificationFeedback="";Button startAtTarget;
   bool GuidedFlow {get{return plan!=null&&Current.chapter_id=="U7"&&mode=="camera";}}
   void BuildPreflightButton(){
-   startAtTarget=AppTheme.Button(viewport,"开始本步",Vector2.zero,Vector2.zero,()=>StartCoroutine(StartPrepared()),AppIcon.Check,true);
+   startAtTarget=AppTheme.Button(viewport,"开始本步",Vector2.zero,Vector2.zero,()=>{if(last?.preflight!=null&&last.preflight.can_start)StartCoroutine(StartPrepared());else ShowAnchorSetup();},AppIcon.Check,true);
    var rect=(RectTransform)startAtTarget.transform;rect.pivot=new Vector2(.5f,.5f);rect.sizeDelta=new Vector2(220,58);startAtTarget.gameObject.SetActive(false);
   }
   void RefreshPreparation(Reply reply){
-   bool preparing=GuidedFlow&&!guidedStarted&&authorStage==0&&!setupExplicit;var state=reply.preflight;
+   bool preparing=GuidedFlow&&!guidedStarted&&authorStage==0&&!setupExplicit&&!automaticActive;var state=reply.preflight;
    bool ready=preparing&&state!=null&&state.can_start;
-   startAtTarget.gameObject.SetActive(ready);
-   if(ready){var rect=(RectTransform)startAtTarget.transform;var size=viewport.rect.size;rect.anchoredPosition=new Vector2(Mathf.Clamp(state.anchor.x/reply.width*size.x,110,size.x-110),Mathf.Clamp((1-state.anchor.y/reply.height)*size.y+60,30,size.y-30));}
+   bool configure=preparing&&reply.calibrated&&state!=null&&state.marker_visible&&!state.has_cached_target;
+   startAtTarget.GetComponentInChildren<Text>().text=configure?"自动配置作用点":"开始本步";startAtTarget.gameObject.SetActive(ready||configure);
+   if(ready||configure){var rect=(RectTransform)startAtTarget.transform;var size=viewport.rect.size;rect.anchoredPosition=new Vector2(Mathf.Clamp((configure?reply.pose.corners[0]:state.anchor).x/reply.width*size.x,110,size.x-110),Mathf.Clamp((1-(configure?reply.pose.corners[0]:state.anchor).y/reply.height)*size.y+60,30,size.y-30));}
    if(!preparing||state==null)return;
    if(!reply.calibrated)status.text="请先完成当前画幅的相机标定";
    else if(!state.marker_visible)status.text="请放置固定定位标记，并让完整标记入镜";
-   else if(!state.has_cached_target)status.text="已找到标记，请配置当前步骤的空间锚点";
+   else if(!state.has_cached_target)status.text="已找到标记，请在空间锚点配置中自动设置";
    else if(!ready)status.text="请让操作位置入镜";
    else status.text="准备就绪，请在操作位置点击开始";
    if(string.IsNullOrEmpty(verificationFeedback))checkResult.text=ready?"已找到缓存的操作位置。确认标记与打印机未发生相对移动，再点击画面上的开始按钮。":!reply.calibrated?"打开空间锚点配置，完成相机标定。":"保持打印机和标记固定，调整相机让标记及操作区域同时入镜。";

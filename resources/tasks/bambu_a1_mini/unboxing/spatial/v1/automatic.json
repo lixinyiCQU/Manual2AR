@@ -1,0 +1,27 @@
+{
+  "schema_version": "manual2ar-automatic-guidance-v1",
+  "reference_profile_id": "a1-mini-flat-board-v1",
+  "recipes": [
+    {
+      "id": "u7.auto.screws", "category": "tool", "action_id": "holder.base",
+      "target_ids": ["main", "second"], "feature_ids": ["screw_upper", "screw_lower"],
+      "presentation_id": "u7.holder_base", "operation": "tighten",
+      "direction_source": "printer_work_frame", "citation_ids": ["026a3a3c147bd8b28d5bf414"],
+      "illustrative_only": true
+    },
+    {
+      "id": "u7.auto.slide", "category": "movement", "action_id": "holder.slide",
+      "target_ids": ["main"], "feature_ids": ["guide_bottom"],
+      "presentation_id": "u7.holder_slide", "operation": "translate",
+      "direction_source": "printer_work_frame", "citation_ids": ["97eeffdb901ac2699a6a9aeb"],
+      "illustrative_only": true
+    }
+  ],
+  "parameter_provenance": {
+    "feature_location": "vlm_grounding_and_calibrated_two_view_geometry",
+    "slide_direction": "official_instruction_negative_printer_z",
+    "tool_axis": "reviewed_u7_template_negative_printer_y",
+    "rotation_convention": "reviewed_teaching_template_handle_to_tip_clockwise",
+    "distance_duration_rotation_amplitude": "illustration_defaults_not_official_measurements"
+  }
+}

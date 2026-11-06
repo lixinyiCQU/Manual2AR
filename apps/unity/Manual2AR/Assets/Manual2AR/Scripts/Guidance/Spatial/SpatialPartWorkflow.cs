@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Manual2AR.Spatial {
  public sealed partial class SpatialGuidanceController {
+  Button repairPlacement;
   SpatialPartsView partsView;SpatialAxesGraphic axesGraphic;AppAspectSelector aspectSelector;int aspectIndex=4,lastRenderProof=-1,partsGeneration;
   byte[] latestBytes;Reply latestReply;string partsJob;bool partsDisplayActive;GameObject photoPrompt;
   void ChooseAspect(int value){if(changing||value==aspectIndex)return;bool restart=session!=null;aspectIndex=value;aspectSelector?.Select(value);StopParts();CancelAuthor();ClearGraphics();last=null;latestReply=null;latestBytes=null;cameraOwner.SetAspect(value);if(restart)StartCoroutine(BeginSession("camera",false));Message("画幅已切换 · 请使用当前画幅的标定");}
-  void ShowOrientation(){if(last!=null&&last.machine_frame!=null&&last.motion_parameters!=null&&last.motion_parameters.enabled){Message("打印机坐标模式请调整动作轴；切换两点模式后可调高级朝向");return;}if(authorStage!=0||changing||locating){Message("请先完成或取消当前设点");return;}if(session==null||last==null||!last.target_ready){Message("请先设置并确认当前作用点");return;}SpatialOrientationPanel.Open(root,last.orientation??new Orientation(),value=>{value.action_id=Current.action_id;value.target_id=TargetId;StartCoroutine(SaveOrientation(value));});}
+  void ShowOrientation(){if(last!=null&&HasMachineReference(last.machine_frame)&&last.motion_parameters!=null&&last.motion_parameters.enabled){Message("打印机坐标模式请调整动作轴；切换两点模式后可调高级朝向");return;}if(authorStage!=0||changing||locating){Message("请先完成或取消当前设点");return;}if(session==null||last==null||!last.target_ready){Message("请先设置并确认当前作用点");return;}SpatialOrientationPanel.Open(root,last.orientation??new Orientation(),value=>{value.action_id=Current.action_id;value.target_id=TargetId;StartCoroutine(SaveOrientation(value));});}
   IEnumerator SaveOrientation(Orientation value){StopParts();epoch++;last=null;ClearGraphics();yield return Request(Api+"/sessions/"+session.session_id+"/orientation","POST",JsonUtility.ToJson(value),(raw,error)=>Message(error??"XYZ 姿态已保存"));}
   void ClosePhotoPrompt(){feedbackPinned=false;if(photoPrompt!=null){photoPrompt.SetActive(false);Destroy(photoPrompt);}photoPrompt=null;}
   RectTransform PhotoPanel(string title,bool compact=false){ClosePhotoPrompt();var dialog=AppDialog.Open(root,"Photo preparation",title,compact?AppDialogSize.Compact:AppDialogSize.Standard,ClosePhotoPrompt);photoPrompt=dialog.gameObject;dialog.Panel.name="Photo guidance";return dialog.Panel;}
@@ -47,7 +48,7 @@ namespace Manual2AR.Spatial {
     if(response.session_id!=identity||response.job_id!=candidateJob||response.source_sha256!=sent.source_sha256||response.client_frame_id!=frame){checkResult.text="照片身份已变化，请重新识别。";break;}
     if(response.phase=="tracking"){
      if(!PartsReady(response)){checkResult.text="本次未获得可用的目标高亮，请重新识别。";break;}
-     partsJob=candidateJob;accepted=true;semanticReady=true;Message("部件高亮与动画指导中");if(raw!=null)RenderFrame(raw,sent);partsView.Apply(response,sent.width,sent.height);RefreshAsset();checkResult.text=PartFeedback(response);frozen=false;locating=false;
+     partsJob=candidateJob;accepted=true;semanticReady=true;Message("部件已高亮");if(raw!=null)RenderFrame(raw,sent);partsView.Apply(response,sent.width,sent.height);RefreshAsset();checkResult.text=PartFeedback(response);frozen=false;locating=false;
      if(preserving)StartCoroutine(Request(Api+"/sessions/"+identity+"/parts?job_id="+previousJob,"DELETE",null,(r,e)=>{},5));
      StartCoroutine(TrackParts(identity,partsJob,version));break;
     }
@@ -82,7 +83,20 @@ namespace Manual2AR.Spatial {
    semanticReady=PartsReady(result);SetBriefAdvice(result.guidance);RenderFrame(bytes,reply);partsView.Apply(result,reply.width,reply.height);RefreshAsset();return true;
   }
   bool PartsReady(PartStatus value){return value!=null&&value.phase=="tracking"&&!string.IsNullOrEmpty(value.overlay_png_base64)&&Array.Exists(value.parts??new LocatedPart[0],p=>p.status=="found"&&p.component_id==(Current.action_id=="holder.base"?"spool_holder_base":"external_spool_holder"));}
-  string PartFeedback(PartStatus value){return AppTheme.Readable((string.IsNullOrEmpty(verificationFeedback)?"":verificationFeedback+"\n\n")+(semanticReady?"部件已高亮，请按画面示意操作。":"正在准备位置高亮，请保持画面稳定。"));}
+  string PartFeedback(PartStatus value){
+   string text="正在准备位置高亮，请保持画面稳定。";
+   if(semanticReady){
+    if(last!=null&&last.target_ready)text=last.placement_method=="base_reference_illustration"?"部件已高亮，正在播放滑入方向示意。\n\n"+last.placement_note:"部件已高亮，动画已定位，请按指导操作。";
+    else text=last!=null&&!HasMarkerPose(last.pose)?"部件已高亮，动画暂时隐藏。请让完整定位板入镜。":"部件已高亮，但动画尚未定位。请点击“补充动画定位”；已有螺丝位置会保留。";
+   }
+   return AppTheme.Readable((string.IsNullOrEmpty(verificationFeedback)?"":verificationFeedback+"\n\n")+text);
+  }
+  void RefreshPlacementRepair(){
+   if(repairPlacement==null)return;
+   bool show=plan!=null&&Current.chapter_id=="U7"&&guidedStarted&&semanticReady&&last!=null&&!last.target_ready&&HasMarkerPose(last.pose)&&!automaticActive&&!setupExplicit&&authorStage==0;
+   repairPlacement.gameObject.SetActive(show);repairPlacement.interactable=!locating&&!checking&&!automaticBusy;
+   var area=(RectTransform)checkResult.transform.parent.parent.parent;var min=area.anchorMin;float bottom=show?.21f:.12f;if(Mathf.Abs(min.y-bottom)>.001f){min.y=bottom;area.anchorMin=min;}
+  }
   void SetBriefAdvice(string advice){if(string.IsNullOrEmpty(advice))return;int end=advice.IndexOf('。');if(end>0)advice=advice.Substring(0,end);vlmBrief=advice.Length>18?advice.Substring(0,18)+"…":advice;}
   void StopParts(){
    semanticReady=false;if(GuidedFlow&&overlay!=null)HideGuidance();partsGeneration++;bool active=partsDisplayActive;string stoppedJob=partsJob;partsDisplayActive=false;partsJob=null;partsView?.Clear();frozen=false;locating=false;

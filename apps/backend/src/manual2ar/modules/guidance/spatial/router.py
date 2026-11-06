@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import Response
-from .models import Begin,Frame,Author,Save,Verify,Interaction,Orientation,MachineAuthor,MotionCommand,ReuseSaved
+from .models import Begin,Frame,Author,Save,Verify,Interaction,Orientation,MachineAuthor,MotionCommand,ReuseSaved,PrintedReference,AutomaticPair
 from .service import SpatialService
-from .printing import sheets
+from .printing import sheets,workboard
 
 
 def router(config,registry,client,experience=None):
@@ -23,6 +23,9 @@ def router(config,registry,client,experience=None):
 
     @api.get('/print.pdf')
     def print_pdf():return Response(sheets(),media_type='application/pdf')
+
+    @api.get('/workboard.pdf')
+    def workboard_pdf():return Response(workboard(),media_type='application/pdf')
 
     @api.get('/replay/{index}.jpg')
     def replay(index:int):
@@ -84,6 +87,21 @@ def router(config,registry,client,experience=None):
 
     @api.post('/sessions/{identity}/motion')
     def motion(identity:str,command:MotionCommand):return service.machine.save_motion(identity,command)
+
+    @api.post('/sessions/{identity}/automatic/reference')
+    def printed_reference(identity:str,command:PrintedReference):return service.automatic.reference(identity,command)
+
+    @api.post('/sessions/{identity}/automatic/reset')
+    def reset_profiles(identity:str,command:ReuseSaved):return service.automatic.reset(identity)
+
+    @api.post('/sessions/{identity}/automatic/views')
+    def automatic_view(identity:str,command:Verify):return service.automatic.observe(identity,command)
+
+    @api.post('/sessions/{identity}/automatic/candidates')
+    def automatic_candidate(identity:str,command:AutomaticPair):return service.automatic.candidate(identity,command)
+
+    @api.post('/sessions/{identity}/automatic/confirm')
+    def automatic_confirm(identity:str,command:Save):return service.automatic.confirm(identity,command)
 
     @api.post('/sessions/{identity}/events')
     def event(identity:str,command:Interaction):return service.interaction(identity,command)

@@ -21,7 +21,7 @@ namespace Manual2AR.Spatial {
    if(session==null||last==null||authorStage!=0||changing||checking||locating){Message("请先完成当前操作并启动摄像头");return;}
    var current=last.motion_parameters??Current.machine_motion??new MotionParameters();
    if(last.visual?.presentation?.instances==null||last.visual.presentation.instances.Length==0){Message("请让定位标记和操作位置入镜，等待动画就绪");return;}
-   SpatialActionPanel.Open(root,current,last.visual.presentation,Current.kind=="fasten",last.machine_frame!=null,value=>StartCoroutine(SaveMotion(value)),ShowMachineSetup);
+   SpatialActionPanel.Open(root,current,last.visual.presentation,Current.kind=="fasten",HasMachineReference(last.machine_frame),value=>StartCoroutine(SaveMotion(value)),ShowMachineSetup);
   }
   System.Collections.IEnumerator SaveMotion(MotionParameters value){
    StopParts();epoch++;last=null;ClearGraphics();yield return Request(Api+"/sessions/"+session.session_id+"/motion","POST",JsonUtility.ToJson(new MotionCommand{action_id=Current.action_id,parameters=value}),(raw,error)=>Message(error??"动作参数已保存 · 空间动画已更新"));

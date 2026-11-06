@@ -19,7 +19,7 @@ public static class ProductValidation {
  public static void Run(){Directory.CreateDirectory(Folder);SessionState.SetBool(Key,true);EditorSceneManager.OpenScene("Assets/Manual2AR/Scenes/Welcome.unity");EditorApplication.isPlaying=true;}
  static void Log(string text,string stack,LogType type){if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert){errors++;File.AppendAllText(Path.Combine(Folder,"errors.txt"),text+"\n"+stack+"\n");}}
  static object Field(object o,string name){var flags=BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public;var field=o.GetType().GetField(name,flags);if(field!=null)return field.GetValue(o);return o.GetType().GetProperty(name,flags).GetValue(o);}
- static object Invoke(object o,string name,params object[] args){return o.GetType().GetMethod(name,BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).Invoke(o,args);}
+ static object Invoke(object o,string name,params object[] args){return o.GetType().GetMethod(name,BindingFlags.Instance|BindingFlags.Static|BindingFlags.NonPublic|BindingFlags.Public).Invoke(o,args);}
  static void Check(bool ok,string message){if(!ok)throw new Exception(message);}
  static void Tick(){if(errors>0||EditorApplication.timeSinceStartup-since>240){SessionState.SetBool(Key,false);EditorApplication.Exit(2);return;}if(started||!EditorApplication.isPlaying)return;var welcome=UnityEngine.Object.FindObjectOfType<WelcomeController>();if(welcome==null||Field(welcome,"catalog")==null||(bool)Field(welcome,"connecting"))return;started=true;UnityEngine.Object.FindObjectOfType<AppShell>().StartCoroutine(Scenario());}
  static IEnumerator Wait(Func<bool> condition,string reason,float timeout=20){float until=Time.realtimeSinceStartup+timeout;while(!condition()&&Time.realtimeSinceStartup<until)yield return null;Check(condition(),reason);}
@@ -33,7 +33,7 @@ public static class ProductValidation {
   }finally{for(int i=0;i<canvases.Length;i++){canvases[i].renderMode=modes[i];canvases[i].worldCamera=cameras[i];}camera.targetTexture=target;RenderTexture.active=previous;RenderTexture.ReleaseTemporary(rt);}
  }
  sealed class ControlledFrameSource:Manual2AR.Spatial.ISpatialFrameSource {
-  readonly byte[] bytes;bool opened;public ControlledFrameSource(byte[] value){bytes=value;}public bool Ready=>opened;public string Signature=>"controlled-u7-rgb";public string ProviderId=>"desktop_rgb";public int CaptureWidth=>960;public int CaptureHeight=>720;
+  public byte[] bytes;bool opened;public ControlledFrameSource(byte[] value){bytes=value;}public bool Ready=>opened;public string Signature=>"controlled-u7-rgb";public string ProviderId=>"desktop_rgb";public int CaptureWidth=>960;public int CaptureHeight=>720;
   public IEnumerator Open(int selected,Action<string> error){opened=true;yield break;}public byte[] Capture(){return bytes;}public void Close(){opened=false;}
  }
  static string Plain(string value){return System.Text.RegularExpressions.Regex.Replace(value??"","<[^>]*>","").Replace(((char)0x200b).ToString(),"");}
@@ -488,7 +488,47 @@ public static class ProductValidation {
   yield return Wait(()=>((Manual2AR.Spatial.Reply)Field(spatial,"last")).client_frame_id>preservedFrame+2,"Tracking froze after negative verification");
   Check((string)Field(spatial,"partsJob")==stableJob&&(bool)Field(spatial,"partsDisplayActive"),"Installation verdict cleared tracking");
   Check(((Text)Field(spatial,"checkResult")).GetComponent<AppReadableText>().Source.Contains("安装核验"),"Tracking overwrote the negative feedback");yield return Shot("flow-tracking-survives-vlm-failure.png");
-  ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&Field(spatial,"photoPrompt")!=null,"Final holder verification did not finish");Check(!(bool)Field(spatial,"verificationFailed")&&((Image)Field(spatial,"feedbackBackground")).color==Color.clear,"Successful recheck retained error highlighting");Invoke(spatial,"ClosePhotoPrompt");AppShell.GoBack();
+  ((Button)Field(spatial,"verify")).onClick.Invoke();yield return Wait(()=>!(bool)Field(spatial,"checking")&&Field(spatial,"photoPrompt")!=null,"Final holder verification did not finish");Check(!(bool)Field(spatial,"verificationFailed")&&((Image)Field(spatial,"feedbackBackground")).color==Color.clear,"Successful recheck retained error highlighting");Invoke(spatial,"ClosePhotoPrompt");
+  // Reconfigure U7 from empty profiles through the actual two-photo wizard, without pixel clicks.
+  Invoke(spatial,"Select",Array.FindIndex(spatialPlan.actions,a=>a.action_id=="holder.base"));
+  yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).action_id=="holder.base","Base not ready for auto setup");
+  Invoke(spatial,"ClosePhotoPrompt");
+  spatial.StartCoroutine((IEnumerator)Invoke(spatial,"ResetAutomatic"));
+  yield return Wait(()=>!(bool)Field(spatial,"automaticBusy")&&Field(spatial,"last")!=null&&!((Manual2AR.Spatial.Reply)Field(spatial,"last")).target_configured,"Reset did not clear targets");
+  Check(((Manual2AR.Spatial.Reply)Field(spatial,"last")).calibrated,"Reset erased camera calibration");
+  Check(!(bool)Invoke(spatial,"HasMachineReference",new Manual2AR.Spatial.MachineFrame()),"Empty Unity JSON object treated as a saved reference");
+  Check(!(bool)Invoke(spatial,"HasMarkerPose",new Manual2AR.Spatial.Pose()),"Empty Unity JSON object treated as a visible marker");
+  Invoke(spatial,"ShowAnchorSetup");Check(Field(spatial,"photoPrompt")!=null,"Automatic setup entry missing");yield return Shot("auto-01-setup-entry.png");
+  ClickText((GameObject)Field(spatial,"photoPrompt"),"开始自动配置");yield return null;
+  Check(Field(spatial,"photoPrompt")!=null,"Printed reference placement confirmation missing");yield return Shot("auto-02-reference-confirmation.png");
+  ClickText((GameObject)Field(spatial,"photoPrompt"),"确认方向，扫描坐标板");
+  yield return Wait(()=>(bool)Field(spatial,"automaticActive")&&!(bool)Field(spatial,"automaticBusy"),"Automatic capture sidebar missing");
+  yield return Wait(()=>!string.IsNullOrEmpty(((Manual2AR.Spatial.Reply)Field(spatial,"latestReply")).machine_frame?.frame_id),"Printed work frame did not reach live response");
+  Check(!((Manual2AR.Spatial.SpatialOverlay)Field(spatial,"overlay")).accepting,"Automatic setup still asks for pixel picking");
+  yield return Call(origin+"/test/spatial/next-failure","POST","{\"kind\":\"guide_absent\"}",raw=>{});
+  ((Button)Field(spatial,"automaticCapture")).onClick.Invoke();
+  yield return Wait(()=>!(bool)Field(spatial,"automaticBusy")&&!string.IsNullOrEmpty((string)Field(spatial,"automaticFirstView")),"First automatic photo failed");yield return Shot("auto-03-first-photo.png");
+  using(var get=UnityWebRequest.Get(origin+"/api/guidance/spatial/replay/120.jpg")){yield return get.SendWebRequest();controlledSource.bytes=get.downloadHandler.data;}
+  string secondSha=Hash(controlledSource.bytes);
+  yield return Wait(()=>((Manual2AR.Spatial.Reply)Field(spatial,"latestReply")).source_sha256==secondSha,"Second viewpoint did not reach stream");
+  ((Button)Field(spatial,"automaticCapture")).onClick.Invoke();
+  yield return Wait(()=>Field(spatial,"automaticSave")!=null&&!((bool)Field(spatial,"automaticBusy")),"Automatic candidate preview failed");
+  Check((bool)Field(spatial,"frozen")&&((Manual2AR.Spatial.SpatialOverlay)Field(spatial,"overlay")).picks.Count==2,"Candidate is not on its exact frozen frame");yield return Shot("auto-04-target-preview.png");
+  Check(((Text)Field(spatial,"automaticHint")).GetComponent<AppReadableText>().Source.Contains("底座参考点"),"Inferred slide location was described as a measured slot");
+  ((Button)Field(spatial,"automaticSave")).onClick.Invoke();
+  yield return Wait(()=>!(bool)Field(spatial,"automaticActive")&&Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).preflight.can_start,"Saved automatic targets did not become ready");yield return Shot("auto-05-ready.png");
+  Invoke(spatial,"OpenAutomaticCapture");yield return null;Invoke(spatial,"CancelAutomatic");yield return null;
+  Check(!(bool)Field(spatial,"frozen")&&!(bool)Field(spatial,"setupExplicit")&&Field(spatial,"automaticSidebar")==null,"Cancelling automatic setup left a blocked camera or setup state");
+  Invoke(spatial,"Select",Array.FindIndex(spatialPlan.actions,a=>a.action_id=="holder.slide"));
+  yield return Wait(()=>Field(spatial,"last")!=null&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).action_id=="holder.slide"&&((Manual2AR.Spatial.Reply)Field(spatial,"last")).preflight.can_start,"Screws-only cache could not prepare slide illustration");
+  var fallbackReply=(Manual2AR.Spatial.Reply)Field(spatial,"last");Check(fallbackReply.placement_method=="base_reference_illustration"&&fallbackReply.target_ready,"Runtime did not derive a direction-only slide reference");
+  ((Button)Field(spatial,"startAtTarget")).onClick.Invoke();yield return Wait(()=>Field(spatial,"photoPrompt")!=null,"Slide introduction missing");ClickText((GameObject)Field(spatial,"photoPrompt"),"准备拍照识别");
+  ((Button)Field(spatial,"locateButton")).onClick.Invoke();yield return Wait(()=>(bool)Field(spatial,"semanticReady")&&!(bool)Field(spatial,"locating")&&((Manual2AR.Spatial.SpatialAssetGraphic)Field(spatial,"assetGraphic")).VisibleTriangles>0,"Second recognition lost the slide animation");
+  Check(((Text)Field(spatial,"checkResult")).GetComponent<AppReadableText>().Source.Contains("不代表隐藏插槽"),"Direction illustration lacks its placement disclosure");yield return Shot("auto-06-screws-only-slide.png");
+  var knownReply=(Manual2AR.Spatial.Reply)Field(spatial,"last");knownReply.target_ready=false;
+  Check(Plain((string)Invoke(spatial,"PartFeedback",new Manual2AR.Spatial.PartStatus())).Contains("动画尚未定位"),"Successful segmentation concealed missing geometry");
+  Invoke(spatial,"RefreshPlacementRepair");Check(((Button)Field(spatial,"repairPlacement")).gameObject.activeSelf,"Missing geometry has no repair entry");knownReply.target_ready=true;
+  AppShell.GoBack();
   yield return Wait(()=>UnityEngine.Object.FindObjectOfType<Manual2AR.Spatial.SpatialGuidanceController>()==null&&!(bool)Field(guidance,"busy"),"Automatic flow did not return to tutorial");
   var completedTutorial=(GuidanceRun)Field(guidance,"run");Check(Array.Exists(completedTutorial.chapter_completion,c=>c.state_id=="U7"&&c.completed),"Verified spatial chapter was not marked complete");
   Invoke(guidance,"ShowOverview",false);yield return Shot("flow-05-completed-overview.png");foreach(var label in ((GameObject)Field(guidance,"modal")).GetComponentsInChildren<Text>())Check(!label.text.Contains("已浏览")&&!label.text.Contains("查看学习记录"),"Debug learning record remains in overview");Invoke(guidance,"CloseModal");
@@ -524,7 +564,7 @@ public static class ProductValidation {
   welcome=UnityEngine.Object.FindObjectOfType<WelcomeController>();yield return Wait(()=>welcome!=null&&Field(welcome,"catalog")!=null,"Welcome missing");Invoke(welcome,"Library");
   Check(AppShell.SelectedService==null,"Cannot return to service library");yield return Shot("12-return-library.png");
   Check(UnityEngine.Object.FindObjectsOfType<AppShell>().Length==1,"Duplicate application shell");Check(errors==0,"Runtime errors");
-  File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true,\"spatial_replay\":true,\"spatial_metric_geometry\":true,\"spatial_pixel_picking\":true,\"spatial_reference_loaded\":true,\"spatial_preserves_tutorial_progress\":true,\"u7_composite_assets\":true,\"clockwise_from_tool_handle\":true,\"xyz_orientation_modal\":true,\"two_part_photo_guidance\":true,\"tracked_image_proxy\":true,\"wrong_frame_mask_rejected\":true,\"concurrent_masks_proxy_animation\":true,\"parameterized_rotation\":true,\"motion_parameter_panel\":true,\"three_point_coordinate_wizard\":true,\"u7_sequence_verified_unlock\":true,\"component_action_management\":true,\"empty_action_modal_recovery\":true,\"frameless_marker_captions\":true,\"unified_spatial_toolbar\":true,\"manual_holder_capture\":true,\"legible_spatial_text\":true,\"fixed_model_legend\":true,\"legend_lifecycle_and_colors\":true,\"tracking_survives_vlm_failure\":true,\"imperative_display_contract\":true,\"bidirectional_arrowhead\":true,\"u7_preflight_auto_guidance\":true,\"metric_text_annotations\":true,\"u7_contextual_information\":true,\"visual_completion_overview\":true,\"modal_blur_backdrop\":true,\"embedded_guidance_wiki\":true,\"chapter_card_layout\":true,\"guidance_footer_layout\":true,\"nonmodal_verification_failure\":true,\"compact_step_dialogs\":true,\"shared_workspace_contract\":true,\"ui_gallery_sizes\":3}");
+  File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true,\"spatial_replay\":true,\"spatial_metric_geometry\":true,\"spatial_pixel_picking\":true,\"spatial_reference_loaded\":true,\"spatial_preserves_tutorial_progress\":true,\"u7_composite_assets\":true,\"clockwise_from_tool_handle\":true,\"xyz_orientation_modal\":true,\"two_part_photo_guidance\":true,\"tracked_image_proxy\":true,\"wrong_frame_mask_rejected\":true,\"concurrent_masks_proxy_animation\":true,\"parameterized_rotation\":true,\"motion_parameter_panel\":true,\"three_point_coordinate_wizard\":true,\"u7_sequence_verified_unlock\":true,\"component_action_management\":true,\"empty_action_modal_recovery\":true,\"frameless_marker_captions\":true,\"unified_spatial_toolbar\":true,\"manual_holder_capture\":true,\"legible_spatial_text\":true,\"fixed_model_legend\":true,\"legend_lifecycle_and_colors\":true,\"tracking_survives_vlm_failure\":true,\"imperative_display_contract\":true,\"bidirectional_arrowhead\":true,\"u7_preflight_auto_guidance\":true,\"metric_text_annotations\":true,\"u7_contextual_information\":true,\"visual_completion_overview\":true,\"modal_blur_backdrop\":true,\"embedded_guidance_wiki\":true,\"chapter_card_layout\":true,\"guidance_footer_layout\":true,\"nonmodal_verification_failure\":true,\"compact_step_dialogs\":true,\"slide_illustration_from_screws\":true,\"missing_placement_feedback\":true,\"automatic_u7_configuration\":true,\"shared_workspace_contract\":true,\"ui_gallery_sizes\":3}");
   SessionState.SetBool(Key,false);EditorApplication.Exit(0);
  }
 }
