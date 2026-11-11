@@ -275,6 +275,10 @@ namespace Manual2AR
         void RenderCatalog(){
             taskButtons.Clear();taskMenu.Clear();foreach(var texture in thumbnails)if(texture!=null)Destroy(texture);thumbnails.Clear();int generation=++catalogGeneration;
             if(catalog==null||catalog.tasks==null)return;
+            var generated=taskMenu.Add("wiki-to-ar","提问并生成 AR 指导","拍摄现场，从离线资料自动生成安装任务 · U7",true,()=>{
+                if(busy)return;StopCamera();root.gameObject.SetActive(false);
+                WikiToArView.Open(settings.backend_url,()=>{root.gameObject.SetActive(true);AppShell.BindTeachingBack();});
+            });taskButtons.Add(generated.Button);
             foreach(var entry in catalog.tasks){
                 var item=entry;var card=taskMenu.Add(item.id,item.title,item.description,true,()=>SelectTask(item));taskButtons.Add(card.Button);StartCoroutine(LoadThumbnail(item.thumbnail,card.Image,generation));
             }

@@ -50,7 +50,7 @@ class Action(Command):
     confirmed: bool = Field(default=False, strict=True)
 
 
-def create_app(config, client=None, log_root=None):
+def create_app(config, client=None, log_root=None, *, wiki_settings=None):
     from .manage import public
     service = GuidanceService(config, client=client, log_root=log_root)
     from .spatial.router import router as spatial_router
@@ -58,6 +58,7 @@ def create_app(config, client=None, log_root=None):
     @asynccontextmanager
     async def lifespan(app):
         yield
+        app.state.pipeline.close()
         for identity in list(spatial.sessions):spatial.close(identity)
         spatial.part_tracking.shutdown()
         for identity in list(service.meta):service.close(identity)
@@ -65,6 +66,8 @@ def create_app(config, client=None, log_root=None):
     app.state.guidance = service
     app.state.spatial = spatial
     app.include_router(spatial_api)
+    from .pipeline import install
+    app.state.pipeline=install(app,config,service.registry,next(iter(service.engines.values())).client,wiki_settings)
 
     @app.get('/health')
     def health(): return {'status':'ok', 'module':'operation-guidance', 'scope':'external_spool_and_ams_lite_unboxing',

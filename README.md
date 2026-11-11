@@ -15,7 +15,7 @@ bash run.sh start       # 同步公开资源并启动业务后端
 
 本机参数只编辑 `configs/app.local.json`，新机器从 `configs/app.example.json` 复制。GPU 连接只放在 `configs/inference.connection.local.json`；这些私有文件被 Git 忽略，不上传或打印其内容。
 
-默认健康检查：`http://127.0.0.1:8010/health`。Unity 打开 `apps/unity/Manual2AR` 的 `Welcome` 场景；Windows EXE 从当前交付包中的“启动教学系统.cmd”进入。
+公开模板健康检查：`http://127.0.0.1:8010/health`；本 Pipeline 工作树本机配置为8011，实际以本地配置为准。Unity 打开 `apps/unity/Manual2AR` 的 `Welcome` 场景；Windows EXE 从当前交付包中的“启动教学系统.cmd”进入。
 
 GPU 使用 SAM3.1 首帧分割与 Cutie 跟踪；不可用时可回退本机 OpenCV。语义识别仍依赖 VLM。原生 ARKit、真实深度及设备电机控制尚未接入。
 
@@ -34,7 +34,7 @@ GPU 使用 SAM3.1 首帧分割与 Cutie 跟踪；不可用时可回退本机 Ope
 | `tools`、`tests` | 必要的构建、评估、校验与回归源码 |
 | `docs` | 当前有效的使用说明、架构和契约 |
 
-运行记录、构建、缓存及大型原始资料由配置指向仓库外的 `Manual2AR-Data/`。当前主工作树为 `Manual2AR-Dev`；历史工作树在同级 `Archive/`，其主仓库 `.git` 仍被当前工作树使用，不能删除。
+运行记录、构建、缓存及大型原始资料由配置指向仓库外的 `Manual2AR-Data/`。本树为 `Manual2AR-U7-Pipeline`（`lixin/u7-end-to-end`），基于 Dev 的 U7 能力开发 Wiki→AR 管线。`Manual2AR-Dev` 为另一工作树；同级 `Archive/` 中主仓库的 `.git` 仍被关联工作树使用，不能删除。
 
 ## 说明与验证
 
@@ -55,3 +55,8 @@ bash run.sh package      # 导出 Unity 工程包，不等于编译 Windows EXE
 Windows EXE 必须先通过 `tools.build.validate_desktop --build`，再运行 `tools.build.spatial_delivery`。构建记录与源码／程序指纹不匹配时拒绝打包，具体命令见使用说明。
 
 历史审计、测试记录、迁移过程、旧规划及诊断笔记本已归档到项目外 `Manual2AR-Data/archives/dev-core-source-20261105/`，不作为当前实现规范。来源清单和恢复方式见 Agent 快照；官方教材、必要部署工具和测试没有作为垃圾删除。
+## U7 问题与照片到 AR 原型
+
+本工作树新增模块二入口“提问并生成 AR 指导”：离线 Wiki 检索、任务编译、U7 能力绑定与独立 AR 核验。使用与边界见 [docs/WIKI_TO_AR.md](docs/WIKI_TO_AR.md)。
+
+当前管线支持12项实验开关，包含现场驱动执行和严格视觉观察契约。实际能力、未定义验收标准及验证边界见 [Agent快照](README_AGENT.md) 和 [仓库审查](docs/REPOSITORY_AUDIT.md)。

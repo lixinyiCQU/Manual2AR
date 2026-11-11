@@ -15,7 +15,8 @@ from .desktop_provenance import verify_build, repository_sources, PROOF, fingerp
 def export_backend_launcher(target,worktree,backend_url,distribution_hint):
     target=Path(target)
     shutil.copyfile(ROOT/'deploy/windows/Start-Backend.ps1',target/'Start-Backend.ps1')
-    descriptor={'worktree':str(worktree),'backend_url':backend_url,'distribution_hint':distribution_hint}
+    from manual2ar.modules.guidance.pipeline import Pipeline
+    descriptor={'worktree':str(worktree),'backend_url':backend_url,'distribution_hint':distribution_hint,'backend_revision':Pipeline.source_revision()}
     (target/'backend.launch.json').write_text(json.dumps(descriptor,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (target/'启动后端.cmd').write_bytes(b'@echo off\r\nsetlocal\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Backend.ps1"\r\nif errorlevel 1 pause\r\n')
 

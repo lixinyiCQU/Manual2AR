@@ -32,7 +32,7 @@ def main():
         if (project/name).exists():shutil.rmtree(project/name)
         shutil.copytree(builds/'Manual2AR'/name,project/name)
     editor=project/'Assets/Editor';editor.mkdir(parents=True,exist_ok=True)
-    for name in ['ProductValidation.cs','UiGalleryValidation.cs']:
+    for name in ['ProductValidation.cs','UiGalleryValidation.cs','WikiPipelineValidation.cs']:
         shutil.copyfile(ROOT/'tests/unity'/name,editor/name)
     shutil.copyfile(ROOT/'tools/build/WindowsPlayerBuild.cs',editor/'WindowsPlayerBuild.cs')
     def override(value):
@@ -76,7 +76,9 @@ def main():
         result=subprocess.run([str(args.unity),'-batchmode','-quit','-projectPath',win(project),'-executeMethod','WindowsPlayerBuild.Build',
             '--manual2ar-output',win(player/'Manual2AR.exe'),'-logFile',win(output/'build.log')],timeout=600)
         if result.returncode:raise RuntimeError('Windows build failed; see build.log')
-        seal_build(ROOT,project,player,inputs,json.loads((validation/'success.json').read_text()))
+        proof=json.loads((validation/'success.json').read_text())
+        proof['wiki_to_ar']=json.loads((validation/'wiki-pipeline.json').read_text())
+        seal_build(ROOT,project,player,inputs,proof)
         target=builds/'Manual2AR-Windows'
         if target.exists():shutil.rmtree(target)
         shutil.copytree(player,target)

@@ -14,6 +14,7 @@ namespace Manual2AR.Spatial {
   RectTransform PhotoPanel(string title,bool compact=false){ClosePhotoPrompt();var dialog=AppDialog.Open(root,"Photo preparation",title,compact?AppDialogSize.Compact:AppDialogSize.Standard,ClosePhotoPrompt);photoPrompt=dialog.gameObject;dialog.Panel.name="Photo guidance";return dialog.Panel;}
 
   void ShowLocateCapture(){
+   if(NeedsSceneCheck){StartCoroutine(AssessCurrentScene());return;}
    if(GuidedFlow){StartCoroutine(LocateParts());return;}
    if(partsDisplayActive){StopParts();Message("已恢复空间指导");return;}
    if(Current.chapter_id!="U7"){StartCoroutine(Locate());return;}

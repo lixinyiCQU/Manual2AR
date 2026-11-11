@@ -84,4 +84,19 @@ if __name__=='__main__':
     c['backend'].update(public_url='http://127.0.0.1:18010',port=18010)
     app=create_app(c,{'learning':ComponentVLM(),'guidance':VisualClient(),'inspection':FakeVLM()},tracker_factory=lambda _:DelayedTracker())
     install_u7_fixture(app)
+    from tests.backend.test_pipeline_ablation import EnhancedVLM
+    class SlowScene(EnhancedVLM):
+        def chat_structured(self,**kwargs):
+            if kwargs['schema'].get('title')=='Scene':
+                time.sleep(2)
+                result=super().chat_structured(**kwargs)
+                result['summary']='可见底座，紧固程度未知。'*35
+                return result
+            return super().chat_structured(**kwargs)
+    app.state.modules['guidance'].state.pipeline.client=SlowScene()
+    @app.post('/test/pipeline/scene-state')
+    def pipeline_scene_state(command:dict):
+        assert set(command)<={'S1','S2'} and all(v in ('satisfied','unsatisfied','unknown') for v in command.values())
+        app.state.modules['guidance'].state.pipeline.client.scene_states=command
+        return {'ready':True}
     uvicorn.run(app,host='0.0.0.0',port=18010)

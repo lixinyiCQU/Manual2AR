@@ -11,7 +11,7 @@ using UnityEngine.UI;
 namespace Manual2AR.Spatial {
  /// <summary>Optional view, owns its camera/session and never mutates tutorial progress.</summary>
  public sealed partial class SpatialGuidanceController:MonoBehaviour,IAppModule {
-  const string Api="/api/guidance/spatial";
+  string Api="/api/guidance/spatial";
   AppWorkspace workspace;RectTransform root,viewport,referenceArea,infoCard;RawImage image,reference;SpatialOverlay overlay;SpatialAssetGraphic assetGraphic,companionGraphic;SpatialFeedbackView visionFeedback;Text stepHeader;SpatialCamera cameraOwner;SpatialReferenceViewer referenceViewer;
   ISpatialFrameSource frameSource;string tutorialRunId="",initialAction="";int pendingInteractions;
   Text title,instruction,status,authorHelp,checkResult,referenceCaption,modeLabel;Button setup,sample,solve,verify,cancel,locateButton;bool locating,locationPreview;UnityWebRequest localizationRequest;
@@ -34,11 +34,17 @@ namespace Manual2AR.Spatial {
    var controller=Open(backend,chapter,null);controller.tutorialRunId=runId;controller.initialAction=actionId;
    controller.done=()=>onClose(controller.plan==null?null:controller.Current);return controller;
   }
+  public static SpatialGuidanceController OpenCompiled(string backend,string candidate,Action onClose){
+   var controller=new GameObject("Compiled U7 Spatial Experiment").AddComponent<SpatialGuidanceController>();
+   controller.origin=backend.TrimEnd('/');controller.Api="/api/guidance/pipeline/candidates/"+candidate+"/spatial";
+   controller.done=onClose;controller.Build();controller.StartCoroutine(controller.Initialize("U7"));return controller;
+  }
   IEnumerator Initialize(string chapter){
    Plan incoming=null;
    yield return Request(Api+"/config","GET",null,(raw,error)=>{if(error!=null){Message(error);return;}incoming=JsonUtility.FromJson<Plan>(raw);});
    if(incoming==null)yield break;
    backendReady=incoming.automatic_configuration&&incoming.visual_revision=="mesh-loop-v2"&&incoming.required_client_revision=="machine-workframe-v1";
+   if(Api!="/api/guidance/spatial"&&incoming.runtime_contract!=(incoming.stateful_runtime?"compiled-spatial-v3":"compiled-spatial-v2"))backendReady=false;
    if(!backendReady){Message("后端版本未更新，请重启后端");checkResult.text="请先关闭旧后端，再运行启动后端.cmd，返回图文后重新进入。";yield break;}
    backendReady=Manual2AR.VisualGuidance.VisualAssetLibrary.Matches(incoming.asset_library);
    if(!backendReady){Message("教学资产与后端版本不一致");checkResult.text="请启动资产库工作树的后端，并使用同一版本的前端。";yield break;}
@@ -47,7 +53,7 @@ namespace Manual2AR.Spatial {
   }
   void Select(int index){
    bool continuing=guidedStarted&&GuidedFlow;
-   if(plan==null||changing)return;if(plan.actions[index].action_id=="holder.slide"&&U7Locked){Message(u7Sequence.message??"请先拍照检查底座");BuildActionTabs();return;}actionIndex=index;targetIndex=0;epoch++;last=null;CancelAuthor();playback.Reset();trackingInterrupted=false;stickyUntil=0;callout.Hide();ClearGraphics();referenceIndex=Current.primary_reference_index;candidate=null;BuildTargets();
+   if(plan==null||changing||index<0||index>=plan.actions.Length)return;if(Stateful&&execution!=null&&plan.actions[index].action_id!=execution.action_id){Message("请先完成当前计划的操作或核验");return;}if(plan.actions[index].action_id=="holder.slide"&&U7Locked){Message(u7Sequence.message??"请先拍照检查底座");BuildActionTabs();return;}actionIndex=index;targetIndex=0;epoch++;last=null;CancelAuthor();playback.Reset();trackingInterrupted=false;stickyUntil=0;callout.Hide();ClearGraphics();referenceIndex=Current.primary_reference_index;candidate=null;BuildTargets();
    title.text=AppTheme.Readable("开箱空间指导 · "+Current.chapter_id+" · "+Current.title);
    instruction.text=AppTheme.Readable(Current.instruction);RefreshHelp();checkResult.text=Current.verification_mode=="manual"?"本章按官方说明人工确认，视觉不能判断螺丝是否锁紧。":"可选拍照，查看位置或安装建议。";
    verify.GetComponentInChildren<Text>().text=Current.verification_mode=="manual"?"确认完成":"检查安装";
@@ -72,7 +78,8 @@ namespace Manual2AR.Spatial {
    if(referenceTexture!=null){Destroy(referenceTexture);referenceTexture=null;}
    if(plan==null)yield break;int version=++referenceGeneration;var refs=Current.reference_images;if(refs==null||refs.Length==0)yield break;referenceIndex=(referenceIndex+refs.Length)%refs.Length;
    string file=Path.GetFileName(refs[referenceIndex]);referenceDropdown.ClearOptions();var names=new List<string>();for(int i=0;i<refs.Length;i++)names.Add("官方图 "+(i+1)+" / "+refs.Length);referenceDropdown.AddOptions(names);referenceDropdown.SetValueWithoutNotify(referenceIndex);referenceDropdown.RefreshShownValue();int photo=referenceIndex;
-   using(var request=UnityWebRequestTexture.GetTexture(origin+"/api/guidance/tasks/"+plan.task_id+"/variants/"+plan.variant_id+"/references/"+file)){
+   string url=refs[referenceIndex].StartsWith("/")?refs[referenceIndex]:"/api/guidance/tasks/"+plan.task_id+"/variants/"+plan.variant_id+"/references/"+file;
+   using(var request=UnityWebRequestTexture.GetTexture(origin+url)){
     request.timeout=15;requests.Add(request);yield return request.SendWebRequest();requests.Remove(request);
     if(closed||request.result!=UnityWebRequest.Result.Success||version!=referenceGeneration||photo!=referenceIndex)yield break;
     var texture=DownloadHandlerTexture.GetContent(request);if(referenceTexture!=null)Destroy(referenceTexture);referenceTexture=texture;reference.texture=texture;
@@ -81,7 +88,7 @@ namespace Manual2AR.Spatial {
   }
   IEnumerator BeginSession(string selectedMode,bool reuse){
    if(changing||plan==null)yield break;if(!backendReady){Message("后端版本未更新，请重启后端");yield break;}changing=true;ResetCheckFeedback();guidedStarted=false;semanticReady=false;startAtTarget.gameObject.SetActive(false);epoch++;CancelAuthor();last=null;playback.Reset();trackingInterrupted=false;callout.Hide();ClearGraphics();setupExplicit=false;SetSetupVisible(false);
-   yield return DropSession();mode=selectedMode;frameSource.Close();string failure=null;
+   yield return DropSession();execution=null;attemptedScene="";mode=selectedMode;frameSource.Close();string failure=null;
    if(mode=="camera"){
     yield return frameSource.Open(cameraIndex,e=>failure=e);
     if(failure!=null){Message(failure);changing=false;yield break;}cameraSignature=frameSource.Signature;
@@ -91,6 +98,7 @@ namespace Manual2AR.Spatial {
    changing=false;sequence=0;replayIndex=0;
    modeLabel.text=mode=="replay"?"合成定位回放 · 非实机检测 · 不写入实机位置":"Windows 摄像头 · "+CameraFraming.Ratios[aspectIndex]+" 标定画幅 · "+(WebCamTexture.devices.Length>0?WebCamTexture.devices[cameraIndex%WebCamTexture.devices.Length].name:"");
    if(failure!=null){Message(failure);yield break;}
+   ApplyExecution(session.execution);
    if(session.u7_sequence!=null){u7Sequence=session.u7_sequence;BuildActionTabs();}
    if(mode=="camera"&&session.has_saved_targets&&!reuse&&!GuidedFlow)ShowReuse();
    if(GuidedFlow&&session.has_saved_targets)SetSetupVisible(false);
@@ -132,7 +140,7 @@ namespace Manual2AR.Spatial {
    var texture=new Texture2D(2,2,TextureFormat.RGB24,false);if(!ImageConversion.LoadImage(texture,bytes)){Destroy(texture);return;}
    if(displayed!=null)Destroy(displayed);displayed=texture;image.texture=texture;image.color=Color.white;viewport.GetComponent<AspectRatioFitter>().aspectRatio=texture.width/(float)texture.height;
    float now=Time.realtimeSinceStartup;if(lastPresentedAt>0)presentationFps=Mathf.Lerp(presentationFps,1/Mathf.Max(.001f,now-lastPresentedAt),.2f);lastPresentedAt=now;
-   last=reply;if(reply.u7_sequence!=null)u7Sequence=reply.u7_sequence;RefreshHelp();overlay.width=reply.width;overlay.height=reply.height;overlay.lines=reply.lines??new Segment[0];overlay.corners=reply.pose==null?null:reply.pose.corners;
+   last=reply;UpdateExecution(reply);if(reply.u7_sequence!=null)u7Sequence=reply.u7_sequence;RefreshHelp();overlay.width=reply.width;overlay.height=reply.height;overlay.lines=reply.lines??new Segment[0];overlay.corners=reply.pose==null?null:reply.pose.corners;
    axesGraphic.width=reply.width;axesGraphic.height=reply.height;axesGraphic.axes=reply.machine_axes!=null&&reply.machine_axes.Length>0?reply.machine_axes:reply.visual!=null&&reply.visual.axes!=null&&reply.visual.axes.Length>0?reply.visual.axes:reply.reference_axes;if((GuidedFlow&&!semanticReady||Current.chapter_id=="U7")&&authorStage==0&&!setupExplicit)axesGraphic.axes=null;axesGraphic.SetVerticesDirty();
    if(GuidedFlow&&!semanticReady)overlay.lines=new Segment[0];
    if(authorStage==0){
@@ -163,8 +171,8 @@ namespace Manual2AR.Spatial {
    bool active=session!=null&&!changing;
    sample.interactable=solve.interactable=active&&mode=="camera"&&authorStage==0&&!locating&&!locationPreview;
    setup.interactable=active&&!authorBusy&&!locating&&!locationPreview&&mode=="camera"&&last!=null&&last.calibrated;
-   verify.interactable=!automaticActive&&(!GuidedFlow||guidedStarted)&&active&&!checking&&!locating&&!locationPreview&&authorStage==0&&(Current.verification_mode=="manual"||(mode=="camera"&&last!=null));
-   locateButton.interactable=!automaticActive&&(!GuidedFlow||guidedStarted)&&active&&mode=="camera"&&!checking&&authorStage==0&&last!=null&&!locating;
+   verify.interactable=!automaticActive&&(Stateful||!GuidedFlow||guidedStarted)&&!assessingScene&&active&&!checking&&!locating&&!locationPreview&&authorStage==0&&(Current.verification_mode=="manual"||(mode=="camera"&&last!=null));
+   locateButton.interactable=!automaticActive&&(Stateful||!GuidedFlow||guidedStarted)&&!assessingScene&&active&&mode=="camera"&&!checking&&authorStage==0&&last!=null&&!locating;
    cancel.interactable=!changing;
    actionBar.Refresh(changing||authorStage>0||locating||automaticBusy||locationPreview,active);
    playback.Tick(Time.unscaledDeltaTime);
@@ -281,8 +289,14 @@ namespace Manual2AR.Spatial {
    yield return Request(Api+"/sessions/"+session.session_id+"/verify","POST",JsonUtility.ToJson(command),(raw,error)=>{
     if(version!=epoch)return;if(error!=null){verificationFeedback=AppTheme.Readable(error);ShowCheckFailure();return;}
     var result=JsonUtility.FromJson<Check>(raw);if(result.action_id!=command.action_id||result.source_sha256!=sha||result.client_frame_id!=command.client_frame_id)return;
-    if(result.u7_sequence!=null){u7Sequence=result.u7_sequence;BuildActionTabs();}
+    ApplyExecution(result.execution);if(result.u7_sequence!=null){u7Sequence=result.u7_sequence;BuildActionTabs();}
     verificationFeedback=AppTheme.Readable("安装核验 · "+(result.status=="completed"?"可见状态符合":(result.status=="wrong_operation"||result.status=="not_completed")?"尚未完成":"需要补充画面")+"\n\n"+result.evidence+"\n\n"+result.next_action);checkResult.text=verificationFeedback;
+    if(Api!="/api/guidance/spatial"){
+     var extra=JsonUtility.FromJson<CompiledCheck>(raw);
+     if(extra.manual_pending!=null&&extra.manual_pending.Length>0){ShowCompiledManual(extra.manual_pending);return;}
+     if(result.status=="completed"&&Stateful&&result.prerequisite_only){checkResult.text="前置条件核验已完成，请继续当前操作或结果检查。";return;}
+     if(result.status=="completed"){ShowCompiledCompleted(Current.action_id=="holder.base");return;}
+    }
     if(Current.chapter_id=="U7"&&result.status=="completed"){if(Current.action_id=="holder.base")ShowBaseCompleted();else ShowCompleted();}else ShowCheckFeedback(result);
    },150);checking=false;
   }
