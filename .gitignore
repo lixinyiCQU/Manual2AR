@@ -1,7 +1,7 @@
 # Private workstation settings and service credentials
 **/config.local.json
 **/*.connection.local.json
-.venv/
+.venv
 .idea/
 .vscode/
 # Rebuildable Python and Unity state
