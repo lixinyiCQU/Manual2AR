@@ -12,6 +12,7 @@ namespace Manual2AR.Spatial {
    AppActionBar.Add(controls,AppTheme.Button(controls,"动画管理",Vector2.zero,Vector2.one,ShowMotionSettings,AppIcon.Inspect));
    actionBar=new SpatialActionBar(controls,MarkOperation,ShowAnchorSetup);
    AppActionBar.Add(controls,AppTheme.Button(controls,"官方图文指导",Vector2.zero,Vector2.one,()=>ShowStepIntroduction(false),AppIcon.Info));
+   if(Baseline)AppActionBar.Add(controls,AppTheme.Button(controls,"任务目标",Vector2.zero,Vector2.one,()=>ShowBaselineGoalChoice(),AppIcon.Inspect));
    var cameraPanel=workspace.Main;cameraPanel.gameObject.AddComponent<RectMask2D>();
    viewport=AppTheme.Rect(cameraPanel,"Matched frame viewport",Vector2.zero,Vector2.one);var fitter=viewport.gameObject.AddComponent<AspectRatioFitter>();fitter.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fitter.aspectRatio=4f/3;
    image=viewport.gameObject.AddComponent<RawImage>();image.raycastTarget=false;image.color=AppTheme.PanelBackground;AppMediaEmptyState.Attach(cameraPanel,image,"在摄像头管理中启动镜头");
@@ -36,8 +37,14 @@ namespace Manual2AR.Spatial {
    referenceCaption=referenceDropdown.captionText;
    ReferenceNavigation(official,"下一张",new Vector2(.75f,.30f),new Vector2(.96f,.37f),1);
    official.gameObject.SetActive(false);
-   AppTheme.Label(card,"识别位置与安装建议",new Vector2(.04f,.91f),new Vector2(.96f,.975f),22,AppTheme.TargetCyan);
+   AppTheme.Label(card,Baseline?"本次任务与现场进度":"识别位置与安装建议",new Vector2(.04f,.91f),new Vector2(.96f,.975f),22,AppTheme.TargetCyan);
+   if(Baseline){
+    taskSummary=ScrollText(card,"Task scope and progress",new Vector2(.04f,.53f),new Vector2(.96f,.90f),22);
+    taskSummary.text="正在读取官方任务层级…";
+    AppTheme.Label(card,"现场评估与下一步",new Vector2(.04f,.46f),new Vector2(.96f,.52f),22,AppTheme.TargetCyan);
+   }
    checkResult=Feedback(card);feedbackBackground=checkResult.transform.parent.parent.parent.GetComponent<Image>();checkResult.text="可选拍照，查看位置或安装建议。";
+   if(Baseline){var feedbackRect=(RectTransform)feedbackBackground.transform;feedbackRect.anchorMax=new Vector2(.96f,.45f);}
    locateButton=AppTheme.Button(card,"识别部件",new Vector2(.04f,.015f),new Vector2(.48f,.078f),ShowLocateCapture,AppIcon.Inspect);
    verify=AppTheme.Button(card,"检查安装",new Vector2(.52f,.015f),new Vector2(.96f,.078f),ShowVerifyCapture,AppIcon.Camera);
    repairPlacement=AppTheme.Button(card,"补充动画定位",new Vector2(.04f,.095f),new Vector2(.96f,.18f),ShowAnchorSetup,AppIcon.Inspect);repairPlacement.gameObject.SetActive(false);

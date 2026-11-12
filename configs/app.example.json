@@ -26,13 +26,13 @@
     "height": 1080
   },
   "paths": {
-    "wiki_archive": "../../Manual2AR-Data/sources/bambu-wiki/runs/20261024T145623Z_e2655a/archive.json",
-    "runtime": "../../Manual2AR-Data/runs/integrated",
-    "builds": "../../Manual2AR-Data/builds/integrated",
+    "wiki_archive": "../Manual2AR-Data/sources/bambu-wiki/runs/20261024T145623Z_e2655a/archive.json",
+    "runtime": "../Manual2AR-Data/runs/integrated",
+    "builds": "../Manual2AR-Data/builds/integrated",
     "static_images": "resources/samples",
     "renderer_python": ".venv/bin/python",
     "resources": "resources",
-    "cache": "../../Manual2AR-Data/cache/integrated"
+    "cache": "../Manual2AR-Data/cache/integrated"
   },
   "modules": {
     "learning": {

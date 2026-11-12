@@ -12,6 +12,7 @@ namespace Manual2AR.Spatial {
    var rect=(RectTransform)startAtTarget.transform;rect.pivot=new Vector2(.5f,.5f);rect.sizeDelta=new Vector2(220,58);startAtTarget.gameObject.SetActive(false);
   }
   void RefreshPreparation(Reply reply){
+   if(RefreshExecutionPreparation())return;
    bool preparing=GuidedFlow&&!guidedStarted&&authorStage==0&&!setupExplicit&&!automaticActive;var state=reply.preflight;
    bool ready=preparing&&state!=null&&state.can_start;
    bool configure=preparing&&reply.calibrated&&state!=null&&state.marker_visible&&!state.has_cached_target;
@@ -37,7 +38,7 @@ namespace Manual2AR.Spatial {
    var panel=PhotoPanel(Current.title);
    var text=ScrollText(panel,"Official step instruction",new Vector2(.05f,.69f),new Vector2(.95f,.85f),29);text.text=AppTheme.Readable(Current.instruction);
    var slot=AppTheme.Rect(panel,"Official reference",new Vector2(.15f,.20f),new Vector2(.85f,.66f));var img=AppTheme.Rect(slot,"Step reference image",Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();img.color=Color.white;
-   if(referenceTexture!=null){img.texture=referenceTexture;var fit=img.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=referenceTexture.width/(float)referenceTexture.height;}else ReferenceExample(slot,Current.action_id=="holder.base"?"base_reference":"installation_reference",Vector2.zero,Vector2.one);
+   if(referenceTexture!=null){img.texture=referenceTexture;var fit=img.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=referenceTexture.width/(float)referenceTexture.height;}else if(Api=="/api/guidance/spatial")ReferenceExample(slot,Current.action_id=="holder.base"?"base_reference":"installation_reference",Vector2.zero,Vector2.one);else AppTheme.Label(slot,"本候选未加载官方参考图",Vector2.zero,Vector2.one,24,AppTheme.Muted);
    var caption=AppTheme.Label(panel,"官方图 "+(referenceIndex+1)+" / "+Current.reference_images.Length,new Vector2(.20f,.135f),new Vector2(.80f,.19f),21,AppTheme.Muted);caption.alignment=TextAnchor.MiddleCenter;
    AppTheme.Button(panel,"上一图",new Vector2(.025f,.28f),new Vector2(.145f,.39f),()=>StartCoroutine(ChangeIntroReference(-1,img,caption,version)),AppIcon.Back);
    AppTheme.Button(panel,"下一图",new Vector2(.855f,.28f),new Vector2(.975f,.39f),()=>StartCoroutine(ChangeIntroReference(1,img,caption,version)),AppIcon.SwitchCamera);
@@ -55,6 +56,12 @@ namespace Manual2AR.Spatial {
   }
   void PromptManualRecognition(){
    semanticReady=false;checkResult.text="请让灰色底座和白色料盘支架同时入镜，摆好后点击“识别部件”。";
+   if(Baseline){
+    var panel=PhotoPanel("AR 部件定位");
+    var text=ScrollText(panel,"AR recognition preparation",new Vector2(.06f,.30f),new Vector2(.94f,.84f),26);
+    text.text="请让当前操作涉及的部件同时入镜。点击下方按钮识别安装部件，用于高亮和动画定位；安装完成后再点击主界面的“拍照核验”。";
+    AppTheme.Button(panel,"拍照识别安装部件",new Vector2(.08f,.06f),new Vector2(.92f,.22f),()=>{ClosePhotoPrompt();StartCoroutine(LocateParts());},AppIcon.Camera,true);
+   }
   }
   IEnumerator AutoLocateStep(int version){
    if(!GuidedFlow||!guidedStarted||version!=epoch||session==null)yield break;
@@ -68,7 +75,7 @@ namespace Manual2AR.Spatial {
    yield return LocateParts();
   }
   IEnumerator ReinspectStep(){
-   if(session==null||!guidedStarted||checking||changing||stepRequestBusy||authorStage>0)yield break;
+   if(session==null||(!Stateful&&!guidedStarted)||checking||changing||stepRequestBusy||authorStage>0)yield break;
    stepRequestBusy=true;try{
    int version=epoch,previous=last==null?0:last.client_frame_id;float deadline=Time.realtimeSinceStartup+5;
    while(version==epoch&&session!=null&&(last==null||last.client_frame_id<=previous)&&Time.realtimeSinceStartup<deadline)yield return null;

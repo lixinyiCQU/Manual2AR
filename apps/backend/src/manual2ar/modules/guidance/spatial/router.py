@@ -5,18 +5,16 @@ from .service import SpatialService
 from .printing import sheets,workboard
 
 
-def router(config,registry,client,experience=None):
-    service=SpatialService(config,registry,client,experience)
-    api=APIRouter(prefix='/api/guidance/spatial',tags=['desktop-spatial-guidance'])
+def router(config,registry,client,experience=None,*,service=None,prefix='/api/guidance/spatial'):
+    service=service if service is not None else SpatialService(config,registry,client,experience)
+    api=APIRouter(prefix=prefix,tags=['desktop-spatial-guidance'])
 
     @api.get('/config')
     def config_view():return service.catalog()
 
     @api.get('/sequence')
     def sequence_status(tutorial_run_id:str=''):
-        from .. import u7_sequence as sequence
-        if tutorial_run_id:return service.experience.u7_progress(service.experience.context(tutorial_run_id))
-        return sequence.state(object())
+        return service.sequence_status(tutorial_run_id)
 
     @api.get('/capabilities')
     def capabilities():return service.capabilities()

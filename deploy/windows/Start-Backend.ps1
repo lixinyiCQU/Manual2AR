@@ -26,7 +26,7 @@ try {
     if ($null -ne $health) {
         $spatial = $null
         try { $spatial = Invoke-RestMethod -Uri ($config.backend_url.TrimEnd('/') + '/api/guidance/spatial/config') -TimeoutSec 3 } catch { }
-        if ($null -ne $spatial -and $spatial.automatic_configuration -eq $true) {
+        if ($null -ne $spatial -and $spatial.automatic_configuration -eq $true -and $config.backend_revision -and $health.backend_revision -ceq $config.backend_revision -and $health.source_worktree -ceq $config.worktree) {
             Write-Host 'The compatible backend is already running. Return to the tutorial and re-enter AR guidance.'
             exit 0
         }

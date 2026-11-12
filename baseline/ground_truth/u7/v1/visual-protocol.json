@@ -1,0 +1,127 @@
+{
+  "schema_version": "baseline-visual-protocol-v1",
+  "id": "u7.visible_observations.v1",
+  "task_sha256": "8381d4f0d2cd08bdd2cbc40f1ae60c3d824eef77d17412358327c46cab0ca69e",
+  "sources_sha256": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+  "status": "experimental_requires_independent_labels",
+  "references": [
+    {
+      "image_id": "reference.image.1",
+      "crop_xyxy": [
+        805,
+        455,
+        940,
+        660
+      ]
+    },
+    {
+      "image_id": "reference.image.3",
+      "crop_xyxy": [
+        325,
+        295,
+        735,
+        450
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "id": "base_mount",
+      "kind": "mount_relation",
+      "object_ids": [
+        "base",
+        "column"
+      ],
+      "instruction": "辨认立柱安装区域与灰色/深灰色小矩形底座（不是打印机白色机座或整条立柱），观察外部位置和接合关系。seated表示可见底座位于指定安装区域并贴靠安装面；separate表示可见分离；absent只能在该安装区域清楚可观察而没有底座时使用；分不清接合关系则ambiguous。",
+      "reference_ids": [
+        "reference.image.1"
+      ]
+    },
+    {
+      "id": "base_fasteners",
+      "kind": "fastener_instances",
+      "object_ids": [
+        "base",
+        "upper_screw",
+        "lower_screw"
+      ],
+      "instruction": "在已辨认的底座固定区域中枚举可见螺丝，给出各实例框及其所处安装孔区域；空孔、阴影和其他部件不算螺丝。安装区域看不全时coverage=partial，不能凭参考图补出隐藏实例。不要判断规格或松紧。",
+      "reference_ids": [
+        "reference.image.1"
+      ]
+    },
+    {
+      "id": "base_appearance",
+      "kind": "appearance",
+      "object_ids": [
+        "base",
+        "column"
+      ],
+      "instruction": "观察底座与立柱连接区域的可见外观，描述可见脱离、明显倾斜或缺件；no_visible_anomaly只表示指定区域完整可观察且未见这些外观异常。被支架遮挡的区域须报告遮挡，不能猜测。这里不判断真实三维朝向或紧固。",
+      "reference_ids": [
+        "reference.image.1"
+      ]
+    },
+    {
+      "id": "holder_connection",
+      "kind": "connection_relation",
+      "object_ids": [
+        "holder",
+        "base",
+        "column"
+      ],
+      "instruction": "辨认白色可拆卸料盘支架，观察其安装端与立柱底座区域的外部连接关系。connected需要现场中安装端的清楚可见接合；独立放桌面或拿在手中未连接为separate。无法区分连接与靠放时ambiguous。装好后底座螺丝可能正常遮挡，不要求螺丝可见。",
+      "reference_ids": [
+        "reference.image.3",
+        "reference.image.1"
+      ]
+    },
+    {
+      "id": "holder_appearance",
+      "kind": "appearance",
+      "object_ids": [
+        "holder",
+        "base"
+      ],
+      "instruction": "观察白色支架及其安装端的可见外观，报告可见脱离或大幅倾斜。no_visible_anomaly只描述可见外观；看不到连接区域时报告相应未知原因。不推断隐藏插槽、锁止、安装历史或实际三维方向。",
+      "reference_ids": [
+        "reference.image.3"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "query_id": "base_mount",
+      "condition_id": "c.base.mount",
+      "expected_value": "seated",
+      "expected_locations": []
+    },
+    {
+      "query_id": "base_fasteners",
+      "condition_id": "c.base.screws",
+      "expected_value": null,
+      "expected_locations": [
+        "upper_hole",
+        "lower_hole"
+      ]
+    },
+    {
+      "query_id": "base_appearance",
+      "condition_id": "c.base.appearance",
+      "expected_value": "no_visible_anomaly",
+      "expected_locations": []
+    },
+    {
+      "query_id": "holder_connection",
+      "condition_id": "c.holder.connection",
+      "expected_value": "connected",
+      "expected_locations": []
+    },
+    {
+      "query_id": "holder_appearance",
+      "condition_id": "c.holder.appearance",
+      "expected_value": "no_visible_anomaly",
+      "expected_locations": []
+    }
+  ]
+}

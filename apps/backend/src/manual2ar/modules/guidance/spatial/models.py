@@ -9,6 +9,7 @@ class Strict(BaseModel):
 
 
 class Begin(Strict):
+    goal_intent: str = Field(default='', max_length=1000)
     visual_client_revision:str=Field(default='',max_length=80)
     tutorial_run_id: str = Field(default='', pattern=r'^([a-f0-9]{32})?$')
     mode: Literal['camera', 'replay'] = 'camera'

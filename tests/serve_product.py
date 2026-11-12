@@ -84,4 +84,77 @@ if __name__=='__main__':
     c['backend'].update(public_url='http://127.0.0.1:18010',port=18010)
     app=create_app(c,{'learning':ComponentVLM(),'guidance':VisualClient(),'inspection':FakeVLM()},tracker_factory=lambda _:DelayedTracker())
     install_u7_fixture(app)
+    from tests.backend.guidance.test_baseline_ar import Facts
+    from manual2ar.modules.guidance.spatial.simulation import calibration, targets
+    baseline=app.state.modules['guidance'].state.baseline_spatial
+    class FeedbackFacts(Facts):
+        missing_grounding=False
+        def call(self,prompt,schema,images):
+            import json
+            time.sleep(.4)
+            raw,metadata=super().call(prompt,schema,images)
+            if self.missing_grounding:
+                value=json.loads(raw)
+                for finding in value['findings']:
+                    if finding['value']!='instances':finding['evidence_boxes']=[]
+                raw=json.dumps(value)
+            return raw,metadata
+    baseline_facts=FeedbackFacts();baseline.photo_client=baseline_facts
+    from tools.build.prepare_u7_demo import prepare
+    from manual2ar.modules.guidance.spatial.simulation import jpeg
+    demo=app.state.modules['guidance'].state.u7_demo
+    pictures=[]
+    for number,identity in enumerate(('base_ready','holder_ready')):
+        image=demo.root/(identity+'.jpg');image.parent.mkdir(parents=True,exist_ok=True);image.write_bytes(jpeg(30+number))
+        pictures.append((identity,identity,image))
+    prepare(demo.assets,pictures)
+    import os,shutil,json
+    historical=os.environ.get('MANUAL2AR_DEMO_PHOTOS_DIR')
+    if historical:
+        source=Path(historical);manifest=json.loads((source/'manifest.json').read_bytes())
+        for name in ['manifest.json']+[r['file'] for r in manifest['scenes']]:
+            if Path(name).name!=name:raise ValueError('Historical demo filename must be flat')
+            shutil.copyfile(source/name,demo.assets/name)
+    demo.photo_client=baseline_facts
+    @app.get('/test/baseline/call-count')
+    def baseline_call_count():return {'count':baseline_facts.calls}
+    from baseline.tests.test_compiler import official_fixture, FakeClient
+    from manual2ar.modules.guidance import official_compiler
+    official_sources, official_root, official_proposal, _=official_fixture(Path(tempfile.mkdtemp(prefix='manual2ar-official-ui-')),count=2)
+    compiler=app.state.modules['guidance'].state.official_compiler
+    compiler.wiki_settings={'archive':'controlled-official-ui-fixture'}
+    compiler.compiler_client=FakeClient(official_proposal)
+    official_compiler.retrieve=lambda *args,**kwargs:(official_sources,official_root,{'method':'controlled-official-ui-fixture'})
+    from pytest import MonkeyPatch
+    from tests.backend.guidance.test_baseline_review import review_archive
+    with MonkeyPatch.context() as patch:
+        review_folder, review_spec = review_archive(Path(tempfile.mkdtemp(prefix='manual2ar-review-ui-')), patch)
+    app.state.modules['guidance'].state.baseline_review.register(review_folder, review_spec)
+    @app.post('/test/baseline/state')
+    def baseline_state(command:dict):
+        assert set(command)<={'base','holder','hidden'} and all(type(v) is bool for v in command.values())
+        for key,value in command.items():setattr(baseline_facts,key,value)
+        baseline.store_profile(baseline.profile('cameras','baseline-probe'),calibration())
+        baseline.store_profile(baseline.profile('rigs','a1-mini'),targets(baseline.actions))
+        return {'ready':True}
+    @app.post('/test/baseline/grounding')
+    def baseline_grounding(command:dict):
+        assert set(command)=={'missing'} and type(command['missing']) is bool
+        baseline_facts.missing_grounding=command['missing']
+        return {'ready':True}
+    from tests.backend.test_pipeline_ablation import EnhancedVLM
+    class SlowScene(EnhancedVLM):
+        def chat_structured(self,**kwargs):
+            if kwargs['schema'].get('title')=='Scene':
+                time.sleep(2)
+                result=super().chat_structured(**kwargs)
+                result['summary']='可见底座，紧固程度未知。'*35
+                return result
+            return super().chat_structured(**kwargs)
+    app.state.modules['guidance'].state.pipeline.client=SlowScene()
+    @app.post('/test/pipeline/scene-state')
+    def pipeline_scene_state(command:dict):
+        assert set(command)<={'S1','S2'} and all(v in ('satisfied','unsatisfied','unknown') for v in command.values())
+        app.state.modules['guidance'].state.pipeline.client.scene_states=command
+        return {'ready':True}
     uvicorn.run(app,host='0.0.0.0',port=18010)

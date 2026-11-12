@@ -15,7 +15,8 @@ from .desktop_provenance import verify_build, repository_sources, PROOF, fingerp
 def export_backend_launcher(target,worktree,backend_url,distribution_hint):
     target=Path(target)
     shutil.copyfile(ROOT/'deploy/windows/Start-Backend.ps1',target/'Start-Backend.ps1')
-    descriptor={'worktree':str(worktree),'backend_url':backend_url,'distribution_hint':distribution_hint}
+    from manual2ar.modules.guidance.pipeline import Pipeline
+    descriptor={'worktree':str(worktree),'backend_url':backend_url,'distribution_hint':distribution_hint,'backend_revision':Pipeline.source_revision()}
     (target/'backend.launch.json').write_text(json.dumps(descriptor,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (target/'启动后端.cmd').write_bytes(b'@echo off\r\nsetlocal\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Backend.ps1"\r\nif errorlevel 1 pause\r\n')
 
@@ -32,6 +33,10 @@ def main():
                  'U7引导式安装.md','画面显示契约.md','U7动作管理.md','打印机工作坐标与动作参数.md']:
         (target/name).unlink(missing_ok=True)
     shutil.copyfile(ROOT/'docs/OPERATIONS.md',target/'使用说明.md')
+    shutil.copyfile(ROOT/'baseline/REVIEW_UI.md',target/'候选审核与U7实测.md')
+    shutil.copyfile(ROOT/'baseline/GOAL_FLOW.md',target/'U7任务目标与现场指导.md')
+    shutil.copyfile(ROOT/'baseline/UI_FLOW.md',target/'U7现场评估与人工确认.md')
+    shutil.copyfile(ROOT/'baseline/U7_DEMO.md',target/'U7演示说明.md')
     shutil.copyfile(ROOT/'deploy/windows/Start-Desktop.ps1',target/'Start-Desktop.ps1')
     launcher=b'@echo off\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Desktop.ps1"'
     (target/'启动空间演示.cmd').write_bytes(launcher+b' -SpatialDemo\r\nif errorlevel 1 pause\r\n')

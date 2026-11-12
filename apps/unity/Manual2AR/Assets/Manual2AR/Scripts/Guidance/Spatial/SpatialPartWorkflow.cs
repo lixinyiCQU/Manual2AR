@@ -7,13 +7,15 @@ namespace Manual2AR.Spatial {
   Button repairPlacement;
   SpatialPartsView partsView;SpatialAxesGraphic axesGraphic;AppAspectSelector aspectSelector;int aspectIndex=4,lastRenderProof=-1,partsGeneration;
   byte[] latestBytes;Reply latestReply;string partsJob;bool partsDisplayActive;GameObject photoPrompt;
-  void ChooseAspect(int value){if(changing||value==aspectIndex)return;bool restart=session!=null;aspectIndex=value;aspectSelector?.Select(value);StopParts();CancelAuthor();ClearGraphics();last=null;latestReply=null;latestBytes=null;cameraOwner.SetAspect(value);if(restart)StartCoroutine(BeginSession("camera",false));Message("画幅已切换 · 请使用当前画幅的标定");}
+  void ChooseAspect(int value){if(changing||checking||assessingScene||locating||automaticBusy||value==aspectIndex)return;bool restart=session!=null;aspectIndex=value;aspectSelector?.Select(value);StopParts();CancelAuthor();ClearGraphics();last=null;latestReply=null;latestBytes=null;cameraOwner.SetAspect(value);if(restart)StartCoroutine(BeginSession("camera",false));Message("画幅已切换 · 请使用当前画幅的标定");}
   void ShowOrientation(){if(last!=null&&HasMachineReference(last.machine_frame)&&last.motion_parameters!=null&&last.motion_parameters.enabled){Message("打印机坐标模式请调整动作轴；切换两点模式后可调高级朝向");return;}if(authorStage!=0||changing||locating){Message("请先完成或取消当前设点");return;}if(session==null||last==null||!last.target_ready){Message("请先设置并确认当前作用点");return;}SpatialOrientationPanel.Open(root,last.orientation??new Orientation(),value=>{value.action_id=Current.action_id;value.target_id=TargetId;StartCoroutine(SaveOrientation(value));});}
   IEnumerator SaveOrientation(Orientation value){StopParts();epoch++;last=null;ClearGraphics();yield return Request(Api+"/sessions/"+session.session_id+"/orientation","POST",JsonUtility.ToJson(value),(raw,error)=>Message(error??"XYZ 姿态已保存"));}
   void ClosePhotoPrompt(){feedbackPinned=false;if(photoPrompt!=null){photoPrompt.SetActive(false);Destroy(photoPrompt);}photoPrompt=null;}
   RectTransform PhotoPanel(string title,bool compact=false){ClosePhotoPrompt();var dialog=AppDialog.Open(root,"Photo preparation",title,compact?AppDialogSize.Compact:AppDialogSize.Standard,ClosePhotoPrompt);photoPrompt=dialog.gameObject;dialog.Panel.name="Photo guidance";return dialog.Panel;}
 
   void ShowLocateCapture(){
+   if(Baseline){StartCoroutine(CheckBaseline(false));return;}
+   if(NeedsSceneCheck){StartCoroutine(AssessCurrentScene());return;}
    if(GuidedFlow){StartCoroutine(LocateParts());return;}
    if(partsDisplayActive){StopParts();Message("已恢复空间指导");return;}
    if(Current.chapter_id!="U7"){StartCoroutine(Locate());return;}
@@ -24,6 +26,7 @@ namespace Manual2AR.Spatial {
   }
   static void ReferenceExample(Transform parent,string name,Vector2 min,Vector2 max){var slot=AppTheme.Rect(parent,name+" slot",min,max);var img=AppTheme.Rect(slot,name,Vector2.zero,Vector2.one).gameObject.AddComponent<RawImage>();img.texture=Resources.Load<Texture2D>("VisualGuidance/references/"+name);img.raycastTarget=false;if(img.texture!=null){var fit=img.gameObject.AddComponent<AspectRatioFitter>();fit.aspectMode=AspectRatioFitter.AspectMode.FitInParent;fit.aspectRatio=img.texture.width/(float)img.texture.height;}}
   void ShowVerifyCapture(){
+   if(Baseline){if(execution!=null&&execution.complete)ShowExecutionCompleted();else StartCoroutine(CheckBaseline(true));return;}
    if(GuidedFlow){StartCoroutine(ReinspectStep());return;}
    if(Current.chapter_id!="U7"){StartCoroutine(Verify());return;}
    if(Current.action_id=="holder.base"){
@@ -41,7 +44,7 @@ namespace Manual2AR.Spatial {
    string previousJob=partsDisplayActive?partsJob:null;bool preserving=!string.IsNullOrEmpty(previousJob);
    if(!preserving)StopParts();vlmBrief="";int generation=partsGeneration;partsDisplayActive=true;frozen=!preserving;locating=true;int version=epoch;string identity=session.session_id;var sent=latestReply??last;var raw=latestBytes;int frame=sent.client_frame_id;
    if(!preserving&&raw!=null)RenderFrame(raw,sent);PartStatus response=null;checkResult.text=preserving?"正在重新识别，原有跟踪继续…":"正在识别底座和料盘支架…";
-   yield return Request(Api+"/sessions/"+identity+"/locate","POST",JsonUtility.ToJson(new Verify{action_id=Current.action_id,target_id=TargetId,client_frame_id=frame}),(text,error)=>{if(error!=null)checkResult.text=AppTheme.Readable(error);else response=JsonUtility.FromJson<PartStatus>(text);},20);
+   yield return Request(Api+"/sessions/"+identity+"/locate","POST",JsonUtility.ToJson(new Verify{action_id=Current.action_id,target_id=TargetId,client_frame_id=frame}),(text,error)=>{if(generation!=partsGeneration||version!=epoch||session==null||session.session_id!=identity)return;if(error!=null)checkResult.text=AppTheme.Readable(error);else response=JsonUtility.FromJson<PartStatus>(text);},20);
    string candidateJob=response?.job_id;bool accepted=false;
    float deadline=Time.realtimeSinceStartup+140;
    while(response!=null&&generation==partsGeneration&&partsDisplayActive&&version==epoch&&session!=null&&session.session_id==identity&&Time.realtimeSinceStartup<deadline){

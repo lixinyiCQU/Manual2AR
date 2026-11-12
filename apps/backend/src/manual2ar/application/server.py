@@ -8,6 +8,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from .config import load, for_module, public, validate
 from .contracts import MODULES, FrameIdentity
+from manual2ar.paths import ROOT
 
 
 def create_app(config=None, clients=None, knowledge_store=None, tracker_factory=None):
@@ -23,7 +24,8 @@ def create_app(config=None, clients=None, knowledge_store=None, tracker_factory=
         children['learning'] = learning_app(for_module(config, 'learning'), clients.get('learning'), knowledge_store)
     except FileNotFoundError:
         unavailable['learning'] = '官方离线资料尚未安装，请配置资料路径。'
-    children['guidance'] = guidance_app(for_module(config, 'guidance'), clients.get('guidance'))
+    children['guidance'] = guidance_app(for_module(config, 'guidance'), clients.get('guidance'),
+        wiki_settings=for_module(config,'learning')['knowledge']['offline_wiki'])
     children['inspection'] = inspection_app(for_module(config, 'inspection'), clients.get('inspection'), tracker_factory)
 
     @asynccontextmanager
@@ -67,6 +69,7 @@ def create_app(config=None, clients=None, knowledge_store=None, tracker_factory=
     @app.get('/health')
     def health():
         return {'status': 'ok', 'version': '0.1.0', 'api_version': '1',
+                'backend_revision': children['guidance'].state.pipeline.implementation_sha, 'source_worktree':str(ROOT),
                 'modules': {m.id: {'available': m.id in children, 'reason': unavailable.get(m.id, '')} for m in MODULES},
                 'vlm_configured': bool(config['vlm']['api_key'].strip())}
 
@@ -103,6 +106,9 @@ def create_app(config=None, clients=None, knowledge_store=None, tracker_factory=
                 app.add_api_route(f'/api/{name}/health', route.endpoint, methods=['GET'], tags=[name])
             elif route.path not in ('/openapi.json', '/docs', '/docs/oauth2-redirect', '/redoc'):
                 app.router.routes.append(route)
+    # Generated candidates register isolated spatial routes after composition.
+    children['guidance'].state.pipeline.app=app
+    children['guidance'].state.official_compiler.app=app
     if 'learning' not in children:
         @app.api_route('/api/learning/{path:path}', methods=['GET', 'POST', 'DELETE'])
         def no_knowledge(path: str): raise HTTPException(503, unavailable['learning'])

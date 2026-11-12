@@ -1,0 +1,9 @@
+{
+  "schema_version": "baseline-gt-bundle-v1",
+  "files": {
+    "sources.json": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+    "task.json": "93e90448c9972432daab842e3b68ba9c1f1ffa2eb5796ebe438125bf6759c2cf",
+    "review.json": "d70bd69e3bd3e7322de18535276c33a70b2025d56f3a9fcc2b1cfafa7ce39a5b",
+    "REVIEW.md": "1994be84fc81a3fa864985524aa54f71fc97185dfb86750f15d2f4a3079e6357"
+  }
+}

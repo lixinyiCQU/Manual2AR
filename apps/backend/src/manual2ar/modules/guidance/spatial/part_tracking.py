@@ -45,8 +45,9 @@ class Job:
 
 
 class PartTracking:
-    def __init__(self,config,vlm,references,event,client_factory=CutieClient):
+    def __init__(self,config,vlm,references,event,client_factory=CutieClient,recognize=None):
         self.config=config;self.vlm=vlm;self.references=references;self.event=event;self.client_factory=client_factory
+        self.recognize=recognize or identify;self.review=None
         self.gpu_retry_at=0.0
         self.jobs={};self.retained={};self.lock=threading.RLock();self.pool=ThreadPoolExecutor(max_workers=4,thread_name_prefix='u7-parts')
 
@@ -74,7 +75,7 @@ class PartTracking:
             self.event(job,'parts.recognition_started',{})
             with job.lock:
                 if job.cancelled:return
-            answer=identify(self.vlm,self.config,job.raw,self.references['base'],self.references['holder'],job.folder,action_id=job.action_id)
+            answer=self.recognize(self.vlm,self.config,job.raw,self.references['base'],self.references['holder'],job.folder,action_id=job.action_id)
             if job.action_id=='holder.base':
                 for part in answer.parts:
                     if part.component_id!='spool_holder_base':part.status='unseen';part.bbox_0_1000=[];part.foreground_point_0_1000=[]
@@ -89,24 +90,7 @@ class PartTracking:
                 return
             self.event(job,'parts.segmentation_started',{'objects':len(targets)})
             job.targets=targets
-            try:
-                with job.lock:
-                    if job.cancelled:return
-                with self.lock: cooling_down=time.monotonic()<self.gpu_retry_at
-                if cooling_down:raise ConnectionError('GPU retry cooldown')
-                connection=json.loads(Path(self.config['gpu_connection_file']).read_text())
-                client=self.client_factory(connection,timeout=2)
-                client.health()
-                with job.lock:
-                    if job.cancelled:return
-                client.http.timeout=self.config['localization']['initialization_timeout_seconds']
-                masks,metrics=client.start(job.raw,targets)
-                client.http.timeout=self.config['localization']['tracking_timeout_seconds']
-            except Exception as error:
-                with job.lock:
-                    if job.cancelled:return
-                if client:self.pool.submit(self._close,job,client)
-                client,masks,metrics=self._cpu_fallback(job,error,job.raw)
+            client,masks,metrics=self._start_masks(job)
             image=cv2.imdecode(np.frombuffer(job.raw,np.uint8),cv2.IMREAD_COLOR);job.shape=image.shape[:2]
             h,w=job.shape
             for target in targets:
@@ -119,6 +103,26 @@ class PartTracking:
                 if not count or overlap/max(count,1)<.55 or not near.any():
                     masks[target['component_id']]=np.zeros((h,w),bool)
                     self.event(job,'parts.initial_mask_rejected',{'component_id':target['component_id'],'box_containment':round(overlap/max(count,1),3)})
+            if self.review:
+                revised=self.review(job.raw,job.observations,masks,job.folder)
+                updated=[{'component_id':p.component_id,'bbox_0_1000':p.bbox_0_1000,'target_point_0_1000':p.foreground_point_0_1000} for p in revised if p.status=='found']
+                if updated!=job.targets:
+                    self.event(job,'parts.mask_corrected',{'objects_before':len(job.targets),'objects_after':len(updated),'attempt':1})
+                    self.pool.submit(self._close,job,client);client=None
+                    job.observations=revised;job.targets=updated
+                    if not updated:
+                        with job.lock:job.result={'parts':[p.model_dump() for p in revised],'next_action':'掩膜语义检查未通过，请重新取景。','overlay_png_base64':''};job.phase='not_found'
+                        return
+                    client,masks,metrics=self._start_masks(job)
+                    # Corrected initialization still must agree with the new ROI and foreground.
+                    for target in updated:
+                        mask=masks.get(target['component_id'])
+                        if mask is None or mask.shape!=(h,w):raise ValueError('Corrected mask shape mismatch')
+                        x,y,r,b=np.asarray(target['bbox_0_1000'])*[w,h,w,h]/1000
+                        px,py=np.asarray(target['target_point_0_1000'])*[w,h]/1000
+                        count=int(mask.sum());overlap=int(mask[max(0,int(y)):min(h,int(b)+1),max(0,int(x)):min(w,int(r)+1)].sum())
+                        if not count or overlap/count<.55 or not mask[max(0,int(py)-3):min(h,int(py)+4),max(0,int(px)-3):min(w,int(px)+4)].any():
+                            masks[target['component_id']]=np.zeros((h,w),bool)
             for name,mask in masks.items():cv2.imwrite(str(job.folder/(name+'_initial_mask.png')),mask.astype(np.uint8)*255)
             with job.lock:
                 if job.cancelled:return
@@ -135,6 +139,27 @@ class PartTracking:
             if client:
                 try:client.close()
                 except Exception:pass
+
+    def _start_masks(self,job):
+        client=None
+        try:
+            with job.lock:
+                if job.cancelled:raise HTTPException(409,'部件识别已取消。')
+            with self.lock:cooling_down=time.monotonic()<self.gpu_retry_at
+            if cooling_down:raise ConnectionError('GPU retry cooldown')
+            connection=json.loads(Path(self.config['gpu_connection_file']).read_text())
+            client=self.client_factory(connection,timeout=2);client.health()
+            with job.lock:
+                if job.cancelled:raise HTTPException(409,'部件识别已取消。')
+            client.http.timeout=self.config['localization']['initialization_timeout_seconds']
+            masks,metrics=client.start(job.raw,job.targets)
+            client.http.timeout=self.config['localization']['tracking_timeout_seconds'];job.provider='sam31_cutie'
+            return client,masks,metrics
+        except Exception as error:
+            if client:self.pool.submit(self._close,job,client)
+            with job.lock:
+                if job.cancelled:raise HTTPException(409,'部件识别已取消。')
+            return self._cpu_fallback(job,error,job.raw)
 
     def _cpu_fallback(self,job,error,raw,masks=None):
         with self.lock:

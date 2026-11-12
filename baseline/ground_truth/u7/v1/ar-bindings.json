@@ -1,0 +1,21 @@
+{
+  "task_sha256": "8381d4f0d2cd08bdd2cbc40f1ae60c3d824eef77d17412358327c46cab0ca69e",
+  "resources": {
+    "resources/tasks/bambu_a1_mini/unboxing/spatial/v1/actions.json": "e56d7d11edf0c49ae126c300721978f648334d95a57f98f373cfa60b59f1b27d",
+    "resources/tasks/bambu_a1_mini/unboxing/spatial/v1/display.json": "b3072e12d16d71b9b00136075927c9168625fe86a5d22fb302e7782eb1b98e67",
+    "resources/tasks/bambu_a1_mini/unboxing/spatial/v1/automatic.json": "5545df93a7c2bf5e1f0403b9f0a19a5e43defa115c3572c69db133c03990c8d2",
+    "resources/visuals/v1/catalog.json": "40fbad8df9ee2e8f5cb52191c61f985f743e6747a6e017065e37aa1de17b04a6"
+  },
+  "presentations": [
+    {
+      "node_id": "install_base",
+      "action_id": "holder.base",
+      "presentation_id": "u7.holder_base"
+    },
+    {
+      "node_id": "install_holder",
+      "action_id": "holder.slide",
+      "presentation_id": "u7.holder_slide"
+    }
+  ]
+}

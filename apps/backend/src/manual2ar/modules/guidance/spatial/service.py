@@ -97,6 +97,11 @@ class SpatialService:
                 'automatic_configuration':True,
                 'profile_note': '标记与打印机必须保持刚性固定；移动标记或打印机可动部件后请重新设置作用点。'}
 
+    def sequence_status(self,tutorial_run_id=''):
+        from .. import u7_sequence as sequence
+        if tutorial_run_id:return self.experience.u7_progress(self.experience.context(tutorial_run_id))
+        return sequence.state(object())
+
     def capabilities(self):
         return {'schema_version':'manual2ar-spatial-capabilities-v1',
                 'capture_contract':'manual2ar-capture-v1','visual_contract':'manual2ar-spatial-visual-v1',
