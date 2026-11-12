@@ -1,6 +1,6 @@
 # Agent entrypoint
 
-> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
+> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本分支用于独立验收，暂不合入main。
 
 Read `README_AGENT.md`, then inspect `git status`, the relevant source and tests before editing. The snapshot describes a point in time; current code and explicit user instructions take precedence.
 

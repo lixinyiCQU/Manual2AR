@@ -1,8 +1,8 @@
 # Manual2AR：Agent 接手入口
 
-当前开发布局见 [WORKSPACE_LAYOUT](docs/WORKSPACE_LAYOUT.md)，本机目录与分支以此为准。
+当前验收流程先读 [ACCEPTANCE](docs/ACCEPTANCE.md)；本机开发布局见 [WORKSPACE_LAYOUT](docs/WORKSPACE_LAYOUT.md)。
 
-> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
+> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本分支用于独立验收，暂不合入main。
 
 状态：2026-11-12，交接整理版。先读本文件、`AGENTS.md`、[交接说明](docs/HANDOFF.md)，再查当前源码和 Git；不要把历史计划视为新授权。完整旧快照保存在 [历史快照](docs/history/AGENT_SNAPSHOT_20261112.md)，本文件只保留当前事实。
 
@@ -91,4 +91,4 @@ Unity验证只用全新空目录或当前工作树已认领的验证目录；旧
 
 原始实验、模型回复、人审、标定与Wiki保留。旧UI截图只保留各渠道最新一组，旧控制台日志和重复程序已删除，结果JSON保留。浏览器和Dev Python环境为现用依赖，保留；pip安装缓存、退休U7环境与旧归档模型缓存已删除。
 
-后续并行开发使用各自分支/工作树、端口、runtime/cache和Unity验证工程，不覆写他人配置。向学长仓库贡献时先推送自己的Dev分支，再向约定的目标分支提PR；本次没有授权远程写入。
+后续并行开发使用各自分支/工作树、端口、runtime/cache和Unity验证工程，不覆写他人配置。向学长仓库贡献时先推送自己的Dev分支，再向约定的目标分支提PR；当前授权仅发布Dev独立验收分支，不合入主分支、不创建PR。
