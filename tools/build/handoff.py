@@ -37,6 +37,8 @@ def exclusion(relative, kind):
         if relative.name.endswith('.local.json') or relative.name.startswith('.env'):
             return 'private_operator_configuration'
     if kind == 'data':
+        if len(parts) >= 3 and parts[0] == 'cache' and parts[2] == 'python-venv':
+            return 'nonportable_rebuildable_python_environment'
         if relative.is_relative_to('archives/workspace-organization-20261103/private-configs'):
             return 'archived_private_credentials'
         if len(parts) >= 4 and parts[0] == 'cache' and parts[2] == 'colab':

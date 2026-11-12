@@ -59,4 +59,5 @@ def test_only_machine_credentials_are_excluded_not_frozen_run_locks():
     assert handoff.exclusion(Path('archives/workspace-organization-20261103/private-configs/app.local.json'), 'data')
     assert handoff.exclusion(Path('cache/integrated/colab/cli-venv/bin/python'), 'data')
     assert not handoff.exclusion(Path('runs/baseline/transfer-20261111-v1/run.lock'), 'data')
+    assert handoff.exclusion(Path('cache/dev/python-venv/bin/python'), 'data')
     assert not handoff.exclusion(Path('cache/u7-pipeline/wiki/index.json'), 'data')
