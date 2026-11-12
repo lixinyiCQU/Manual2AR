@@ -1,0 +1,21 @@
+{
+  "schema_version": "baseline-gt-review-v1",
+  "status": "approved_for_state_validation",
+  "source_selection": "confirmed_by_user",
+  "task_sha256": "8381d4f0d2cd08bdd2cbc40f1ae60c3d824eef77d17412358327c46cab0ca69e",
+  "sources_sha256": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+  "items": [],
+  "observation_standards": "not_implemented_in_normalization",
+  "scene_labels": "not_provided",
+  "spatial_labels": "not_provided",
+  "automatic_compiler_input": false,
+  "resolved_items": [
+    "review.decomposition",
+    "review.specification",
+    "review.orientation",
+    "review.occluded_prerequisite"
+  ],
+  "reviewed_task_sha256": "da3db4f489a5fb87ecdb9f06ceb77be89d27ab73e04c76e7083bb82a21bbee71",
+  "reviewer": "assistant_under_user_delegation",
+  "validation_scope": "controlled_facts_only"
+}

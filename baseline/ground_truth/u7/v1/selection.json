@@ -1,0 +1,133 @@
+{
+  "schema_version": "baseline-sources-v1",
+  "source_selection": "confirmed_by_user",
+  "confirmation_statement": "2026-11-11 用户确认：以现有手工 U7 教材、空间动作及核验定义为来源。此确认仅针对来源选择。",
+  "artifacts": [
+    {
+      "id": "tutorial",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/procedure.json"
+    },
+    {
+      "id": "official_evidence",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/evidence.json"
+    },
+    {
+      "id": "spatial_instructions",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/spatial/v1/actions.json"
+    },
+    {
+      "id": "visual_definitions",
+      "path": "apps/backend/src/manual2ar/modules/guidance/spatial/u7_vision.py"
+    },
+    {
+      "id": "image.1",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/a9a63e8f81e4971f.png"
+    },
+    {
+      "id": "image.2",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/7f6374cbdab2f5f2.png"
+    },
+    {
+      "id": "image.3",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/6a3a99488854ca51.png"
+    },
+    {
+      "id": "image.4",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/c9a91fdeec9d5877.png"
+    }
+  ],
+  "records": [
+    {
+      "id": "official.base",
+      "artifact_id": "official_evidence",
+      "locator": "json:/evidence/026a3a3c147bd8b28d5bf414/text",
+      "kind": "official",
+      "citation_id": "026a3a3c147bd8b28d5bf414",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+    },
+    {
+      "id": "official.holder",
+      "artifact_id": "official_evidence",
+      "locator": "json:/evidence/97eeffdb901ac2699a6a9aeb/text",
+      "kind": "official",
+      "citation_id": "97eeffdb901ac2699a6a9aeb",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+    },
+    {
+      "id": "official.optional",
+      "artifact_id": "official_evidence",
+      "locator": "json:/evidence/f76bb592ba8515e684d48401/text",
+      "kind": "official",
+      "citation_id": "f76bb592ba8515e684d48401",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+    },
+    {
+      "id": "reference.base",
+      "artifact_id": "visual_definitions",
+      "locator": "python:BASE_PROMPT",
+      "kind": "reference_verification"
+    },
+    {
+      "id": "reference.holder",
+      "artifact_id": "visual_definitions",
+      "locator": "python:INSTALL_PROMPT",
+      "kind": "reference_verification"
+    },
+    {
+      "id": "reference.base_instruction",
+      "artifact_id": "spatial_instructions",
+      "locator": "json:/actions/3/instruction",
+      "kind": "reference_instruction"
+    },
+    {
+      "id": "reference.holder_instruction",
+      "artifact_id": "spatial_instructions",
+      "locator": "json:/actions/4/instruction",
+      "kind": "reference_instruction"
+    },
+    {
+      "id": "reference.chapter",
+      "artifact_id": "tutorial",
+      "locator": "json:/states/6/observation_nodes/0/condition",
+      "kind": "reference_context"
+    }
+  ],
+  "images": [
+    {
+      "id": "reference.image.1",
+      "artifact_id": "image.1",
+      "source_ids": [
+        "official.base"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    },
+    {
+      "id": "reference.image.2",
+      "artifact_id": "image.2",
+      "source_ids": [
+        "official.base"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    },
+    {
+      "id": "reference.image.3",
+      "artifact_id": "image.3",
+      "source_ids": [
+        "official.holder"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    },
+    {
+      "id": "reference.image.4",
+      "artifact_id": "image.4",
+      "source_ids": [
+        "official.holder"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    }
+  ]
+}

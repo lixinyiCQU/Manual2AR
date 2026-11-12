@@ -1,0 +1,18 @@
+{
+  "schema_version": "baseline-human-review-v1",
+  "reviewed_task_sha256": "93e90448c9972432daab842e3b68ba9c1f1ffa2eb5796ebe438125bf6759c2cf",
+  "task_sha256": "da3db4f489a5fb87ecdb9f06ceb77be89d27ab73e04c76e7083bb82a21bbee71",
+  "sources_sha256": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+  "decisions": [
+    {
+      "id": "review.decomposition",
+      "user_statement": "保留两个操作节点，螺丝仍联合检查",
+      "resolution": "保留两个节点；上下两颗螺丝作为一个联合视觉条件，要求两个不同实例均在对应孔位。"
+    },
+    {
+      "id": "review.specification",
+      "user_statement": "规格只保留为官方选材要求",
+      "resolution": "M3-8 保留为安装底座节点的官方选材要求，不生成额外人工确认条件。原有机械紧固人工确认保留。"
+    }
+  ]
+}

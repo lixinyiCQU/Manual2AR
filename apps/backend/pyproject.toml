@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 name = "manual2ar-backend"
 version = "1.0.0"
 requires-python = ">=3.12"
-dependencies = ["manual2ar-contracts", "manual2ar-perception", "fastapi", "uvicorn", "httpx", "pillow", "pydantic", "numpy", "opencv-python-headless"]
+dependencies = ["manual2ar-contracts", "manual2ar-perception", "manual2ar-baseline", "fastapi", "uvicorn", "httpx", "pillow", "pydantic", "numpy", "opencv-python-headless"]
 [tool.setuptools.packages.find]
 where = ["src"]
 [tool.setuptools.package-data]

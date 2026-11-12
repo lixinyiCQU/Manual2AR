@@ -33,6 +33,10 @@ def main():
                  'U7引导式安装.md','画面显示契约.md','U7动作管理.md','打印机工作坐标与动作参数.md']:
         (target/name).unlink(missing_ok=True)
     shutil.copyfile(ROOT/'docs/OPERATIONS.md',target/'使用说明.md')
+    shutil.copyfile(ROOT/'baseline/REVIEW_UI.md',target/'候选审核与U7实测.md')
+    shutil.copyfile(ROOT/'baseline/GOAL_FLOW.md',target/'U7任务目标与现场指导.md')
+    shutil.copyfile(ROOT/'baseline/UI_FLOW.md',target/'U7现场评估与人工确认.md')
+    shutil.copyfile(ROOT/'baseline/U7_DEMO.md',target/'U7演示说明.md')
     shutil.copyfile(ROOT/'deploy/windows/Start-Desktop.ps1',target/'Start-Desktop.ps1')
     launcher=b'@echo off\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Desktop.ps1"'
     (target/'启动空间演示.cmd').write_bytes(launcher+b' -SpatialDemo\r\nif errorlevel 1 pause\r\n')

@@ -56,6 +56,12 @@ namespace Manual2AR.Spatial {
   }
   void PromptManualRecognition(){
    semanticReady=false;checkResult.text="请让灰色底座和白色料盘支架同时入镜，摆好后点击“识别部件”。";
+   if(Baseline){
+    var panel=PhotoPanel("AR 部件定位");
+    var text=ScrollText(panel,"AR recognition preparation",new Vector2(.06f,.30f),new Vector2(.94f,.84f),26);
+    text.text="请让当前操作涉及的部件同时入镜。点击下方按钮识别安装部件，用于高亮和动画定位；安装完成后再点击主界面的“拍照核验”。";
+    AppTheme.Button(panel,"拍照识别安装部件",new Vector2(.08f,.06f),new Vector2(.92f,.22f),()=>{ClosePhotoPrompt();StartCoroutine(LocateParts());},AppIcon.Camera,true);
+   }
   }
   IEnumerator AutoLocateStep(int version){
    if(!GuidedFlow||!guidedStarted||version!=epoch||session==null)yield break;

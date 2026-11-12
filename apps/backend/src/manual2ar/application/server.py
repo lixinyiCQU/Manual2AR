@@ -108,6 +108,7 @@ def create_app(config=None, clients=None, knowledge_store=None, tracker_factory=
                 app.router.routes.append(route)
     # Generated candidates register isolated spatial routes after composition.
     children['guidance'].state.pipeline.app=app
+    children['guidance'].state.official_compiler.app=app
     if 'learning' not in children:
         @app.api_route('/api/learning/{path:path}', methods=['GET', 'POST', 'DELETE'])
         def no_knowledge(path: str): raise HTTPException(503, unavailable['learning'])

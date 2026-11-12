@@ -10,12 +10,13 @@ namespace Manual2AR.Spatial {
    foreach(var g in root.GetComponentsInChildren<Graphic>())g.raycastTarget=false;Hide();
   }
   public void Show(GuidanceVisual visual){
+   if(overlay==null||root==null||label==null||visual==null||visual.anchor==null||string.IsNullOrEmpty(visual.label)||overlay.width<1||overlay.height<1){Hide();return;}
    var size=overlay.rectTransform.rect.size;if(size.x<1||size.y<1){Hide();return;}
    float width=Mathf.Clamp(35+visual.label.Length*23,150,300),height=42;
    root.sizeDelta=new Vector2(width,height);label.text=AppTheme.Readable(visual.label);
    float x=visual.anchor.x/overlay.width*size.x,y=(1-visual.anchor.y/overlay.height)*size.y;
    float left=Mathf.Clamp(x+28,5,Mathf.Max(5,size.x-width-5));float centre=Mathf.Clamp(y+45,height*.5f+5,size.y-height*.5f-5);
-   if(SpatialAssetGraphic.HasPlacement(visual)){
+   if(SpatialAssetGraphic.HasPlacement(visual)&&visual.asset!=null&&visual.asset.marker_from_asset!=null&&visual.asset.marker_from_asset.Length==16){
     Vector3 tail=SpatialAssetGraphic.Transform(visual.asset.marker_from_asset,new Vector3(0,-1,0));Vector2 tailPixel;float depth;
     if(SpatialAssetGraphic.Project(visual.projection,tail,out tailPixel,out depth)){
      // Put the label on the other side of the tool, never over the handle/shaft.
@@ -27,6 +28,6 @@ namespace Manual2AR.Spatial {
    root.anchoredPosition=new Vector2(left,centre);root.gameObject.SetActive(true);
    overlay.leaderEnd=new Pixel(left/size.x*overlay.width,(1-centre/size.y)*overlay.height);
   }
-  public void Hide(){root.gameObject.SetActive(false);overlay.leaderEnd=null;}
+  public void Hide(){if(root!=null)root.gameObject.SetActive(false);if(overlay!=null)overlay.leaderEnd=null;}
  }
 }

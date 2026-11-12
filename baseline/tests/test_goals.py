@@ -1,0 +1,132 @@
+"""Goal alignment uses official source quotes and graph structure, never GT IDs."""
+from copy import deepcopy
+
+import pytest
+
+from manual2ar_baseline.goals import hierarchy, resolve_goal
+from manual2ar_baseline.gt import Source, TaskDefinition, digest, encoded
+from test_compiler import FakeClient, official_fixture
+from manual2ar_baseline.compiler import compile_task
+
+
+@pytest.fixture
+def procedure(tmp_path):
+    sources, _, proposal, _ = official_fixture(tmp_path)
+    return TaskDefinition.model_validate(proposal['task']), sources
+
+
+def test_parent_and_child_targets_keep_task_bytes_and_source_quotes(procedure):
+    task, sources = procedure
+    before = encoded(task.model_dump())
+    parent = resolve_goal(task, sources, '我希望安装控制夹具')
+    base = resolve_goal(task, sources, '安装底座')
+    slide = resolve_goal(task, sources, '滑入夹具手柄')
+    assert parent.selected_node_ids == ['fasten_fixture', 'insert_handle']
+    assert base.selected_node_ids == ['fasten_fixture']
+    assert slide.selected_node_ids == ['insert_handle']
+    assert parent.level == 'task' and base.level == slide.level == 'operation'
+    assert encoded(task.model_dump()) == before
+    assert {parent.task_sha256, base.task_sha256, slide.task_sha256} == {digest(before)}
+    assert slide.title == '从上向下滑入底座'
+    assert slide.source_ids == ['official.handle']
+
+
+def test_destination_phrase_has_explicit_interpretation(procedure):
+    task, sources = procedure
+    selection = resolve_goal(task, sources, '滑入底座')
+    assert selection.selected_node_ids == ['insert_handle']
+    assert '原话按官方唯一对应动作解释' in selection.interpretation
+    assert selection.query == '滑入底座'
+
+
+@pytest.mark.parametrize('query', ['滑入打印板', '滑入螺丝', '滑入M3-8螺丝', '滑入立柱', '不要安装底座', '开箱', '安装空调', '安装底座然后滑入打印板'])
+def test_unrelated_or_unrepresented_scope_requires_clarification(procedure, query):
+    task, sources = procedure
+    with pytest.raises(ValueError):
+        resolve_goal(task, sources, query)
+
+
+def test_user_completion_claim_never_selects_a_different_graph_or_sets_facts(procedure):
+    task, sources = procedure
+    selection = resolve_goal(task, sources, '我已完成底座，现在希望安装控制夹具')
+    assert selection.selected_node_ids == [n.id for n in task.nodes]
+    assert selection.model_dump().keys() == {'task_sha256', 'query', 'title', 'level', 'selected_node_ids', 'source_ids', 'interpretation'}
+
+
+def test_hierarchy_leaves_are_official_operations_not_check_conditions(procedure):
+    task, sources = procedure
+    tree = hierarchy(task, sources)
+    assert [row['id'] for row in tree['children']] == ['fasten_fixture', 'insert_handle']
+    assert tree['children'][1]['depends_on'] == ['fasten_fixture']
+    assert '拧紧' not in [row['title'] for row in tree['children']]
+    changed = task.model_dump()
+    changed['requirements'][0]['quote'] = '伪造官方操作'
+    with pytest.raises(ValueError, match='quote'):
+        hierarchy(TaskDefinition.model_validate(changed), sources)
+
+
+def test_verbatim_official_instruction_and_explicit_actor_destination(procedure):
+    task, sources = procedure
+    assert resolve_goal(task, sources, task.nodes[0].instruction).selected_node_ids == ['fasten_fixture']
+    assert resolve_goal(task, sources, task.nodes[1].instruction).selected_node_ids == ['insert_handle']
+    assert resolve_goal(task, sources, '把夹具手柄滑入底座').selected_node_ids == ['insert_handle']
+    assert resolve_goal(task, sources, '将夹具手柄从上向下滑入底座').selected_node_ids == ['insert_handle']
+    for query in ('把螺丝滑入底座', '把夹具手柄滑入打印板'):
+        with pytest.raises(ValueError):
+            resolve_goal(task, sources, query)
+
+
+def test_destination_cannot_be_arbitrary_object_in_one_of_many_guards(procedure):
+    task, sources = procedure
+    value = task.model_dump()
+    value['nodes'][1]['precondition_ids'] = ['k.contact', 'k.bolts', 'k.facing']
+    # Only the actual base object is common across these conditions; the mast is incidental.
+    next(c for c in value['conditions'] if c['id'] == 'k.bolts')['object_ids'] = ['fixture']
+    guarded = TaskDefinition.model_validate(value)
+    assert resolve_goal(guarded, sources, '滑入控制夹具底座').selected_node_ids == ['insert_handle']
+    with pytest.raises(ValueError):
+        resolve_goal(guarded, sources, '滑入立柱')
+
+
+def test_official_numbered_heading_cannot_be_replaced_by_broader_generated_title(procedure):
+    task, sources = procedure
+    value = task.model_dump()
+    copied = sources.model_copy(deep=True)
+    text = '第 7 步：安装控制夹具'
+    copied.records.append(Source(id='official.heading', artifact_id='text.file', locator='json:/heading',
+        kind='official', text=text, text_sha256=digest(text.encode())))
+    value['requirements'].append(dict(id='r.heading', kind='applicability', source_id='official.heading', quote=text))
+    value['policy_requirement_ids'] = ['r.heading']
+    assert hierarchy(TaskDefinition.model_validate(value), copied)['title_basis'] == 'official_numbered_heading'
+    value['title'] = '开箱'
+    with pytest.raises(ValueError, match='章节范围'):
+        resolve_goal(TaskDefinition.model_validate(value), copied, '开箱')
+
+
+def test_compiler_uses_parent_scope_and_preserves_narrow_user_goal(tmp_path):
+    sources, root, proposal, catalog = official_fixture(tmp_path)
+    client = FakeClient(proposal)
+    result = compile_task(sources, root, dict(method='independent-controlled-fixture',
+        parent_heading=['安装控制夹具'], goal='安装底座'), '安装底座', catalog, client, tmp_path / 'compiled')
+    assert result['status'] == 'experimental_ready'
+    assert '\nOFFICIAL_TARGET:安装控制夹具\nUSER_GOAL:安装底座\n' in client.calls[0][0]
+    assert len(proposal['task']['nodes']) == 2
+
+
+def test_short_component_phrase_and_destination_derive_from_names_not_ids(procedure):
+    task, sources = procedure
+    value = deepcopy(task.model_dump())
+    # Different names in a controlled fixture exercise U7-shaped noun omissions.
+    source = sources.model_copy(deep=True)
+    source.records[0].text = source.records[0].text.replace('底座', '料盘支架底座')
+    source.records[0].text_sha256 = digest(source.records[0].text.encode())
+    value['objects'][0]['name'] = '料盘支架底座'
+    for requirement in value['requirements']:
+        if requirement['source_id'] == 'official.anchor':
+            requirement['quote'] = requirement['quote'].replace('底座', '料盘支架底座')
+    value['title'] = '安装料盘支架'
+    value['nodes'][1]['precondition_ids'] = ['k.contact']
+    next(c for c in value['conditions'] if c['id'] == 'k.contact')['object_ids'] = ['fixture']
+    renamed = TaskDefinition.model_validate(value)
+    assert resolve_goal(renamed, source, '安装支架底座').selected_node_ids == ['fasten_fixture']
+    assert resolve_goal(renamed, source, '滑入料盘底座').selected_node_ids == ['insert_handle']

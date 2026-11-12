@@ -29,8 +29,12 @@ public static class ProductValidation {
   var camera=Camera.main;Check(camera!=null,"Missing scene camera");var canvases=UnityEngine.Object.FindObjectsOfType<Canvas>();var modes=new RenderMode[canvases.Length];var cameras=new Camera[canvases.Length];
   var target=camera.targetTexture;var previous=RenderTexture.active;var rt=RenderTexture.GetTemporary(1920,1080,24);
   try{camera.targetTexture=rt;for(int i=0;i<canvases.Length;i++){modes[i]=canvases[i].renderMode;cameras[i]=canvases[i].worldCamera;canvases[i].renderMode=RenderMode.ScreenSpaceCamera;canvases[i].worldCamera=camera;canvases[i].planeDistance=1;}
+   foreach(var graphic in UnityEngine.Object.FindObjectsOfType<Graphic>()){graphic.canvasRenderer.cull=false;var text=graphic as Text;if(text!=null)text.cachedTextGenerator.Invalidate();graphic.SetAllDirty();}
+   Canvas.ForceUpdateCanvases();camera.Render();
+   // Resolve font/mask rebuilds caused by changing the canvas render mode before exporting its stable frame.
+   foreach(var graphic in UnityEngine.Object.FindObjectsOfType<Graphic>()){graphic.canvasRenderer.cull=false;graphic.SetAllDirty();}
    Canvas.ForceUpdateCanvases();camera.Render();RenderTexture.active=rt;var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();File.WriteAllBytes(Path.Combine(Folder,name),image.EncodeToPNG());UnityEngine.Object.Destroy(image);
-  }finally{for(int i=0;i<canvases.Length;i++){canvases[i].renderMode=modes[i];canvases[i].worldCamera=cameras[i];}camera.targetTexture=target;RenderTexture.active=previous;RenderTexture.ReleaseTemporary(rt);}
+  }finally{for(int i=0;i<canvases.Length;i++){canvases[i].renderMode=modes[i];canvases[i].worldCamera=cameras[i];}camera.targetTexture=target;RenderTexture.active=previous;RenderTexture.ReleaseTemporary(rt);foreach(var graphic in UnityEngine.Object.FindObjectsOfType<Graphic>())graphic.SetAllDirty();Canvas.ForceUpdateCanvases();}
  }
  sealed class ControlledFrameSource:Manual2AR.Spatial.ISpatialFrameSource {
   public byte[] bytes;bool opened;public ControlledFrameSource(byte[] value){bytes=value;}public bool Ready=>opened;public string Signature=>"controlled-u7-rgb";public string ProviderId=>"desktop_rgb";public int CaptureWidth=>960;public int CaptureHeight=>720;
@@ -125,7 +129,14 @@ public static class ProductValidation {
   AppShell.GoBack();yield return Wait(()=>!AppShell.Changing&&SceneManager.GetActiveScene().name=="Welcome","Learning did not release");
   Check(AppShell.SelectedService!=null,"Home lost selected service");yield return Shot("05-return-teaching-home.png");
   AppShell.Open("PrinterGuidance");yield return Wait(()=>!AppShell.Changing&&UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>()!=null,"Guidance did not open");
-  var guidance=UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>();yield return Wait(()=>(bool)Field(guidance,"connected"),"Guidance not connected");NoDiagnostics();CheckBack("返回教学首页");yield return Shot("06-guidance-catalog.png");
+  var guidance=UnityEngine.Object.FindObjectOfType<PrinterGuidanceController>();yield return Wait(()=>(bool)Field(guidance,"connected")&&!(bool)Field(guidance,"busy"),"Guidance not connected");NoDiagnostics();CheckBack("返回教学首页");yield return Shot("06-guidance-catalog.png");
+  var guidanceCatalog=(GuidanceCatalog)Field(guidance,"catalog");
+  Check(((System.Collections.ICollection)Field(guidance,"taskButtons")).Count==guidanceCatalog.tasks.Length+1&&GameObject.Find("u7-demo")!=null,"Guidance catalog lost demo or original tasks");
+  foreach(var entry in guidanceCatalog.tasks)Check(GameObject.Find(entry.id)!=null,"Original task card missing: "+entry.id);
+  GameObject.Find("a1_mini_standalone_unboxing_v1").GetComponent<Button>().onClick.Invoke();yield return null;
+  Check(((GameObject)Field(guidance,"modal")).activeSelf,"Restored unboxing card does not open variant selection");Invoke(guidance,"CloseModal");yield return null;
+  GameObject.Find("a1_mini_first_print_external_v1").GetComponent<Button>().onClick.Invoke();yield return null;
+  Check(((GameObject)Field(guidance,"modal")).activeSelf,"Restored first-print card does not open variant selection");Invoke(guidance,"CloseModal");yield return null;
   guidance.StartCoroutine((IEnumerator)Invoke(guidance,"BeginSelected","a1_mini_standalone_unboxing_v1","standalone_unboxing",false));yield return Wait(()=>Field(guidance,"run")!=null,"Unboxing did not start");NoDiagnostics();yield return Shot("07-guidance-overview.png");Check(((GameObject)Field(guidance,"modal")).GetComponent<AppModalBackdrop>().Ready,"Overview has no blurred backdrop");
   var overview=(GameObject)Field(guidance,"modal");ClickText(overview,"查看官方指南");
   yield return Wait(()=>Field(guidance,"wikiDialog")!=null&&((GameObject)Field(guidance,"wikiDialog")).GetComponentInChildren<PrinterLearningWikiView>()!=null,"Guidance did not open embedded Wiki");
@@ -565,6 +576,10 @@ public static class ProductValidation {
   Check(AppShell.SelectedService==null,"Cannot return to service library");yield return Shot("12-return-library.png");
   Check(UnityEngine.Object.FindObjectsOfType<AppShell>().Length==1,"Duplicate application shell");Check(errors==0,"Runtime errors");
   yield return WikiPipelineValidation.Run(origin,bytes,Capture);
+  yield return WikiPipelineValidation.Baseline(origin,Capture);
+  yield return WikiPipelineValidation.Review(origin,Capture);
+  yield return WikiPipelineValidation.Official(origin,Capture);
+  yield return WikiPipelineValidation.Demo(origin,Capture);
   File.WriteAllText(Path.Combine(Folder,"success.json"),"{\"runtime_errors\":0,\"scenes\":4,\"service_library\":true,\"service_context\":true,\"diagnostic_controls_hidden\":true,\"controlled_learning_render\":true,\"automatic_cpu_fallback\":true,\"staged_inspection\":true,\"real_model_calls\":0,\"camera_hardware_tested\":false,\"center_crop_cases\":40,\"hierarchical_navigation\":true,\"navigation_canvas_repaired\":true,\"ratio_change_closes_session\":true,\"event_system_present\":true,\"spatial_replay\":true,\"spatial_metric_geometry\":true,\"spatial_pixel_picking\":true,\"spatial_reference_loaded\":true,\"spatial_preserves_tutorial_progress\":true,\"u7_composite_assets\":true,\"clockwise_from_tool_handle\":true,\"xyz_orientation_modal\":true,\"two_part_photo_guidance\":true,\"tracked_image_proxy\":true,\"wrong_frame_mask_rejected\":true,\"concurrent_masks_proxy_animation\":true,\"parameterized_rotation\":true,\"motion_parameter_panel\":true,\"three_point_coordinate_wizard\":true,\"u7_sequence_verified_unlock\":true,\"component_action_management\":true,\"empty_action_modal_recovery\":true,\"frameless_marker_captions\":true,\"unified_spatial_toolbar\":true,\"manual_holder_capture\":true,\"legible_spatial_text\":true,\"fixed_model_legend\":true,\"legend_lifecycle_and_colors\":true,\"tracking_survives_vlm_failure\":true,\"imperative_display_contract\":true,\"bidirectional_arrowhead\":true,\"u7_preflight_auto_guidance\":true,\"metric_text_annotations\":true,\"u7_contextual_information\":true,\"visual_completion_overview\":true,\"modal_blur_backdrop\":true,\"embedded_guidance_wiki\":true,\"chapter_card_layout\":true,\"guidance_footer_layout\":true,\"nonmodal_verification_failure\":true,\"compact_step_dialogs\":true,\"slide_illustration_from_screws\":true,\"missing_placement_feedback\":true,\"automatic_u7_configuration\":true,\"shared_workspace_contract\":true,\"ui_gallery_sizes\":3}");
   SessionState.SetBool(Key,false);EditorApplication.Exit(0);
  }

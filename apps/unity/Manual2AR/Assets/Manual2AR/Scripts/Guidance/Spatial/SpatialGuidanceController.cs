@@ -44,17 +44,19 @@ namespace Manual2AR.Spatial {
    yield return Request(Api+"/config","GET",null,(raw,error)=>{if(error!=null){Message(error);return;}incoming=JsonUtility.FromJson<Plan>(raw);});
    if(incoming==null)yield break;
    backendReady=incoming.automatic_configuration&&incoming.visual_revision=="mesh-loop-v2"&&incoming.required_client_revision=="machine-workframe-v1";
-   if(Api!="/api/guidance/spatial"&&incoming.runtime_contract!=(incoming.stateful_runtime?"compiled-spatial-v3":"compiled-spatial-v2"))backendReady=false;
+   if(Baseline&&(!incoming.explicit_scene_assessment||!incoming.batch_manual_confirmation))backendReady=false;
+   if(Api!="/api/guidance/spatial"&&incoming.runtime_contract!=(Baseline?"baseline-ar-v1":incoming.stateful_runtime?"compiled-spatial-v3":"compiled-spatial-v2"))backendReady=false;
    if(!backendReady){Message("后端版本未更新，请重启后端");checkResult.text="请先关闭旧后端，再运行启动后端.cmd，返回图文后重新进入。";yield break;}
    backendReady=Manual2AR.VisualGuidance.VisualAssetLibrary.Matches(incoming.asset_library);
    if(!backendReady){Message("教学资产与后端版本不一致");checkResult.text="请启动资产库工作树的后端，并使用同一版本的前端。";yield break;}
    yield return RefreshU7Sequence();plan=incoming;
-   int selected=string.IsNullOrEmpty(initialAction)?Array.FindIndex(plan.actions,a=>a.chapter_id==chapter):Array.FindIndex(plan.actions,a=>a.action_id==initialAction);if(selected>=0&&plan.actions[selected].action_id=="holder.slide"&&U7Locked)selected=Array.FindIndex(plan.actions,a=>a.action_id=="holder.base");Select(Mathf.Max(0,selected));StartCoroutine(Stream());
+   int selected=string.IsNullOrEmpty(initialAction)?Array.FindIndex(plan.actions,a=>a.chapter_id==chapter):Array.FindIndex(plan.actions,a=>a.action_id==initialAction);if(selected>=0&&plan.actions[selected].action_id=="holder.slide"&&U7Locked)selected=Array.FindIndex(plan.actions,a=>a.action_id=="holder.base");Select(Mathf.Max(0,selected));RefreshBaselineSummary();StartCoroutine(Stream());
+   if(CompiledBaseline){goalConfirmed=false;ShowBaselineGoalChoice();}
   }
   void Select(int index){
    bool continuing=guidedStarted&&GuidedFlow;
    if(plan==null||changing||index<0||index>=plan.actions.Length)return;if(Stateful&&execution!=null&&plan.actions[index].action_id!=execution.action_id){Message("请先完成当前计划的操作或核验");return;}if(plan.actions[index].action_id=="holder.slide"&&U7Locked){Message(u7Sequence.message??"请先拍照检查底座");BuildActionTabs();return;}actionIndex=index;targetIndex=0;epoch++;last=null;CancelAuthor();playback.Reset();trackingInterrupted=false;stickyUntil=0;callout.Hide();ClearGraphics();referenceIndex=Current.primary_reference_index;candidate=null;BuildTargets();
-   title.text=AppTheme.Readable("开箱空间指导 · "+Current.chapter_id+" · "+Current.title);
+   title.text=AppTheme.Readable((string.IsNullOrEmpty(plan.experiment_title)?"开箱空间指导":plan.experiment_title)+" · "+Current.chapter_id+" · "+Current.title);
    instruction.text=AppTheme.Readable(Current.instruction);RefreshHelp();checkResult.text=Current.verification_mode=="manual"?"本章按官方说明人工确认，视觉不能判断螺丝是否锁紧。":"可选拍照，查看位置或安装建议。";
    verify.GetComponentInChildren<Text>().text=Current.verification_mode=="manual"?"确认完成":"检查安装";
    BuildActionTabs();
@@ -87,22 +89,27 @@ namespace Manual2AR.Spatial {
    }
   }
   IEnumerator BeginSession(string selectedMode,bool reuse){
-   if(changing||plan==null)yield break;if(!backendReady){Message("后端版本未更新，请重启后端");yield break;}changing=true;ResetCheckFeedback();guidedStarted=false;semanticReady=false;startAtTarget.gameObject.SetActive(false);epoch++;CancelAuthor();last=null;playback.Reset();trackingInterrupted=false;callout.Hide();ClearGraphics();setupExplicit=false;SetSetupVisible(false);
+   if(CompiledBaseline&&!goalConfirmed){ShowBaselineGoalChoice();yield break;}
+   if(changing||checking||assessingScene||plan==null)yield break;if(!backendReady){Message("后端版本未更新，请重启后端");yield break;}changing=true;
+   try{
+   StopParts();CancelAutomatic();ClosePhotoPrompt();ResetCheckFeedback();guidedStarted=false;semanticReady=false;startAtTarget.gameObject.SetActive(false);epoch++;CancelAuthor();last=null;latestReply=null;latestBytes=null;baselineVerificationStage=false;baselineRetryOnly=false;baselineResultTitle="现场评估结果";playback.Reset();trackingInterrupted=false;callout.Hide();ClearGraphics();setupExplicit=false;SetSetupVisible(false);
    yield return DropSession();execution=null;attemptedScene="";mode=selectedMode;frameSource.Close();string failure=null;
+   yield return null;
    if(mode=="camera"){
     yield return frameSource.Open(cameraIndex,e=>failure=e);
     if(failure!=null){Message(failure);changing=false;yield break;}cameraSignature=frameSource.Signature;
    }
-   var command=new Begin{camera_id=mode=="replay"?"synthetic-replay":Hash(Encoding.UTF8.GetBytes(cameraSignature)).Substring(0,24),mode=mode,reuse_targets=reuse,tutorial_run_id=tutorialRunId};
+   var command=new Begin{camera_id=mode=="replay"?"synthetic-replay":Hash(Encoding.UTF8.GetBytes(cameraSignature)).Substring(0,24),mode=mode,reuse_targets=reuse,tutorial_run_id=tutorialRunId,goal_intent=Baseline?goalIntent:""};
    yield return Request(Api+"/sessions","POST",JsonUtility.ToJson(command),(raw,error)=>{failure=error;if(error==null)session=JsonUtility.FromJson<Session>(raw);});
    changing=false;sequence=0;replayIndex=0;
    modeLabel.text=mode=="replay"?"合成定位回放 · 非实机检测 · 不写入实机位置":"Windows 摄像头 · "+CameraFraming.Ratios[aspectIndex]+" 标定画幅 · "+(WebCamTexture.devices.Length>0?WebCamTexture.devices[cameraIndex%WebCamTexture.devices.Length].name:"");
-   if(failure!=null){Message(failure);yield break;}
-   ApplyExecution(session.execution);
+   if(failure!=null||session==null){Message(failure??"相机会话未建立，请重试。");yield break;}
+   if(Baseline)ApplyBaseline(session.execution);else ApplyExecution(session.execution);
    if(session.u7_sequence!=null){u7Sequence=session.u7_sequence;BuildActionTabs();}
    if(mode=="camera"&&session.has_saved_targets&&!reuse&&!GuidedFlow)ShowReuse();
    if(GuidedFlow&&session.has_saved_targets)SetSetupVisible(false);
    else Message(mode=="replay"?"模拟回放已启动。":session.calibrated?"将已打印的定位标记固定到打印机刚性部位，让标记与操作区域同时入镜。":"首次使用：打印标定纸，在不同位置与倾角采集至少 12 张棋盘，再计算标定。");
+   }finally{changing=false;RefreshBaselineControls();}
   }
   void ShowReuse(){
    var dialog=AppDialog.Open(root,"Reuse saved target confirmation","核对已保存位置",AppDialogSize.Standard,null);var panel=dialog.Panel;
@@ -175,6 +182,7 @@ namespace Manual2AR.Spatial {
    locateButton.interactable=!automaticActive&&(Stateful||!GuidedFlow||guidedStarted)&&!assessingScene&&active&&mode=="camera"&&!checking&&authorStage==0&&last!=null&&!locating;
    cancel.interactable=!changing;
    actionBar.Refresh(changing||authorStage>0||locating||automaticBusy||locationPreview,active);
+   RefreshBaselineControls();
    playback.Tick(Time.unscaledDeltaTime);
    overlay.progress=playback.Progress;if(playback.State=="playing")overlay.SetVerticesDirty();
    RefreshAsset();
@@ -283,6 +291,7 @@ namespace Manual2AR.Spatial {
    checkResult.text=AppTheme.Readable((value.status=="found"?"已标出候选位置":"未能确定位置")+"\n"+value.evidence+"\n"+value.next_action);Message("定位照片已返回");return true;
   }
   IEnumerator Verify(){
+   if(Baseline){yield return CheckBaseline(true);yield break;}
    if(plan!=null&&Current.verification_mode=="manual"){if(session==null){Message("可返回原教程进行人工确认，或先启动演示会话。");yield break;}MarkOperation();checkResult.text="已记录人工确认；没有调用 AI 判断螺丝松紧。";yield break;}
    if(session==null||last==null||checking)yield break;checking=true;int version=epoch;var command=new Verify{action_id=Current.action_id,target_id=TargetId,client_frame_id=last.client_frame_id};string sha=last.source_sha256;
    ResetCheckFeedback();checkResult.text="正在查看安装区域…";

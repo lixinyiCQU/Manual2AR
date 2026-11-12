@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 if [[ "${1:-}" == setup ]]; then
   python3.12 -m venv .venv
   .venv/bin/python -m pip install -r apps/backend/requirements.lock
-  .venv/bin/python -m pip install --no-deps -e packages/contracts -e packages/perception -e apps/backend -e apps/inference
+  .venv/bin/python -m pip install --no-deps -e baseline -e packages/contracts -e packages/perception -e apps/backend -e apps/inference
   .venv/bin/python -m playwright install chromium
   if [[ ! -f configs/app.local.json ]]; then
     cp configs/app.example.json configs/app.local.json

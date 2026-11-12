@@ -1,0 +1,53 @@
+{
+  "schema_version": "baseline-gt-review-v1",
+  "status": "pending_human_review",
+  "source_selection": "confirmed_by_user",
+  "task_sha256": "93e90448c9972432daab842e3b68ba9c1f1ffa2eb5796ebe438125bf6759c2cf",
+  "sources_sha256": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+  "items": [
+    {
+      "id": "review.decomposition",
+      "targets": [
+        "install_base",
+        "install_holder",
+        "c.base.upper_screw",
+        "c.base.lower_screw"
+      ],
+      "question": "是否同意保留两个原操作节点，并将上下两颗固定螺丝拆成分别必须满足的检查条件？",
+      "proposal": "两个原操作保持顺序；螺丝检查分别记录。细分不是新的官方操作步骤，完整底座条件均通过后才进入支架节点。"
+    },
+    {
+      "id": "review.specification",
+      "targets": [
+        "c.base.screw_specification",
+        "c.base.secure"
+      ],
+      "question": "M3-8 规格是否作为独立人工确认条件？紧固要求保持独立人工确认是否符合你的 GT？",
+      "proposal": "规格从官方要求提取，但人工渠道是本次提案；以配件标识确认规格，另行确认机械紧固。"
+    },
+    {
+      "id": "review.orientation",
+      "targets": [
+        "c.base.direction",
+        "c.holder.direction"
+      ],
+      "question": "底座正确方向、支架与插槽方向匹配，分别依据哪些可辨识特征和视角？",
+      "proposal": "暂保留 unresolved，不删掉方向要求、不把三维方向简化成图像上下、不自动转人工。请指定特征或明确可采用的人工渠道。"
+    },
+    {
+      "id": "review.occluded_prerequisite",
+      "targets": [
+        "install_holder",
+        "c.base.upper_screw",
+        "c.base.lower_screw",
+        "c.holder.connection"
+      ],
+      "question": "初始照片中支架已经安装并遮挡底座螺丝时，完整任务应如何核实底座前置条件？",
+      "proposal": "保留底座未知与支架可见连接两个事实，不凭后者推断前者；待审核多视角补拍或其他明确证据策略，不要求为了核验而自动拆下支架。"
+    }
+  ],
+  "observation_standards": "not_implemented_in_normalization",
+  "scene_labels": "not_provided",
+  "spatial_labels": "not_provided",
+  "automatic_compiler_input": false
+}

@@ -1,0 +1,167 @@
+{
+  "schema_version": "baseline-sources-v1",
+  "source_selection": "confirmed_by_user",
+  "confirmation_statement": "2026-11-11 用户确认：以现有手工 U7 教材、空间动作及核验定义为来源。此确认仅针对来源选择。",
+  "artifacts": [
+    {
+      "id": "tutorial",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/procedure.json",
+      "sha256": "e71a3be3e2c63cde8204711ef1ac2213e13361766fa126d6356157a758be83e4"
+    },
+    {
+      "id": "official_evidence",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/evidence.json",
+      "sha256": "d8dff97bf3867de62e51e042966c74cf368b1919e7ca75dcd1920895d2cf7f92"
+    },
+    {
+      "id": "spatial_instructions",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/spatial/v1/actions.json",
+      "sha256": "e56d7d11edf0c49ae126c300721978f648334d95a57f98f373cfa60b59f1b27d"
+    },
+    {
+      "id": "visual_definitions",
+      "path": "apps/backend/src/manual2ar/modules/guidance/spatial/u7_vision.py",
+      "sha256": "76977e1d272e38285ae848fee834550106f39ad1370479edfc86c030c62161f3"
+    },
+    {
+      "id": "image.1",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/a9a63e8f81e4971f.png",
+      "sha256": "a9a63e8f81e4971fec50887d9813e5d62212f27378365476d63f3c5a2cfc3446"
+    },
+    {
+      "id": "image.2",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/7f6374cbdab2f5f2.png",
+      "sha256": "7f6374cbdab2f5f2511c7e59b1258f7c7b6e0c98bcc943eed66f25b20b471249"
+    },
+    {
+      "id": "image.3",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/6a3a99488854ca51.png",
+      "sha256": "6a3a99488854ca516a9551dc6eb735f707ff7b7a91ab1d5d72c83f07966eb11a"
+    },
+    {
+      "id": "image.4",
+      "path": "resources/tasks/bambu_a1_mini/unboxing/v2/references/c9a91fdeec9d5877.png",
+      "sha256": "c9a91fdeec9d5877bcffc99ffd55cd2b2e996b8e5d1085e5a2e42119645e5bb4"
+    }
+  ],
+  "records": [
+    {
+      "id": "official.base",
+      "artifact_id": "official_evidence",
+      "locator": "json:/evidence/026a3a3c147bd8b28d5bf414/text",
+      "kind": "official",
+      "text": "1. 使用配件盒中的 2 颗 M3-8 螺丝（用于料盘架）来安装料盘支架底座；请注意安装方向。",
+      "text_sha256": "9f572fb8454cfced226cf50e19ee19bbfad0c7b570a20f76a87834e9a5e5c438",
+      "citation_id": "026a3a3c147bd8b28d5bf414",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+    },
+    {
+      "id": "official.holder",
+      "artifact_id": "official_evidence",
+      "locator": "json:/evidence/97eeffdb901ac2699a6a9aeb/text",
+      "kind": "official",
+      "text": "2. 从上向下滑入料盘支架。请确保料盘支架方向与插槽方向相匹配。",
+      "text_sha256": "ebfc256959ed65cd3ca26cac4b141ebea10e341e379983d23b7a193bffc929e2",
+      "citation_id": "97eeffdb901ac2699a6a9aeb",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+    },
+    {
+      "id": "official.optional",
+      "artifact_id": "official_evidence",
+      "locator": "json:/evidence/f76bb592ba8515e684d48401/text",
+      "kind": "official",
+      "text": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。",
+      "text_sha256": "6d6e16eed34e72a114b3a974d173f8d416c6e1d6678f1acc7cf10dcb370803e0",
+      "citation_id": "f76bb592ba8515e684d48401",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo"
+    },
+    {
+      "id": "reference.base",
+      "artifact_id": "visual_definitions",
+      "locator": "python:BASE_PROMPT",
+      "kind": "reference_verification",
+      "text": "只判断第一张当前照片中 A1 mini 料盘支架底座是否已完成可见安装，第二张是底座外观参考。\n目标是 Z 轴立柱背面的灰色/深灰色小矩形固定底座，不是整条立柱，也不是白色可拆卸料盘支架。\ncompleted：灰色底座已贴靠在立柱正确安装区域，上下两颗固定螺丝均可见且处于安装孔位，未见明显缺件、脱离或倾斜。\nnot_completed：底座尚未接到立柱上、明显缺少螺丝或存在明显脱离/倾斜。\nuncertain：底座或两个固定螺丝不可见、被手或已安装的白色支架遮挡、画质或视角不足。不能因为打印机或白色支架存在就推断底座检查通过。\n只检查可见安装状态，不判断扭矩、螺丝是否真正拧紧、隐藏卡扣或内部结构。用户仍需按官方步骤人工确认机械紧固。\n用简短中文返回 evidence 和 next_action。完成时明确说明“底座可见安装状态符合，可以继续安装料盘支架”；不确定时请用户补拍立柱背面的灰色底座及上下两颗螺丝。",
+      "text_sha256": "632921faec102143e3259ed803fe8aeb458ea1931b1eb85e3fdbab2f8d558303",
+      "citation_id": "",
+      "source_url": ""
+    },
+    {
+      "id": "reference.holder",
+      "artifact_id": "visual_definitions",
+      "locator": "python:INSTALL_PROMPT",
+      "kind": "reference_verification",
+      "text": "只判断第一张当前照片中 A1 mini 外挂料盘支架的最终可见安装状态，不找螺丝位置、不分割、不判断扭矩：\ncompleted：白色料盘支架已从立柱上的安装位置伸出，安装端与打印机立柱的底座区域有清楚可见的连接，形态与第二张官方安装示例一致，且无明显脱离或大幅倾斜。底座会被装好的支架遮住，不要求看见底座螺丝、隐藏插槽、卡扣或细微缝隙。\nnot_completed：支架仍独立放在桌面、拿在手中未连接，或明显未接到打印机上。\nuncertain：支架或安装连接区域不在画面中、被手/物体严重挡住，当前视角无法区分连接与仅靠在一起。\n不能仅因画面中同时出现打印机和支架就判定完成，也不能因为螺丝被正常遮挡而拒绝完成。只关注最终外观连接。安装示例是外观参考，所有证据必须来自当前照片。输出简短中文 evidence 和 next_action；完成时明确写“料盘支架已安装到打印机上，可见连接符合本步要求”。结论仅限可见安装状态，不表示机械锁紧或安全放行。",
+      "text_sha256": "a9830fee61573dca8edb62281ce6aa5f585c6d44f0526d5923164a49dfafa6bd",
+      "citation_id": "",
+      "source_url": ""
+    },
+    {
+      "id": "reference.base_instruction",
+      "artifact_id": "spatial_instructions",
+      "locator": "json:/actions/3/instruction",
+      "kind": "reference_instruction",
+      "text": "使用两颗 M3-8 螺丝固定料盘支架底座，注意官方图示方向。画面同时提示两颗螺丝的位置；紧固程度请按官方说明人工确认。",
+      "text_sha256": "815c18f5d4cb1dfea28aff89407bf7ef3a36af31f837e006586c59b3297dda52",
+      "citation_id": "",
+      "source_url": ""
+    },
+    {
+      "id": "reference.holder_instruction",
+      "artifact_id": "spatial_instructions",
+      "locator": "json:/actions/4/instruction",
+      "kind": "reference_instruction",
+      "text": "从上向下滑入料盘支架，确保方向与插槽匹配。",
+      "text_sha256": "109b599acbcd071c4473fddaf3dd9017b158d4003828b105098fe6d60886c903",
+      "citation_id": "",
+      "source_url": ""
+    },
+    {
+      "id": "reference.chapter",
+      "artifact_id": "tutorial",
+      "locator": "json:/states/6/observation_nodes/0/condition",
+      "kind": "reference_context",
+      "text": "料盘支架底座与安装面贴合，支架已沿匹配插槽滑入，无明显倾斜。",
+      "text_sha256": "4247013bf2b75bad8ea5f1031785a920461a579aed4f2804c523ca3820d95f24",
+      "citation_id": "",
+      "source_url": ""
+    }
+  ],
+  "images": [
+    {
+      "id": "reference.image.1",
+      "artifact_id": "image.1",
+      "source_ids": [
+        "official.base"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    },
+    {
+      "id": "reference.image.2",
+      "artifact_id": "image.2",
+      "source_ids": [
+        "official.base"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    },
+    {
+      "id": "reference.image.3",
+      "artifact_id": "image.3",
+      "source_ids": [
+        "official.holder"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    },
+    {
+      "id": "reference.image.4",
+      "artifact_id": "image.4",
+      "source_ids": [
+        "official.holder"
+      ],
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "role": "official_reference_not_scene"
+    }
+  ]
+}

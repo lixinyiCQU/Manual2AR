@@ -59,13 +59,25 @@ def create_app(config, client=None, log_root=None, *, wiki_settings=None):
     async def lifespan(app):
         yield
         app.state.pipeline.close()
+        app.state.official_compiler.close()
         for identity in list(spatial.sessions):spatial.close(identity)
         spatial.part_tracking.shutdown()
+        for identity in list(app.state.baseline_spatial.sessions):app.state.baseline_spatial.close(identity)
+        app.state.baseline_spatial.part_tracking.shutdown()
+        for identity in list(app.state.u7_demo.sessions):app.state.u7_demo.close(identity)
         for identity in list(service.meta):service.close(identity)
     app = FastAPI(title='Manual2AR 模块二：操作指导',lifespan=lifespan)
     app.state.guidance = service
     app.state.spatial = spatial
     app.include_router(spatial_api)
+    from .baseline_spatial import install as install_baseline
+    app.state.baseline_spatial = install_baseline(app, config, service.registry, next(iter(service.engines.values())).client)
+    from .u7_demo import install as install_u7_demo
+    app.state.u7_demo = install_u7_demo(app, config, app.state.baseline_spatial)
+    from .official_compiler import install as install_official_compiler
+    app.state.official_compiler = install_official_compiler(app, config, service.registry, next(iter(service.engines.values())).client, wiki_settings)
+    from .baseline_review import install as install_baseline_review
+    app.state.baseline_review = install_baseline_review(app, config, app.state.official_compiler)
     from .pipeline import install
     app.state.pipeline=install(app,config,service.registry,next(iter(service.engines.values())).client,wiki_settings)
 

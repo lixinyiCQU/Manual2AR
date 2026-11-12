@@ -1,12 +1,12 @@
 # 使用与交付
 
-本说明对应当前 Windows 摄像头原型。系统入口为资料库 → A1 mini 教学首页 → 部件认知／操作指导／打印状态检查。仅已安装的官方离线资料参与教学；资料上传与自动编译入口尚未实现。
+本说明对应 Windows 摄像头原型。系统入口为资料库 → A1 mini 教学首页 → 部件认知／操作指导／打印状态检查。当前交接启动、U7 Demo与数据恢复先读 [交接说明](HANDOFF.md)；下文的空间标定流程用于保留的原教材路径。资料上传尚未实现；离线官方资料的自动编译接口已实现并作为研究入口保留。
 
 ## 本机运行
 
 在当前工作树执行 `bash run.sh start`，检查 `http://127.0.0.1:8010/health`。Windows 使用完整解压目录中的“启动教学系统.cmd”；启动器把程序同步到本地磁盘再打开，更新前关闭旧窗口。Unity 编辑器使用 2022.3.34f1，入口是 `Welcome` 场景。
 
-`configs/app.local.json` 管理后端地址、相机、模型和资料路径；修改公开配置后执行 `bash run.sh sync`。配置中的相对路径以配置文件上两级目录为基准。GPU 令牌另存 `configs/inference.connection.local.json`，不放进前端或聊天。
+`configs/app.local.json` 管理后端地址、相机、模型和资料路径；修改公开配置后执行 `bash run.sh sync`。配置中的相对路径以源码根目录（配置文件的 parent.parent）为基准。GPU 令牌另存 `configs/inference.connection.local.json`，不放进前端或聊天。
 
 官方 Wiki 原始档案、运行记录、缓存和构建均在仓库外。移动代码不等于删除已保存标定。不要手动清空 `paths.runtime/guidance-spatial/profiles/`。
 

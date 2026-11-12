@@ -1,0 +1,83 @@
+{
+  "schema_version": "baseline-transfer-suite-v1",
+  "id": "transfer-v1",
+  "scope": "首轮6任务来源→任务编译 pilot。已预检过资料及自由检索，不宣称盲测；未见指当前 U7 新基线尚未按这些任务/设备适配，不指 VLM 训练未见，也不保证旧项目从未涉及。U8 是同页邻接任务，A1 是同家族迁移。每例固定3次独立生成；评价期望的 URL/heading 不送入检索器或模型。真实照片准确率、AR资产泛化及实物安全验收不在本次范围。",
+  "cases": [
+    {
+      "id": "a1mini-u7-control",
+      "split": "seen_control",
+      "device_id": "A1 mini",
+      "device_path": "/zh/a1-mini/",
+      "intent": "我希望安装料盘支架",
+      "expected_source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini",
+      "expected_heading": [
+        "操作步骤",
+        "第 7 步：安装料盘支架"
+      ],
+      "scope_note": "人工 GT 与模型/代码开发反复使用，不能作未见样本。"
+    },
+    {
+      "id": "a1mini-u8-ptfe-hub",
+      "split": "unseen_task",
+      "device_id": "A1 mini",
+      "device_path": "/zh/a1-mini/",
+      "intent": "我希望安装料盘与工具头之间的料管与集线器",
+      "expected_source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini",
+      "expected_heading": [
+        "操作步骤",
+        "第 8 步：安装料盘与工具头之间的料管与集线器"
+      ],
+      "scope_note": "同开箱页面，属于邻接任务；旧仓库含开箱/U8资料，不能声称整个项目此前从未见过。"
+    },
+    {
+      "id": "a1mini-front-cover",
+      "split": "unseen_task",
+      "device_id": "A1 mini",
+      "device_path": "/zh/a1-mini/",
+      "intent": "我希望安装工具头前盖",
+      "expected_source_url": "https://wiki.bambulab.com/zh/a1-mini/maintenance/print-head-front-cover",
+      "expected_heading": [
+        "操作指南",
+        "安装"
+      ],
+      "scope_note": "无该维修任务 GT/本基线调优记录，但归档已存在；当前自由检索误选喷嘴组件，应保留失败。"
+    },
+    {
+      "id": "a1mini-cutter-install",
+      "split": "unseen_task",
+      "device_id": "A1 mini",
+      "device_path": "/zh/a1-mini/",
+      "intent": "我希望安装切刀",
+      "expected_source_url": "https://wiki.bambulab.com/zh/a1-mini/maintenance/filament-cutter-replacement",
+      "expected_heading": [
+        "操作指南-安装"
+      ],
+      "scope_note": "要求完整安装流程；当前自由检索只选挤出机堵塞页安装切刀单步，可能遗漏固定刀柄、前盖及验证。"
+    },
+    {
+      "id": "a1-wiper-install",
+      "split": "unseen_device",
+      "device_id": "A1",
+      "device_path": "/zh/a1/",
+      "intent": "我希望安装擦嘴套件",
+      "expected_source_url": "https://wiki.bambulab.com/zh/a1/maintenance/nozzle-wiper-replacement",
+      "expected_heading": [
+        "操作指南"
+      ],
+      "scope_note": "A1 专属擦嘴套件而非 A1mini；同制造商/同 A1 家族，只能算家族内设备迁移。"
+    },
+    {
+      "id": "p1-hall-board-install",
+      "split": "unseen_device",
+      "device_id": "P1 series",
+      "device_path": "/zh/p1/",
+      "intent": "我希望安装霍尔开关板组件",
+      "expected_source_url": "https://wiki.bambulab.com/zh/p1/maintenance/extruder-filament-sensor",
+      "expected_heading": [
+        "安装新组件",
+        "第 1 步 - 安装霍尔开关板组件"
+      ],
+      "scope_note": "目标限定单个组件的机械安装步骤，不代表整页更换/接线/功能确认；P1家族是不同设备系列。"
+    }
+  ]
+}

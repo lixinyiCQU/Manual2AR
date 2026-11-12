@@ -1,0 +1,37 @@
+{
+  "schema_version": "baseline-human-review-v1",
+  "reviewed_task_sha256": "da3db4f489a5fb87ecdb9f06ceb77be89d27ab73e04c76e7083bb82a21bbee71",
+  "task_sha256": "8381d4f0d2cd08bdd2cbc40f1ae60c3d824eef77d17412358327c46cab0ca69e",
+  "sources_sha256": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+  "decisions": [
+    {
+      "id": "review.decomposition",
+      "user_statement": "保留两个操作节点，螺丝仍联合检查",
+      "resolution": "保留两个节点；上下两颗螺丝作为一个联合视觉条件，要求两个不同实例均在对应孔位。"
+    },
+    {
+      "id": "review.specification",
+      "user_statement": "规格只保留为官方选材要求",
+      "resolution": "M3-8 保留为安装底座节点的官方选材要求，不生成额外人工确认条件。原有机械紧固人工确认保留。"
+    },
+    {
+      "id": "review.orientation",
+      "user_statement": "按照你的经验进行方向机遮挡策略的审核，然后进行：‘状态与调度验证’",
+      "resolution": "在用户委托下选择明确人工方向确认：底座和支架各自对照官方图，视觉条件通过后逐项确认。保持原方向要求，不宣称自动视觉辨向。"
+    },
+    {
+      "id": "review.occluded_prerequisite",
+      "user_statement": "按照你的经验进行方向机遮挡策略的审核，然后进行：‘状态与调度验证’",
+      "resolution": "同一会话和现场上下文内，只有此前完整核验通过的节点可在正常遮挡时沿用证据。新会话无底座历史证据时补拍，不凭已装支架推断底座通过，不自动拆卸。出现反证、身份不明或上下文变化时使相关及依赖证据失效。"
+    }
+  ],
+  "delegation": {
+    "reviewer": "assistant_under_user_delegation",
+    "authorization_quote": "按照你的经验进行方向机遮挡策略的审核，然后进行：‘状态与调度验证’",
+    "decision_ids": [
+      "review.orientation",
+      "review.occluded_prerequisite"
+    ],
+    "scope": "state_validation"
+  }
+}

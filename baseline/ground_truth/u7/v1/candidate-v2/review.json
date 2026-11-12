@@ -1,0 +1,37 @@
+{
+  "schema_version": "baseline-gt-review-v1",
+  "status": "pending_human_review",
+  "source_selection": "confirmed_by_user",
+  "task_sha256": "da3db4f489a5fb87ecdb9f06ceb77be89d27ab73e04c76e7083bb82a21bbee71",
+  "sources_sha256": "d39ec613e203d67b02642fc274848d922571fb825932e6ba3ffd862f8faa17e8",
+  "items": [
+    {
+      "id": "review.orientation",
+      "targets": [
+        "c.base.direction",
+        "c.holder.direction"
+      ],
+      "question": "底座正确方向、支架与插槽方向匹配，分别依据哪些可辨识特征和视角？",
+      "proposal": "暂保留 unresolved，不删掉方向要求、不把三维方向简化成图像上下、不自动转人工。请指定特征或明确可采用的人工渠道。"
+    },
+    {
+      "id": "review.occluded_prerequisite",
+      "targets": [
+        "install_holder",
+        "c.base.screws",
+        "c.holder.connection"
+      ],
+      "question": "初始照片中支架已经安装并遮挡底座螺丝时，完整任务应如何核实底座前置条件？",
+      "proposal": "保留底座未知与支架可见连接两个事实，不凭后者推断前者；待审核多视角补拍或其他明确证据策略，不要求为了核验而自动拆下支架。"
+    }
+  ],
+  "observation_standards": "not_implemented_in_normalization",
+  "scene_labels": "not_provided",
+  "spatial_labels": "not_provided",
+  "automatic_compiler_input": false,
+  "resolved_items": [
+    "review.decomposition",
+    "review.specification"
+  ],
+  "reviewed_task_sha256": "93e90448c9972432daab842e3b68ba9c1f1ffa2eb5796ebe438125bf6759c2cf"
+}

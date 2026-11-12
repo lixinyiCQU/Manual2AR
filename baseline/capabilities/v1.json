@@ -1,0 +1,25 @@
+{
+  "schema_version": "baseline-compiler-capabilities-v1",
+  "refinement_policy": "derive_single_roi_from_node_relations",
+  "methods": {
+    "vision.mount_relation": "只判断外部可见的安装位置和贴靠关系；不证明紧固、三维朝向或隐藏锁止。",
+    "vision.connection_relation": "只判断安装端清楚可见的外部连接；二维重叠不足以证明连接。",
+    "vision.fastener_instances": "枚举可见固定件，结合官方数量和官方图定义的物理位置联合检查；不判断规格、扭矩或松紧。",
+    "vision.appearance": "只判断可见脱离、明显倾斜或缺件；不恢复真实三维方向。",
+    "manual.direction": "操作者对照官方要求明确确认安装方向。",
+    "manual.mechanical_security": "紧固件装配由操作者实际核实机械紧固；这是执行方法策略，照片不能证明。",
+    "manual.other": "仅用于官方明确要求人工核查的条件，不能用于绕过不支持的视觉或传感器条件。",
+    "unsupported": "当前方法不能执行，保留条件并报告能力缺口。"
+  },
+  "policies": [
+    "保留检索到的完整安装任务；用户完成声明不删除节点，也不产生现场事实。",
+    "视觉只采集可见事实；方向、机械紧固和隐藏内部状态不能编成外观通过。",
+    "有螺丝等紧固件安装的节点，必须包含明确的机械紧固人工确认；属于执行方法策略，不能冒称官方测量。",
+    "官方规格用作选材要求，不能用 RGB 图像推断螺纹长度。",
+    "条件方法和观察定义是生成的实验提案，不代表已经经过现场准确率验证。"
+  ],
+  "ar_actions": [
+    {"action_id": "holder.base", "presentation_id": "u7.holder_base", "operation": "用内六角工具安装和固定一个螺丝连接底座，支持多个已定位螺丝作用点；只有现有 U7 教学外形资产。"},
+    {"action_id": "holder.slide", "presentation_id": "u7.holder_slide", "operation": "将料盘支架沿已定位方向滑入底座；只有现有 U7 教学外形资产。"}
+  ]
+}

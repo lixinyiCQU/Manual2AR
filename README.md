@@ -1,62 +1,54 @@
 # Manual2AR
 
-面向 Bambu Lab A1 mini 的教学原型：Unity 前端、本地业务后端、可独立部署的 GPU 视觉服务。提供部件认知、操作指导、打印板异物／残料检查。
+> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。保留main、lixin/u7-end-to-end、Dev；Dev已合并U7。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
 
-**AI Agent 从 [README_AGENT.md](README_AGENT.md) 开始。** 其中记录当前源码入口、Git 基线、未提交修改、验证边界及独立工作树开发方式，不依赖聊天记忆。
+设备官方资料到 AR 操作指导的研究原型。Unity Windows 客户端连接本地 Python 后端，提供部件认知、操作指导和打印板检查。
 
-## 启动
+**项目处于交接状态。** 人先读 [交接说明](docs/HANDOFF.md)，Agent先读 [README_AGENT.md](README_AGENT.md) 和 [AGENTS.md](AGENTS.md)。审查结果、已修复问题及保留待办见 [本轮审计](docs/HANDOFF_AUDIT.md)。
 
-环境：Python 3.12、Unity 2022.3.34f1；当前桌面端为 Windows，后端运行在 WSL。
+## 当前可以演示什么
+
+模块二保留打印机开箱、首次打印、进料、退料，并提供“提问及拍摄现场生成AR指导”。U7 默认使用历史照片和明确标注的预设观察，串联目标匹配、进度判断、集中人工确认、AR动画与再次核验；也可切换实时相机和真实视觉模型。见 [三分钟演示路线](baseline/U7_DEMO.md)。
+
+U7 最细操作为“安装底座→滑入支架”。支持完整目标、只装底座、滑入支架及明确组合问法。通过官方步骤可以先查看资料，不必先拍照或生成计划。未知不当作未安装，人工不能替代缺失的视觉证据，播放动画不代表完成。
+
+当前Demo读取已审核GT，不现场自动编译。自动资料编译、候选人工审核和旧Wiki→AR管线仍保留用于研究与对照，但其菜单入口隐藏。Demo预设不作为模型识别或研究结果；照片平面动画不代表实机空间标定。
+
+## 环境与启动
+
+Python 3.12、Unity 2022.3.34f1，Windows客户端＋WSL/Linux后端。整个交接目录移机时先运行包根目录的 `handoff.py configure`，再安装；不要直接复制旧本机配置。
 
 ```bash
-bash run.sh setup       # 新机器安装依赖；已有环境不必重复执行
-bash run.sh start       # 同步公开资源并启动业务后端
+bash run.sh setup
+bash run.sh start
 ```
 
-本机参数只编辑 `configs/app.local.json`，新机器从 `configs/app.example.json` 复制。GPU 连接只放在 `configs/inference.connection.local.json`；这些私有文件被 Git 忽略，不上传或打印其内容。
+本机配置为被Git忽略的 `configs/app.local.json`，GPU凭据另放 `configs/inference.connection.local.json`。交接工具默认本地8011；公开模板默认8010。真实视觉和语义识别需要接收方自己的API凭据，默认稳定Demo不需要。
 
-公开模板健康检查：`http://127.0.0.1:8010/health`；本 Pipeline 工作树本机配置为8011，实际以本地配置为准。Unity 打开 `apps/unity/Manual2AR` 的 `Welcome` 场景；Windows EXE 从当前交付包中的“启动教学系统.cmd”进入。
+## 目录与开发入口
 
-GPU 使用 SAM3.1 首帧分割与 Cutie 跟踪；不可用时可回退本机 OpenCV。语义识别仍依赖 VLM。原生 ARKit、真实深度及设备电机控制尚未接入。
-
-## 目录
-
-| 目录 | 职责 |
+| 路径 | 职责 |
 | --- | --- |
-| `apps/unity/Manual2AR` | 四个场景、摄像头、交互及视觉显示 |
-| `apps/backend` | API 组合、三个业务模块、离线 Wiki、外部服务适配 |
-| `apps/inference` | 独立 GPU HTTP 服务及 SAM3.1／Cutie 引擎 |
-| `packages/contracts` | 共享帧身份、GPU、空间及教学资产契约 |
-| `packages/perception` | CPU 分割、跟踪及空间几何 |
-| `resources` | 官方教材、任务、Prompt、参考图、字体及教学模型 |
-| `configs` | 公开模板与被忽略的本机配置 |
-| `deploy` | Colab、已分配 HPC 节点、容器及 Windows 启动入口 |
-| `tools`、`tests` | 必要的构建、评估、校验与回归源码 |
-| `docs` | 当前有效的使用说明、架构和契约 |
+| `baseline/` | 独立任务、状态、目标、视觉、编译和评价核心；[基线说明](baseline/README.md) |
+| `apps/backend/` | 三模块API与资源、模型、GPU适配 |
+| `apps/unity/Manual2AR/` | 四场景、摄像头、教学UI及AR展示 |
+| `apps/inference/` | 可选独立GPU服务 |
+| `packages/` | 共享契约、CPU感知及几何 |
+| `resources/` | 官方教材、任务、Prompt、样例、字体与运行资产，须保留 |
+| `tools/`、`tests/` | 构建、交接、评价和受控回归 |
+| `docs/`、`configs/`、`deploy/` | 当前文档、配置模板与部署入口 |
 
-运行记录、构建、缓存及大型原始资料由配置指向仓库外的 `Manual2AR-Data/`。本树为 `Manual2AR-U7-Pipeline`（`lixin/u7-end-to-end`），基于 Dev 的 U7 能力开发 Wiki→AR 管线。`Manual2AR-Dev` 为另一工作树；同级 `Archive/` 中主仓库的 `.git` 仍被关联工作树使用，不能删除。
+外部 `Manual2AR-Data/` 保存离线资料、实验、人工审核、标定、缓存、编辑资产和构建；不能仅发送源码Git后声称交接完整。根目录开发进度及冻结证据均随交接包保留，具体清单见交接说明。
 
-## 说明与验证
-
-- [使用与交付](docs/OPERATIONS.md)
-- [架构与模块边界](docs/ARCHITECTURE.md)
-- [公共 UI 契约与组件](docs/UI_CONTRACT.md)
-- [教学视觉资产](docs/VISUAL_ASSET_LIBRARY.md)
-- [空间文字与图例契约](docs/GUIDANCE_DISPLAY_CONTRACT.md)
-- [工作坐标及动作参数](docs/PRINTER_WORK_COORDINATES.md)
-- [Colab 部署](docs/COLAB_VSCODE.md)
+## 验证与说明
 
 ```bash
-bash run.sh test         # 受控自动回归，不调用真实 VLM/GPU
-bash run.sh resources    # 官方来源、资源、任务、Prompt 与资产校验
-bash run.sh package      # 导出 Unity 工程包，不等于编译 Windows EXE
+bash run.sh resources
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -B -m pytest tests baseline/tests -q -p no:cacheprovider
 ```
 
-Windows EXE 必须先通过 `tools.build.validate_desktop --build`，再运行 `tools.build.spatial_delivery`。构建记录与源码／程序指纹不匹配时拒绝打包，具体命令见使用说明。
+其他说明：[使用与空间标定](docs/OPERATIONS.md)、[系统架构](docs/ARCHITECTURE.md)、[任务目标](baseline/GOAL_FLOW.md)、[视觉核验](baseline/VISION.md)、[自动编译](baseline/COMPILATION.md)、[评价方案](baseline/EVALUATION.md)。旧文档的菜单和阶段描述属于对应实验版本，当前交接入口优先。
 
-历史审计、测试记录、迁移过程、旧规划及诊断笔记本已归档到项目外 `Manual2AR-Data/archives/dev-core-source-20261105/`，不作为当前实现规范。来源清单和恢复方式见 Agent 快照；官方教材、必要部署工具和测试没有作为垃圾删除。
-## U7 问题与照片到 AR 原型
+Windows构建必须通过 `tools.build.validate_desktop --build`，再由 `tools.build.spatial_delivery`核对指纹导出。验证工程必须是仓库外的新空目录或工具已认领目录。`run.sh package`只导出Unity工程，不编译EXE。
 
-本工作树新增模块二入口“提问并生成 AR 指导”：离线 Wiki 检索、任务编译、U7 能力绑定与独立 AR 核验。使用与边界见 [docs/WIKI_TO_AR.md](docs/WIKI_TO_AR.md)。
-
-当前管线支持12项实验开关，包含现场驱动执行和严格视觉观察契约。实际能力、未定义验收标准及验证边界见 [Agent快照](README_AGENT.md) 和 [仓库审查](docs/REPOSITORY_AUDIT.md)。
+真实模型曾出现部件误认和螺丝细节未知；未完成实体相机、真实装配和AR精度联合验收。业务API按单用户本地实验设计，尚不具备公网多用户部署条件。

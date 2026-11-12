@@ -1,0 +1,383 @@
+{
+  "schema_version": "baseline-task-v1",
+  "id": "a1_mini.install_spool_holder",
+  "version": "0.2.0-state-validation",
+  "device_id": "bambu_a1_mini",
+  "title": "安装料盘支架",
+  "scope": "用户明确要求安装料盘支架；保留完整底座与支架依赖。AMS lite 的可选安装说明属于教程适用范围，不能当作用户已安装或自动完成的证据。",
+  "objects": [
+    {
+      "id": "base",
+      "name": "料盘支架底座",
+      "aliases": [
+        "灰色底座",
+        "深灰色底座"
+      ],
+      "source_ids": [
+        "official.base",
+        "reference.base"
+      ]
+    },
+    {
+      "id": "column",
+      "name": "打印机立柱",
+      "aliases": [
+        "Z 轴立柱"
+      ],
+      "source_ids": [
+        "reference.base",
+        "reference.holder"
+      ]
+    },
+    {
+      "id": "upper_screw",
+      "name": "上方固定螺丝",
+      "aliases": [],
+      "source_ids": [
+        "reference.base"
+      ]
+    },
+    {
+      "id": "lower_screw",
+      "name": "下方固定螺丝",
+      "aliases": [],
+      "source_ids": [
+        "reference.base"
+      ]
+    },
+    {
+      "id": "holder",
+      "name": "料盘支架",
+      "aliases": [
+        "可拆卸白色料盘支架"
+      ],
+      "source_ids": [
+        "official.holder",
+        "reference.holder"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "r.base.install",
+      "kind": "operation",
+      "source_id": "official.base",
+      "quote": "来安装料盘支架底座"
+    },
+    {
+      "id": "r.base.quantity",
+      "kind": "specification",
+      "source_id": "official.base",
+      "quote": "2 颗"
+    },
+    {
+      "id": "r.base.specification",
+      "kind": "material_selection",
+      "source_id": "official.base",
+      "quote": "M3-8"
+    },
+    {
+      "id": "r.base.direction",
+      "kind": "outcome",
+      "source_id": "official.base",
+      "quote": "请注意安装方向。"
+    },
+    {
+      "id": "r.holder.slide",
+      "kind": "operation",
+      "source_id": "official.holder",
+      "quote": "从上向下滑入料盘支架。"
+    },
+    {
+      "id": "r.holder.direction",
+      "kind": "outcome",
+      "source_id": "official.holder",
+      "quote": "请确保料盘支架方向与插槽方向相匹配。"
+    },
+    {
+      "id": "r.optional",
+      "kind": "applicability",
+      "source_id": "official.optional",
+      "quote": "如果您计划使用 AMS lite，您可以选择性地安装料盘支架，而不是一定需要安装。"
+    },
+    {
+      "id": "r.base.mount",
+      "kind": "outcome",
+      "source_id": "reference.base",
+      "quote": "灰色底座已贴靠在立柱正确安装区域"
+    },
+    {
+      "id": "r.base.screws",
+      "kind": "outcome",
+      "source_id": "reference.base",
+      "quote": "上下两颗固定螺丝均可见且处于安装孔位"
+    },
+    {
+      "id": "r.base.appearance",
+      "kind": "outcome",
+      "source_id": "reference.base",
+      "quote": "未见明显缺件、脱离或倾斜。"
+    },
+    {
+      "id": "r.base.secure",
+      "kind": "outcome",
+      "source_id": "reference.base",
+      "quote": "用户仍需按官方步骤人工确认机械紧固。"
+    },
+    {
+      "id": "r.base.boundary",
+      "kind": "observation_boundary",
+      "source_id": "reference.base",
+      "quote": "只检查可见安装状态，不判断扭矩、螺丝是否真正拧紧、隐藏卡扣或内部结构。"
+    },
+    {
+      "id": "r.holder.connection",
+      "kind": "outcome",
+      "source_id": "reference.holder",
+      "quote": "安装端与打印机立柱的底座区域有清楚可见的连接"
+    },
+    {
+      "id": "r.holder.appearance",
+      "kind": "outcome",
+      "source_id": "reference.holder",
+      "quote": "且无明显脱离或大幅倾斜。"
+    },
+    {
+      "id": "r.holder.occlusion",
+      "kind": "observation_boundary",
+      "source_id": "reference.holder",
+      "quote": "底座会被装好的支架遮住，不要求看见底座螺丝、隐藏插槽、卡扣或细微缝隙。"
+    },
+    {
+      "id": "r.holder.boundary",
+      "kind": "observation_boundary",
+      "source_id": "reference.holder",
+      "quote": "结论仅限可见安装状态，不表示机械锁紧或安全放行。"
+    },
+    {
+      "id": "r.base.reference_instruction",
+      "kind": "operation",
+      "source_id": "reference.base_instruction",
+      "quote": "使用两颗 M3-8 螺丝固定料盘支架底座，注意官方图示方向。画面同时提示两颗螺丝的位置；紧固程度请按官方说明人工确认。"
+    },
+    {
+      "id": "r.holder.reference_instruction",
+      "kind": "operation",
+      "source_id": "reference.holder_instruction",
+      "quote": "从上向下滑入料盘支架，确保方向与插槽匹配。"
+    },
+    {
+      "id": "r.chapter.outcome",
+      "kind": "outcome",
+      "source_id": "reference.chapter",
+      "quote": "料盘支架底座与安装面贴合，支架已沿匹配插槽滑入，无明显倾斜。"
+    }
+  ],
+  "conditions": [
+    {
+      "id": "c.base.mount",
+      "statement": "底座位于立柱指定安装区域并贴靠安装面。",
+      "object_ids": [
+        "base",
+        "column"
+      ],
+      "requirement_ids": [
+        "r.base.mount",
+        "r.chapter.outcome"
+      ],
+      "channel": "vision",
+      "scope": "visible_state",
+      "basis": "direct_reference",
+      "standard_status": "needs_visual_standard",
+      "definition": "只核验当前可见安装关系；遮挡或无法区分贴靠与悬空时保持未知。具体区域和特征标准留待视觉阶段定义。"
+    },
+    {
+      "id": "c.base.screws",
+      "statement": "上下两颗固定螺丝均可见且处于各自对应安装孔位。",
+      "object_ids": [
+        "base",
+        "upper_screw",
+        "lower_screw"
+      ],
+      "requirement_ids": [
+        "r.base.quantity",
+        "r.base.screws"
+      ],
+      "channel": "vision",
+      "scope": "visible_state",
+      "basis": "direct_reference",
+      "standard_status": "needs_visual_standard",
+      "definition": "保留原 GT 的联合检查：必须同时确认上下两颗不同螺丝均在对应孔位。只见一颗、重复同一实例或孔位空缺都不能满足；不可见时未知。具体区域与视觉标准留待定义。"
+    },
+    {
+      "id": "c.base.appearance",
+      "statement": "底座无明显缺件、脱离或倾斜。",
+      "object_ids": [
+        "base",
+        "column"
+      ],
+      "requirement_ids": [
+        "r.base.appearance"
+      ],
+      "channel": "vision",
+      "scope": "visible_state",
+      "basis": "direct_reference",
+      "standard_status": "needs_visual_standard",
+      "definition": "这是外观条件，不证明紧固；明显倾斜的判断标准尚待定义，不设置臆测角度。"
+    },
+    {
+      "id": "c.base.direction",
+      "statement": "底座安装方向符合官方要求。",
+      "object_ids": [
+        "base",
+        "column"
+      ],
+      "requirement_ids": [
+        "r.base.direction"
+      ],
+      "channel": "manual",
+      "scope": "nonvisual_confirmation",
+      "basis": "normalization_proposal",
+      "standard_status": "manual_definition",
+      "definition": "基线采用人工对照官方参考图确认当前安装方向。必须先通过本节点规定的可见外观检查，再逐项明确确认；初始完成声明不算确认。此渠道由用户授权方案审核选定，不是视觉失败时的临时回退，也不表示已有自动三维辨向能力。"
+    },
+    {
+      "id": "c.base.secure",
+      "statement": "用户已按官方说明确认底座机械紧固。",
+      "object_ids": [
+        "base",
+        "upper_screw",
+        "lower_screw"
+      ],
+      "requirement_ids": [
+        "r.base.secure"
+      ],
+      "channel": "manual",
+      "scope": "nonvisual_confirmation",
+      "basis": "direct_reference",
+      "standard_status": "manual_definition",
+      "definition": "逐项人工确认当前底座机械紧固；不从可见螺丝推断松紧，不添加官方未给出的扭矩。用户最初的完成声明不是此确认。"
+    },
+    {
+      "id": "c.holder.connection",
+      "statement": "支架安装端与底座区域有清楚可见的外部连接。",
+      "object_ids": [
+        "holder",
+        "base",
+        "column"
+      ],
+      "requirement_ids": [
+        "r.holder.connection",
+        "r.chapter.outcome"
+      ],
+      "channel": "vision",
+      "scope": "visible_state",
+      "basis": "direct_reference",
+      "standard_status": "needs_visual_standard",
+      "definition": "仅核验可见最终连接，无法区分连接和靠在一起时未知；不要求看到被正常遮挡的底座螺丝，不证明隐藏锁止。"
+    },
+    {
+      "id": "c.holder.appearance",
+      "statement": "支架无明显脱离或大幅倾斜。",
+      "object_ids": [
+        "holder",
+        "base"
+      ],
+      "requirement_ids": [
+        "r.holder.appearance",
+        "r.chapter.outcome"
+      ],
+      "channel": "vision",
+      "scope": "visible_state",
+      "basis": "direct_reference",
+      "standard_status": "needs_visual_standard",
+      "definition": "保留原外观要求；大幅倾斜的可观察标准尚待审核，不臆造角度容差。"
+    },
+    {
+      "id": "c.holder.direction",
+      "statement": "支架方向与底座插槽方向匹配。",
+      "object_ids": [
+        "holder",
+        "base"
+      ],
+      "requirement_ids": [
+        "r.holder.direction"
+      ],
+      "channel": "manual",
+      "scope": "nonvisual_confirmation",
+      "basis": "normalization_proposal",
+      "standard_status": "manual_definition",
+      "definition": "基线采用人工对照官方参考图确认当前安装方向。必须先通过本节点规定的可见外观检查，再逐项明确确认；初始完成声明不算确认。此渠道由用户授权方案审核选定，不是视觉失败时的临时回退，也不表示已有自动三维辨向能力。"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "install_base",
+      "instruction": "使用两颗 M3-8 螺丝安装料盘支架底座，注意官方安装方向；机械紧固须人工确认。",
+      "object_ids": [
+        "base",
+        "column",
+        "upper_screw",
+        "lower_screw"
+      ],
+      "requirement_ids": [
+        "r.base.install",
+        "r.base.reference_instruction",
+        "r.base.specification"
+      ],
+      "depends_on": [],
+      "precondition_ids": [],
+      "completion_ids": [
+        "c.base.mount",
+        "c.base.screws",
+        "c.base.appearance",
+        "c.base.direction",
+        "c.base.secure"
+      ]
+    },
+    {
+      "id": "install_holder",
+      "instruction": "从上向下滑入料盘支架，确保方向与插槽匹配。",
+      "object_ids": [
+        "holder",
+        "base"
+      ],
+      "requirement_ids": [
+        "r.holder.slide",
+        "r.holder.reference_instruction"
+      ],
+      "depends_on": [
+        "install_base"
+      ],
+      "precondition_ids": [
+        "c.base.mount",
+        "c.base.screws",
+        "c.base.appearance",
+        "c.base.direction",
+        "c.base.secure"
+      ],
+      "completion_ids": [
+        "c.holder.connection",
+        "c.holder.appearance",
+        "c.holder.direction"
+      ]
+    }
+  ],
+  "goal_condition_ids": [
+    "c.base.mount",
+    "c.base.screws",
+    "c.base.appearance",
+    "c.base.direction",
+    "c.base.secure",
+    "c.holder.connection",
+    "c.holder.appearance",
+    "c.holder.direction"
+  ],
+  "policy_requirement_ids": [
+    "r.optional",
+    "r.base.boundary",
+    "r.holder.occlusion",
+    "r.holder.boundary"
+  ],
+  "review_items": []
+}

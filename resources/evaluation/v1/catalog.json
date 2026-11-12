@@ -1,0 +1,13 @@
+{
+  "schema_version": "baseline-review-catalog-v1",
+  "plans": [
+    {
+      "id": "transfer-20261111-v1",
+      "title": "首轮任务与设备迁移评价",
+      "folder": "transfer-20261111-v1",
+      "plan_sha256": "103aa4d9941b08e3ff13f3505d1fab25e9e255404ebd085d0437d0c0a5b97136",
+      "archive_manifest_sha256": "e11f726dfc2a9c059ea6fe6efd19739a4dddab12fc861b9c090b90d7938390d3",
+      "experiment_trials": ["a1mini-u7-control.r02", "a1mini-u7-control.r03"]
+    }
+  ]
+}

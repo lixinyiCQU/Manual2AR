@@ -1,0 +1,1330 @@
+{
+  "schema_version": "baseline-state-cases-v1",
+  "evidence_kind": "controlled_symbolic_facts",
+  "description": "人工明确设定的规则验收输入及预期结果；不包含真实现场图片或 VLM 输出。",
+  "cases": [
+    {
+      "id": "base_absent",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "false",
+              "c.base.screws": "false",
+              "c.base.appearance": "false",
+              "c.holder.connection": "false",
+              "c.holder.appearance": "false"
+            }
+          },
+          "expect": {
+            "mode": "operate",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "unknown_is_not_absence",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "unknown",
+              "c.base.screws": "unknown",
+              "c.base.appearance": "unknown"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "node_states": {
+              "install_base": "unknown",
+              "install_holder": "blocked"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "visible_base_needs_confirmation",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {
+            "mode": "ask_manual",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.direction"
+            ],
+            "node_states": {
+              "install_base": "suspected_installed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "verified_base_skips_reinstallation",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "no_claim_same_verified_base",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "claim_same_verified_base",
+      "intent": "我已完成料盘底座的安装，现在希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "claim",
+            "node_id": "install_base",
+            "quote": "我已完成料盘底座的安装",
+            "completed": true
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "claim_conflicts_with_scene",
+      "intent": "我已完成料盘底座的安装，现在希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "claim",
+            "node_id": "install_base",
+            "quote": "我已完成料盘底座的安装",
+            "completed": true
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "false",
+              "c.base.screws": "false",
+              "c.base.appearance": "false"
+            }
+          },
+          "expect": {
+            "mode": "operate",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "claim_conflicts": [
+              {
+                "node_id": "install_base",
+                "quote": "我已完成料盘底座的安装",
+                "claim_id": "claim_conflicts_with_scene.e1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "claim_never_proves_completion",
+      "intent": "我已完成料盘底座的安装，现在希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "claim",
+            "node_id": "install_base",
+            "quote": "我已完成料盘底座的安装",
+            "completed": true
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "completed_node_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "missing_screw_targets_joint_check",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "false",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {
+            "mode": "operate",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.screws"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "unknown_mount_blocks_later_false",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "unknown",
+              "c.base.screws": "false",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "manual_cannot_bypass_unknown_view",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base"
+          },
+          "expect_error": "visual/prerequisite"
+        }
+      ]
+    },
+    {
+      "id": "manual_cannot_override_visual",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.mount": "true"
+            }
+          },
+          "expect": {},
+          "expect_error": "cannot override visual"
+        }
+      ]
+    },
+    {
+      "id": "observation_cannot_confirm_tightness",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {},
+          "expect_error": "declared visual"
+        }
+      ]
+    },
+    {
+      "id": "future_manual_cannot_skip_base",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true",
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {},
+          "expect_error": "visual/prerequisite"
+        }
+      ]
+    },
+    {
+      "id": "both_already_installed",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "normal_occlusion_keeps_verified_base",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.base.screws": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.base.appearance": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {
+            "mode": "ask_manual",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.direction"
+            ],
+            "completed_node_ids": [
+              "install_base"
+            ],
+            "conditions": {
+              "c.base.screws": {
+                "value": "true",
+                "evidence_id": "normal_occlusion_keeps_verified_base.e1",
+                "retained_on": "normal_occlusion_keeps_verified_base.e3"
+              }
+            }
+          }
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "new_session_installed_holder_no_base_evidence",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.base.screws": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.base.appearance": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "completed_node_ids": [],
+            "conditions": {
+              "c.base.screws": {
+                "value": "unknown"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unverified_node_cannot_retain_occlusion",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.base.screws": {
+                "value": "unknown",
+                "reason": "occluded"
+              },
+              "c.base.appearance": {
+                "value": "unknown",
+                "reason": "occluded"
+              }
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "conditions": {
+              "c.base.direction": {
+                "value": "unknown"
+              }
+            },
+            "completed_node_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "counterevidence_relocks_dependents",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.screws": "false"
+            }
+          },
+          "expect": {
+            "mode": "operate",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.screws"
+            ],
+            "completed_node_ids": [],
+            "conditions": {
+              "c.base.secure": {
+                "value": "unknown"
+              },
+              "c.holder.connection": {
+                "value": "unknown"
+              },
+              "c.holder.direction": {
+                "value": "unknown"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "identity_uncertainty_is_not_normal_occlusion",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": {
+                "value": "unknown",
+                "reason": "unresolved_identity"
+              }
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "completed_node_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "context_change_resets_evidence",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        },
+        {
+          "event": {
+            "kind": "context_change",
+            "context_id": "moved_printer",
+            "reason": "设备或部件身份/布置改变"
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "epoch": 1,
+            "completed_node_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "partial_manual_confirmation",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "ask_manual",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.secure"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "wrong_direction_requires_correction",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "false"
+            }
+          },
+          "expect": {
+            "mode": "operate",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.direction"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "stale_frame_rejected",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            },
+            "frame_id": 1
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "false",
+              "c.base.screws": "false",
+              "c.base.appearance": "false"
+            },
+            "frame_id": 1
+          },
+          "expect": {},
+          "expect_error": "Stale observation frame"
+        }
+      ]
+    },
+    {
+      "id": "stale_revision_rejected",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            },
+            "revision": 0
+          },
+          "expect": {},
+          "expect_error": "Stale or mismatched"
+        }
+      ]
+    },
+    {
+      "id": "wrong_session_rejected",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            },
+            "session_id": "other_session"
+          },
+          "expect": {},
+          "expect_error": "Stale or mismatched"
+        }
+      ]
+    },
+    {
+      "id": "wrong_task_rejected",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            },
+            "task_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "expect": {},
+          "expect_error": "Stale or mismatched"
+        }
+      ]
+    },
+    {
+      "id": "old_epoch_rejected",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "context_change",
+            "context_id": "new_scene",
+            "reason": "重新建立现场"
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            },
+            "epoch": 0
+          },
+          "expect": {},
+          "expect_error": "Stale or mismatched"
+        }
+      ]
+    },
+    {
+      "id": "explicit_invalidation_relocks",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        },
+        {
+          "event": {
+            "kind": "invalidate",
+            "condition_ids": [
+              "c.base.screws"
+            ],
+            "reason": "用户要求重新核验底座螺丝"
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.screws"
+            ],
+            "completed_node_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "repair_requires_fresh_dependent_evidence",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.holder.connection": "true",
+              "c.holder.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.holder.direction": "true"
+            }
+          },
+          "expect": {
+            "mode": "complete",
+            "node_id": null,
+            "condition_ids": []
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.screws": "false"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ],
+            "completed_node_ids": [
+              "install_base"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "out_of_frame_does_not_retain",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            }
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "manual",
+            "values": {
+              "c.base.direction": "true",
+              "c.base.secure": "true"
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_holder",
+            "condition_ids": [
+              "c.holder.connection"
+            ]
+          }
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": {
+                "value": "unknown",
+                "reason": "out_of_frame"
+              }
+            }
+          },
+          "expect": {
+            "mode": "request_view",
+            "node_id": "install_base",
+            "condition_ids": [
+              "c.base.mount"
+            ],
+            "completed_node_ids": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "event_not_consumed_twice",
+      "intent": "我希望安装料盘支架",
+      "initial_expect": {},
+      "steps": [
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "true",
+              "c.base.screws": "true",
+              "c.base.appearance": "true"
+            },
+            "id": "duplicate_event"
+          },
+          "expect": {}
+        },
+        {
+          "event": {
+            "kind": "observation",
+            "values": {
+              "c.base.mount": "false",
+              "c.base.screws": "false",
+              "c.base.appearance": "false"
+            },
+            "id": "duplicate_event"
+          },
+          "expect": {},
+          "expect_error": "already consumed"
+        }
+      ]
+    }
+  ]
+}

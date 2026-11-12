@@ -180,7 +180,7 @@ namespace Manual2AR
             }
             busy=false;
             if(error!=null){connected=false;catalogStatus.text="教学服务暂时未连接，请稍后重试。";notice.text=catalogStatus.text;}
-            else catalogStatus.text="选择任务开始指导。设备已准备好的用户可直接进入首次打印。";
+            else catalogStatus.text="选择问答指导，或浏览开箱、首次打印教程。";
         }
         protected override void Apply(UnboxingRun value)
         {
@@ -250,7 +250,7 @@ namespace Manual2AR
         {
             if(busy)return;ClosePhotoReference();StopCamera();ShowLive();CloseModal();catalogPanel.SetActive(true);catalogPanel.transform.SetAsLastSibling();
             AppShell.BindTeachingBack();
-            catalogStatus.text=connected?"请选择任务；也可继续当前指导。":"教学服务暂时未连接，请稍后重试。";
+            catalogStatus.text=connected?"选择问答指导，或浏览开箱、首次打印教程。":"教学服务暂时未连接，请稍后重试。";
         }
         void BindTaskBack(){AppShell.BindBack("返回任务列表",ShowCatalog,()=>!busy&&!starting);}
         void OpenSpatial(){
@@ -275,12 +275,13 @@ namespace Manual2AR
         void RenderCatalog(){
             taskButtons.Clear();taskMenu.Clear();foreach(var texture in thumbnails)if(texture!=null)Destroy(texture);thumbnails.Clear();int generation=++catalogGeneration;
             if(catalog==null||catalog.tasks==null)return;
-            var generated=taskMenu.Add("wiki-to-ar","提问并生成 AR 指导","拍摄现场，从离线资料自动生成安装任务 · U7",true,()=>{
+            var demo=taskMenu.Add("u7-demo","提问及拍摄现场生成AR指导","U7演示：输入目标，选择历史照片或拍摄现场，查看计划并进行AR指导",true,()=>{
                 if(busy)return;StopCamera();root.gameObject.SetActive(false);
-                WikiToArView.Open(settings.backend_url,()=>{root.gameObject.SetActive(true);AppShell.BindTeachingBack();});
-            });taskButtons.Add(generated.Button);
+                U7DemoView.Open(settings.backend_url,()=>{root.gameObject.SetActive(true);AppShell.BindTeachingBack();});
+            });taskButtons.Add(demo.Button);
             foreach(var entry in catalog.tasks){
-                var item=entry;var card=taskMenu.Add(item.id,item.title,item.description,true,()=>SelectTask(item));taskButtons.Add(card.Button);StartCoroutine(LoadThumbnail(item.thumbnail,card.Image,generation));
+                var item=entry;var card=taskMenu.Add(item.id,item.title,item.description,true,()=>SelectTask(item));
+                taskButtons.Add(card.Button);StartCoroutine(LoadThumbnail(item.thumbnail,card.Image,generation));
             }
             if(catalogPanel.activeSelf)catalogPanel.transform.SetAsLastSibling();
         }

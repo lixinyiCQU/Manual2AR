@@ -19,14 +19,32 @@ from manual2ar.paths import ROOT
 from .desktop_provenance import project_inputs, check_inputs, seal_build
 
 
+def claim_project(project, source):
+    """Only disposable projects created by this worktree may be overwritten."""
+    project = Path(project).absolute(); source = Path(source).resolve()
+    if project.is_symlink():raise ValueError('Validation project must not be a symlink')
+    project = project.resolve()
+    if project == source or project.is_relative_to(source):
+        raise ValueError('Validation project must be outside source worktree')
+    marker = project / '.manual2ar-validation.json'
+    owner = dict(schema_version='manual2ar-unity-validation-v1', source_worktree=str(source))
+    if project.exists() and any(project.iterdir()):
+        if not marker.is_file() or marker.is_symlink() or json.loads(marker.read_text()) != owner:
+            raise ValueError('Refusing to overwrite an unowned project; choose a new empty validation directory')
+    for name in ['Assets', 'Packages', 'ProjectSettings', 'Validation', 'Player']:
+        if (project / name).is_symlink():raise ValueError('Validation paths must not be symlinks')
+    project.mkdir(parents=True, exist_ok=True)
+    marker.write_text(json.dumps(owner, indent=2)+'\n', encoding='utf-8')
+    return project
+
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--unity',type=Path,required=True)
     parser.add_argument('--project',type=Path,required=True);parser.add_argument('--build',action='store_true')
     args=parser.parse_args();config=load();builds=resolve(config['paths']['builds'])
+    project=claim_project(args.project, ROOT)
     output=builds/('validation-spatial-'+datetime.now().strftime('%Y%m%d-%H%M%S'));output.mkdir(parents=True)
-    project=args.project.absolute()
-    if project==ROOT or project.is_relative_to(ROOT):raise ValueError('Validation project must be outside source worktree')
-    package(config);project.mkdir(parents=True,exist_ok=True)
+    package(config)
     inputs=project_inputs(ROOT/'apps/unity/Manual2AR')
     for name in ['Assets','Packages','ProjectSettings']:
         if (project/name).exists():shutil.rmtree(project/name)
