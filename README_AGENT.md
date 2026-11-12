@@ -2,7 +2,7 @@
 
 当前开发布局见 [WORKSPACE_LAYOUT](docs/WORKSPACE_LAYOUT.md)，本机目录与分支以此为准。
 
-> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。保留main、lixin/u7-end-to-end、Dev；Dev已合并U7。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
+> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
 
 状态：2026-11-12，交接整理版。先读本文件、`AGENTS.md`、[交接说明](docs/HANDOFF.md)，再查当前源码和 Git；不要把历史计划视为新授权。完整旧快照保存在 [历史快照](docs/history/AGENT_SNAPSHOT_20261112.md)，本文件只保留当前事实。
 
@@ -85,8 +85,10 @@ Unity验证只用全新空目录或当前工作树已认领的验证目录；旧
 
 ## Git 与并行工作
 
-原开发树基于 `8bbfd0d`，本次不提交、不重置原工作树。交接副本拥有独立 `.git/`、所有原分支/标签/其他refs，并在 `handoff/u7-20261112` 创建一次本地交接提交；完整提交号读包的 `manifests/handoff.json`。该提交只存在交接副本，不是推送或合并。
+当前只保留 main 和 Dev，日常开发目录为 Manual2AR-Dev。U7的全部提交已在Dev中，原lixin/u7-end-to-end分支和Manual2AR-U7-Pipeline工作树已移除。共享Git库在根目录.git-store，不要删除。读取实际HEAD与status，不使用旧交接包快照推断当前状态。
 
-`history/` 保存原refs、原未提交状态、已跟踪补丁、未跟踪列表和含交接提交的 `all-history.bundle`。GitHub只推确认的源码分支；实验与缓存通过整个交接目录另传。新分支不要默认接到旧 `main` 原型。
+旧分支的完整bundle在Data/archives/workspace-cleanup-20261112；旧工作树压缩归档已精简，跟踪源码按archive-compaction.json中的commit从Git恢复，仅保留独有资料。新清理清单在Data/archives/slim-workspace-20261112。未推送远程。
 
-多个Agent各用独立分支/工作树、venv、端口、runtime/cache/builds和Unity验证工程；共享官方资料只读。不要清理他人修改、杀其他服务或删除旧主仓库 `.git`。先报告真实HEAD和status，再执行新任务。
+原始实验、模型回复、人审、标定与Wiki保留。旧UI截图只保留各渠道最新一组，旧控制台日志和重复程序已删除，结果JSON保留。浏览器和Dev Python环境为现用依赖，保留；pip安装缓存、退休U7环境与旧归档模型缓存已删除。
+
+后续并行开发使用各自分支/工作树、端口、runtime/cache和Unity验证工程，不覆写他人配置。向学长仓库贡献时先推送自己的Dev分支，再向约定的目标分支提PR；本次没有授权远程写入。

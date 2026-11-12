@@ -1,10 +1,10 @@
 # Agent entrypoint
 
-> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。保留main、lixin/u7-end-to-end、Dev；Dev已合并U7。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
+> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本次只有本地提交合并，无推送。
 
 Read `README_AGENT.md`, then inspect `git status`, the relevant source and tests before editing. The snapshot describes a point in time; current code and explicit user instructions take precedence.
 
-Use an independent branch/worktree and private runtime/cache/build paths for concurrent development. Never share a Unity Library, overwrite another worktree's local configuration, or clean another Agent's changes. Do not delete `../.git-store/`; both active worktrees depend on this shared Git store.
+Use an independent branch/worktree and private runtime/cache/build paths for concurrent development. Never share a Unity Library, overwrite another worktree's local configuration, or clean another Agent's changes. Do not delete `../.git-store/`; the active Dev worktree depends on this shared Git store.
 
 Preserve frame/session/hash checks, calibration, official evidence and the distinction between recognition, animation and verification. Keep credentials, captured images, generated builds and debug records outside tracked source. Do not claim real camera/GPU/AR validation from controlled tests.
 
