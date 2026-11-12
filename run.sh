@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")"
+cache_root="$(python3 - <<'CACHE_PATH'
+import json
+from pathlib import Path
+root = Path.cwd()
+local = root/'configs/app.local.json'
+config = json.loads((local if local.is_file() else root/'configs/app.example.json').read_text())
+print((root/config['paths']['cache']).resolve())
+CACHE_PATH
+)"
+mkdir -p "$cache_root/pip" "$cache_root/tmp"
+export PIP_CACHE_DIR="$cache_root/pip"
+export PLAYWRIGHT_BROWSERS_PATH="$cache_root/playwright"
+export TMPDIR="$cache_root/tmp"
 if [[ "${1:-}" == setup ]]; then
   python3.12 -m venv .venv
   .venv/bin/python -m pip install -r apps/backend/requirements.lock
