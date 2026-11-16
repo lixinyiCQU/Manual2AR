@@ -1,60 +1,156 @@
 # Manual2AR
 
-当前私有开发副本位于 [lixinyiCQU/Manual2AR](https://github.com/lixinyiCQU/Manual2AR/tree/Dev)，以 `Dev` 为开发与验收入口，`main` 保留原始基线。访问与移机说明见 [GitHub 交接](docs/GITHUB_HANDOFF.md)。
+将设备操作资料与现场状态结合，为用户提供任务定位、安装核验和 AR 操作指导。
 
-**学长验收从 [ACCEPTANCE](docs/ACCEPTANCE.md) 开始。** 本分支独立保存完整系统，暂不合入主分支。运行所需的离线资料、演示照片和 Windows 程序另行提供，未放进 Git 分支。
+Manual2AR 是基于 Unity 和 Python 的研究原型。系统以官方操作资料为依据，结合用户的自然语言目标与现场照片，确定任务范围、核实已有进度，并通过现有 AR 资产展示细粒度操作。当前主要演示设备为 Bambu Lab A1 mini，核心示例为 U7 料盘支架安装。
 
-本机开发布局见 [WORKSPACE_LAYOUT](docs/WORKSPACE_LAYOUT.md)。
+## 功能概览
 
-> 2026-11-12工作区整理：数据统一在同级 `../Manual2AR-Data/`，Git公共库位于工作区根 `.git-store/`。仅保留main、Dev；U7已合并，原U7分支与工作树已删除。日常开发使用Manual2AR-Dev。旧交接包/原机路径描述仅为历史记录，不要据此移动数据或删除Git库。本分支用于独立验收，暂不合入main。
+- **部件认知**：结合设备资料与图像，提供部件信息和识别结果。
+- **操作指导**：保留开箱、首次打印、进料、退料等教程，支持图文浏览和 U7 问答拍照指导。
+- **现场核验**：将视觉观察与人工检查结合，区分已满足、未满足和无法确定的条件。
+- **AR 展示**：根据当前操作调用已有动画资产；核验反馈更新后续指导。
+- **研究工具**：提供资料编译、任务契约校验、候选人工审核、缓存回放及对照评价工具。
 
-设备官方资料到 AR 操作指导的研究原型。Unity Windows 客户端连接本地 Python 后端，提供部件认知、操作指导和打印板检查。
+## 工作流程
 
-**项目处于交接状态。** 人先读 [交接说明](docs/HANDOFF.md)，Agent先读 [README_AGENT.md](README_AGENT.md) 和 [AGENTS.md](AGENTS.md)。审查结果、已修复问题及保留待办见 [本轮审计](docs/HANDOFF_AUDIT.md)。
+离线阶段将操作资料整理为具有来源引用、任务层级、依赖关系与检查条件的任务定义，并关联 AR 资产。在线阶段根据用户目标定位任务，再通过照片和必要交互核实现场状态，选择操作、补拍、人工检查或结束。
 
-## 当前可以演示什么
-
-模块二保留打印机开箱、首次打印、进料、退料，并提供“提问及拍摄现场生成AR指导”。U7 默认使用历史照片和明确标注的预设观察，串联目标匹配、进度判断、集中人工确认、AR动画与再次核验；也可切换实时相机和真实视觉模型。见 [三分钟演示路线](baseline/U7_DEMO.md)。
-
-U7 最细操作为“安装底座→滑入支架”。支持完整目标、只装底座、滑入支架及明确组合问法。通过官方步骤可以先查看资料，不必先拍照或生成计划。未知不当作未安装，人工不能替代缺失的视觉证据，播放动画不代表完成。
-
-当前Demo读取已审核GT，不现场自动编译。自动资料编译、候选人工审核和旧Wiki→AR管线仍保留用于研究与对照，但其菜单入口隐藏。Demo预设不作为模型识别或研究结果；照片平面动画不代表实机空间标定。
-
-## 环境与启动
-
-Python 3.12、Unity 2022.3.34f1，Windows客户端＋WSL/Linux后端。整个交接目录移机时先运行包根目录的 `handoff.py configure`，再安装；不要直接复制旧本机配置。
-
-```bash
-bash run.sh setup
-bash run.sh start
+```mermaid
+flowchart LR
+    A[官方操作资料] --> B[任务定义与检查条件]
+    B --> C[任务与 AR 资产关联]
+    D[用户目标与现场照片] --> E[目标定位与状态核实]
+    C --> E
+    E --> F{下一步}
+    F --> G[AR 操作指导]
+    F --> H[补拍或人工检查]
+    G --> I[结果核验]
+    H --> E
+    I --> E
+    F --> J[目标确认完成或说明阻碍]
 ```
 
-本机配置为被Git忽略的 `configs/app.local.json`，GPU凭据另放 `configs/inference.connection.local.json`。交接工具默认本地8011；公开模板默认8010。真实视觉和语义识别需要接收方自己的API凭据，默认稳定Demo不需要。
+当前 U7 Demo 使用已审核的任务定义，不在每次提问时重新编译资料。自动资料编译管线独立保留，用于研究与对照。
 
-## 目录与开发入口
+## U7 演示
 
-| 路径 | 职责 |
+U7 包含两个官方细粒度操作：**安装底座 → 滑入支架**。
+
+支持的示例目标包括：
+
+- “安装料盘支架”
+- “安装支架底座”
+- “滑入料盘支架”
+- “安装料盘底座及滑入料盘支架”
+
+目标范围不明确时，系统展示官方任务候选。现场照片评估后，界面显示已支持的状态、待核实内容及当前动作；人工检查集中在同一窗口确认。操作结束后重新拍照核验，播放动画本身不改变完成状态。
+
+提供两种模式：
+
+| 模式 | 输入与用途 |
 | --- | --- |
-| `baseline/` | 独立任务、状态、目标、视觉、编译和评价核心；[基线说明](baseline/README.md) |
-| `apps/backend/` | 三模块API与资源、模型、GPU适配 |
-| `apps/unity/Manual2AR/` | 四场景、摄像头、教学UI及AR展示 |
-| `apps/inference/` | 可选独立GPU服务 |
-| `packages/` | 共享契约、CPU感知及几何 |
-| `resources/` | 官方教材、任务、Prompt、样例、字体与运行资产，须保留 |
-| `tools/`、`tests/` | 构建、交接、评价和受控回归 |
-| `docs/`、`configs/`、`deploy/` | 当前文档、配置模板与部署入口 |
+| 历史照片演示（默认） | 使用历史照片和明确标注的预设观察，稳定展示完整交互流程，不调用视觉模型 |
+| 实时拍摄 | 手动启动相机、拍摄现场并调用真实视觉模型，保留无法确认和调用失败的情况 |
 
-外部 `Manual2AR-Data/` 保存离线资料、实验、人工审核、标定、缓存、编辑资产和构建；不能仅发送源码Git后声称交接完整。根目录开发进度及冻结证据均随交接包保留，具体清单见交接说明。
+两种模式的 Demo 记录均不纳入正式研究评价。完整操作说明见 [U7 Demo](baseline/U7_DEMO.md)。
 
-## 验证与说明
+## 环境要求
+
+| 组件 | 环境 |
+| --- | --- |
+| 后端 | Python 3.12，Linux 或 WSL |
+| 前端 | Unity 2022.3.34f1，Windows 客户端 |
+| 真实视觉 | 兼容现有接口的视觉语言模型服务及 API 凭据 |
+| 可选推理服务 | 用于相关识别、分割与跟踪模块的 GPU 服务 |
+
+默认 U7 历史照片演示不需要模型密钥或 GPU，但需要准备对应照片与预设清单。
+
+## 安装与运行
+
+### 1. 获取源码并安装依赖
+
+```bash
+git clone --branch Dev https://github.com/lixinyiCQU/Manual2AR.git
+cd Manual2AR
+bash run.sh setup
+```
+
+安装脚本创建 Python 虚拟环境，安装锁定依赖和本地包，并安装 Playwright Chromium。首次运行会从 `configs/app.example.json` 生成本机配置 `configs/app.local.json`。
+
+### 2. 配置资源与服务
+
+在 `configs/app.local.json` 中配置：
+
+- `paths`：离线资料、运行数据、缓存和构建输出位置。
+- `backend`：后端监听地址、端口及客户端访问地址。
+- `vlm`：实时视觉使用的模型服务地址和 API 密钥。
+- `gpu.connection_file`：可选 GPU 服务连接配置。
+
+本机配置与连接凭据不纳入 Git。配置模板的默认后端端口为 `8010`，以实际本机配置为准。
+
+仓库包含源码、任务定义、配置模板及受版本控制的资源。离线 Wiki 归档、完整实验数据、演示照片、部分外部资产和预编译 Windows 程序需另行准备；仅克隆源码不等于已具备完整运行数据。资源路径见 [配置模板](configs/app.example.json)，U7 演示素材准备见 [演示说明](baseline/U7_DEMO.md)。
+
+### 3. 校验资源并启动后端
 
 ```bash
 bash run.sh resources
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -B -m pytest tests baseline/tests -q -p no:cacheprovider
+bash run.sh sync
+bash run.sh start
 ```
 
-其他说明：[使用与空间标定](docs/OPERATIONS.md)、[系统架构](docs/ARCHITECTURE.md)、[任务目标](baseline/GOAL_FLOW.md)、[视觉核验](baseline/VISION.md)、[自动编译](baseline/COMPILATION.md)、[评价方案](baseline/EVALUATION.md)。旧文档的菜单和阶段描述属于对应实验版本，当前交接入口优先。
+`resources` 校验资源完整性，`sync` 为 Unity 生成配置、教程和展示资源。后端启动后，可通过配置地址下的 `/health` 检查服务状态。
 
-Windows构建必须通过 `tools.build.validate_desktop --build`，再由 `tools.build.spatial_delivery`核对指纹导出。验证工程必须是仓库外的新空目录或工具已认领目录。`run.sh package`只导出Unity工程，不编译EXE。
+### 4. 启动前端
 
-真实模型曾出现部件误认和螺丝细节未知；未完成实体相机、真实装配和AR精度联合验收。业务API按单用户本地实验设计，尚不具备公网多用户部署条件。
+使用 Unity 打开 `apps/unity/Manual2AR/`，从 `Assets/Manual2AR/Scenes/Welcome.unity` 场景运行；也可使用另行提供的 Windows 构建。客户端后端地址应与本机配置一致。
+
+## 项目结构
+
+| 路径 | 内容 |
+| --- | --- |
+| `baseline/` | 任务契约、目标匹配、状态与调度、视觉核验、资料编译及评价 |
+| `apps/backend/` | Python 应用、业务 API 与模型适配 |
+| `apps/unity/Manual2AR/` | Unity 场景、交互界面、相机与 AR 展示 |
+| `apps/inference/` | 可选 GPU 推理服务 |
+| `packages/` | 共享数据契约、感知与几何组件 |
+| `resources/` | 教材、任务配置、提示词、样例及展示资产 |
+| `tests/` | 后端与 Unity 验证 |
+| `tools/` | 资源管理、构建、部署与实验工具 |
+| `configs/`、`deploy/` | 配置模板与部署入口 |
+| `docs/` | 架构、使用和开发文档 |
+
+## 测试与构建
+
+后端及独立核心测试：
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -B -m pytest \
+  tests baseline/tests -q -p no:cacheprovider
+```
+
+导出 Unity 工程：
+
+```bash
+bash run.sh package
+```
+
+`package` 不编译 Windows EXE。Windows 构建使用 `tools.build.validate_desktop --build` 完成 Unity 验证，再通过 `tools.build.spatial_delivery` 校验构建指纹并导出交付文件。构建需要 Windows Unity 编辑器及独立的临时验证工程。
+
+## 当前范围
+
+当前经过审核的完整任务与 AR 演示主要覆盖 U7，不代表已实现跨设备的通用任务编译与视觉验收。视觉模型可能误认部件或无法看清细节，未知条件不会直接视为未安装，人工确认也不能替代必需的视觉证据。
+
+U7 Demo 的 AR 动画是照片平面上的操作示意，可手动调整位置，不代表自动三维配准或实体安装精度已通过验证。系统面向本地、单用户研究与演示，尚未完成面向公网多用户服务的部署验证。
+
+## 文档
+
+- [系统架构](docs/ARCHITECTURE.md)
+- [使用与空间标定](docs/OPERATIONS.md)
+- [基线与任务定义](baseline/README.md)
+- [目标定位与现场指导](baseline/GOAL_FLOW.md)
+- [条件计划与缓存试验](baseline/ONLINE_PLANNING.md)
+- [视觉核验](baseline/VISION.md)
+- [自动资料编译](baseline/COMPILATION.md)
+- [评价方案](baseline/EVALUATION.md)
+- [Agent 开发入口](README_AGENT.md)
