@@ -227,11 +227,12 @@ def prompt_for(task, protocol, sha, refs, *, context=None):
               "每个证据框和实例框必须完整位于该查询的region内，不能跨出检查区域；无法给出一致的区域时如实报告未知。各query的value只能使用该kind的语义，螺丝查询只能instances或unresolved，不能填seated。"
               "明确位置或外观事实需要现场区域和证据框；未见目标只有在其预期区域完整可见且区域身份明确时才能报告absent。"
               "当非螺丝查询报告observable/complete且value为seated、connected、separate或外观事实时，evidence_boxes必须包含当前现场实际支持该事实的框，不能只填region后留空。"
-              "region是检查范围，不自动充当证据框。若不能提供可靠证据框，请改报insufficient_detail或unresolved_identity、coverage=unknown、value=unresolved，不猜坐标。"
+              "region是检查范围，不自动充当证据框。若不能提供可靠证据框，请按实际限制报告observability、coverage=unknown、value=unresolved，不猜坐标。"
+              "当前图中已辨认的支架等遮挡物明确挡住目标查询区域时，observability=occluded；对象或搜索区域身份不明、无法确认遮挡关系时，observability=unresolved_identity。两者均用value=unresolved，不能推断隐藏部位的存在、连接、螺丝或外观。"
               "fastener_instances只枚举实际可见固定螺丝，location沿用查询声明的安装位置身份，区域外用outside_holes，无法对应用unresolved；孔不等于螺丝，不重复同一实例。"
               "不能仅因物体二维重叠就报告连接；无法区分连接与靠放时value=ambiguous。只描述外部可见关系。"
               "先根据官方参考和操作对象核实部件身份及其安装对象，不能把整机底壳当附件底座、把打印平台当附件支架；对象同名或仅外形相似不足以确认。"
-              "task_context中的用户问题仅用于理解目标，完成声明不是现场证据；官方原文用于辨认对象和动作，不能证明现场已完成。"
+              "task_context中的用户问题仅用于理解目标，完成声明不是现场证据；来源原文用于辨认对象、动作及观察边界，不能证明现场已完成；历史观察或操作记录不能替代当前图像中未见的事实。"
               "value枚举描述视觉语义事实，包含seated/connected/separate/absent/ambiguous、外观异常和instances；不是验收结论。"
               "返回简洁中文evidence及一个JSON对象。\nQUERY:" + json.dumps(query, ensure_ascii=False))
     return prompt, query

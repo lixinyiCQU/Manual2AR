@@ -78,6 +78,7 @@ def observe(session, sources, protocol, image_path: Path, reference_root: Path, 
     sha = digest(current)
     owner_ids = {n.id for n in session.task.nodes if any(r.condition_id in n.completion_ids for r in active.rules)}
     requirement_ids = {rid for n in session.task.nodes if n.id in owner_ids for rid in n.requirement_ids}
+    requirement_ids.update(session.task.policy_requirement_ids)
     context = dict(user_question=session.intent, user_claims_are_not_evidence=True, task_title=session.task.title,
         official_operations=[dict(node_id=n.id, instruction=n.instruction) for n in session.task.nodes if n.id in owner_ids],
         official_fragments=[dict(source_id=r.source_id, quote=r.quote) for r in session.task.requirements if r.id in requirement_ids])
@@ -88,7 +89,7 @@ def observe(session, sources, protocol, image_path: Path, reference_root: Path, 
                    observation_protocol_sha256=digest(encoded(active.model_dump())),
                    observation_condition_ids=[r.condition_id for r in active.rules],
                    guidance_policy=getattr(session, 'guidance_policy', 'strict'),
-                   source_identity_recheck=bool(active.refinement and getattr(session, 'guidance_policy', 'strict') == 'scene_guided'),
+                   source_identity_recheck=bool(active.refinement and getattr(session, 'guidance_policy', 'strict') in ('scene_guided', 'evidence_guided')),
                    implementation_sha256=digest(encoded({p.name: digest(p.read_bytes()) for p in Path(__file__).parent.glob("*.py")})),
                    independent_labels="not_provided", semantic_standard="experimental_model_observations_with_rules")
     output.mkdir(parents=True, exist_ok=False)
@@ -108,7 +109,7 @@ def observe(session, sources, protocol, image_path: Path, reference_root: Path, 
             (output / "coarse-findings.json").write_bytes(encoded(findings.model_dump()))
             stage = "detail_observation"
             findings = refine(session.task, active, findings, current, references, output, client, context=context,
-                              verify_source=getattr(session, 'guidance_policy', 'strict') == 'scene_guided')
+                              verify_source=getattr(session, 'guidance_policy', 'strict') in ('scene_guided', 'evidence_guided'))
         readings, detail = evaluate(active, findings, sha)
         (output / "findings.json").write_bytes(encoded(findings.model_dump()))
         (output / "evaluated.json").write_bytes(encoded(dict(readings=readings, details=detail)))

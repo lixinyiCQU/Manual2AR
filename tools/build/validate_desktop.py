@@ -76,7 +76,7 @@ def main():
                     direct.open('http://127.0.0.1:18010/health',timeout=1).close();break
                 except OSError:time.sleep(.5)
             else:raise RuntimeError('Controlled backend did not start')
-            result=subprocess.run([str(args.unity),'-batchmode','-projectPath',win(project),'-executeMethod','ProductValidation.Run','-logFile',win(output/'unity.log')],timeout=300)
+            result=subprocess.run([str(args.unity),'-batchmode','-projectPath',win(project),'-executeMethod','ProductValidation.Run','-logFile',win(output/'unity.log')],timeout=600)
             if validation.exists():shutil.copytree(validation,output/'screenshots')
             if result.returncode or not (validation/'success.json').is_file():raise RuntimeError('Unity check failed; see unity.log and screenshots/errors.txt')
         finally:

@@ -90,7 +90,7 @@ class Session:
         self.evidence_mode = TypeAdapter(Literal["controlled_facts_only", "experimental_photo_analysis", "experimental_compiled_photo_analysis"]).validate_python(evidence_mode)
         self.conditions = {c.id: c for c in self.task.conditions}
         self.nodes = {n.id: n for n in self.task.nodes}
-        self.guidance_policy = TypeAdapter(Literal["strict", "scene_guided"]).validate_python(guidance_policy)
+        self.guidance_policy = TypeAdapter(Literal["strict", "scene_guided", "evidence_guided"]).validate_python(guidance_policy)
         if target_node_ids is not None:
             if (not target_node_ids or len(target_node_ids) != len(set(target_node_ids))
                     or not set(target_node_ids) <= self.nodes.keys()):
@@ -262,7 +262,7 @@ class Session:
             if identity not in self.needed or completed[identity] or any(not completed[d] for d in self.dependencies[identity]):
                 continue
             node = self.nodes[identity]
-            if self.guidance_policy == "scene_guided":
+            if self.guidance_policy in ("scene_guided", "evidence_guided"):
                 decision = self.scene_guidance(node)
                 if decision:
                     return {**result, **decision, "node_id": identity}
@@ -296,10 +296,14 @@ class Session:
         unknown = [c for c in visual if self.facts[c].value == "unknown"]
         if not unknown:
             return None
+        if self.guidance_policy == "evidence_guided" and any(self.facts[c].value == "true" for c in visual):
+            return dict(mode="request_view", condition_ids=unknown,
+                        reason="已有部分可见条件得到支持，请先核实剩余部位，避免重复操作：" +
+                               "；".join(self.conditions[c].statement for c in unknown))
         # A verified prerequisite permits teaching the next action, not accepting its unknown result.
         if self.last_frame == 0 or not self.dependencies[node.id]:
             cid = unknown[0]
-            return dict(mode="request_view", condition_ids=[cid],
+            return dict(mode="request_view", condition_ids=unknown if self.guidance_policy == "evidence_guided" else [cid],
                         reason="当前操作的现场证据尚不足，请补拍或核实：" + self.conditions[cid].statement)
         return dict(mode="operate", condition_ids=unknown,
                     reason="此操作的完成状态尚未确认，前置条件已满足。可按官方指导执行；若已安装，可直接核验：" + node.instruction)

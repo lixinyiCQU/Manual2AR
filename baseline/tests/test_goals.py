@@ -3,8 +3,8 @@ from copy import deepcopy
 
 import pytest
 
-from manual2ar_baseline.goals import hierarchy, resolve_goal
-from manual2ar_baseline.gt import Source, TaskDefinition, digest, encoded
+from manual2ar_baseline.goals import goal_candidates, hierarchy, resolve_goal
+from manual2ar_baseline.gt import Source, TaskDefinition, digest, encoded, load_bundle
 from test_compiler import FakeClient, official_fixture
 from manual2ar_baseline.compiler import compile_task
 
@@ -130,3 +130,98 @@ def test_short_component_phrase_and_destination_derive_from_names_not_ids(proced
     renamed = TaskDefinition.model_validate(value)
     assert resolve_goal(renamed, source, '安装支架底座').selected_node_ids == ['fasten_fixture']
     assert resolve_goal(renamed, source, '滑入料盘底座').selected_node_ids == ['insert_handle']
+
+
+def aliases(task, **values):
+    value = task.model_dump()
+    for obj in value['objects']:
+        if obj['id'] in values:
+            obj['aliases'] = values[obj['id']]
+    return TaskDefinition.model_validate(value)
+
+
+@pytest.fixture
+def u7():
+    from pathlib import Path
+    sources, task = load_bundle(Path(__file__).resolve().parents[1]/'ground_truth/u7/v1/state-validation')
+    return task, sources
+
+
+@pytest.mark.parametrize('query,expected', [
+    ('安装灰色底座', ['install_base']),
+    ('安装深灰色底座', ['install_base']),
+    ('把白色支架滑入底座', ['install_holder']),
+    ('滑入灰色底座', ['install_holder']),
+    ('安装底座后滑入支架', ['install_base', 'install_holder']),
+    ('安装底座，滑入支架', ['install_base', 'install_holder']),
+    ('请问如何安装灰色底座？', ['install_base']),
+    ('我想装上灰色底座', ['install_base']),
+    ('料盘支架怎么安装？', ['install_base', 'install_holder']),
+    ('底座怎样固定？', ['install_base']),
+])
+def test_reviewed_u7_aliases_and_safe_question_forms(u7, query, expected):
+    task, sources = u7
+    before = encoded(task.model_dump())
+    result = resolve_goal(task, sources, query)
+    assert result.selected_node_ids == expected and result.query == query
+    assert result.task_sha256 == digest(before) and encoded(task.model_dump()) == before
+
+
+def test_aliases_work_for_non_u7_tasks_and_preserve_object_provenance(procedure):
+    task, sources = procedure
+    task = aliases(task, fixture=['红色安装座'], handle=['长握柄'])
+    assert resolve_goal(task, sources, '安装红色安装座').selected_node_ids == ['fasten_fixture']
+    selected = resolve_goal(task, sources, '把长握柄滑入底座')
+    assert selected.selected_node_ids == ['insert_handle']
+    assert 'official.handle' in selected.source_ids
+    with pytest.raises(ValueError):
+        resolve_goal(task, sources, '安装红色安装座', use_aliases=False)
+
+
+def test_alias_collision_requires_a_choice_with_parent_and_leaf_sources(procedure):
+    task, sources = procedure
+    task = aliases(task, fixture=['装配件'], handle=['装配件'])
+    with pytest.raises(ValueError, match='唯一'):
+        resolve_goal(task, sources, '安装装配件')
+    choices = goal_candidates(task, sources, '安装装配件')
+    assert [c['level'] for c in choices] == ['task', 'operation', 'operation']
+    assert [c['selected_node_ids'] for c in choices] == [['fasten_fixture', 'insert_handle'], ['fasten_fixture'], ['insert_handle']]
+    assert all(c['source_ids'] and c['task_sha256'] == digest(encoded(task.model_dump())) for c in choices)
+    assert all('confidence' not in c and 'probability' not in c for c in choices)
+    assert all(resolve_goal(task, sources, c['title']).selected_node_ids == c['selected_node_ids'] for c in choices)
+
+
+@pytest.mark.parametrize('query', ['安装白色物体', '安装白色', '安装两个底座', '不要安装灰色底座',
+                                  '卸下白色支架', '开箱', '安装Z轴立柱', '把白色支架滑入打印板'])
+def test_aliases_do_not_authorize_color_context_objects_quantities_or_unsupported_actions(u7, query):
+    task, sources = u7
+    with pytest.raises(ValueError):
+        resolve_goal(task, sources, query)
+    assert goal_candidates(task, sources, query) == []
+
+
+def test_goal_ablation_switches_and_vague_clarification_leave_task_unchanged(u7):
+    task, sources = u7
+    assert resolve_goal(task, sources, '安装灰色底座', normalize_language=False).selected_node_ids == ['install_base']
+    with pytest.raises(ValueError):
+        resolve_goal(task, sources, '请问如何安装灰色底座？', normalize_language=False)
+    with pytest.raises(ValueError):
+        resolve_goal(task, sources, '安装灰色底座', use_aliases=False)
+    choices = goal_candidates(task, sources, '下一步怎么做')
+    assert len(choices) == 3 and choices[0]['level'] == 'task'
+    assert goal_candidates(task, sources, '安装支架底座')[0]['selected_node_ids'] == ['install_base']
+    result = resolve_goal(task, sources, '我已完成底座，现在希望安装灰色底座')
+    assert result.selected_node_ids == ['install_base'] and 'events' not in result.model_dump()
+def test_reviewed_alias_verb_is_not_interpreted_as_a_second_requested_action():
+    from pathlib import Path
+    from manual2ar_baseline.gt import load_bundle
+    sources,task=load_bundle(Path(__file__).resolve().parents[1]/'ground_truth/u7/v1/state-validation')
+    assert resolve_goal(task,sources,'把可拆卸白色料盘支架滑入底座').selected_node_ids==['install_holder']
+    with pytest.raises(ValueError):resolve_goal(task,sources,'拆卸可拆卸白色料盘支架')
+
+
+def test_source_candidate_titles_can_be_selected_without_changing_scope(u7):
+    task,sources=u7
+    choices=goal_candidates(task,sources,'下一步怎么做')
+    for choice in choices:
+        assert resolve_goal(task,sources,choice['title']).selected_node_ids==choice['selected_node_ids']

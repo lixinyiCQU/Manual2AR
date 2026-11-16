@@ -31,6 +31,10 @@ public static class ProductValidation {
   try{camera.targetTexture=rt;for(int i=0;i<canvases.Length;i++){modes[i]=canvases[i].renderMode;cameras[i]=canvases[i].worldCamera;canvases[i].renderMode=RenderMode.ScreenSpaceCamera;canvases[i].worldCamera=camera;canvases[i].planeDistance=1;}
    foreach(var graphic in UnityEngine.Object.FindObjectsOfType<Graphic>()){graphic.canvasRenderer.cull=false;var text=graphic as Text;if(text!=null)text.cachedTextGenerator.Invalidate();graphic.SetAllDirty();}
    Canvas.ForceUpdateCanvases();camera.Render();
+   foreach(var text in UnityEngine.Object.FindObjectsOfType<Text>())if(text.font!=null&&text.font.dynamic){
+    int pixels=text.resizeTextForBestFit?text.cachedTextGenerator.fontSizeUsedForBestFit:text.fontSize;
+    text.font.RequestCharactersInTexture(text.text,Mathf.Max(1,pixels),text.fontStyle);
+   }
    // Resolve font/mask rebuilds caused by changing the canvas render mode before exporting its stable frame.
    foreach(var graphic in UnityEngine.Object.FindObjectsOfType<Graphic>()){graphic.canvasRenderer.cull=false;graphic.SetAllDirty();}
    Canvas.ForceUpdateCanvases();camera.Render();RenderTexture.active=rt;var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();File.WriteAllBytes(Path.Combine(Folder,name),image.EncodeToPNG());UnityEngine.Object.Destroy(image);

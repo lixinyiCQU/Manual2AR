@@ -1,5 +1,7 @@
 # Manual2AR
 
+当前私有开发副本位于 [lixinyiCQU/Manual2AR](https://github.com/lixinyiCQU/Manual2AR/tree/Dev)，以 `Dev` 为开发与验收入口，`main` 保留原始基线。访问与移机说明见 [GitHub 交接](docs/GITHUB_HANDOFF.md)。
+
 **学长验收从 [ACCEPTANCE](docs/ACCEPTANCE.md) 开始。** 本分支独立保存完整系统，暂不合入主分支。运行所需的离线资料、演示照片和 Windows 程序另行提供，未放进 Git 分支。
 
 本机开发布局见 [WORKSPACE_LAYOUT](docs/WORKSPACE_LAYOUT.md)。

@@ -21,11 +21,21 @@ def _compact(text):
     return re.sub(r'[\s\W_的]+', '', text).lower()
 
 
-def _goal(query, *, allow_multiple=False):
+def _goal(query, *, allow_multiple=False, normalize_language=True):
     if re.search(r'不希望|不想|不要|不需要|不打算|无需|不用|别(?:安装|滑入|拆卸)', query):
         raise ValueError('目标包含否定或限制，请明确本次要执行的操作。')
     # A completion claim remains text; it never supplies a condition fact.
     goal = re.split(r'希望|想要|接下来(?:请)?|现在(?:请)?', query)[-1]
+    if normalize_language:
+        goal = re.sub(r'^(?:请问|请教|我(?:要|想)?|请|帮我|只(?:需|想)?|完成|装好|组装|怎么|如何|怎样)+', '', goal.strip())
+        goal = re.sub(r'[？?。！!]+$', '', goal.strip())
+        suffix = re.fullmatch(r'(.+?)(?:怎么|如何|怎样)(安装|固定|滑入|插入)(?:好)?', goal)
+        if suffix:
+            goal = suffix[2] + suffix[1]
+        goal = re.sub(r'^装上', '安装', goal)
+        # Punctuation separates user goals only after the exact official instruction check.
+        if allow_multiple:
+            goal = re.sub(r'[，,；;]|后(?=(?:安装|固定|滑入|插入|将|把))', '以及', goal)
     goal = re.sub(r'^(?:我(?:要|想)?|请|帮我|只(?:需|想)?|完成|装好|组装)+', '', goal.strip())
     if not allow_multiple and re.search(r'[，,；;]|然后|以及|并且', goal):
         raise ValueError('存在多个操作目标，请选择一个目标或完整任务。')
@@ -74,10 +84,11 @@ def _matches(fragment, name):
     return all(any(character == item for item in iterator) for character in fragment)
 
 
-def resolve_goal(task, sources, query):
+def _resolve_goal(task, sources, query, *, use_aliases=True, normalize_language=True, alternatives=False):
     """Conservative lexical alignment; unclear goals require an explicit choice."""
     tree = hierarchy(task, sources)
-    goal = _goal(query, allow_multiple=True)
+    goal = _goal(query, allow_multiple=True, normalize_language=normalize_language)
+    raw_goal = _goal(query, allow_multiple=True, normalize_language=False)
     if len(goal) < 2:
         raise ValueError('请说明本次要安装的部件或执行的动作。')
     task_title = _compact(re.sub(r'^第\s*\d+\s*步[：:]?', '', task.title))
@@ -92,7 +103,8 @@ def resolve_goal(task, sources, query):
     conditions = {row.id: row for row in task.conditions}
     requirements = {row.id: row for row in task.requirements}
     records = {row.id: row for row in sources.records}
-    exact = [node for node in task.nodes if goal == _compact(node.instruction)
+    exact = [node for node in task.nodes if raw_goal == _compact(operations[node.id]['title'])
+             or raw_goal == _compact(node.instruction)
              and any(node.instruction in records[requirements[r].source_id].text for r in node.requirement_ids)]
     if len(exact) == 1:
         row = operations[exact[0].id]
@@ -102,7 +114,7 @@ def resolve_goal(task, sources, query):
     if len(clauses) > 1:
         if any(not clause for clause in clauses) or len(clauses) > len(task.nodes):
             raise ValueError('请明确各个操作目标，或选择官方完整任务。')
-        selections = [resolve_goal(task, sources, clause) for clause in clauses]
+        selections = [resolve_goal(task, sources, clause, use_aliases=use_aliases, normalize_language=normalize_language) for clause in clauses]
         selected = {n for item in selections for n in item.selected_node_ids}
         ordered = [n.id for n in task.nodes if n.id in selected]
         return GoalSelection(**common, title=task.title if len(ordered) == len(task.nodes) else '；'.join(operations[n]['title'] for n in ordered),
@@ -110,9 +122,13 @@ def resolve_goal(task, sources, query):
             source_ids=list(dict.fromkeys(s for item in selections for s in item.source_ids)),
             interpretation='已将各个目标对应到官方操作；按依赖顺序执行，仅补足必要前置。')
     # A verbatim official instruction may contain punctuation; unrelated compound goals still need a choice.
-    goal = _goal(query)
+    goal = _goal(query, normalize_language=normalize_language)
     # Specific action words disambiguate destination nouns, e.g. “slide into base”.
-    actions = re.findall(r'滑入|滑出|插入|拔出|放入|装入|拆卸|拆除|移除|卸下|固定|连接', goal)
+    # Object terms such as “可拆卸白色料盘支架” contain verbs without requesting those actions.
+    terms = {_compact(term) for obj in task.objects for term in [obj.name] + (obj.aliases if use_aliases else [])}
+    noun_spans = [match.span() for term in terms if term for match in re.finditer(re.escape(term), goal)]
+    actions = [match.group() for match in re.finditer(r'滑入|滑出|插入|拔出|放入|装入|拆卸|拆除|移除|卸下|固定|连接', goal)
+               if not any(a <= match.start() and match.end() <= b for a,b in noun_spans)]
     if len(set(actions)) > 1:
         raise ValueError('目标包含多个动作，请选择官方任务或一个具体操作。')
     verb = actions[0] if actions else None
@@ -120,10 +136,20 @@ def resolve_goal(task, sources, query):
     grammar = re.fullmatch(r'(?:将|把)(.+?)(?:从[上下左右前后]向[上下左右前后])?'
                            + re.escape(verb) + r'(.+)', goal) if verb else None
 
+    def alias_match(fragment, obj):
+        fragment, name = _compact(fragment), _compact(obj.name)
+        return use_aliases and any(_matches(fragment, alias) and
+            (fragment == _compact(alias) or any(name[i:i+2] in fragment for i in range(len(name)-1)))
+            for alias in obj.aliases)
+
+    def object_match(fragment, identity):
+        obj = objects[identity]
+        return _matches(fragment, obj.name) or alias_match(fragment, obj)
+
     def destination_matches(node, destination):
         guards = [set(conditions[cid].object_ids) for cid in node.precondition_ids]
         allowed = set.intersection(*guards) if guards else set()
-        named_guard = len(allowed) == 1 and any(_matches(destination, objects[oid].name) for oid in allowed)
+        named_guard = len(allowed) == 1 and any(object_match(destination, oid) for oid in allowed)
         quoted = operations[node.id]['title']
         explicit = verb is not None and verb + destination in _compact(quoted)
         return named_guard or explicit
@@ -135,9 +161,18 @@ def resolve_goal(task, sources, query):
             continue
         inherited = {oid for dependency in node.depends_on for oid in nodes[dependency].object_ids}
         introduced = set(node.object_ids) - inherited
-        named = any(_matches(noun, objects[oid].name) for oid in (introduced or node.object_ids))
+        targets = introduced or set(node.object_ids)
+        actor = re.search(r'(?:将|把)(.+?)(?:从[上下左右前后]向[上下左右前后])?(?:安装|固定|滑入|插入|连接)', label)
+        if actor is None:
+            actor = re.search(r'(?:将|把)(.+?)(?:从[上下左右前后]向[上下左右前后])?(?:安装|固定|滑入|插入|连接)', node.instruction)
+        if actor is None:
+            actor = re.search(r'(?:安装|固定|滑入|插入)([^，。；;]+)', label)
+        if actor:
+            named_actors = {oid for oid in targets if object_match(actor[1], oid)}
+            targets = named_actors or targets
+        named = any(object_match(noun, oid) for oid in targets)
         if grammar:
-            named = (any(_matches(grammar[1], objects[oid].name) for oid in (introduced or node.object_ids))
+            named = (any(object_match(grammar[1], oid) for oid in targets)
                      and destination_matches(node, grammar[2]))
         direct = goal == _compact(label)
         if named or direct:
@@ -147,11 +182,45 @@ def resolve_goal(task, sources, query):
         action_candidates = [n for n in task.nodes if verb in _compact(operations[n.id]['title'])]
         if len(action_candidates) == 1 and destination_matches(action_candidates[0], noun):
             candidates, interpreted = action_candidates, True
-    if len(candidates) != 1:
+    if len(candidates) != 1 and not (alternatives and candidates):
         raise ValueError('无法唯一对应到官方操作，请选择完整任务或明确具体操作。')
-    node = candidates[0]
-    row = operations[node.id]
-    explanation = ('原话按官方唯一对应动作解释为“' + row['title'] + '”；所提部件作为操作关联位置，并非新的安装步骤。'
-                   if interpreted else '本次目标为官方子操作“' + row['title'] + '”；仅补足其必要前置操作。')
-    return GoalSelection(**common, title=row['title'], level='operation', selected_node_ids=[node.id],
-                         source_ids=row['source_ids'], interpretation=explanation)
+    selections = []
+    for node in candidates:
+        row = operations[node.id]
+        fragments = [grammar[1], grammar[2]] if grammar else [noun]
+        alias_sources = [source for oid in node.object_ids for fragment in fragments
+                         if not _matches(fragment, objects[oid].name) and alias_match(fragment, objects[oid])
+                         for source in objects[oid].source_ids]
+        explanation = ('原话按官方唯一对应动作解释为“' + row['title'] + '”；所提部件作为操作关联位置，并非新的安装步骤。'
+                   if interpreted else ('候选为' if alternatives and len(candidates) > 1 else '本次目标为')
+                   + '官方子操作“' + row['title'] + '”；仅补足其必要前置操作。')
+        selections.append(GoalSelection(**common, title=row['title'], level='operation', selected_node_ids=[node.id],
+                         source_ids=list(dict.fromkeys(row['source_ids'] + alias_sources)), interpretation=explanation))
+    return selections if alternatives else selections[0]
+
+
+def resolve_goal(task, sources, query, *, use_aliases=True, normalize_language=True):
+    return _resolve_goal(task, sources, query, use_aliases=use_aliases, normalize_language=normalize_language)
+
+
+def goal_candidates(task, sources, query, *, use_aliases=True, normalize_language=True):
+    """Source-backed choices for clarification, without confidence or authorization."""
+    tree = hierarchy(task, sources)
+    vague = _compact(query) in {'安装', '怎么安装', '如何安装', '怎么做', '下一步', '下一步怎么做'}
+    try:
+        result = _resolve_goal(task, sources, query, use_aliases=use_aliases,
+                               normalize_language=normalize_language, alternatives=True)
+    except ValueError:
+        if not vague:
+            return []
+        result = [GoalSelection(task_sha256=digest(encoded(task.model_dump())), query=query, title=row['title'],
+            level='operation', selected_node_ids=[row['id']], source_ids=row['source_ids'],
+            interpretation='请明确是否以此官方子操作为目标；选择不会确认现场进度。') for row in tree['children']]
+    if not isinstance(result, list):
+        return [result.model_dump()]
+    if len(result) > 1:
+        result.insert(0, GoalSelection(task_sha256=digest(encoded(task.model_dump())), query=query, title=task.title,
+            level='task', selected_node_ids=[n.id for n in task.nodes],
+            source_ids=list(dict.fromkeys(tree['source_ids'] + [s for row in tree['children'] for s in row['source_ids']])),
+            interpretation='也可选择官方完整任务；选择后仍需核实现场进度。'))
+    return [row.model_dump() for row in result]

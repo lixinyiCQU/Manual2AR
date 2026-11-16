@@ -97,7 +97,15 @@ def test_scoped_photo_keeps_full_protocol_but_observes_only_selected_operation(t
     request = json.loads((output/'request.json').read_bytes())
     assert request['observation_protocol_sha256']!=request['protocol_sha256']
     assert '安装支架底座' in client.calls[0]['prompt']
-    assert json.loads((output/'query.json').read_bytes())['task_context']['user_claims_are_not_evidence']
+    assert len(client.calls)==2
+    fragments = [dict(source_id=r.source_id, quote=r.quote) for r in task.requirements
+                 if r.id in set(task.policy_requirement_ids) | set(session.nodes['install_base'].requirement_ids)]
+    for filename in ('query.json', 'detail-query.json'):
+        context = json.loads((output/filename).read_bytes())['task_context']
+        assert context['user_claims_are_not_evidence']
+        assert context['official_operations']==[dict(node_id='install_base', instruction=session.nodes['install_base'].instruction)]
+        assert context['official_fragments']==fragments
+        assert '底座会被装好的支架遮住' in ''.join(r['quote'] for r in context['official_fragments'])
     for index in range(2):
         output = tmp_path/('manual-'+str(index))
         confirm(session,protocol,session.plan()['condition_ids'],'受控操作者确认，不是实际验收',output)
@@ -109,12 +117,37 @@ def test_scoped_photo_keeps_full_protocol_but_observes_only_selected_operation(t
         observe(session,sources,protocol,path,ROOT,tmp_path/'bad',client,condition_ids=['c.base.secure'])
 
 
+@pytest.mark.parametrize('reason', ['occluded', 'unresolved_identity'])
+def test_policy_context_does_not_promote_hidden_current_facts(setup, tmp_path, reason):
+    sources, _, session, path = setup
+    protocol = Protocol.model_validate_json(ROI_PROTOCOL.read_bytes())
+    session.guidance_policy = 'evidence_guided'
+    def hidden(reply, number):
+        for row in reply['findings']:
+            if row['query_id'].startswith('base_') and not (number==1 and row['query_id']=='base_mount'):
+                row.update(observability=reason, coverage='unknown', region=None, value='unresolved', evidence_boxes=[], instances=[])
+    client = FakeClient(hidden)
+    output = tmp_path/'hidden'
+    plan = observe(session,sources,protocol,path,ROOT,output,client)
+    assert len(client.calls)==2 and plan['mode']=='request_view'
+    assert not plan['completed_node_ids']
+    readings = json.loads((output/'evaluated.json').read_bytes())['readings']
+    assert all(readings[cid]==dict(value='unknown', reason=reason)
+               for cid in ('c.base.mount', 'c.base.screws', 'c.base.appearance'))
+    assert all(fact.value=='unknown' for cid,fact in session.facts.items() if cid.startswith('c.base.'))
+    assert readings['c.holder.connection']['value']=='true'
+    for call in client.calls:
+        assert 'observability=occluded' in call['prompt'] and 'observability=unresolved_identity' in call['prompt']
+        assert '历史观察或操作记录不能替代当前图像中未见的事实' in call['prompt']
+
+
+@pytest.mark.parametrize('policy', ['scene_guided', 'evidence_guided'])
 @pytest.mark.parametrize('local_identity', ['seated', 'unresolved_identity'])
-def test_scene_guided_coarse_negative_requires_local_identity_recheck(tmp_path,local_identity):
+def test_scene_guided_coarse_negative_requires_local_identity_recheck(tmp_path,local_identity,policy):
     sources,task=load_bundle(BUNDLE)
     protocol=Protocol.model_validate_json(ROI_PROTOCOL.read_bytes())
     session=Session.from_bundle(BUNDLE,'photo.negative-recheck','安装支架底座',evidence_mode='experimental_photo_analysis',
-        target_node_ids=['install_base'],guidance_policy='scene_guided')
+        target_node_ids=['install_base'],guidance_policy=policy)
     path=tmp_path/'scene.png'
     Image.new('RGB',(640,480),'white').save(path)
     def observations(result,attempt):

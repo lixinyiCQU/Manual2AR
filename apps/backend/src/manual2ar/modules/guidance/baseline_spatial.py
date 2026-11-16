@@ -12,7 +12,8 @@ from pydantic import Field
 from manual2ar.paths import ROOT
 from manual2ar_baseline.ar import Bindings
 from manual2ar_baseline.gt import Digest, Identity, Strict, Text, digest, encoded, load_bundle
-from manual2ar_baseline.goals import hierarchy, resolve_goal
+from manual2ar_baseline.goals import hierarchy, resolve_goal, goal_candidates
+from manual2ar_baseline.planning import remaining_plan
 from manual2ar_baseline.photos import confirm, observe
 from manual2ar_baseline.provider import CompatibleClient, ModelError, Settings
 from manual2ar_baseline.state import Session as EvidenceSession
@@ -93,6 +94,12 @@ class BaselineSpatial(SpatialService):
     def execution(self, session):
         live = self.ledger(session)
         value = self.bindings.execution(live)
+        value['remaining_plan'] = remaining_plan(live)
+        for step in value['remaining_plan']['remaining_steps']:
+            binding = next(b for b in self.bindings.presentations if b.node_id == step['node_id'])
+            step['ar_binding'] = dict(action_id=binding.action_id, presentation_id=binding.presentation_id,
+                                     binding_is_not_execution_authorization=True)
+        value['remaining_plan']['asset_library'] = self.asset_library.descriptor()
         selection = getattr(session, 'baseline_goal', None)
         value['goal_title'] = selection.title if selection else self.task.title
         statuses = {'verified':'本会话已核验通过', 'blocked':'前置操作待完成', 'not_completed':'视觉初筛未通过，待操作或复核',
@@ -173,7 +180,8 @@ class BaselineSpatial(SpatialService):
             selection = resolve_goal(self.task, self.sources, intent)
         except ValueError as error:
             return dict(status='clarification_required', requested_intent=intent, goal_title='', interpretation='',
-                        message=str(error), selected_node_ids=[], official_steps=[], task_sha256=self.bindings.task_sha256)
+                        message=str(error), candidates=goal_candidates(self.task, self.sources, intent),
+                        selected_node_ids=[], official_steps=[], task_sha256=self.bindings.task_sha256)
         probe = EvidenceSession(self.task, 'preview.goal', intent, target_node_ids=selection.selected_node_ids)
         return dict(status='matched', requested_intent=intent, goal_title=selection.title, interpretation=selection.interpretation,
                     message='已对应官方任务；现场照片决定当前进度，所述完成情况不会自动记为已完成。',
