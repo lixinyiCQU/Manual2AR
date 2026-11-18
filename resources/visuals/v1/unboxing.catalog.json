@@ -1,0 +1,2361 @@
+{
+  "schema_version": "manual2ar-visual-library-v1",
+  "library_id": "manual2ar.unboxing",
+  "version": "1.0.0",
+  "style_id": "clear-instruction-v1",
+  "coordinate_convention": "right_handed_xyz_metres_functional_origin_positive_y",
+  "assets": [
+    {
+      "id": "tool.hex_driver",
+      "label": "内六角工具示意",
+      "category": "tool",
+      "nominal_axis_m": 0.09,
+      "anchors": [
+        {
+          "id": "working_tip",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "grip",
+          "position_m": [
+            0,
+            -0.08,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "tighten",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": 360,
+              "end": 0.65
+            },
+            {
+              "kind": "opacity",
+              "start": 0.65,
+              "end": 0.85,
+              "from_value": 1,
+              "to_value": 0
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/u7.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/tool.hex_driver.json",
+        "sha256": "6f281d35d48c84beb1acff31fe89f55d887ec1efc13733d71832ae848b5cd475",
+        "triangles": 152,
+        "vertices": 84
+      }
+    },
+    {
+      "id": "motion.turn_arrow",
+      "label": "拧紧方向",
+      "category": "movement",
+      "nominal_axis_m": 0.03,
+      "anchors": [
+        {
+          "id": "axis",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "turn",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": 360,
+              "end": 0.65
+            },
+            {
+              "kind": "opacity",
+              "start": 0.65,
+              "end": 0.85,
+              "from_value": 1,
+              "to_value": 0
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/u7.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/motion.turn_arrow.json",
+        "sha256": "fa679378ccb7e31a1b5e46e5c47b2c4489242b7effccf35bc16413da2557236f",
+        "triangles": 317,
+        "vertices": 163
+      }
+    },
+    {
+      "id": "highlight.target_ring",
+      "label": "操作接触点",
+      "category": "highlight",
+      "nominal_axis_m": 0.03,
+      "anchors": [
+        {
+          "id": "contact",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/u7.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/highlight.target_ring.json",
+        "sha256": "a8593b3206e6a74115db393efd698f680743d4505a480d919dbac436044ba6f1",
+        "triangles": 400,
+        "vertices": 204
+      }
+    },
+    {
+      "id": "part.spool_holder_proxy",
+      "label": "料盘支架方向示意模型",
+      "category": "movement",
+      "nominal_axis_m": 0.06,
+      "anchors": [
+        {
+          "id": "guide_reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "slide",
+          "tracks": [
+            {
+              "kind": "path",
+              "start": 0.08,
+              "end": 0.82,
+              "easing": "smoothstep"
+            },
+            {
+              "kind": "opacity",
+              "start": 0.86,
+              "end": 1,
+              "from_value": 1,
+              "to_value": 0.12
+            }
+          ]
+        },
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/u7.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.spool_holder_proxy.json",
+        "sha256": "5edc36fd1c986fb16631ba8be72f52b28df956fefdd24649da3f552d363646d3",
+        "triangles": 256,
+        "vertices": 140
+      }
+    },
+    {
+      "id": "motion.slide_arrow",
+      "label": "滑入方向",
+      "category": "movement",
+      "nominal_axis_m": 0.055,
+      "anchors": [
+        {
+          "id": "tip",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/u7.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/motion.slide_arrow.json",
+        "sha256": "d30111d5d6f084e5fdd1d5b770ed82245163663a51b5b9a6fe82c76b0c4c5d22",
+        "triangles": 20,
+        "vertices": 14
+      }
+    },
+    {
+      "id": "part.screw_proxy",
+      "label": "固定螺丝示意",
+      "category": "highlight",
+      "nominal_axis_m": 0.012,
+      "anchors": [
+        {
+          "id": "head_face",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "hold",
+          "tracks": []
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/u7.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.screw_proxy.json",
+        "sha256": "2ac8066854a996022c986d6454fcc1998bfddf2da69e254d9c65056900baf413",
+        "triangles": 124,
+        "vertices": 68
+      }
+    },
+    {
+      "id": "highlight.inspection_ring",
+      "label": "现场检查位置",
+      "category": "highlight",
+      "nominal_axis_m": 0.04,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "pulse",
+          "tracks": [
+            {
+              "kind": "opacity",
+              "end": 0.48,
+              "from_value": 0.28,
+              "to_value": 1
+            },
+            {
+              "kind": "opacity",
+              "start": 0.52,
+              "from_value": 1,
+              "to_value": 0.28
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/highlight.inspection_ring.json",
+        "sha256": "21ccb2a9e268d1187561f22178216fd2a996920e79620f202a78b0f3c4c18edb",
+        "triangles": 800,
+        "vertices": 408
+      }
+    },
+    {
+      "id": "motion.translating_arrow",
+      "label": "移动方向示意",
+      "category": "movement",
+      "nominal_axis_m": 0.05,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "move",
+          "tracks": [
+            {
+              "kind": "path",
+              "end": 0.84,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/motion.translating_arrow.json",
+        "sha256": "0c63d1fd3d76389a8d06532176fb9db2f98aec433543eab4701a4a362e880108",
+        "triangles": 20,
+        "vertices": 14
+      }
+    },
+    {
+      "id": "tool.scissors",
+      "label": "剪开扎带的剪钳示意",
+      "category": "tool",
+      "nominal_axis_m": 0.06,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "cut",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": 24,
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "target": "left_blade",
+              "pivot_m": [
+                0,
+                -0.02,
+                0
+              ],
+              "start": 0.12,
+              "end": 0.66,
+              "easing": "smoothstep"
+            },
+            {
+              "kind": "rotate",
+              "degrees": 24,
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "target": "left_handle",
+              "pivot_m": [
+                0,
+                -0.02,
+                0
+              ],
+              "start": 0.12,
+              "end": 0.66,
+              "easing": "smoothstep"
+            },
+            {
+              "kind": "rotate",
+              "degrees": -24,
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "target": "right_blade",
+              "pivot_m": [
+                0,
+                -0.02,
+                0
+              ],
+              "start": 0.12,
+              "end": 0.66,
+              "easing": "smoothstep"
+            },
+            {
+              "kind": "rotate",
+              "degrees": -24,
+              "axis": [
+                0,
+                0,
+                1
+              ],
+              "target": "right_handle",
+              "pivot_m": [
+                0,
+                -0.02,
+                0
+              ],
+              "start": 0.12,
+              "end": 0.66,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/tool.scissors.json",
+        "sha256": "e12ca39e4496176e29cf182564e75a71ac6dbf717277ca493e8949a360c68745",
+        "triangles": 172,
+        "vertices": 96
+      }
+    },
+    {
+      "id": "tool.hex_key",
+      "label": "拆除运输螺丝的内六角扳手",
+      "category": "tool",
+      "nominal_axis_m": 0.065,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "loosen",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": -240,
+              "end": 0.8,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/tool.hex_key.json",
+        "sha256": "e377a248645e3d54ad9f8392d2ef1f2f71385886da967bffafe9b54ac10a8aeb",
+        "triangles": 60,
+        "vertices": 36
+      }
+    },
+    {
+      "id": "part.cardboard",
+      "label": "顶层运输保护纸壳",
+      "category": "movement",
+      "nominal_axis_m": 0.055,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "move",
+          "tracks": [
+            {
+              "kind": "path",
+              "end": 0.84,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.cardboard.json",
+        "sha256": "2174525fc7683fb847e4b737b99a7a925a8d6cb75a7c99003e455077eb3fb1ec",
+        "triangles": 88,
+        "vertices": 48
+      }
+    },
+    {
+      "id": "part.protective_film",
+      "label": "带揭角的保护膜示意",
+      "category": "movement",
+      "nominal_axis_m": 0.045,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "peel",
+          "tracks": [
+            {
+              "kind": "rotate",
+              "degrees": -64,
+              "axis": [
+                1,
+                0,
+                0
+              ],
+              "pivot_m": [
+                0,
+                0.014,
+                0
+              ],
+              "end": 0.8,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.protective_film.json",
+        "sha256": "e2c05a3c02e7f2065d5d379ab09c1582abcd389c1f419d4b863cac69707a7a82",
+        "triangles": 56,
+        "vertices": 32
+      }
+    },
+    {
+      "id": "part.purge_unit",
+      "label": "吐料组件示意",
+      "category": "movement",
+      "nominal_axis_m": 0.047,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "move",
+          "tracks": [
+            {
+              "kind": "path",
+              "end": 0.84,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.purge_unit.json",
+        "sha256": "6de61fd1a6c5c40466c45b9372d0c8e3295ccf4fc38f7d45f201c657a39a6796",
+        "triangles": 132,
+        "vertices": 72
+      }
+    },
+    {
+      "id": "part.ptfe_tube",
+      "label": "PTFE 管与管口示意",
+      "category": "movement",
+      "nominal_axis_m": 0.045,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "pulse",
+          "tracks": [
+            {
+              "kind": "opacity",
+              "end": 0.48,
+              "from_value": 0.28,
+              "to_value": 1
+            },
+            {
+              "kind": "opacity",
+              "start": 0.52,
+              "from_value": 1,
+              "to_value": 0.28
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.ptfe_tube.json",
+        "sha256": "6e8994ff06ad3dd44a6255bc048ea2a4aebb324c3f9a275a40aaa014170a2724",
+        "triangles": 132,
+        "vertices": 72
+      }
+    },
+    {
+      "id": "part.external_spool",
+      "label": "外挂料盘示意",
+      "category": "movement",
+      "nominal_axis_m": 0.05,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "pulse",
+          "tracks": [
+            {
+              "kind": "opacity",
+              "end": 0.48,
+              "from_value": 0.28,
+              "to_value": 1
+            },
+            {
+              "kind": "opacity",
+              "start": 0.52,
+              "from_value": 1,
+              "to_value": 0.28
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.external_spool.json",
+        "sha256": "f6231896bb0b1d6080d18553d88d8460e0cefdfb37e888aa80d03a64bbbbf422",
+        "triangles": 320,
+        "vertices": 168
+      }
+    },
+    {
+      "id": "part.ams_body",
+      "label": "AMS lite 主体与转轴安装位示意",
+      "category": "movement",
+      "nominal_axis_m": 0.065,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "move",
+          "tracks": [
+            {
+              "kind": "path",
+              "end": 0.84,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.ams_body.json",
+        "sha256": "d48bf8a2e5d74a4a554c3e122ed95c30e1e34dbe834bfc306aec4083db08bdc5",
+        "triangles": 176,
+        "vertices": 96
+      }
+    },
+    {
+      "id": "part.ams_spindle",
+      "label": "AMS lite 回转轴示意",
+      "category": "movement",
+      "nominal_axis_m": 0.046,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "move",
+          "tracks": [
+            {
+              "kind": "path",
+              "end": 0.84,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.ams_spindle.json",
+        "sha256": "5b319580bf1be103e3d4c520a0d33db59a1cd6f58ad7ae36d855c36396a7adc8",
+        "triangles": 132,
+        "vertices": 72
+      }
+    },
+    {
+      "id": "part.cable_clip",
+      "label": "集线器与管束位置示意",
+      "category": "context",
+      "nominal_axis_m": 0.037,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "pulse",
+          "tracks": [
+            {
+              "kind": "opacity",
+              "end": 0.48,
+              "from_value": 0.28,
+              "to_value": 1
+            },
+            {
+              "kind": "opacity",
+              "start": 0.52,
+              "from_value": 1,
+              "to_value": 0.28
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.cable_clip.json",
+        "sha256": "affd4e2f90dc64a6d3ac64dbe6811e6c94f6598871e9849f68d52c184aea3afb",
+        "triangles": 264,
+        "vertices": 144
+      }
+    },
+    {
+      "id": "part.four_pin",
+      "label": "AMS lite 四针线插头示意",
+      "category": "context",
+      "nominal_axis_m": 0.04,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "pulse",
+          "tracks": [
+            {
+              "kind": "opacity",
+              "end": 0.48,
+              "from_value": 0.28,
+              "to_value": 1
+            },
+            {
+              "kind": "opacity",
+              "start": 0.52,
+              "from_value": 1,
+              "to_value": 0.28
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.four_pin.json",
+        "sha256": "767546c510c00bee69a5d80cb5473a4777ec6b1d0a3eb5019a6c5484387edc68",
+        "triangles": 132,
+        "vertices": 72
+      }
+    },
+    {
+      "id": "part.print_plate",
+      "label": "柔性打印板示意",
+      "category": "movement",
+      "nominal_axis_m": 0.058,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "move",
+          "tracks": [
+            {
+              "kind": "path",
+              "end": 0.84,
+              "easing": "smoothstep"
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.print_plate.json",
+        "sha256": "9aa0ea5131f4f30e82c2d377acce3db4281758d2443e8d8fd80c3c47d787a286",
+        "triangles": 88,
+        "vertices": 48
+      }
+    },
+    {
+      "id": "part.waste_bin",
+      "label": "开口朝上的废料盒示意",
+      "category": "context",
+      "nominal_axis_m": 0.055,
+      "anchors": [
+        {
+          "id": "reference",
+          "position_m": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "id": "pulse",
+          "tracks": [
+            {
+              "kind": "opacity",
+              "end": 0.48,
+              "from_value": 0.28,
+              "to_value": 1
+            },
+            {
+              "kind": "opacity",
+              "start": 0.52,
+              "from_value": 1,
+              "to_value": 0.28
+            }
+          ]
+        }
+      ],
+      "version": "1.0.0",
+      "units": "metres",
+      "geometry_accuracy": "teaching_proxy",
+      "source_recipe": "recipes/unboxing.json",
+      "license": "project-authored",
+      "mesh": {
+        "path": "meshes/part.waste_bin.json",
+        "sha256": "ce47b645161dabe2a348a6e0ef21f09c1bfe652e94298107e08c96d02aa47aea",
+        "triangles": 220,
+        "vertices": 120
+      }
+    }
+  ],
+  "presentations": [
+    {
+      "id": "u7.holder_base",
+      "label": "对准螺丝并拧紧",
+      "duration_seconds": 1.2,
+      "orientation_policy": "authored_axis_marker_roll",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "026a3a3c147bd8b28d5bf414"
+      ],
+      "layers": [
+        {
+          "id": "tool",
+          "asset_id": "tool.hex_driver",
+          "clip_id": "tighten",
+          "anchor": "end",
+          "extent_ratio": 1.15,
+          "minimum_extent_m": 0.055,
+          "maximum_extent_m": 0.12
+        },
+        {
+          "id": "turn",
+          "asset_id": "motion.turn_arrow",
+          "clip_id": "turn",
+          "anchor": "end",
+          "extent_ratio": 0.4,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.04,
+          "reverse_with_rotation": true
+        },
+        {
+          "id": "contact",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.3,
+          "minimum_extent_m": 0.018,
+          "maximum_extent_m": 0.026
+        },
+        {
+          "id": "screw",
+          "asset_id": "part.screw_proxy",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.22,
+          "minimum_extent_m": 0.012,
+          "maximum_extent_m": 0.02
+        }
+      ]
+    },
+    {
+      "id": "u7.holder_slide",
+      "label": "沿导向边从上向下滑入",
+      "duration_seconds": 1.2,
+      "orientation_policy": "authored_axis_marker_roll",
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "layers": [
+        {
+          "id": "moving_holder",
+          "asset_id": "part.spool_holder_proxy",
+          "clip_id": "slide",
+          "anchor": "start",
+          "extent_ratio": 0.85,
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.06,
+          "opacity": 0.8,
+          "rotation_degrees": [
+            0,
+            0,
+            180
+          ],
+          "printer_rotation_degrees": [
+            90,
+            0,
+            180
+          ]
+        },
+        {
+          "id": "destination",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.6,
+          "minimum_extent_m": 0.02,
+          "maximum_extent_m": 0.035,
+          "opacity": 0.8
+        },
+        {
+          "id": "direction",
+          "asset_id": "motion.slide_arrow",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.8,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.055,
+          "opacity": 0.65
+        }
+      ]
+    },
+    {
+      "id": "unbox.rail.oil",
+      "label": "拆箱后润滑 Y 轴导轨",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "d2d426fc6a0eb3152c8498bb",
+        "0189b16221626b9fa2d28439"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.packing.cardboard",
+      "label": "取出顶层保护纸壳",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "888dcda78709d192c591afdc",
+        "cf780aa94ee9020ed33c1c77",
+        "f9546944056f6c722796cbb6"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.cardboard",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.packing.parts",
+      "label": "逐个取出配件",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "714007c0015aed6810e023ee",
+        "22ddb5e232618bd595f591c5",
+        "f9546944056f6c722796cbb6"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.packing.ams",
+      "label": "取出 AMS lite",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "22ddb5e232618bd595f591c5",
+        "f9546944056f6c722796cbb6"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.packing.printer",
+      "label": "扶住 Z 轴后盖取出打印机",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "22ddb5e232618bd595f591c5"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.zlock.remove",
+      "label": "拆下 Z 轴限制器",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "47ada685e0d504166d9eca03"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "tool.hex_key",
+          "clip_id": "loosen",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89,
+          "rotation_degrees": [
+            52,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.toolhead.tie",
+      "label": "剪断并移除扎带",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "c97adbf0e1837339be5c56f6"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "tool.scissors",
+          "clip_id": "cut",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.toolhead.slide",
+      "label": "向左轻移工具头",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "4de210d91fa38f39a2fd07fe"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "motion.translating_arrow",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.packing.foam",
+      "label": "取出保护泡棉",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.bed.position",
+      "label": "移到便于操作的位置",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.bed.tighten",
+      "label": "拧紧热床底部三颗螺丝",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "661ff0e405da259e12e68b65",
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "layers": [
+        {
+          "id": "tool",
+          "asset_id": "tool.hex_driver",
+          "clip_id": "tighten",
+          "anchor": "end",
+          "extent_ratio": 1.15,
+          "minimum_extent_m": 0.055,
+          "maximum_extent_m": 0.12,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "turn",
+          "asset_id": "motion.turn_arrow",
+          "clip_id": "turn",
+          "anchor": "end",
+          "extent_ratio": 0.4,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.04,
+          "reverse_with_rotation": true,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "contact",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.3,
+          "minimum_extent_m": 0.018,
+          "maximum_extent_m": 0.026,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "screw",
+          "asset_id": "part.screw_proxy",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.22,
+          "minimum_extent_m": 0.012,
+          "maximum_extent_m": 0.02,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.purge.slide",
+      "label": "滑入吐料组件",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "83b9bd74d33eb2f7f3d387a5"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.purge_unit",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.purge.fasten",
+      "label": "固定吐料组件",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "83b9bd74d33eb2f7f3d387a5"
+      ],
+      "layers": [
+        {
+          "id": "tool",
+          "asset_id": "tool.hex_driver",
+          "clip_id": "tighten",
+          "anchor": "end",
+          "extent_ratio": 1.15,
+          "minimum_extent_m": 0.055,
+          "maximum_extent_m": 0.12,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "turn",
+          "asset_id": "motion.turn_arrow",
+          "clip_id": "turn",
+          "anchor": "end",
+          "extent_ratio": 0.4,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.04,
+          "reverse_with_rotation": true,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "contact",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.3,
+          "minimum_extent_m": 0.018,
+          "maximum_extent_m": 0.026,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "screw",
+          "asset_id": "part.screw_proxy",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.22,
+          "minimum_extent_m": 0.012,
+          "maximum_extent_m": 0.02,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.purge.alignment",
+      "label": "检查吐料组件与热床",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "7fee805b27b47c25d253fa93"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.film.camera",
+      "label": "撕下摄像头保护膜",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "c89bfdbe4f1d9855ad53b3f1"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.protective_film",
+          "clip_id": "peel",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.film.screen",
+      "label": "检查屏幕保护膜",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "c89bfdbe4f1d9855ad53b3f1",
+        "cf780aa94ee9020ed33c1c77",
+        "cb6a6d977294e1a839216c07"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.protective_film",
+          "clip_id": "peel",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.external.tube",
+      "label": "连接外挂料盘 PTFE 管",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "73afd7297435e0bc4c59b769"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ptfe_tube",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.external.spool",
+      "label": "装上外挂料盘",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "73afd7297435e0bc4c59b769"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.external_spool",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.seat",
+      "label": "放置 AMS lite 主体",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "dfb2a8d298b85efd8421eb8a"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ams_body",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.fasten",
+      "label": "固定 AMS lite 底座",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "cf6d5b0175ccb232bb092984"
+      ],
+      "layers": [
+        {
+          "id": "tool",
+          "asset_id": "tool.hex_driver",
+          "clip_id": "tighten",
+          "anchor": "end",
+          "extent_ratio": 1.15,
+          "minimum_extent_m": 0.055,
+          "maximum_extent_m": 0.12,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "turn",
+          "asset_id": "motion.turn_arrow",
+          "clip_id": "turn",
+          "anchor": "end",
+          "extent_ratio": 0.4,
+          "minimum_extent_m": 0.025,
+          "maximum_extent_m": 0.04,
+          "reverse_with_rotation": true,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "contact",
+          "asset_id": "highlight.target_ring",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.3,
+          "minimum_extent_m": 0.018,
+          "maximum_extent_m": 0.026,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "screw",
+          "asset_id": "part.screw_proxy",
+          "clip_id": "hold",
+          "anchor": "end",
+          "extent_ratio": 0.22,
+          "minimum_extent_m": 0.012,
+          "maximum_extent_m": 0.02,
+          "rotation_degrees": [
+            62,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.spindles",
+      "label": "按颜色滑入回转轴",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ams_spindle",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.placement",
+      "label": "摆到打印机右侧",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "160f80ba83cb919652e48609"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "motion.translating_arrow",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.tube1",
+      "label": "连接 1 号 PTFE 管",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "b6c9b34ddfcc9464169e4661"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ptfe_tube",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.tube2",
+      "label": "连接 2 号 PTFE 管",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "b6c9b34ddfcc9464169e4661"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ptfe_tube",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.tube3",
+      "label": "连接 3 号 PTFE 管",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "f318fc7633c0caeb344aa1aa"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ptfe_tube",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.tube4",
+      "label": "连接 4 号 PTFE 管",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "f318fc7633c0caeb344aa1aa"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.ptfe_tube",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.hub.cable",
+      "label": "将黑色线缆卡入小孔",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "2b5c10bbdc7a866204b8cac5"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.cable_clip",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.hub.tubes",
+      "label": "将四根 PTFE 管卡入大孔",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "2b5c10bbdc7a866204b8cac5"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.cable_clip",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.spacing",
+      "label": "核对 AMS lite 间距",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "e8e3beb3b7c0d1ea282334ec"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.connector",
+      "label": "插入 AMS lite 四针线",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "3de49f5996100b21cd461a4d"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.four_pin",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.ams.cables",
+      "label": "分开整理两根线",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "a0f07efd47a3dcada16d62fa"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.power.foam",
+      "label": "通电前清除余留泡沫",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "cb5886d4c5ce064aea332197"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.power.clearance",
+      "label": "预留热床移动空间",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "1e00627658f2dab34bbb81ff"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.power.plug",
+      "label": "接上打印机电源",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "cb5886d4c5ce064aea332197",
+        "d7635d5c9ea5455406ee5713",
+        "1e00627658f2dab34bbb81ff"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.power.switch",
+      "label": "按下背面电源开关",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "d7635d5c9ea5455406ee5713"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.plate.install",
+      "label": "安装打印板",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "fa36881f75ab7b772943db9c"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.print_plate",
+          "clip_id": "move",
+          "anchor": "start",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.init.screen",
+      "label": "按屏幕提示初始化和校准",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "fa36881f75ab7b772943db9c",
+        "b6f54c53fe740a78d96dca75"
+      ],
+      "layers": [
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unbox.waste.bin",
+      "label": "放置废料盒",
+      "duration_seconds": 1.6,
+      "source_url": "https://wiki.bambulab.com/zh/a1-mini/manual/unboxing-a1-mini-combo",
+      "citation_ids": [
+        "203f96c08ecad59e369d4c2c",
+        "390e17d6d53a89d20a62d8c8"
+      ],
+      "layers": [
+        {
+          "id": "guide",
+          "asset_id": "part.waste_bin",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.04,
+          "maximum_extent_m": 0.066,
+          "extent_ratio": 0.89,
+          "rotation_degrees": [
+            -28,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "target",
+          "asset_id": "highlight.inspection_ring",
+          "clip_id": "pulse",
+          "anchor": "end",
+          "minimum_extent_m": 0.035,
+          "maximum_extent_m": 0.052,
+          "extent_ratio": 0.72,
+          "rotation_degrees": [
+            90,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

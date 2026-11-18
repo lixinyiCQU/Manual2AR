@@ -1,10 +1,12 @@
-# Manual2AR 项目交接
+# 2026-11-12 封存包恢复说明
 
-交接日期：2026-11-12。当前状态是可演示、可接手继续开发的研究原型；用户要保留完整进度与研究证据。本次只在本地整理，不向GitHub或他人发送任何内容。
+**使用范围。** 已收到完整 `Manual2AR-Handoff-20261112/` 的接收者，可以按下文验包和恢复。下文的分支名、目录、实验结果和命令都对应封存时的副本。
+
+验收现行 `Dev` 请从[独立分支验收](ACCEPTANCE.md)开始。2026-11-18 查到旧打包工具的私有配置排除规则、缓存链接处理和恢复时的程序路径均与现工作区有出入。新建交接包要先修正这些问题并验证创建与恢复全流程。详情见[当前仓库审计](REPOSITORY_AUDIT.md)。
 
 ## 接收者先看什么
 
-人先看本说明，再看源码 `baseline/U7_DEMO.md`；Agent先看包根 `AGENT_HANDOFF.md`，进入源码后读 `README_AGENT.md` 与 `AGENTS.md`。研究方向见 `References/Manual2AR_研究蓝图_v0.1.md`，师兄原蓝图保存在 `legacy-docs/research_blueprint_v0_2.md`。本轮审查、修复及尚存问题见源码 `docs/HANDOFF_AUDIT.md`。
+人先看本说明，再看源码 `baseline/U7_DEMO.md`；Agent先看包根 `AGENT_HANDOFF.md`，进入源码后读 `README_AGENT.md` 与 `AGENTS.md`。研究方向见 `References/Manual2AR_研究蓝图_v0.1.md`，师兄原蓝图保存在 `legacy-docs/research_blueprint_v0_2.md`。原包内的审计记录位于其源码 `docs/HANDOFF_AUDIT.md`。现行工作树可查阅[同一历史记录](history/HANDOFF_AUDIT.md)。
 
 当前模块二同时保留U7问答拍照Demo，以及开箱、首次打印、进料、退料教材；自动编译与人工审核研究代码保留。默认稳定演示无需模型密钥；实时视觉需要另配。U7动画是照片上的示意，不能当作实机定位精度证明。
 
@@ -77,7 +79,7 @@ Windows中先运行 `Launch/Manual2AR-Windows/启动后端.cmd`，保持终端�
 
 运行目录恢复不等于内存会话恢复；换后端后新建教学会话。保留的标定只适用于原相机、画幅和场景，移机后须重新确认。历史证据中的原机绝对路径是出处，禁止全目录查找替换。
 
-## 继续开发或传到GitHub
+## 封存副本的分支与历史
 
 在独立源码仓库查看状态与交接分支：
 
@@ -88,14 +90,14 @@ git log -5 --oneline
 git switch -c agent/你的任务
 ```
 
-整个文件夹用于内部交接；源码Git只覆盖源码与既有资源，不包含外部Data与References。若要上传，由你选择目标仓库权限与地址，再执行：
+原交接副本的分支是 `handoff/u7-20261112`。源码 Git 包含源码及受版本控制的资源，外部 Data 与 References 在包中单独存放。团队当前使用独立 `Dev` 分支交付源码，见[GitHub 交接说明](GITHUB_HANDOFF.md)。
+
+原包为需要另存该历史分支的接收者保留了以下命令。恢复与验包均可在本地完成。
 
 ```bash
 git remote add handoff-target https://github.com/你的组织/你的仓库.git
 git push handoff-target handoff/u7-20261112
 ```
-
-其余历史分支和标签已在本地与bundle保留，确认需要后再分别推送；不要盲目推送所有实验分支或内部refs。GitHub源码上传也不等于完整数据交接，大文件与实验应通过本文件夹另传。凭据扫描是已知本机密钥和配置模式检查，不保证所有未知历史秘密都被发现；原始图像与官方/第三方资产按团队内部材料交接，公开前另核对授权。
 
 仅剩bundle时可 `git clone -b handoff/u7-20261112 history/all-history.bundle recovered`，但忽略的生成资产、外部实验与缓存仍须从完整包恢复，不能只留bundle。
 

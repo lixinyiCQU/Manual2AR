@@ -1,6 +1,6 @@
 # U7 可选优化交付与验证记录
 
-日期：2026-11-11。详细设计见 [实验开关](PIPELINE_ABLATIONS.md)，用户实测诊断见 [视频审计](BASELINE_VIDEO_AUDIT.md)。本页区分软件验证、真实模型连通性与尚未取得的研究成绩。
+日期：2026-11-11。详细设计见 [实验开关](../reference/PIPELINE_ABLATIONS.md)，用户实测诊断见 [视频审计](BASELINE_VIDEO_AUDIT.md)。本页区分软件验证、真实模型连通性与尚未取得的研究成绩。
 
 ## 软件验证
 

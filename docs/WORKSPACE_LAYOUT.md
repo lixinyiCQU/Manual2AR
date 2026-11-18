@@ -1,6 +1,6 @@
 # 当前工作区与分支
 
-2026-11-12：仅main和Dev。U7全部合并到Dev后，原分支和工作树已删除。当前开发、后续GitHub提交均使用Manual2AR-Dev。Git公共库在根.git-store，不能删除；main无单独工作目录。Dev用于独立验收，本次只发布该分支，不合入main。
+日常开发在 `Manual2AR-Dev/`。本机保留 `main` 和 `Dev`，共享 Git 库在工作区根目录 `.git-store/`。`main` 保留原始基线，Dev 用于独立验收。原 U7 分支的提交已并入 Dev，原工作树已移除。[当前交付范围](ACCEPTANCE.md)
 
 根目录仅保留Manual2AR-Dev、Manual2AR-Data、References和README。Data保留原始实验、模型回复、人审标签、标定、Wiki和当前Windows程序；不上传源码Git。缓存集中于Data/cache，Dev的.venv为内部链接。
 

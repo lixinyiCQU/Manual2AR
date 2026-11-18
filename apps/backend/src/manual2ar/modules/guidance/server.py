@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from manual2ar_contracts.identity import FrameIdentity
 from .service import GuidanceService
 from .registry import UNBOX
+from .unboxing_ar import ActionIllustration, ActionManual, ActionPhoto, UnboxingAR
 
 
 class Start(BaseModel):
@@ -72,6 +73,7 @@ def create_app(config, client=None, log_root=None, *, wiki_settings=None):
     app.include_router(spatial_api)
     from .baseline_spatial import install as install_baseline
     app.state.baseline_spatial = install_baseline(app, config, service.registry, next(iter(service.engines.values())).client)
+    service.photo_ar = UnboxingAR(service, app.state.baseline_spatial)
     from .u7_demo import install as install_u7_demo
     app.state.u7_demo = install_u7_demo(app, config, app.state.baseline_spatial)
     from .official_compiler import install as install_official_compiler
@@ -113,6 +115,18 @@ def create_app(config, client=None, log_root=None, *, wiki_settings=None):
 
     @app.post('/api/guidance/runs/{identity}/verify')
     def verify(identity:str,command:Capture): return service.mutate(identity,command,'verify')
+
+    @app.post('/api/guidance/runs/{identity}/ar-illustration')
+    def photo_illustration(identity:str, command:ActionIllustration):
+        return service.photo_ar.illustration(identity, command)
+
+    @app.post('/api/guidance/runs/{identity}/ar-photo')
+    def action_photo(identity:str, command:ActionPhoto):
+        return service.photo_ar.evidence(identity, command, photo=True)
+
+    @app.post('/api/guidance/runs/{identity}/ar-manual')
+    def action_manual(identity:str, command:ActionManual):
+        return service.photo_ar.evidence(identity, command, photo=False)
 
     @app.post('/api/guidance/runs/{identity}/advance')
     def advance(identity:str,command:Command): return service.mutate(identity,command,'advance')
@@ -170,6 +184,13 @@ def create_app(config, client=None, log_root=None, *, wiki_settings=None):
                     marked='用户标记已操作' if state.state_id in run.tutorial_marks else '未标记'
                     rows_intro.append('<tr><td>'+escape(title)+'</td><td>'+seen+'</td><td>'+marked+'</td></tr>')
                 tutorial='<p>这是教程浏览与拍照建议记录。浏览、用户自行标记和AI参考意见分别记录；结束浏览不表示设备已安装或检查合格。</p><table><tr><th>章节</th><th>浏览</th><th>用户标记</th></tr>'+''.join(rows_intro)+'</table>'
+            action_rows=[]
+            for chapter, findings in getattr(run, 'photo_ar_records', {}).items():
+                for key, finding in findings.items():
+                    fields=(chapter,service.photo_ar.actions[key]['title'],finding['status'],finding['evidence'])
+                    action_rows.append('<tr>'+''.join('<td>'+escape(v)+'</td>' for v in fields)+'</tr>')
+            if action_rows:
+                spatial_report+='<h2>开箱 AR 动作核验</h2><table><tr><th>章节</th><th>动作</th><th>状态</th><th>依据</th></tr>'+''.join(action_rows)+'</table>'
             links=''
             for child in m['receipts']:
                 links+='<li><a href="/api/guidance/runs/'+escape(child['run_id'],quote=True)+'/report">'+escape(child['title'])+'</a> · '+escape(child['status'])+'</li>'

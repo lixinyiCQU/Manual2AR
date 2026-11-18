@@ -174,7 +174,13 @@ class TutorialService(GuideService):
                 if run.index==0:raise HTTPException(409,'已经是第一章。')
                 return self._select(run,self.task.document.states[run.index-1].state_id)
             elif action=='recheck':
-                run.spatial_checks.pop(self.state(run).state_id,None)
+                chapter = self.state(run).state_id
+                getattr(run, 'photo_ar_records', {}).pop(chapter, None)
+                if chapter == 'U7' and hasattr(run, 'photo_ar_u7'):
+                    del run.photo_ar_u7
+                    sequence.reset(run, 'U7-S1')
+                    run.tutorial_substeps['U7'] = 'U7-S1'
+                run.spatial_checks.pop(chapter,None)
                 if self.state(run).state_id=='U7' and sequence.enabled(self.task):sequence.reset(run,run.tutorial_substeps.get('U7','U7-S1'))
                 run.results.pop(self.state(run).observation_nodes[0].inspection_id,None);run.revision+=1
                 self.event(run,'tutorial.advice_cleared',{'state_id':self.state(run).state_id})

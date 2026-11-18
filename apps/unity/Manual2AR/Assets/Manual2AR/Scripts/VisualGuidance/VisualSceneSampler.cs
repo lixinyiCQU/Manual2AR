@@ -14,7 +14,7 @@ namespace Manual2AR.VisualGuidance {
    if(key!=identity){
     output.Clear();identity=key;
     for(int i=0;i<presentation.instances.Length;i++){
-     var instance=presentation.instances[i];var model=VisualAssetLibrary.Get(instance.asset_id);var clip=Array.Find(model.Definition.clips,c=>c.id==instance.clip_id);
+     var instance=presentation.instances[i];var model=VisualAssetLibrary.Get(instance.asset_id,presentation.library_id);var clip=Array.Find(model.Definition.clips,c=>c.id==instance.clip_id);
      for(int part=0;part<model.Mesh.parts.Length;part++)output.Add(new PartPose{InstanceId=instance.id,AssetId=instance.asset_id,Instance=i,Part=part,Model=model,Clip=clip,Vertices=new Vector3[model.Vertices[part].Length],Triangles=model.Mesh.parts[part].triangles});
     }
    }

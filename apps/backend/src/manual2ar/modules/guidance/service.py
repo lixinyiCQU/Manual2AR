@@ -27,6 +27,7 @@ class GuidanceService:
                 api_prefix='/api/guidance/runs', config_label='configs/app.local.json')
         self.meta = {}
         self.closing = set()
+        self.photo_ar = None
         self.lock = threading.RLock()
         from .experience import UnboxingExperience
         self.experience = UnboxingExperience(self)
@@ -133,7 +134,10 @@ class GuidanceService:
             value['channel'] = ''; value['capture_instruction'] = ''; value['can_back'] = False
         value['presentation']['lesson']=self.lessons.compose(m['variant_id'],value['state_id'],
             value.get('selected_substep_id',''),value['presentation'],engine.task)
-        return self.experience.attach(value, m, engine, run)
+        self.experience.attach(value, m, engine, run)
+        if self.photo_ar:
+            self.photo_ar.attach(value, engine.task, run)
+        return value
 
     def view(self, identity):
         with self.lock:

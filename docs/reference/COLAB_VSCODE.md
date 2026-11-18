@@ -1,4 +1,4 @@
-> 手动浏览器方式：上传 [Manual2AR_GPU.ipynb](../deploy/colab/Manual2AR_GPU.ipynb) 至 Colab，选择 T4 并全部运行，将下载的 `inference.connection.local.json` 放入本地 `configs/` 覆盖旧文件，再重启本地后端并重新识别。默认不挂载 Drive；无需执行下方 CLI 登录、启动任务。笔记本首段包含完整操作说明。
+> 手动浏览器方式：上传 [Manual2AR_GPU.ipynb](../../deploy/colab/Manual2AR_GPU.ipynb) 至 Colab，选择 T4 并全部运行，将下载的 `inference.connection.local.json` 放入本地 `configs/` 覆盖旧文件，再重启本地后端并重新识别。默认不挂载 Drive；无需执行下方 CLI 登录、启动任务。笔记本首段包含完整操作说明。
 
 # VS Code 一键启动 Colab GPU
 
@@ -55,7 +55,7 @@ Windows Colab 扩展和 WSL CLI 不共享登录状态；扩展已登录仍可能
 
 同一个运行时重复启动会尝试复用已经准备的环境。跨运行时缓存只有开启 Drive 并成功授权挂载后才生效；默认不会保存现场图像到 Drive。
 
-远端留存与诊断源码位于 `deploy/colab/{retention,diagnostics}.py`，按需生成的笔记本入口见 [使用说明](OPERATIONS.md)。业务留存自下次部署开始生效；旧配置使用默认值，不必复制密钥或手动移动日志。
+远端留存与诊断源码位于 `deploy/colab/{retention,diagnostics}.py`，按需生成的笔记本入口见 [使用说明](../OPERATIONS.md)。业务留存自下次部署开始生效；旧配置使用默认值，不必复制密钥或手动移动日志。
 
 ## 运行中监控与会话消失
 
@@ -71,7 +71,7 @@ Windows Colab 扩展和 WSL CLI 不共享登录状态；扩展已登录仍可能
 
 本项目 `session_idle_seconds=300` 只清理闲置 Cutie 跟踪会话，释放掩码记忆；不关闭服务或释放 GPU，不能通过增大它来阻止 Colab 回收。Google 官方 CLI 已移除客户端保活守护程序；Colab 的空闲回收、使用额度及最大寿命由平台管理，未公布固定“十分钟”保证。后台 HTTP 服务运行、内核显示 IDLE 与整台 GPU 运行时存在是不同状态。免费或零付费计算单元环境更不适合持续远程服务。参见 [官方 CLI 会话说明](https://github.com/googlecolab/google-colab-cli/blob/main/docs/01_session_management.md)、[Colab 限制与额度](https://research.google.com/colaboratory/faq.html)。
 
-实验时运行真实交互任务，启用 Drive 缓存以减少回收后的重建等待；需要更长实验窗口可使用具有正计算单元余额的适用 Colab 方案，仍无存活保证。需要连续稳定服务时，使用 [学校 HPC 入口](../deploy/hpc/README.md) 等已分配、由你控制的 GPU 节点；本次没有部署 HPC。
+实验时运行真实交互任务，启用 Drive 缓存以减少回收后的重建等待；需要更长实验窗口可使用具有正计算单元余额的适用 Colab 方案，仍无存活保证。需要连续稳定服务时，使用 [学校 HPC 入口](../../deploy/hpc/README.md) 等已分配、由你控制的 GPU 节点；本次没有部署 HPC。
 
 ## 自动化边界
 

@@ -55,9 +55,16 @@ def dump(path,value):
 
 
 def main():
-    args=argparse.ArgumentParser();args.add_argument('--recipe',required=True,type=Path);args.add_argument('--output',required=True,type=Path);args.add_argument('--preview',action='store_true');c=args.parse_args(sys.argv[sys.argv.index('--')+1:])
-    recipe=json.loads(c.recipe.read_text());out=c.output;out.mkdir(parents=True,exist_ok=True);(out/'meshes').mkdir(exist_ok=True)
-    catalog={'schema_version':'manual2ar-visual-library-v1','library_id':'manual2ar.teaching','version':'1.2.0','style_id':'clear-instruction-v1','coordinate_convention':'right_handed_xyz_metres_functional_origin_positive_y','assets':[],'presentations':recipe['presentations']}
+    args=argparse.ArgumentParser();args.add_argument('--recipe',required=True,type=Path);args.add_argument('--addon',type=Path);args.add_argument('--output',required=True,type=Path);args.add_argument('--preview',action='store_true');c=args.parse_args(sys.argv[sys.argv.index('--')+1:])
+    recipe=json.loads(c.recipe.read_text(encoding='utf-8'))
+    recipe_sources={asset['id']:c.recipe.name for asset in recipe['assets']}
+    if c.addon:
+        addon=json.loads(c.addon.read_text(encoding='utf-8'))
+        recipe['assets'].extend(addon['assets'])
+        recipe['presentations'].extend(addon['presentations'])
+        recipe_sources.update({asset['id']:c.addon.name for asset in addon['assets']})
+    out=c.output;out.mkdir(parents=True,exist_ok=True);(out/'meshes').mkdir(exist_ok=True)
+    catalog={'schema_version':'manual2ar-visual-library-v1','library_id':'manual2ar.unboxing' if c.addon else 'manual2ar.teaching','version':'1.0.0' if c.addon else '1.2.0','style_id':'clear-instruction-v1','coordinate_convention':'right_handed_xyz_metres_functional_origin_positive_y','assets':[],'presentations':recipe['presentations']}
     for spec in recipe['assets']:
         bpy.ops.wm.read_factory_settings(use_empty=True)
         bpy.context.preferences.filepaths.save_version=0
@@ -71,9 +78,13 @@ def main():
             vertices=[round(float(v),8) for vertex in obj.data.vertices for v in obj.matrix_world@vertex.co]
             triangles=[int(i) for tri in obj.data.loop_triangles for i in tri.vertices]
             parts.append({'id':p['id'],'vertices':vertices,'triangles':triangles,'color':color})
-        filename=spec['id']+'.json';raw={'schema_version':'manual2ar-asset-mesh-v1','asset_id':spec['id'],'parts':parts};dump(out/'meshes'/filename,raw)
+        filename=spec['id']+'.json';raw={'schema_version':'manual2ar-asset-mesh-v1','asset_id':spec['id'],'parts':parts};mesh_path=out/'meshes'/filename
+        if c.addon and recipe_sources[spec['id']]==c.addon.name:
+            mesh_path.write_bytes((json.dumps(raw,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n').encode('utf-8'))
+        else:
+            dump(mesh_path,raw)
         asset={k:spec[k] for k in ['id','label','category','nominal_axis_m','anchors','clips']}
-        asset.update(version='1.0.0',units='metres',geometry_accuracy='teaching_proxy',source_recipe='recipes/u7.json',license='project-authored',mesh={'path':'meshes/'+filename,'sha256':hashlib.sha256((out/'meshes'/filename).read_bytes()).hexdigest(),'triangles':sum(len(p['triangles'])//3 for p in parts),'vertices':sum(len(p['vertices'])//3 for p in parts)})
+        asset.update(version='1.0.0',units='metres',geometry_accuracy='teaching_proxy',source_recipe='recipes/'+recipe_sources[spec['id']],license='project-authored',mesh={'path':'meshes/'+filename,'sha256':hashlib.sha256((out/'meshes'/filename).read_bytes()).hexdigest(),'triangles':sum(len(p['triangles'])//3 for p in parts),'vertices':sum(len(p['vertices'])//3 for p in parts)})
         catalog['assets'].append(asset)
         root=bpy.data.objects.new(spec['id'],None);scene.collection.objects.link(root);root['asset_id']=spec['id'];root['units']='metres';root['accuracy']='teaching_proxy'
         for obj in objects:obj.parent=root

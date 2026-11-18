@@ -1,10 +1,10 @@
 # U7：问题与现场照片到 AR 指导
 
-本工作树 `Manual2AR-U7-Pipeline`、分支 `lixin/u7-end-to-end` 从 `2634a05` 独立开发。原 `Manual2AR-Dev` 和正式教材保持原样。这是单设备、已有 U7 能力上的纵向原型，不是任意设备自动生成资产的平台。
+本页记录从 `2634a05` 开始开发的 Wiki→AR 研究管线。原工作树为 `Manual2AR-U7-Pipeline`，现已并入 Dev，保留供 U7 方法对照。今天的问答演示使用已审核任务定义，操作说明见 [U7 Demo](../../baseline/U7_DEMO.md)。
 
 最新现场驱动执行（v1.4 / 新模式v3）见 [SCENE_DRIVEN_EXECUTION](SCENE_DRIVEN_EXECUTION.md)。旧候选不迁移，启用新开关后重新生成。
 
-最新可选优化见 [PIPELINE_ABLATIONS](PIPELINE_ABLATIONS.md)，视频诊断见 [BASELINE_VIDEO_AUDIT](BASELINE_VIDEO_AUDIT.md)。本页原流程描述全部开关关闭的基线。
+最新可选优化见 [PIPELINE_ABLATIONS](PIPELINE_ABLATIONS.md)，视频诊断见 [BASELINE_VIDEO_AUDIT](../history/BASELINE_VIDEO_AUDIT.md)。本页原流程描述全部开关关闭的基线。
 
 ## 用户验收
 

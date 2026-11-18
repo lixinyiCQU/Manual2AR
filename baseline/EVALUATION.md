@@ -66,4 +66,4 @@ PYTHONPATH=baseline/src .venv/bin/python -B -m manual2ar_baseline eval-report \
 
 27 次真实调用、254692 tokens；失败、修复和能力缺口均保留。U7 两次候选可试用；U8 三次和 P1 两次通过任务契约，但无匹配AR资产，P1其中一次另有ROI缺口。7份人工审核尚未评价，不把同模型7次复核通过当人工通过率。
 
-本轮相关 Python 回归372项通过；未新增Unity构建或新设备现场验证。[结果和7份人工审核入口](/home/lixin/projects/Manual2AR-Data/runs/baseline/transfer-20261111-v1/START_HERE.md)。
+本轮相关 Python 回归 372 项通过，未新增 Unity 构建或新设备现场验证。审核材料随独立实验数据提供，放在源码旁的 `Manual2AR-Data/` 后可打开。[结果和 7 份人工审核入口](../../Manual2AR-Data/runs/baseline/transfer-20261111-v1/START_HERE.md)

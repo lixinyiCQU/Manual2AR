@@ -256,7 +256,7 @@ namespace Manual2AR {
    var command=new ArCommand{session_id=e.session_id,task_sha256=e.task_sha256,epoch=e.epoch,revision=e.revision,source_sha256=photoSha,anchor_x=x,anchor_y=y};
    yield return Request(Api+"/sessions/"+e.session_id+"/ar","POST",JsonUtility.ToJson(command),(raw,error)=>{
     if(error!=null){SetFeedback(error);return;}var value=JsonUtility.FromJson<Illustration>(raw);
-    if(value==null||value.projection==null||value.width<=0||value.height<=0||value.projection.camera_from_marker==null||value.projection.camera_from_marker.Length!=16||value.projection.intrinsics==null||value.projection.intrinsics.Length!=9||value.source_sha256!=photoSha||value.session_id!=e.session_id||value.task_sha256!=e.task_sha256||value.epoch!=e.epoch||value.action_id!=e.action_id||value.revision!=e.revision||!value.illustrative_only||!VisualAssetLibrary.Validate(value.presentation)){SetFeedback("动画与当前照片或任务不一致。");return;}
+    if(value==null||value.projection==null||value.width<=0||value.height<=0||value.projection.camera_from_marker==null||value.projection.camera_from_marker.Length!=16||value.projection.intrinsics==null||value.projection.intrinsics.Length!=9||value.source_sha256!=photoSha||value.session_id!=e.session_id||value.task_sha256!=e.task_sha256||value.epoch!=e.epoch||value.action_id!=e.action_id||value.revision!=e.revision||!value.illustrative_only||value.presentation?.catalog_sha256!=catalog.asset_library.catalog_sha256||!VisualAssetLibrary.Validate(value.presentation)){SetFeedback("动画与当前照片或任务不一致。");return;}
     illustration=value;guidedAction=e.action_id;animationAt=Time.realtimeSinceStartup;phase.text="操作指导 · 完成后拍照核验";RenderFeedback();
    });if(closed||version!=generation)yield break;busy=false;Refresh();
   }

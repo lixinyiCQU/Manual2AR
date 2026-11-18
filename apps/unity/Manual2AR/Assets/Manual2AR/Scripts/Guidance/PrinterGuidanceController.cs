@@ -17,7 +17,7 @@ namespace Manual2AR
         GameObject catalogPanel,actionsPanel;Text catalogStatus;Button resume,cancelChild;
         readonly List<Button> taskButtons=new List<Button>();readonly List<Texture2D> thumbnails=new List<Texture2D>();
         int catalogGeneration;
-        Button spatialEntry;
+        Button spatialEntry,unboxingArEntry;
         RectTransform responseArea;int textLayoutGeneration;Vector2 lastDisplaySize;float lastDisplayScale=-1;bool fittingText;
         Text captureHelp,checkTarget,manualHelp;RectTransform instructionCard,substepTabs;GameObject manualPanel;
         Texture2D modalTexture;string presentationKey="";readonly List<Texture2D> animationTextures=new List<Texture2D>();
@@ -80,6 +80,7 @@ namespace Manual2AR
             }
 
 
+            if(HasUnboxingGuide)AppTheme.Button(overview,"开始开箱 AR 指引",new Vector2(.65f,.225f),new Vector2(.95f,.30f),OpenUnboxingGuide,AppIcon.Play,true);
             ButtonAt(overview,entering?"开始浏览教程":"返回当前章节",new Vector2(.65f,.025f),new Vector2(.95f,.10f),CloseModal);
             EnhanceScrolls();
         }
@@ -193,6 +194,7 @@ namespace Manual2AR
             base.Apply(incoming);catalogPanel.SetActive(false);BindTaskBack();BuildActions(incoming);BuildSubsteps();
             bool hasSpatial=incoming.spatial_guidance!=null&&incoming.spatial_guidance.available&&!incoming.completed;
             spatialEntry.gameObject.SetActive(hasSpatial);
+            unboxingArEntry.gameObject.SetActive(HasUnboxingGuide);
             count.text=run.completed?"本任务已完成":"第 "+(run.step_index+1)+" / "+run.step_count+" 步";
             bool visual=Array.Exists(run.observations??new UnboxingObservation[0],n=>n.channel=="vision")&&!run.completed;
             cameraPanel.SetActive(visual);manualPanel.SetActive(false);placeholder.SetActive(false);photoEntry.gameObject.SetActive(visual);
@@ -253,6 +255,23 @@ namespace Manual2AR
             catalogStatus.text=connected?"选择问答指导，或浏览开箱、首次打印教程。":"教学服务暂时未连接，请稍后重试。";
         }
         void BindTaskBack(){AppShell.BindBack("返回任务列表",ShowCatalog,()=>!busy&&!starting);}
+        bool HasUnboxingGuide { get { return Current?.status=="running" && !Current.completed && Current.photo_ar?.schema_version==UnboxingArView.Schema; } }
+
+        void OpenUnboxingGuide()
+        {
+            if(busy||!HasUnboxingGuide)return;
+            CloseModal();
+            ClosePhotoReference();
+            StopCamera();
+            root.gameObject.SetActive(false);
+            UnboxingArView.Open(Current,Request,Bytes,settings.camera_name,value=>{
+                root.gameObject.SetActive(true);
+                Apply(value);
+                BindTaskBack();
+                StartCoroutine(Connect(false));
+            });
+        }
+
         void OpenSpatial(){
             if(Current==null||Current.spatial_guidance==null||!Current.spatial_guidance.available)return;
             var guidance=Current.spatial_guidance;

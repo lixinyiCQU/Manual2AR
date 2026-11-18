@@ -6,18 +6,18 @@
 
 - 2026-11-12导航修复：用户明确开箱、首次打印也是演示内容，恢复catalog.tasks原卡片、缩略图、版本选择及继续当前指导；隐藏的仅审核/编译等研究入口。U7Demo查看官方步骤此前被reply==null挡住，现在catalog提供完整官方步骤，无需照片、模型或会话；生成计划后用当前目标范围的步骤，核验失败也能打开。原任务数据和配置此前未删除，本次恢复入口。接口10项通过，Unity最终 `validation-spatial-20261112-160037` 四场景0运行错误并构建Windows；已检查恢复的开箱、首次打印、进料、退料卡片及生成前官方步骤截图。证据 `runs/baseline/demo-navigation-fix-20261112-v1/`。
 
-- 当前模块二保留“打印机开箱”“首次打印”等registry原教材任务，并提供“提问及拍摄现场生成AR指导”U7汇报Demo。先读 [U7_DEMO](baseline/U7_DEMO.md)。新U7DemoView＋guidance/u7_demo.py读取原已审核GT和资产；默认历史照片预设观察，另一模式实时拍摄/真实模型；用户明确授权两种保留、默认稳定。默认动画为照片平面示意，可点选调整，不能声称实机自动定位或空间标定。原研究接口/审核记录保留但菜单隐藏。
+- 当前模块二保留“打印机开箱”“首次打印”等registry原教材任务，并提供“提问及拍摄现场生成AR指导”U7汇报Demo。先读 [U7_DEMO](../../baseline/U7_DEMO.md)。新U7DemoView＋guidance/u7_demo.py读取原已审核GT和资产；默认历史照片预设观察，另一模式实时拍摄/真实模型；用户明确授权两种保留、默认稳定。默认动画为照片平面示意，可点选调整，不能声称实机自动定位或空间标定。原研究接口/审核记录保留但菜单隐藏。
 - Demo会话及素材在模块二runtime_dir/u7-demo，全部演示/真实模式记录均excluded_from_research_evaluation，不混入原18次编译、人审或实物结论。预设是明确编写的受控观察，不冒充旧VLM回复或人工图像GT；使用原两张历史照片SHA。原GT两节点8条件及绑定不改写，仍要求显式勾选当前全部人工条件。新会话已装支架、底座遮挡仍未知；切换预设整场景检查并处理反向变化；同一步失败保持当前步骤，不重复AR入口。
 - 核心包0.7.2：goals.py支持明确组合目标，各子句独立对应官方任务后并集、按依赖执行；不支持对象仍拒绝。已新增复合问题测试。首轮相关Python223项通过，另9项Demo回归通过（重叠）；最终交付元数据见 `runs/baseline/u7-demo-20261112-v1/`。Unity首轮154028流程过但人工看截图发现Footer缺AppActionBar.Add，补齐并添加按钮可见尺寸断言；154546在复制工程阶段主动中断以补真实模式失败提示/相机切换新会话，未作为通过记录；最终154709用原历史照片字节＋预设观察完成四场景0运行错误及Windows构建，含失败不重播、底座单独结束、已装支架新会话保持未知、实时模式错误反馈及按钮实际尺寸检查。最后Demo/目标31项回归通过。生产后端已更新，演示素材两张已核对，用户审核文件保持原SHA。
 
-- 2026-11-12修复最新两轮U7反馈与同一步重试，见 [UI_FLOW](baseline/UI_FLOW.md) 末节。最新f21d0459：照片支架已装，模型holder=true、base=true、screws=unknown且底座误认下方白壳；状态卡在底座缺证据，旧UI却隐藏后一步可见结果。倒数第二轮e6528303两次holder=false且实拍确在桌面，后台没有退步；结果默认AR入口及每revision重置准备使界面像重做第二步。现在总览显示所有相关步骤可见结果；原始观察放识别详情；同一步操作核验失败只调整后重拍，不重入AR。相同步骤/模式的新revision不重置准备，步骤/模式改变仍清理。
+- 2026-11-12修复最新两轮U7反馈与同一步重试，见 [UI_FLOW](../../baseline/UI_FLOW.md) 末节。最新f21d0459：照片支架已装，模型holder=true、base=true、screws=unknown且底座误认下方白壳；状态卡在底座缺证据，旧UI却隐藏后一步可见结果。倒数第二轮e6528303两次holder=false且实拍确在桌面，后台没有退步；结果默认AR入口及每revision重置准备使界面像重做第二步。现在总览显示所有相关步骤可见结果；原始观察放识别详情；同一步操作核验失败只调整后重拍，不重入AR。相同步骤/模式的新revision不重置准备，步骤/模式改变仍清理。
 - 新增scene_conditions/user_summary/user_feedback为宿主展示字段，冻结定义、视觉协议、会话/照片/版本门控不变。默认用语只说结果和下一步，未知不说未安装，可见通过不冒充机械完成；人工要求仍保留官方语义。相关Python216项通过；最后简化部件短标签及“前一步待确认”措辞后，宿主相关14项再次通过（重叠，不相加）。Unity最终 `validation-spatial-20261112-100641` 四场景0运行错误并构建Windows，包含失败不重入AR和简洁反馈/详情检查。原始两轮记录、日志快照、后续交付校验在 `runs/baseline/feedback-20261112-v1/`。本轮不追加真实模型调用或手填实物结论；模型误认仍是已知限制。
 
-- 当前0.7.1修复视频中的评估／核验／人工确认流程，先读 [UI_FLOW](baseline/UI_FLOW.md)。相机启动仅显示实时帧，必须主动点击评估；主按钮按初始评估、操作核验、待人工、完成互斥显示。照片结果先展示逐条件状态及对应原始模型观察；当前操作人工条件同窗，默认未勾选，一次提交。保留单项旧客户端兼容、严格视觉和会话版本门控；重开窗口不拍照，明确重拍不代替人工确认。
+- 当前0.7.1修复视频中的评估／核验／人工确认流程，先读 [UI_FLOW](../../baseline/UI_FLOW.md)。相机启动仅显示实时帧，必须主动点击评估；主按钮按初始评估、操作核验、待人工、完成互斥显示。照片结果先展示逐条件状态及对应原始模型观察；当前操作人工条件同窗，默认未勾选，一次提交。保留单项旧客户端兼容、严格视觉和会话版本门控；重开窗口不拍照，明确重拍不代替人工确认。
 - 本轮最终基线及四个宿主测试文件215项通过；首次相关集合420项通过，两者重叠不相加。Unity最终 `validation-spatial-20261111-230811` 四场景0运行错误，已构建Windows；基线专项覆盖两资产、同窗确认、重拍、相机重建及失败恢复。生产后端已重启并启用两项交互契约，人工审核记录保持不变；原评价389文件SHA不变。交付需关闭旧客户端后重开 `Manual2AR-Windows/启动教学系统.cmd`，附U7现场评估与人工确认说明。报告 `runs/baseline/ui-flow-20261111-v1/REPORT.md`。本轮无真实模型调用或物理相机验收。
 - 实际视频会话8cb7fa4c已完成两步，但旧UI隐藏判断依据并连续弹出人工项；另一轮1c17295c模型把黑色平台当支架，不能将程序接受说成识别正确。本轮不优化或追加调用真实模型。Windows旧日志272次SpatialCallout空引用，已在共享入口处理空label/anchor及新presentation无旧asset；相机重建统一取消旧跟踪、清除partsDisplayActive/冻结帧，失败也释放changing。受控帧源验证恢复不代表物理驱动验收。最近五会话及日志快照保留在 `runs/baseline/ui-flow-20261111-v1/`，旧事实及人工审核记录不改写。
 
-- 当前已完成0.7.0“U7目标颗粒度与现场指导”改造，先读 [GOAL_FLOW](baseline/GOAL_FLOW.md)。新增核心goals.py按官方操作引用/部件/动作解析目标，不改冻结候选任务；实际r02/r03的“安装料盘支架／安装支架底座／滑入料盘底座”分别映射完整两步／仅底座／滑入支架并核实底座依赖，第三种明确展示解释。歧义和无来源支持的对象拒绝；显式编号父标题需与官方一致，未编号父层诚实标记compiled_task_summary，不声称完整开箱树。
+- 当前已完成0.7.0“U7目标颗粒度与现场指导”改造，先读 [GOAL_FLOW](../../baseline/GOAL_FLOW.md)。新增核心goals.py按官方操作引用/部件/动作解析目标，不改冻结候选任务；实际r02/r03的“安装料盘支架／安装支架底座／滑入料盘底座”分别映射完整两步／仅底座／滑入支架并核实底座依赖，第三种明确展示解释。歧义和无来源支持的对象拒绝；显式编号父标题需与官方一致，未编号父层诚实标记compiled_task_summary，不声称完整开箱树。
 - Session新增固定target_node_ids和scene_guided策略；strict默认保留旧符号评价。宿主启用scene_guided，已验证依赖后可指导结果仍未知的后续操作，完成条件仍须全部视觉及人工满足。底座单独目标核验后结束；完整/滑入目标底座通过后进入支架AR入口。首帧目标闭包观察、/verify当前操作、/assess全部必要依赖分开；未查询旧证据不冒充新观察，明确反证仍撤销依赖确认。照片提示包含问题及官方片段，声明不是事实；原任务/协议hash及session/action/frame/epoch/revision边界保留。
 - 宿主新增/goal-preview与Begin.goal_intent，目标选择在新会话内固定并写goal.json；execution返回task_summary/current_step/goal_title/steps与guidance_ready。Unity新增SpatialGoalFlow，目标匹配解释→明确选用→相机；当前步骤置顶、整体及剩余进度持续显示，人工确认后提供下一操作入口，沿用几何位置仍实际确认。CheckBaseline区分/assess与/verify。AppReadableText会硬换行，测试检查Source；摘要缓存原文避免逐帧重复排版。
 - 本阶段最终419项相关Python回归通过；局部视觉与宿主60项及最终提示12项重叠回归通过，不相加。两份真实生成U7×三问法的6例受控宿主闭环通过，原评价389文件全部校验未变；记录 `runs/baseline/granularity-20261111-v1/native-host-release/`。Unity首次214951因中文换行后的断言误报，随后修正测试和重复排版；215624四场景通过并构建，最终当前步骤置顶及位置确认优化后220020四场景0错误并完成Windows构建。旧交付备份 `builds/u7-pipeline/before-granularity-20261111-2150/`。
@@ -28,14 +28,14 @@
 - 新增回归覆盖一次补充成功/失败/如实未知不重试、宿主反馈与busy释放、实时Unity Update下的核验进度/未知结果保留和按钮恢复。Unity受控服务才有/test/baseline/grounding，生产没有事实注入接口。真实模型已对用户同一历史帧（原始/归一化SHA及协议SHA均相同）完成整图+ROI两次调用，结果进入底座方向ask_manual，未提交任何人工确认；不是独立视觉准确率标注。记录 `/home/lixin/projects/Manual2AR-Data/runs/baseline/verification-fix-20261111-v1/real-photo/`。
 - 修复后相关回归381项通过；最终Unity四场景0错误并完成Windows构建，证据 `builds/u7-pipeline/validation-spatial-20261111-183102/`，缺框反馈截图已查看。早期枚举边界失败的182804验证日志保留，未作为交付。最新包仍在 `builds/u7-pipeline/Manual2AR-Windows/` 与同级zip；更新后须关闭旧客户端重新进入相机。旧审核客户端备份 `builds/u7-pipeline/before-feedback-fix-20261111-182823/`。本阶段报告与后端记录位于 `runs/baseline/verification-fix-20261111-v1/`，不改原18次生成评价或人工标签。
 
-- 当前进入“Unity人工审核与两次U7现场试验接入”。新增宿主 `guidance/baseline_review.py`、Unity `BaselineReviewView.cs`、固定登记 `resources/evaluation/v1/catalog.json`，入口“候选人工审核与 U7 实测”。先读 [REVIEW_UI](baseline/REVIEW_UI.md)。核心 baseline/ 的13个Python模块没有改变，原评价方法及代码快照继续匹配。
+- 当前进入“Unity人工审核与两次U7现场试验接入”。新增宿主 `guidance/baseline_review.py`、Unity `BaselineReviewView.cs`、固定登记 `resources/evaluation/v1/catalog.json`，入口“候选人工审核与 U7 实测”。先读 [REVIEW_UI](../../baseline/REVIEW_UI.md)。核心 baseline/ 的13个Python模块没有改变，原评价方法及代码快照继续匹配。
 - API `/api/guidance/reviews`，延迟装载与runtime_dir同级baseline/中的固定评价归档，计划与整个archive manifest的SHA由公开登记固定；读取原文/实际协议/图片/操作依赖与条件，失败记录也可查。标签保存到 `runtime_dir/baseline-review/`，追加UUID历史、原子current版本、冲突检测；绑定计划/试次/task/manifest，不回写原归档。导出为原HumanLabels契约。UI默认未评价，支持草稿、正式审核、刷新、筛选、图片放大与返回；测试标签仅在受控服务临时目录，未替用户审核。
 - 两个登记的实验试次为 `a1mini-u7-control.r02`、`.r03`，稳定UUID5复制到official-compilation，不重新调用模型、不改任务字节、不回退GT；沿用OfficialCompiler与BaselineSpatial动态隔离运行时。AR标题显示候选次数，各新会话从未知开始；审核和现场确认独立。未完成人工审核也可按用户授权先做实验，进入实验不会生成approved标签。
 - 相关Python集合377项通过（含旧集合，不相加）；随后对审核/导入接口的局部增强另跑10项通过。两份真实U7生成任务均通过受控软件闭环 request_view→ask_manual→ask_manual→operate→ask_manual→complete，证据 `/home/lixin/projects/Manual2AR-Data/runs/baseline/review-ui-20261111-v1/native-u7-controlled-loop.json`。不是实际照片／真实人工紧固或硬件验收，原7份正式人审仍pending。
 - Unity验证在独立工程 `/mnt/c/Users/lixin/Manual2AR-Baseline-Review-Validation` 完成并构建Windows客户端；首两版发现统计区域/下拉状态与截图重绘问题，修正后重建。旧交付备份 `/home/lixin/projects/Manual2AR-Data/builds/u7-pipeline/before-review-ui-20261111-175338/`。最新构建证据与启动位置见本阶段交付报告。不要把受控UI验证的approved标签导入用户评价。
 - 最终Unity验证／Windows构建证据 `builds/u7-pipeline/validation-spatial-20261111-180230/`（4场景、0错误），截图已人工查看；保存后图像/文本、统计及候选状态均显示正确。新版交付位于 `/home/lixin/projects/Manual2AR-Data/builds/u7-pipeline/Manual2AR-Windows/` 与同级zip，含《候选审核与U7实测.md》。已核对旧8011进程cwd/cmdline为本树后优雅重启；新后端修订 `93ec4f462a993392b833d41aa863ba30302dd8e5829516d1d11bba324d631cae`，实际只读API核对18次/7可审/0已审、两次U7实测可用，未替用户触发正式审核或实际相机会话。交付报告 `/home/lixin/projects/Manual2AR-Data/runs/baseline/review-ui-20261111-v1/REPORT.md`。当前源代码仍未提交。
 
-- 新基线当前进入“未见任务与设备评价”阶段，包版本 `0.6.0`。先读 [baseline/README.md](baseline/README.md)、[COMPILATION](baseline/COMPILATION.md) 与 [EVALUATION](baseline/EVALUATION.md)。核心不导入旧业务／视觉运行时，宿主复用既有 AR 资产与显示。
+- 新基线当前进入“未见任务与设备评价”阶段，包版本 `0.6.0`。先读 [baseline/README.md](../../baseline/README.md)、[COMPILATION](../../baseline/COMPILATION.md) 与 [EVALUATION](../../baseline/EVALUATION.md)。核心不导入旧业务／视觉运行时，宿主复用既有 AR 资产与显示。
 - 用户接受基线多次生成只有一次成功，要求分别统计 VLM 编译成功、人工审核通过，并为后续模块/模型对比与消融保留基线。首轮 suite 为 `baseline/evaluation/transfer-v1.json`：6任务×3次固定排程，包括 U7 seen control、U8/前盖/切刀同设备任务、A1擦嘴与P1霍尔板局部安装。来源预检过，不声称盲测、整个旧项目未见或模型训练未见；P1不是整页换件验收。用户选择亲自审核，不能代填标签。
 - 新增 `evaluation.py` 与 CLI `eval-plan` / `eval-run` / `eval-report`。期望URL/标题只在检索后评价，不喂模型、不强选页；检索错误不继续编译，但仍计管线排程。固定成功也跑完；显式修复属于同一试次；中断消费原试次，恢复不偷重试。保存源码快照/资料/能力/模型参数/依赖/排程SHA；有单写锁与逐次证据校验；报告需同版源码/依赖，升级后可用计划内源码快照出报告。仅Linux/WSL评价命令，不是新增Unity界面。
 - 编译器新增 `compile-stage.json` 及语义复核前提案检查点：后续复核超时不会抹去任务编译阶段成功，最终AR门控仍保持严格。统计契约通过、方法支持、AR目录覆盖、同模型复核和ready；AR目录覆盖不含宿主几何/作用点容量或实物验收。人工标签绑定计划/试次/taskSHA/manifestSHA，4项rubric及审核人理由；pending不算失败，无标签不报人工通过率。
@@ -49,12 +49,12 @@
 - 当前相关回归 **357 项通过**，包括原测试集合；不能与早期 114／325／351 相加。Unity 独立工程编译与四场景回归通过，自动编译预览→生成任务 AR→返回预览也通过；证据 `/home/lixin/projects/Manual2AR-Data/builds/u7-pipeline/validation-spatial-20261111-162237/`。后续仅增加后端来源／版本固定门控，已用受控 API 回归覆盖。
 - 真实编译诊断已归档 `/home/lixin/projects/Manual2AR-Data/runs/baseline/compiler-20261111-v1/REPORT.md`：a5 为真实模型可用候选（2节点6条件，未启用ROI）；a7 的真实回复任务／模型复核通过，但被过严ROI映射拦截；修正后 a8-replay 原始回复逐字回放成功，任务／条件未手改、未调用新模型，带ROI并跑完受控 AR API闭环。全部失败也保留；共12次已返回的真实模型调用，服务报告133229 tokens，不作成功率样本或独立准确率。没有新现场照片、物理相机或真实装配联合验收。
 - 编译 CLI 为 `compile-official`，独立 GT 比较为 `compare-gt`，详见 COMPILATION。GT 比较在封存之后才读取 GT、不回写候选。当前本机已安装可编辑包0.5.0；后端需重启、前端需重新编译，未构建 Windows EXE、未覆盖旧交付、未重启用户原有服务。编译任务不跨服务重启自动恢复。
-- 用户已确认手工 U7 来源、两个操作节点、螺丝联合检查、M3-8 只作选材要求；后又委托按经验审核方向／遮挡策略并进行状态与调度验证。当前冻结输入为 `baseline/ground_truth/u7/v1/state-validation/`（2 节点、8 条件、19 项要求），仅 `approved_for_state_validation`。两个方向采用明确人工确认；完整核验的同会话节点可在正常遮挡时保留有效证据，新会话未知须补拍；反证、身份不明或上下文变化会重新限制依赖。具体见 [STATE_VALIDATION](baseline/STATE_VALIDATION.md)。历史两版候选保留，委托身份与授权原话独立记录，不伪称实物人工标注已完成。
-- 用户随后授权真实视觉开发，并明确暂时没有额外照片／标签，先完成接口与待标注审核包；又指出旧代码有整图定位底座后放大找螺丝的方法。新基线已独立接入 `provider.py`、`vision.py`、`photos.py`、`photo_review.py` 和 CLI，当前协议 `baseline/ground_truth/u7/v1/visual-protocol-roi.json`。见 [VISION](baseline/VISION.md)。不导入旧运行时，不修改冻结任务批准范围，照片会话为 `experimental_photo_analysis`。
+- 用户已确认手工 U7 来源、两个操作节点、螺丝联合检查、M3-8 只作选材要求；后又委托按经验审核方向／遮挡策略并进行状态与调度验证。当前冻结输入为 `baseline/ground_truth/u7/v1/state-validation/`（2 节点、8 条件、19 项要求），仅 `approved_for_state_validation`。两个方向采用明确人工确认；完整核验的同会话节点可在正常遮挡时保留有效证据，新会话未知须补拍；反证、身份不明或上下文变化会重新限制依赖。具体见 [STATE_VALIDATION](../../baseline/STATE_VALIDATION.md)。历史两版候选保留，委托身份与授权原话独立记录，不伪称实物人工标注已完成。
+- 用户随后授权真实视觉开发，并明确暂时没有额外照片／标签，先完成接口与待标注审核包；又指出旧代码有整图定位底座后放大找螺丝的方法。新基线已独立接入 `provider.py`、`vision.py`、`photos.py`、`photo_review.py` 和 CLI，当前协议 `baseline/ground_truth/u7/v1/visual-protocol-roi.json`。见 [VISION](../../baseline/VISION.md)。不导入旧运行时，不修改冻结任务批准范围，照片会话为 `experimental_photo_analysis`。
 - 照片接口阶段验证：`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -B -m pytest baseline/tests -q`，114 项通过；`validate-state` 的32个受控符号场景通过，两集合有重叠不相加。测试包括 fake provider，不能充当真实视觉标签。该阶段未修改旧运行时代码；后续 AR 阶段的验证见下文。
 - 已用私有本机配置的真实 `qwen3.8-flash` 试跑两张历史实拍，记录含中间方法、失败与当前协议，索引 `/home/lixin/projects/Manual2AR-Data/runs/baseline/vision-20261111-d9b173b7/SUMMARY.md`。当前 ROI 结果：底座可见图返回 `ask_manual`（方向）；已装支架图返回 `request_view`（底座身份未知）。没有替用户提交实物人工确认。审核页和全部 unrated 标签已生成，尚无独立准确率。最终遮挡原因传播修复通过受控回归，未再次调用模型；每次真实记录保留调用时实现指纹。
 - 旧 `automatic_vision.py` 的整图→ROI→点定位与 `automatic.py` 的两视角标定三角化是两个环节。照片接口阶段只移植前者的二维观察思路，保存裁剪来源和坐标变换；不做跨照片实例拼接。CLI 补拍恢复须明确 `--same-context` 或新 `--context-id`；失败／被修改记录不可恢复。
-- 后续用户明确授权 AR 闭环：复用现有 U7 资产与展示，新增 `baseline/ar.py`、冻结 `ar-bindings.json`、宿主 `guidance/baseline_spatial.py` 和 Unity `SpatialBaseline.cs`；入口为模块二任务列表“U7 基线闭环”，API `/api/guidance/baseline/spatial`、契约 `baseline-ar-v1`。核心包不导入旧运行时；宿主复用标定／两视角／展示，不使用旧核验或进度。见 [AR_LOOP](baseline/AR_LOOP.md)。
+- 后续用户明确授权 AR 闭环：复用现有 U7 资产与展示，新增 `baseline/ar.py`、冻结 `ar-bindings.json`、宿主 `guidance/baseline_spatial.py` 和 Unity `SpatialBaseline.cs`；入口为模块二任务列表“U7 基线闭环”，API `/api/guidance/baseline/spatial`、契约 `baseline-ar-v1`。核心包不导入旧运行时；宿主复用标定／两视角／展示，不使用旧核验或进度。见 [AR_LOOP](../../baseline/AR_LOOP.md)。
 - AR 会话每次从未知开始。运行目录 `runtime_dir/baseline-ar/`，按相机／rig 一次复制旧空间配置并记录来源，不覆盖旧配置、不继承旧教程完成标记。仅当前需要操作时显示动画；视觉和人工条件满足才推进。底座方向、实际紧固及支架方向逐项确认。没有新增隐藏底座的放行规则。
 - 本轮相关回归命令见 AR_LOOP，325 项通过（其中包含原 114 项基线测试，不能相加）。Unity 受控闭环检查已加入 `tests/unity/WikiPipelineValidation.cs` 并由 ProductValidation 调用，测试服务才提供 `/test/baseline/state`；生产路由没有事实注入接口。没有新增真实模型调用或物理摄像头／装配验收。
 - Unity 2022.3.34f1 独立工程编译与四场景回归通过，零运行错误；新增闭环两套资产实际渲染、3 个人工门控、正常遮挡沿用与最终完成均通过。报告与截图 `/home/lixin/projects/Manual2AR-Data/builds/u7-pipeline/validation-spatial-20261111-155037/REPORT.md`。此前两次验收脚本因缺少快照字段、错误按空对象判断是否有视觉资产而失败，日志保留；正式相机已有快照，渲染器已有 HasPlacement 判定，本轮修正测试后通过。未构建 Windows EXE，也未覆盖旧交付包。
@@ -78,15 +78,15 @@ git worktree list
 
 | 任务 | 文档 | 主要源码 |
 | --- | --- | --- |
-| Wiki→AR 管线 | [WIKI_TO_AR](docs/WIKI_TO_AR.md) | `guidance/pipeline.py`、`knowledge/retrieval.py` |
+| Wiki→AR 管线 | [WIKI_TO_AR](../reference/WIKI_TO_AR.md) | `guidance/pipeline.py`、`knowledge/retrieval.py` |
 | 官方任务编译、出处 | 同上 | `knowledge/compilation/{compiler,models,prompts,source,binding}.py` |
-| 实验开关／成本／人工评价 | [PIPELINE_ABLATIONS](docs/PIPELINE_ABLATIONS.md) | `guidance/experiments.py`、`enhancements.py`、`tools/evaluation/pipeline_ablation.py` |
-| 现场状态与执行 | [SCENE_DRIVEN_EXECUTION](docs/SCENE_DRIVEN_EXECUTION.md) | `guidance/{scene_planning,stateful_spatial,pipeline_spatial}.py` |
-| 严格观察与规则 | [VISUAL_OBSERVATION_CONTRACT](docs/VISUAL_OBSERVATION_CONTRACT.md) | `guidance/observations.py` |
-| 人工 U7／坐标与自动配置 | [AUTOMATIC_U7_SETUP](docs/AUTOMATIC_U7_SETUP.md)、[PRINTER_WORK_COORDINATES](docs/PRINTER_WORK_COORDINATES.md) | `guidance/spatial/{automatic,automatic_vision,machine,placement,service}.py` |
-| 公共 UI／图例／资产 | [UI_CONTRACT](docs/UI_CONTRACT.md)、[GUIDANCE_DISPLAY_CONTRACT](docs/GUIDANCE_DISPLAY_CONTRACT.md)、[VISUAL_ASSET_LIBRARY](docs/VISUAL_ASSET_LIBRARY.md) | Unity `Common/`、`Guidance/Spatial/`、`VisualGuidance/`；后端 `visuals/` |
-| 应用／启动／构建 | [OPERATIONS](docs/OPERATIONS.md)、[ARCHITECTURE](docs/ARCHITECTURE.md) | `application/`、`tools/build/`、`deploy/windows/` |
-| 本轮审查及遗留边界 | [REPOSITORY_AUDIT](docs/REPOSITORY_AUDIT.md) | 对照其中的修复与验证记录 |
+| 实验开关／成本／人工评价 | [PIPELINE_ABLATIONS](../reference/PIPELINE_ABLATIONS.md) | `guidance/experiments.py`、`enhancements.py`、`tools/evaluation/pipeline_ablation.py` |
+| 现场状态与执行 | [SCENE_DRIVEN_EXECUTION](../reference/SCENE_DRIVEN_EXECUTION.md) | `guidance/{scene_planning,stateful_spatial,pipeline_spatial}.py` |
+| 严格观察与规则 | [VISUAL_OBSERVATION_CONTRACT](../reference/VISUAL_OBSERVATION_CONTRACT.md) | `guidance/observations.py` |
+| 人工 U7／坐标与自动配置 | [AUTOMATIC_U7_SETUP](../reference/AUTOMATIC_U7_SETUP.md)、[PRINTER_WORK_COORDINATES](../reference/PRINTER_WORK_COORDINATES.md) | `guidance/spatial/{automatic,automatic_vision,machine,placement,service}.py` |
+| 公共 UI／图例／资产 | [UI_CONTRACT](../reference/UI_CONTRACT.md)、[GUIDANCE_DISPLAY_CONTRACT](../reference/GUIDANCE_DISPLAY_CONTRACT.md)、[VISUAL_ASSET_LIBRARY](../reference/VISUAL_ASSET_LIBRARY.md) | Unity `Common/`、`Guidance/Spatial/`、`VisualGuidance/`；后端 `visuals/` |
+| 应用／启动／构建 | [OPERATIONS](../OPERATIONS.md)、[ARCHITECTURE](../ARCHITECTURE.md) | `application/`、`tools/build/`、`deploy/windows/` |
+| 本轮审查及遗留边界 | [REPOSITORY_AUDIT](REPOSITORY_AUDIT_20261111.md) | 对照其中的修复与验证记录 |
 
 后端路径前缀：`apps/backend/src/manual2ar/`。Unity 脚本前缀：`apps/unity/Manual2AR/Assets/Manual2AR/Scripts/`。
 
@@ -146,7 +146,7 @@ bash run.sh test        # 禁用宿主pytest插件，受控回归，不调用真
 
 ## 验证记录与下一步
 
-当前审查的最终测试、构建与未测范围见 [REPOSITORY_AUDIT](docs/REPOSITORY_AUDIT.md)。不要将较早文档中的425／508／410等数字写成当前结果，也不要把集合有重叠的测试数相加。
+当前审查的最终测试、构建与未测范围见 [REPOSITORY_AUDIT](REPOSITORY_AUDIT_20261111.md)。不要将较早文档中的425／508／410等数字写成当前结果，也不要把集合有重叠的测试数相加。
 
 优先后续工作：用官方图片建立可辨识、可审核的 U7 特征与接口标准；对独立标注现场样例评价误放行率、未知率、补拍恢复及审核成本。扩大谓词能力时必须同时提供参数契约、实际观察适配器、确定性判定器和反例测试，不能只增加一个枚举值。
 

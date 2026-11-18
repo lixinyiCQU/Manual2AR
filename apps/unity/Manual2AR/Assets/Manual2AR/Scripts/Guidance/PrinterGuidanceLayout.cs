@@ -12,7 +12,8 @@ namespace Manual2AR {
             root=AppWorkspace.Canvas(transform,"Operation guidance");workspace=new AppWorkspace(root,"模块二 · 操作指导",AppWorkspaceKind.Reading);title=workspace.Title;
             count=TextAt(root,"",new Vector2(.64f,.94f),new Vector2(.79f,.995f),21);count.gameObject.SetActive(false);BuildProgress(12);
             overviewButton=AppTheme.Button(workspace.HeaderActions,"步骤总览",Vector2.zero,Vector2.one,()=>ShowOverview(false),AppIcon.Info);AppActionBar.Add(workspace.HeaderActions,overviewButton);
-            spatialEntry=AppTheme.Button(root,"进入AR指导",new Vector2(.025f,.025f),new Vector2(.195f,.085f),OpenSpatial,AppIcon.Inspect,true);spatialEntry.gameObject.SetActive(false);
+            unboxingArEntry=AppTheme.Button(root,"开箱 AR 指引",Vector2.zero,Vector2.one,OpenUnboxingGuide,AppIcon.Play,true);unboxingArEntry.gameObject.SetActive(false);
+            spatialEntry=AppTheme.Button(root,"空间锚点指导",new Vector2(.025f,.025f),new Vector2(.195f,.085f),OpenSpatial,AppIcon.Inspect,true);spatialEntry.gameObject.SetActive(false);
             cancelChild=ButtonAt(root,"结束子任务并返回",new Vector2(.385f,.025f),new Vector2(.555f,.085f),()=>StartCoroutine(CancelChild()));cancelChild.gameObject.SetActive(false);
             photoEntry=AppTheme.Button(root,"拍照核验",new Vector2(.205f,.025f),new Vector2(.375f,.085f),OpenPhotoReference,AppIcon.Camera);photoEntry.gameObject.SetActive(false);
             restart=ButtonAt(root,"重新开始",new Vector2(.83f,.845f),new Vector2(.975f,.89f),ResetDialog);restart.gameObject.SetActive(false);
@@ -41,7 +42,7 @@ namespace Manual2AR {
             recheck=ButtonAt(root,"重新检查本章",new Vector2(.175f,.025f),new Vector2(.34f,.075f),()=>StartCoroutine(Command("recheck")));recheck.gameObject.SetActive(false);
             next=ButtonAt(root,"下一步 →",new Vector2(.805f,.025f),new Vector2(.975f,.085f),()=>StartCoroutine(Command("advance")));
             textCompletion=ButtonAt(root,"已完成本章",new Vector2(.625f,.025f),new Vector2(.795f,.085f),()=>{if(!busy&&run!=null)StartCoroutine(Confirm());});textCompletion.gameObject.SetActive(false);
-            AppActionBar.Add(workspace.FooterLeft,spatialEntry);AppActionBar.Add(workspace.FooterLeft,photoEntry);AppActionBar.Add(workspace.FooterLeft,cancelChild);
+            AppActionBar.Add(workspace.FooterLeft,unboxingArEntry);AppActionBar.Add(workspace.FooterLeft,spatialEntry);AppActionBar.Add(workspace.FooterLeft,photoEntry);AppActionBar.Add(workspace.FooterLeft,cancelChild);
             AppActionBar.Add(workspace.FooterRight,back);AppActionBar.Add(workspace.FooterRight,primary);AppActionBar.Add(workspace.FooterRight,textCompletion);AppActionBar.Add(workspace.FooterRight,next);
             primary.interactable=next.interactable=back.interactable=recheck.interactable=false;
             BuildCaptureDialog();

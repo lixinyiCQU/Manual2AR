@@ -17,12 +17,18 @@ def main():
             MotionParameters.model_validate(action['machine_motion'])
         identity=action.get('visual_guidance',{}).get('presentation_id')
         if identity and identity not in library.presentations:raise ValueError('Unknown visual presentation')
+    unboxing=VisualAssetLibrary(store.path('visual.unboxing.catalog'))
+    action_catalog=store.json('task.unboxing.ar')
+    for action in action_catalog['actions']:
+        presentation=unboxing.presentations[action['presentation_id']]
+        if set(presentation.citation_ids)!=set(action['citation_ids']):
+            raise ValueError('Unboxing illustration citations differ from its action: '+action['action_id'])
     archive=resolve(config['paths']['wiki_archive'])
     manifest=store.json('source.bambu_wiki.manifest')
     if archive.is_file():
         if hashlib.sha256(archive.read_bytes()).hexdigest()!=manifest['archive_sha256']:raise ValueError('Wiki snapshot SHA256 mismatch')
         status='Wiki snapshot matches recorded SHA256'
     else:status='Wiki snapshot not installed; learning will be unavailable'
-    print(f'{len(store.entries)} resources, {len(tasks.packages)} task variants verified; {status}')
+    print(f'{len(store.entries)} resources, {len(tasks.packages)} task variants, {len(unboxing.presentations)} unboxing presentations verified; {status}')
 
 if __name__=='__main__':main()

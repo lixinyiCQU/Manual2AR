@@ -1,0 +1,1045 @@
+{
+  "schema_version": "manual2ar-unboxing-ar-v1",
+  "variants": {
+    "standalone_unboxing": {
+      "U1": {
+        "reason": "本章主要为开箱前须知。润滑属于拆箱后的建议，可先继续阅读。",
+        "actions": [
+          "rail.oil"
+        ]
+      },
+      "U2": {
+        "reason": "",
+        "actions": [
+          "packing.cardboard",
+          "packing.parts",
+          "packing.printer"
+        ]
+      },
+      "U3": {
+        "reason": "请按当前包装版本逐项清点配件。配件清单没有连续的空间动作。",
+        "actions": []
+      },
+      "U4": {
+        "reason": "",
+        "actions": [
+          "zlock.remove",
+          "toolhead.tie",
+          "toolhead.slide",
+          "packing.foam"
+        ]
+      },
+      "U5": {
+        "reason": "",
+        "actions": [
+          "bed.position",
+          "bed.tighten"
+        ]
+      },
+      "U6": {
+        "reason": "",
+        "actions": [
+          "purge.slide",
+          "purge.fasten",
+          "purge.alignment"
+        ]
+      },
+      "U7": {
+        "reason": "",
+        "actions": [
+          "holder.base",
+          "holder.slide"
+        ]
+      },
+      "U8": {
+        "reason": "",
+        "actions": [
+          "film.camera",
+          "film.screen"
+        ]
+      },
+      "U9": {
+        "reason": "",
+        "actions": [
+          "external.tube",
+          "external.spool"
+        ]
+      },
+      "U10": {
+        "reason": "",
+        "actions": [
+          "power.foam",
+          "power.clearance",
+          "power.plug",
+          "power.switch"
+        ]
+      },
+      "U11": {
+        "reason": "",
+        "actions": [
+          "plate.install",
+          "init.screen"
+        ]
+      },
+      "U12": {
+        "reason": "本附录复用外挂料盘章节的两项操作。已安装可直接浏览下一章。",
+        "actions": [
+          "external.tube",
+          "external.spool"
+        ]
+      },
+      "U13": {
+        "reason": "",
+        "actions": [
+          "waste.bin"
+        ]
+      }
+    },
+    "ams_lite_unboxing": {
+      "U1": {
+        "reason": "本章主要为开箱前须知。润滑属于拆箱后的建议，可先继续阅读。",
+        "actions": [
+          "rail.oil"
+        ]
+      },
+      "U2": {
+        "reason": "",
+        "actions": [
+          "packing.cardboard",
+          "packing.parts",
+          "packing.ams",
+          "packing.printer"
+        ]
+      },
+      "U3": {
+        "reason": "请按当前包装版本逐项清点配件。配件清单没有连续的空间动作。",
+        "actions": []
+      },
+      "U4": {
+        "reason": "",
+        "actions": [
+          "zlock.remove",
+          "toolhead.tie",
+          "toolhead.slide",
+          "packing.foam"
+        ]
+      },
+      "U5": {
+        "reason": "",
+        "actions": [
+          "bed.position",
+          "bed.tighten"
+        ]
+      },
+      "U6": {
+        "reason": "",
+        "actions": [
+          "purge.slide",
+          "purge.fasten",
+          "purge.alignment"
+        ]
+      },
+      "U7": {
+        "reason": "使用 AMS lite 时，外挂料盘支架按需选装。",
+        "actions": [
+          "holder.base",
+          "holder.slide"
+        ]
+      },
+      "U8": {
+        "reason": "",
+        "actions": [
+          "film.camera",
+          "film.screen"
+        ]
+      },
+      "U9": {
+        "reason": "",
+        "actions": [
+          "ams.seat",
+          "ams.fasten",
+          "ams.spindles",
+          "ams.placement",
+          "ams.tube1",
+          "ams.tube2",
+          "ams.tube3",
+          "ams.tube4"
+        ]
+      },
+      "U10": {
+        "reason": "",
+        "actions": [
+          "hub.cable",
+          "hub.tubes",
+          "ams.spacing"
+        ]
+      },
+      "U11": {
+        "reason": "",
+        "actions": [
+          "ams.connector",
+          "ams.cables",
+          "power.foam",
+          "power.clearance",
+          "power.plug",
+          "power.switch"
+        ]
+      },
+      "U12": {
+        "reason": "",
+        "actions": [
+          "plate.install",
+          "init.screen"
+        ]
+      },
+      "U13": {
+        "reason": "",
+        "actions": [
+          "waste.bin"
+        ]
+      }
+    }
+  },
+  "actions": [
+    {
+      "action_id": "rail.oil",
+      "substep_id": "",
+      "title": "拆箱后润滑 Y 轴导轨",
+      "instruction": "取出打印机后，按官方润滑示范给 Y 轴导轨涂适量润滑油，覆盖整条导轨。",
+      "target": "Y 轴导轨",
+      "visual_check": "",
+      "manual_checks": [
+        "我已按官方示范给 Y 轴导轨涂油，并检查整条导轨。"
+      ],
+      "citation_ids": [
+        "d2d426fc6a0eb3152c8498bb",
+        "0189b16221626b9fa2d28439"
+      ],
+      "reference_image": "",
+      "presentation_id": "unbox.rail.oil",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    },
+    {
+      "action_id": "packing.cardboard",
+      "substep_id": "U2-S1",
+      "title": "取出顶层保护纸壳",
+      "instruction": "从上方取出纸壳，逐个取出部件，并检查泡沫内是否嵌有配件。",
+      "target": "箱口顶层保护纸壳",
+      "visual_check": "纸壳已离开箱口，可辨认其下露出的包装层。",
+      "manual_checks": [
+        "我已检查泡沫内的配件。"
+      ],
+      "citation_ids": [
+        "888dcda78709d192c591afdc",
+        "cf780aa94ee9020ed33c1c77",
+        "f9546944056f6c722796cbb6"
+      ],
+      "reference_image": "references/480070ee266fac6a.png",
+      "presentation_id": "unbox.packing.cardboard",
+      "illustration_direction": [
+        0,
+        -1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "packing.parts",
+      "substep_id": "U2-S2",
+      "title": "逐个取出配件",
+      "instruction": "先阅读快速指南，再按实际包装逐个取出配件，勿连袋提起。配图为套装示例。",
+      "target": "已取出的配件和包装箱",
+      "visual_check": "包装箱外可见已取出的配件。",
+      "manual_checks": [
+        "我已阅读快速指南，并逐个取出配件。"
+      ],
+      "citation_ids": [
+        "714007c0015aed6810e023ee",
+        "22ddb5e232618bd595f591c5",
+        "f9546944056f6c722796cbb6"
+      ],
+      "reference_image": "references/0bb444abf7600eb0.png",
+      "presentation_id": "unbox.packing.parts",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "packing.ams",
+      "substep_id": "U2-S2",
+      "title": "取出 AMS lite",
+      "instruction": "逐个取出 AMS lite 配件与主体，为取出打印机留出空间。",
+      "target": "AMS lite 主体",
+      "visual_check": "可辨认的 AMS lite 主体已在箱外。",
+      "manual_checks": [],
+      "citation_ids": [
+        "22ddb5e232618bd595f591c5",
+        "f9546944056f6c722796cbb6"
+      ],
+      "reference_image": "references/6f61e8d0861ddfd6.png",
+      "presentation_id": "unbox.packing.ams",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "packing.printer",
+      "substep_id": "U2-S2",
+      "title": "扶住 Z 轴后盖取出打印机",
+      "instruction": "手扶 Z 轴后盖取出打印机。避开金属滑轨，勿提 X 轴导轨。",
+      "target": "打印机 Z 轴后盖",
+      "visual_check": "可见打印机整体位于箱外。",
+      "manual_checks": [
+        "我扶住 Z 轴后盖取出打印机。"
+      ],
+      "citation_ids": [
+        "22ddb5e232618bd595f591c5"
+      ],
+      "reference_image": "references/13e8ce74f1cf5209.png",
+      "presentation_id": "unbox.packing.printer",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "zlock.remove",
+      "substep_id": "U4-S1",
+      "title": "拆下 Z 轴限制器",
+      "instruction": "依官方图，逐颗拧下固定 Z 轴限制器的四颗运输螺丝并取下限制器。",
+      "target": "Z 轴运输限制器和固定位置",
+      "visual_check": "能辨认原安装面，限制器已经取下。",
+      "manual_checks": [
+        "我已取下全部四颗运输螺丝。"
+      ],
+      "citation_ids": [
+        "47ada685e0d504166d9eca03"
+      ],
+      "reference_image": "references/4b39325fae422752.png",
+      "presentation_id": "unbox.zlock.remove",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "toolhead.tie",
+      "substep_id": "U4-S2",
+      "title": "剪断并移除扎带",
+      "instruction": "对照官方图辨认工具头周围的运输扎带，剪断后取下。",
+      "target": "工具头周围的运输扎带",
+      "visual_check": "能辨认原绑扎位置，扎带已移离工具头。",
+      "manual_checks": [],
+      "citation_ids": [
+        "c97adbf0e1837339be5c56f6"
+      ],
+      "reference_image": "references/89df12329d188cf1.png",
+      "presentation_id": "unbox.toolhead.tie",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "toolhead.slide",
+      "substep_id": "U4-S3",
+      "title": "向左轻移工具头",
+      "instruction": "将工具头向打印机左侧稍微移动，露出减震泡棉。",
+      "target": "工具头及其旁边的减震泡棉",
+      "visual_check": "",
+      "manual_checks": [
+        "我已将工具头向左稍移，能够取出泡棉。"
+      ],
+      "citation_ids": [
+        "4de210d91fa38f39a2fd07fe"
+      ],
+      "reference_image": "references/b48f68f533007797.png",
+      "presentation_id": "unbox.toolhead.slide",
+      "illustration_direction": [
+        -1,
+        0
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "packing.foam",
+      "substep_id": "U4-S3",
+      "title": "取出保护泡棉",
+      "instruction": "取下工具头减震泡棉；若热床或导轨配有额外泡沫，也请取下。",
+      "target": "工具头、热床和导轨包装区",
+      "visual_check": "",
+      "manual_checks": [
+        "我已检查工具头、热床和导轨，取出实际包装中的保护泡棉。"
+      ],
+      "citation_ids": [
+        "4de210d91fa38f39a2fd07fe",
+        "18aaff3a3224135f9d359b07"
+      ],
+      "reference_image": "references/ba24acb2a7fa79fd.png",
+      "presentation_id": "unbox.packing.foam",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "bed.position",
+      "substep_id": "",
+      "title": "移到便于操作的位置",
+      "instruction": "可稍微推动热床，让扳手容易插入。固定扳手和打印板，避免螺丝脱落。",
+      "target": "热床边缘与扳手位置",
+      "visual_check": "",
+      "manual_checks": [
+        "我已将热床放在便于操作的位置。"
+      ],
+      "citation_ids": [
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "reference_image": "references/6bc2913e5ee37c66.jpg",
+      "presentation_id": "unbox.bed.position",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    },
+    {
+      "action_id": "bed.tighten",
+      "substep_id": "",
+      "title": "拧紧热床底部三颗螺丝",
+      "instruction": "参照官方图的三个绿色标记，固定扳手和打印板，逐颗拧紧。",
+      "target": "热床底部三颗螺丝",
+      "visual_check": "",
+      "manual_checks": [
+        "我已逐颗确认热床底部三颗螺丝拧紧。"
+      ],
+      "citation_ids": [
+        "661ff0e405da259e12e68b65",
+        "a835b0d73f70ea468d7d5bed"
+      ],
+      "reference_image": "references/242991258447e026.png",
+      "presentation_id": "unbox.bed.tighten",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "purge.slide",
+      "substep_id": "",
+      "title": "滑入吐料组件",
+      "instruction": "将吐料组件从后往前滑入 X 轴末端端盖的插槽。",
+      "target": "吐料组件与端盖插槽",
+      "visual_check": "可见吐料组件已装入 X 轴端盖插槽。",
+      "manual_checks": [],
+      "citation_ids": [
+        "83b9bd74d33eb2f7f3d387a5"
+      ],
+      "reference_image": "references/2ed23ae33f41c22d.png",
+      "presentation_id": "unbox.purge.slide",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "purge.fasten",
+      "substep_id": "",
+      "title": "固定吐料组件",
+      "instruction": "使用配件盒中的一颗 M3-12 螺丝固定吐料组件。",
+      "target": "吐料组件固定孔和螺丝",
+      "visual_check": "在吐料组件指定固定孔内可见一颗螺丝。",
+      "manual_checks": [
+        "我已使用 M3-12 螺丝并拧紧。"
+      ],
+      "citation_ids": [
+        "83b9bd74d33eb2f7f3d387a5"
+      ],
+      "reference_image": "references/3628ad936ffb4fb9.png",
+      "presentation_id": "unbox.purge.fasten",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "purge.alignment",
+      "substep_id": "",
+      "title": "检查吐料组件与热床",
+      "instruction": "对照官方图查看组件与热床左边沿是否平行，并核实不会发生碰撞。",
+      "target": "吐料组件与热床左侧边沿",
+      "visual_check": "组件与热床左边沿同时清楚可见，走向与参考图一致。",
+      "manual_checks": [
+        "我已现场核实不会发生碰撞。"
+      ],
+      "citation_ids": [
+        "7fee805b27b47c25d253fa93"
+      ],
+      "reference_image": "references/40f862ded0d46445.png",
+      "presentation_id": "unbox.purge.alignment",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "holder.base",
+      "substep_id": "U7-S1",
+      "title": "安装料盘支架底座",
+      "instruction": "对照官方图确定方向，用两颗 M3-8 螺丝将底座装在立柱上。",
+      "target": "料盘支架底座及上下两颗固定螺丝",
+      "visual_check": "底座贴在立柱指定安装面，外形与参考图一致，上下两颗固定螺丝均可见。",
+      "manual_checks": [
+        "底座方向与官方图一致。",
+        "上下两颗螺丝已拧紧，底座稳固。"
+      ],
+      "citation_ids": [
+        "026a3a3c147bd8b28d5bf414"
+      ],
+      "reference_image": "references/7f6374cbdab2f5f2.png",
+      "presentation_id": "u7.holder_base",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "holder.slide",
+      "substep_id": "U7-S2",
+      "title": "滑入料盘支架",
+      "instruction": "对准底座插槽，从上向下滑入支架。",
+      "target": "白色料盘支架与底座的连接处",
+      "visual_check": "白色料盘支架已滑入已固定的底座，外观与官方安装图一致。",
+      "manual_checks": [
+        "支架方向与官方图一致。"
+      ],
+      "citation_ids": [
+        "97eeffdb901ac2699a6a9aeb"
+      ],
+      "reference_image": "references/c9a91fdeec9d5877.png",
+      "presentation_id": "u7.holder_slide",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "film.camera",
+      "substep_id": "",
+      "title": "撕下摄像头保护膜",
+      "instruction": "确认镜头上的保护膜后，将膜揭下。",
+      "target": "摄像头镜头保护膜",
+      "visual_check": "",
+      "manual_checks": [
+        "我已检查镜头表面并取下出厂保护膜。"
+      ],
+      "citation_ids": [
+        "c89bfdbe4f1d9855ad53b3f1"
+      ],
+      "reference_image": "references/0cef224293683eea.png",
+      "presentation_id": "unbox.film.camera",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "film.screen",
+      "substep_id": "",
+      "title": "检查屏幕保护膜",
+      "instruction": "若有两层可揭下外层；若只有一层，可自行决定是否保留。厂家建议保留最后一层。",
+      "target": "屏幕保护膜",
+      "visual_check": "",
+      "manual_checks": [
+        "我已按实际层数处理或保留最后一层保护膜。"
+      ],
+      "citation_ids": [
+        "c89bfdbe4f1d9855ad53b3f1",
+        "cf780aa94ee9020ed33c1c77",
+        "cb6a6d977294e1a839216c07"
+      ],
+      "reference_image": "references/99c8e5db5e8f3f21.png",
+      "presentation_id": "unbox.film.screen",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    },
+    {
+      "action_id": "external.tube",
+      "substep_id": "",
+      "title": "连接外挂料盘 PTFE 管",
+      "instruction": "按外挂料盘的官方实物图连接 PTFE 管。",
+      "target": "外挂料盘 PTFE 管",
+      "visual_check": "可辨认外挂料盘所用 PTFE 管及其与机器的连接。",
+      "manual_checks": [
+        "我已对照官方图检查完整管路。"
+      ],
+      "citation_ids": [
+        "73afd7297435e0bc4c59b769"
+      ],
+      "reference_image": "references/6b5e27aca8e60c53.png",
+      "presentation_id": "unbox.external.tube",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    },
+    {
+      "action_id": "external.spool",
+      "substep_id": "",
+      "title": "装上外挂料盘",
+      "instruction": "将外挂料盘装到已安装的支架上，对照官方照片检查。",
+      "target": "外挂料盘及支架",
+      "visual_check": "料盘在支架上，能看清支架与料盘轴心的相对位置。",
+      "manual_checks": [],
+      "citation_ids": [
+        "73afd7297435e0bc4c59b769"
+      ],
+      "reference_image": "references/7f5fdf31e692b4b1.png",
+      "presentation_id": "unbox.external.spool",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    },
+    {
+      "action_id": "ams.seat",
+      "substep_id": "U9-S1",
+      "title": "放置 AMS lite 主体",
+      "instruction": "把主体放在底座支架上，有线缆的一端朝后上方。",
+      "target": "AMS lite 主体与底座支架",
+      "visual_check": "主体与底座支架安装面贴合。",
+      "manual_checks": [
+        "我已确认有线缆的一端朝后上方。"
+      ],
+      "citation_ids": [
+        "dfb2a8d298b85efd8421eb8a"
+      ],
+      "reference_image": "references/568ddcad4556da0d.png",
+      "presentation_id": "unbox.ams.seat",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.fasten",
+      "substep_id": "U9-S2",
+      "title": "固定 AMS lite 底座",
+      "instruction": "使用四颗 BT3-8 螺丝连接 AMS lite 主体和支架。",
+      "target": "AMS lite 支架的四个螺丝位",
+      "visual_check": "",
+      "manual_checks": [
+        "四颗 BT3-8 螺丝均已装入并固定主体。"
+      ],
+      "citation_ids": [
+        "cf6d5b0175ccb232bb092984"
+      ],
+      "reference_image": "references/a6539614d61d7e5b.png",
+      "presentation_id": "unbox.ams.fasten",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.spindles",
+      "substep_id": "U9-S3",
+      "title": "按颜色滑入回转轴",
+      "instruction": "黄色对黄色，绿色对绿色。对准各自卡扣，平行滑入并推到底。",
+      "target": "AMS lite 黄色和绿色回转轴",
+      "visual_check": "轴与同色料盘轴相接，可见两种颜色对应正确。",
+      "manual_checks": [
+        "我已逐个核对回转轴，均已推到底。"
+      ],
+      "citation_ids": [
+        "089d5d0a15f278bb002c98f8",
+        "e23a4c332e7134c601b7d2bb"
+      ],
+      "reference_image": "references/34431707cf5deabb.png",
+      "presentation_id": "unbox.ams.spindles",
+      "illustration_direction": [
+        1,
+        0
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.placement",
+      "substep_id": "U9-S4",
+      "title": "摆到打印机右侧",
+      "instruction": "安装转轴后，将 AMS lite 放在打印机右侧。",
+      "target": "打印机与 AMS lite",
+      "visual_check": "在能辨认打印机正面的全景中，AMS lite 位于机器右侧。",
+      "manual_checks": [],
+      "citation_ids": [
+        "160f80ba83cb919652e48609"
+      ],
+      "reference_image": "references/86e4dc7f5c8ecda2.png",
+      "presentation_id": "unbox.ams.placement",
+      "illustration_direction": [
+        1,
+        0
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.tube1",
+      "substep_id": "U9-S5",
+      "title": "连接 1 号 PTFE 管",
+      "instruction": "将 580 mm 管的一端插入 AMS lite 的 1 号口，另一端接五通组件左后位。方位按从前往后看。",
+      "target": "1 号气动接头和五通组件左后位",
+      "visual_check": "两个端口的身份均可辨认，并可沿同一根管核对 1 号口与左后位相接。",
+      "manual_checks": [
+        "我已核对 580 mm 管和两端连接。"
+      ],
+      "citation_ids": [
+        "b6c9b34ddfcc9464169e4661"
+      ],
+      "reference_image": "references/b8764b0e568f5f48.png",
+      "presentation_id": "unbox.ams.tube1",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.tube2",
+      "substep_id": "U9-S5",
+      "title": "连接 2 号 PTFE 管",
+      "instruction": "将 580 mm 管的一端插入 AMS lite 的 2 号口，另一端接五通组件左前位。方位按从前往后看。",
+      "target": "2 号气动接头和五通组件左前位",
+      "visual_check": "两个端口的身份均可辨认，并可沿同一根管核对 2 号口与左前位相接。",
+      "manual_checks": [
+        "我已核对 580 mm 管和两端连接。"
+      ],
+      "citation_ids": [
+        "b6c9b34ddfcc9464169e4661"
+      ],
+      "reference_image": "references/665543c7282a9933.png",
+      "presentation_id": "unbox.ams.tube2",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.tube3",
+      "substep_id": "U9-S5",
+      "title": "连接 3 号 PTFE 管",
+      "instruction": "将 700 mm 管的一端插入 AMS lite 的 3 号口，另一端接五通组件右前位。方位按从前往后看。",
+      "target": "3 号气动接头和五通组件右前位",
+      "visual_check": "两个端口的身份均可辨认，并可沿同一根管核对 3 号口与右前位相接。",
+      "manual_checks": [
+        "我已核对 700 mm 管和两端连接。"
+      ],
+      "citation_ids": [
+        "f318fc7633c0caeb344aa1aa"
+      ],
+      "reference_image": "references/b7afe741d0c9e66a.png",
+      "presentation_id": "unbox.ams.tube3",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.tube4",
+      "substep_id": "U9-S5",
+      "title": "连接 4 号 PTFE 管",
+      "instruction": "将 700 mm 管的一端插入 AMS lite 的 4 号口，另一端接五通组件右后位。方位按从前往后看。",
+      "target": "4 号气动接头和五通组件右后位",
+      "visual_check": "两个端口的身份均可辨认，并可沿同一根管核对 4 号口与右后位相接。",
+      "manual_checks": [
+        "我已核对 700 mm 管和两端连接。"
+      ],
+      "citation_ids": [
+        "f318fc7633c0caeb344aa1aa"
+      ],
+      "reference_image": "references/13015a70b14bcdb6.png",
+      "presentation_id": "unbox.ams.tube4",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "hub.cable",
+      "substep_id": "",
+      "title": "将黑色线缆卡入小孔",
+      "instruction": "将黑色线缆卡进集线器的小孔。",
+      "target": "黑色线缆和集线器小孔",
+      "visual_check": "可见黑色线缆已卡入集线器的小孔。",
+      "manual_checks": [],
+      "citation_ids": [
+        "2b5c10bbdc7a866204b8cac5"
+      ],
+      "reference_image": "references/4fd651068f2bad1c.png",
+      "presentation_id": "unbox.hub.cable",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "hub.tubes",
+      "substep_id": "",
+      "title": "将四根 PTFE 管卡入大孔",
+      "instruction": "将四根 PTFE 管分别卡入四个大孔，集线器靠近工具头。",
+      "target": "集线器与工具头一侧管束",
+      "visual_check": "四个大孔中各卡有一根管，黑线与四管分开。",
+      "manual_checks": [
+        "我已核对集线器靠近打印机工具头。"
+      ],
+      "citation_ids": [
+        "2b5c10bbdc7a866204b8cac5"
+      ],
+      "reference_image": "references/9c380467f3025199.png",
+      "presentation_id": "unbox.hub.tubes",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.spacing",
+      "substep_id": "",
+      "title": "核对 AMS lite 间距",
+      "instruction": "官方建议 AMS lite 与打印机相距约 50 mm，请在现场量取。",
+      "target": "打印机与 AMS lite 的间隙",
+      "visual_check": "",
+      "manual_checks": [
+        "我已按官方建议核对两台设备间距。"
+      ],
+      "citation_ids": [
+        "e8e3beb3b7c0d1ea282334ec"
+      ],
+      "reference_image": "references/335bd1aa9903e95d.png",
+      "presentation_id": "unbox.ams.spacing",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    },
+    {
+      "action_id": "ams.connector",
+      "substep_id": "",
+      "title": "插入 AMS lite 四针线",
+      "instruction": "对准保护卡方向，把四针线插入打印机右侧任一对应接口。",
+      "target": "打印机右侧接口和 AMS lite 四针线",
+      "visual_check": "可辨认四针线连接器与打印机右侧接口相接。",
+      "manual_checks": [
+        "我已核对保护卡方向并确认接头插好。"
+      ],
+      "citation_ids": [
+        "3de49f5996100b21cd461a4d"
+      ],
+      "reference_image": "references/6d29e32ba21f2306.png",
+      "presentation_id": "unbox.ams.connector",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "ams.cables",
+      "substep_id": "",
+      "title": "分开整理两根线",
+      "instruction": "分别整理 AMS lite 四针线和 A1 mini 编织线，避免两线交叉。",
+      "target": "AMS lite 四针线与打印机编织线",
+      "visual_check": "画面覆盖两根线的相关走线，可见两线分开。",
+      "manual_checks": [
+        "我已核实画面外的走线。"
+      ],
+      "citation_ids": [
+        "a0f07efd47a3dcada16d62fa"
+      ],
+      "reference_image": "references/244b6c1d9f54ac68.png",
+      "presentation_id": "unbox.ams.cables",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "power.foam",
+      "substep_id": "",
+      "title": "通电前清除余留泡沫",
+      "instruction": "通电前检查并移除所有运输泡沫，尤其留意热床附近。",
+      "target": "热床及打印机运输包装区",
+      "visual_check": "",
+      "manual_checks": [
+        "我已检查整机并移除所有运输保护泡沫。"
+      ],
+      "citation_ids": [
+        "cb5886d4c5ce064aea332197"
+      ],
+      "reference_image": "",
+      "presentation_id": "unbox.power.foam",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "power.clearance",
+      "substep_id": "",
+      "title": "预留热床移动空间",
+      "instruction": "沿热床前后运动的 Y 方向留出足够空间。按实物检查前后两侧。",
+      "target": "热床前后运动空间",
+      "visual_check": "",
+      "manual_checks": [
+        "我已检查热床前后两侧留有足够的移动空间。"
+      ],
+      "citation_ids": [
+        "1e00627658f2dab34bbb81ff"
+      ],
+      "reference_image": "references/8f10ac3afb4565bf.png",
+      "presentation_id": "unbox.power.clearance",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "power.plug",
+      "substep_id": "",
+      "title": "接上打印机电源",
+      "instruction": "确认运输泡沫已全部移除、放置空间足够，再给打印机接上电源。",
+      "target": "打印机电源线和供电位置",
+      "visual_check": "",
+      "manual_checks": [
+        "我已完成通电前检查并接好电源。"
+      ],
+      "citation_ids": [
+        "cb5886d4c5ce064aea332197",
+        "d7635d5c9ea5455406ee5713",
+        "1e00627658f2dab34bbb81ff"
+      ],
+      "reference_image": "references/ddd1eecd55eaef94.png",
+      "presentation_id": "unbox.power.plug",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "power.switch",
+      "substep_id": "",
+      "title": "按下背面电源开关",
+      "instruction": "接好电源后，按下打印机背面的电源开关。",
+      "target": "打印机背面的电源开关",
+      "visual_check": "",
+      "manual_checks": [
+        "我已按下背面开关并核实打印机启动。"
+      ],
+      "citation_ids": [
+        "d7635d5c9ea5455406ee5713"
+      ],
+      "reference_image": "references/e37ea311c0455f06.png",
+      "presentation_id": "unbox.power.switch",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "plate.install",
+      "substep_id": "",
+      "title": "安装打印板",
+      "instruction": "放下打印板，使其靠近擦嘴组件与热床线缆盖，对照参考图检查位置。",
+      "target": "打印板、擦嘴组件及热床线缆盖",
+      "visual_check": "能辨认打印板边缘与擦嘴组件、热床线缆盖的相对位置，与参考图一致。",
+      "manual_checks": [],
+      "citation_ids": [
+        "fa36881f75ab7b772943db9c"
+      ],
+      "reference_image": "references/02c49182d67bcdff.png",
+      "presentation_id": "unbox.plate.install",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "init.screen",
+      "substep_id": "",
+      "title": "按屏幕提示初始化和校准",
+      "instruction": "在打印机上按屏幕提示完成初始化与校准。若之前跳过联网绑定，可在校准后从设置页办理。",
+      "target": "打印机屏幕",
+      "visual_check": "",
+      "manual_checks": [
+        "我已从打印机屏幕核实初始化和校准完成。"
+      ],
+      "citation_ids": [
+        "fa36881f75ab7b772943db9c",
+        "b6f54c53fe740a78d96dca75"
+      ],
+      "reference_image": "references/f3b9a994d4f0970a.png",
+      "presentation_id": "unbox.init.screen",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": false
+    },
+    {
+      "action_id": "waste.bin",
+      "substep_id": "",
+      "title": "放置废料盒",
+      "instruction": "开始打印前，可将容器放在打印机侧面的吐料组件下方。",
+      "target": "吐料组件下方的接料容器",
+      "visual_check": "可辨认的容器开口位于吐料组件下方。",
+      "manual_checks": [],
+      "citation_ids": [
+        "203f96c08ecad59e369d4c2c",
+        "390e17d6d53a89d20a62d8c8"
+      ],
+      "reference_image": "references/0d428c26b928e87b.png",
+      "presentation_id": "unbox.waste.bin",
+      "illustration_direction": [
+        0,
+        1
+      ],
+      "optional": true
+    }
+  ]
+}

@@ -19,6 +19,7 @@ namespace Manual2AR
         public string[] visited_step_ids,user_marked_step_ids;public UnboxingSubstep[] substeps;
         public bool can_cancel;public int last_client_frame_id;
         public UnboxingTask task_info;public GuidanceAction[] available_actions;public GuidanceReceipt[] child_receipts;
+        public UnboxingArGuide photo_ar;
         public ChapterCompletion[] chapter_completion;public TutorialSpatialGuidance spatial_guidance;public U7Sequence u7_sequence;
     }
     [Serializable] public class GuidanceActionCommand {public string state_id;public int revision;public bool confirmed;}

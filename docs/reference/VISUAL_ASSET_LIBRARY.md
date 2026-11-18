@@ -82,7 +82,7 @@ U7 的官方依据仍为开箱 Wiki 中“安装料盘支架”的两项原文�
 ```bash
 .venv/bin/python -B -m tools.assets.build_library \
   --blender '/mnt/c/Program Files/Blender Foundation/Blender 5.2/blender.exe' \
-  --output /home/lixin/projects/Manual2AR-Data/assets/u7-v1.1 --preview
+  --output ../Manual2AR-Data/assets/u7-v1.1 --preview
 bash run.sh sync
 ```
 
@@ -119,4 +119,4 @@ bash run.sh sync
 U7 最新按底座可见安装核验 → 安装料盘支架顺序开放，详见 `PRINTER_WORK_COORDINATES.md` 的先后顺序部分。
 
 
-U7 组件动作管理、模型朝向与路径分离及双向转向箭头说明见 [使用说明的动作管理](OPERATIONS.md)。当前资产目录版本为 1.2.0，几何网格保持原有六个教学资产。
+U7 组件动作管理、模型朝向与路径分离及双向转向箭头说明见 [使用说明的动作管理](../OPERATIONS.md)。当前资产目录版本为 1.2.0，几何网格保持原有六个教学资产。

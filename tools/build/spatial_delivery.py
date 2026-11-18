@@ -37,6 +37,8 @@ def main():
     shutil.copyfile(ROOT/'baseline/GOAL_FLOW.md',target/'U7任务目标与现场指导.md')
     shutil.copyfile(ROOT/'baseline/UI_FLOW.md',target/'U7现场评估与人工确认.md')
     shutil.copyfile(ROOT/'baseline/U7_DEMO.md',target/'U7演示说明.md')
+    shutil.copyfile(ROOT/'docs/history/U7_LIVE_TRIAL_20261116.md',target/'U7真实试验记录.md')
+    shutil.copyfile(ROOT/'docs/UNBOXING_AR.md',target/'开箱AR指引.md')
     shutil.copyfile(ROOT/'deploy/windows/Start-Desktop.ps1',target/'Start-Desktop.ps1')
     launcher=b'@echo off\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0Start-Desktop.ps1"'
     (target/'启动空间演示.cmd').write_bytes(launcher+b' -SpatialDemo\r\nif errorlevel 1 pause\r\n')
@@ -58,6 +60,11 @@ def main():
     from manual2ar.visuals.library import VisualAssetLibrary
     library=VisualAssetLibrary(ROOT/'resources/visuals/v1/catalog.json')
     manifest['visual_asset_library']={**library.descriptor(),'asset_ids':list(library.assets),'presentation_ids':list(library.presentations),'scope':'U7 only','source_worktree':str(ROOT)}
+    from manual2ar.resources import ResourceStore
+    store=ResourceStore(resolve(config['paths']['resources']))
+    unboxing=VisualAssetLibrary(store.path('visual.unboxing.catalog'))
+    manifest['unboxing_ar']={**unboxing.descriptor(),'asset_ids':list(unboxing.assets),
+        'presentation_ids':list(unboxing.presentations),'action_catalog_sha256':fingerprint(store.path('task.unboxing.ar'))}
     local=ROOT/'apps/unity/Manual2AR/Assets/Manual2AR/Resources/GuidanceLocal/provenance.json'
     manifest['local_reference_assets']=json.loads(local.read_text()) if local.is_file() else None
     (target/'delivery.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
